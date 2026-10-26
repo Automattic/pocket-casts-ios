@@ -1,35 +1,21 @@
 import Foundation
 import PocketCastsDataModel
-import SwipeCellKit
+import SwiftUI
 import UIKit
 
-extension PodcastViewController: SwipeTableViewCellDelegate, SwipeHandler {
-    // MARK: - SwipeTableViewCellDelegate
+extension PodcastViewController: SwipeHandler {
+    // MARK: - Swipe Actions
 
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-        guard currentViewMode == .episodes, !isMultiSelectEnabled, indexPath.section == PodcastViewController.allEpisodesSection, let episode = episodeAtIndexPath(indexPath) else { return nil }
+    func episodeSwipeActionsConfiguration(for edge: HorizontalEdge, at indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard !isMultiSelectEnabled, indexPath.section == PodcastViewController.allEpisodesSection, let episode = episodeAtIndexPath(indexPath) else { return nil }
 
-        switch orientation.resolvedForLayoutDirection {
-        case .left:
-            let actions = SwipeActionsHelper.createLeftActionsForEpisode(episode, tableView: tableView, indexPath: indexPath, swipeHandler: self)
-            return actions.swipeKitActions()
-        case .right:
-            let actions = SwipeActionsHelper.createRightActionsForEpisode(episode, tableView: tableView, indexPath: indexPath, swipeHandler: self)
-            return actions.swipeKitActions()
+        let tableView = tableView()
+        switch edge {
+        case .leading:
+            return SwipeActionsHelper.createLeftActionsForEpisode(episode, tableView: tableView, indexPath: indexPath, swipeHandler: self).swipeActions()
+        case .trailing:
+            return SwipeActionsHelper.createRightActionsForEpisode(episode, tableView: tableView, indexPath: indexPath, swipeHandler: self).swipeActions()
         }
-    }
-
-    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
-        var options = SwipeOptions()
-
-        switch orientation.resolvedForLayoutDirection {
-        case .left:
-            options.expansionStyle = .selection
-        case .right:
-            options.expansionStyle = .destructive(automaticallyDelete: false)
-        }
-
-        return options
     }
 
     // MARK: - SwipeActionsHandler

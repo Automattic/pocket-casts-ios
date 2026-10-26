@@ -3,7 +3,7 @@ import PocketCastsServer
 import UIKit
 
 @MainActor
-class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
+class EpisodeCell: ThemeableCell, MainEpisodeActionViewDelegate {
     private static let playedAlpha: CGFloat = 0.5
 
     @IBOutlet var episodeImage: PodcastImageView!
@@ -189,16 +189,23 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     var isMultiSelectEnabled = false
     override func setEditing(_ editing: Bool, animated: Bool) {
+        let isMultiSelecting = editing && !showingDeleteConfirmation && enclosingTableView?.isEditing == true
         super.setEditing(false, animated: animated)
-        isMultiSelectEnabled = editing
+        isMultiSelectEnabled = isMultiSelecting
 
-        shouldShowSelect = editing
-        if editing {
-            hideSwipe(animated: true)
-        } else {
+        shouldShowSelect = isMultiSelecting
+        if !isMultiSelecting {
             showTick = false
         }
         accessibilityLabel = labelForAccessibility(episode: episode)
+    }
+
+    private var enclosingTableView: UITableView? {
+        var view = superview
+        while let current = view, !(current is UITableView) {
+            view = current.superview
+        }
+        return view as? UITableView
     }
 
     override func layoutSubviews() {

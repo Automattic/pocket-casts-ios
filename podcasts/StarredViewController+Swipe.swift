@@ -1,35 +1,20 @@
 import Foundation
 import PocketCastsDataModel
-import SwipeCellKit
 import UIKit
 
-extension StarredViewController: SwipeTableViewCellDelegate, SwipeHandler {
-    // MARK: - SwipeTableViewCellDelegate
+extension StarredViewController: SwipeHandler {
+    // MARK: - Swipe Actions
 
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         guard let episode = episodes[safe: indexPath.row]?.episode, !isMultiSelectEnabled else { return nil }
 
-        switch orientation.resolvedForLayoutDirection {
-        case .left:
-            let actions = SwipeActionsHelper.createLeftActionsForEpisode(episode, tableView: tableView, indexPath: indexPath, swipeHandler: self)
-            return actions.swipeKitActions()
-        case .right:
-            let actions = SwipeActionsHelper.createRightActionsForEpisode(episode, tableView: tableView, indexPath: indexPath, swipeHandler: self)
-            return actions.swipeKitActions()
-        }
+        return SwipeActionsHelper.createLeftActionsForEpisode(episode, tableView: tableView, indexPath: indexPath, swipeHandler: self).swipeActions()
     }
 
-    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
-        var options = SwipeOptions()
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let episode = episodes[safe: indexPath.row]?.episode, !isMultiSelectEnabled else { return nil }
 
-        switch orientation.resolvedForLayoutDirection {
-        case .left:
-            options.expansionStyle = .selection
-        case .right:
-            options.expansionStyle = .destructive(automaticallyDelete: false)
-        }
-
-        return options
+        return SwipeActionsHelper.createRightActionsForEpisode(episode, tableView: tableView, indexPath: indexPath, swipeHandler: self).swipeActions()
     }
 
     // MARK: - Swipe Handler

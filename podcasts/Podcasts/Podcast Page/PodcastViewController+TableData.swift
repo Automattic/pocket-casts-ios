@@ -143,7 +143,6 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
                     cell.playlist = .podcast(uuid: podcast.uuid)
                 }
 
-                cell.delegate = self
                 cell.populateFrom(episode: listEpisode.episode, tintColor: podcast?.iconTintColor(), podcastUuid: podcast?.uuid, listUuid: listUuid)
                 cell.shouldShowSelect = isMultiSelectEnabled
                 if isMultiSelectEnabled {
@@ -491,17 +490,23 @@ extension PodcastViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
-    /// The episode cells swipe with SwipeCellKit, the bookmarks use the table's own swipe actions
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard currentViewMode == .bookmarks else { return nil }
-
-        return bookmarkList?.swipeActionsConfiguration(for: .leading, at: indexPath)
+        swipeActionsConfiguration(for: .leading, at: indexPath)
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard currentViewMode == .bookmarks else { return nil }
+        swipeActionsConfiguration(for: .trailing, at: indexPath)
+    }
 
-        return bookmarkList?.swipeActionsConfiguration(for: .trailing, at: indexPath)
+    private func swipeActionsConfiguration(for edge: HorizontalEdge, at indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        switch currentViewMode {
+        case .episodes:
+            return episodeSwipeActionsConfiguration(for: edge, at: indexPath)
+        case .bookmarks:
+            return bookmarkList?.swipeActionsConfiguration(for: edge, at: indexPath)
+        case .youMightLike:
+            return nil
+        }
     }
 
     func episodeAtIndexPath(_ indexPath: IndexPath) -> Episode? {
