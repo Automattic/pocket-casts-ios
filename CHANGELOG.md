@@ -10,6 +10,7 @@
 - Fix the Playback Effects sheet being cut off in right-to-left languages [#5487](https://github.com/Automattic/pocket-casts-ios/pull/5487)
 - Fix a crash when the Plus paywall for generated transcripts appears while folding or unfolding iPhone Duo [#5520](https://github.com/Automattic/pocket-casts-ios/pull/5520)
 - Fix the Podcasts list keeping its old order when a sort order is picked right after changing the layout [#5485](https://github.com/Automattic/pocket-casts-ios/pull/5485)
+- Fix the theme picker hyphenating theme names at accessibility text sizes [#5505](https://github.com/Automattic/pocket-casts-ios/pull/5505)
 - Fix the player's More Actions showing Download after the playing episode finishes downloading [#5506](https://github.com/Automattic/pocket-casts-ios/pull/5506)
 - Fix the content of the Now Playing tabs not lining up with the tab titles on iPad and other large screens [#5502](https://github.com/Automattic/pocket-casts-ios/pull/5502)
 - Fix the Chapters header turning dark when the list is scrolled [#5507](https://github.com/Automattic/pocket-casts-ios/pull/5507)
