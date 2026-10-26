@@ -1,5 +1,6 @@
 8.24
 -----
+- Fix the top line of a generated transcript opened from Episode Details being cut in half under the banner while scrolling [#5522](https://github.com/Automattic/pocket-casts-ios/pull/5522)
 - Fix long Discover section titles such as "British Podcast Awards Winners 2026" being cut off at one line; they now wrap to two [#5461](https://github.com/Automattic/pocket-casts-ios/pull/5461)
 - Open Podcast Settings as a sheet on iPad and other large screens [#5393](https://github.com/Automattic/pocket-casts-ios/pull/5393)
 - Show the standard iPad tab bar and a centered mini player on iPad [#5472](https://github.com/Automattic/pocket-casts-ios/pull/5472)
