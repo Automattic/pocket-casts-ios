@@ -37,12 +37,10 @@ struct SleepTimerLiveActivityWidget: Widget {
                 }
             } compactLeading: {
                 SleepTimerIcon(size: 19)
-                    .frame(width: 28, height: 28)
-                    .padding(.leading, 4)
             } compactTrailing: {
                 SleepTimerCountdown(state: context.state, font: .caption2.monospacedDigit().weight(.semibold))
-                    .frame(width: 48, alignment: .center)
-                    .padding(.trailing, 4)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
             } minimal: {
                 SleepTimerIcon(size: 16)
             }
@@ -90,8 +88,14 @@ private struct SleepTimerCountdown: View {
                 // time rather than letting the system run the countdown down to zero.
                 Text(TimeFormatter.shared.playTimeFormat(time: state.remaining))
             } else {
+                // `Text(timerInterval:)` takes all the width it's offered, so it's sized to the time
+                // it shows once it starts ticking.
                 let startDate = min(Date(), state.timerEndDate)
-                Text(timerInterval: startDate ... state.timerEndDate, countsDown: true)
+                Text(TimeFormatter.shared.playTimeFormat(time: max(state.remaining - 1, 0)))
+                    .hidden()
+                    .overlay(alignment: .leading) {
+                        Text(timerInterval: startDate ... state.timerEndDate, countsDown: true)
+                    }
             }
         }
         .font(font)
