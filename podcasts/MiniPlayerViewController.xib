@@ -51,7 +51,7 @@
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tJx-CO-hRe" customClass="PodcastImageView" customModule="podcasts" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
-                                    <accessibility key="accessibilityConfiguration" hint="Tap to open full size player" label="Player">
+                                    <accessibility key="accessibilityConfiguration">
                                         <accessibilityTraits key="traits" button="YES"/>
                                         <bool key="isElement" value="YES"/>
                                     </accessibility>
@@ -61,7 +61,7 @@
                                     </constraints>
                                 </view>
                             </subviews>
-                            <accessibility key="accessibilityConfiguration" hint="Tap to open full size player" label="Player">
+                            <accessibility key="accessibilityConfiguration">
                                 <accessibilityTraits key="traits" button="YES"/>
                                 <bool key="isElement" value="YES"/>
                             </accessibility>
@@ -74,7 +74,6 @@
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="92g-6h-Yd9" userLabel="Skip Back">
                             <rect key="frame" x="76.5" y="5.5" width="44" height="44"/>
-                            <accessibility key="accessibilityConfiguration" label="Skip Back"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="Woi-QS-Vfx"/>
                                 <constraint firstAttribute="width" constant="44" id="nOK-wd-Pse"/>
@@ -97,7 +96,6 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JHq-wc-GDV" userLabel="Skip Forward">
                             <rect key="frame" x="188.5" y="5.5" width="44" height="44"/>
-                            <accessibility key="accessibilityConfiguration" label="Skip Forward"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="44" id="lSC-b9-3WW"/>
                                 <constraint firstAttribute="height" constant="44" id="n5h-Xf-4jI"/>
@@ -109,7 +107,6 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nTH-nm-IG6" userLabel="Up Next Button" customClass="UpNextButton" customModule="podcasts" customModuleProvider="target">
                             <rect key="frame" x="261" y="5.5" width="44" height="44"/>
-                            <accessibility key="accessibilityConfiguration" label="Up Next List"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="44" id="1HL-eT-cXQ"/>
                                 <constraint firstAttribute="height" constant="44" id="Vyt-hi-Owa"/>

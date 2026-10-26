@@ -485,7 +485,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         case .playUpNextOnTap:
             return Settings.playUpNextOnTap ? L10n.settingsGeneralUpNextTapOnSubtitle : L10n.settingsGeneralUpNextTapOffSubtitle
         case .extraMediaActions:
-            return L10n.settingsGeneralPlayBackActionsSubtitle
+            return L10n.settingsGeneralPlayBackActionsSubtitleDevice
         case .legacyBluetooth:
             return L10n.settingsGeneralLegacyBluetoothSubtitle
         case .multiSelectGesture:
@@ -501,7 +501,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
         case .autoRestartSleepTimer:
             return L10n.autoRestartSleepTimerDescription
         case .shakeToRestartSleepTimer:
-            return L10n.shakeToRestartSleepTimerDescription
+            return L10n.shakeToRestartSleepTimerDescriptionDevice
         case .voiceBoostN:
             return L10n.settingsGeneralVoiceBoostNSubtitle
         case .whatsNewUnreadDot:
