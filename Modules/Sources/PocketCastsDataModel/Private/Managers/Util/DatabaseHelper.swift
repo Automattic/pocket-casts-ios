@@ -949,5 +949,18 @@ class DatabaseHelper {
                 return
             }
         }
+
+        if schemaVersion < 78 {
+            do {
+                // finds a podcast's latest episodes without sorting all of its episodes
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_podcast_published ON SJEpisode (podcast_id, publishedDate DESC, addedDate DESC);", values: nil)
+                // finds the episodes with changes to sync without reading every episode
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_unsynced ON SJEpisode (publishedDate) WHERE playingStatusModified > 0 OR playedUpToModified > 0 OR durationModified > 0 OR keepEpisodeModified > 0 OR archivedModified > 0;", values: nil)
+                schemaVersion = 78
+            } catch {
+                failedAt(78)
+                return
+            }
+        }
     }
 }
