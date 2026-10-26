@@ -62,7 +62,7 @@ struct CategoriesModalPicker: View {
     }
 
     @ViewBuilder var title: some View {
-        Text("Select a Category".uppercased())
+        Text(L10n.discoverSelectACategory.uppercased())
             .font(.subheadline)
             .fontWeight(.bold)
             .foregroundStyle(titleForeground)

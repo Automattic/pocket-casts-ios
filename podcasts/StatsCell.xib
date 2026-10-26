@@ -54,9 +54,13 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="leadingSpaceToIcon" destination="LFj-gf-0Tf" id="wHA-ve-MpB"/>
+                <outlet property="nameBottomConstraint" destination="4m6-4s-M5Z" id="nb1-Cn-St1"/>
+                <outlet property="nameMaxWidthConstraint" destination="pot-ka-yml" id="nw1-Cn-St2"/>
                 <outlet property="statName" destination="VgC-Gc-Ci6" id="5ED-gw-qti"/>
                 <outlet property="statValue" destination="pc6-2g-Ue0" id="HKZ-0N-FcC"/>
                 <outlet property="statsIcon" destination="rxL-bl-LLe" id="QUM-tY-Hfi"/>
+                <outlet property="valueLeadingConstraint" destination="ywk-LY-Pa8" id="vl1-Cn-St3"/>
+                <outlet property="valueTopConstraint" destination="Gwo-Kz-jMX" id="vt1-Cn-St4"/>
             </connections>
             <point key="canvasLocation" x="139" y="153"/>
         </tableViewCell>

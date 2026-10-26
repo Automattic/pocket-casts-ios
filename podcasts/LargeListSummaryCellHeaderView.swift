@@ -37,7 +37,7 @@ class LargeListSummaryCellHeaderView: UIView {
         let label = ThemeableLabel()
         label.textColor = ThemeColor.primaryText01()
         label.font = .font(ofSize: 22, weight: .bold, scalingWith: .title1)
-        label.numberOfLines = 1
+        label.numberOfLines = 2
         label.adjustsFontForContentSizeCategory = true
         return label
     }()
@@ -114,6 +114,6 @@ class LargeListSummaryCellHeaderView: UIView {
 
     func updateSize() {
         topLabel.updateNumberOfLines(regular: 1, accessibility: 2)
-        bottomLabel.updateNumberOfLines(regular: 1, accessibility: 2)
+        bottomLabel.updateNumberOfLines(regular: 2, accessibility: 3)
     }
 }

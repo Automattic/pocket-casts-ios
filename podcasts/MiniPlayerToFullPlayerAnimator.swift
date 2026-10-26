@@ -96,10 +96,12 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         }()
 
         // Add the full player and do a layout pass to avoid issues
-        // If presenting, we do this out of the screen to avoid the view briefly appearing
-        let playerRenderingFrame = isPresenting ? .init(x: 0, y: 0 + containerView.frame.height, width: containerView.frame.width, height: containerView.frame.height) : fromFrame
+        // If presenting, the player is laid out where it ends up. Placing it off screen skews layout
+        // that depends on the window, like the keyboard layout guide. It's hidden before anything is rendered.
+        let playerRenderingFrame = isPresenting ? containerView.bounds : fromFrame
         containerView.addSubview(playerView)
         playerView.frame = playerRenderingFrame
+        (toViewController as? PlayerContainerViewController)?.adjustHeaderConstraintIfNeeded()
         playerView.setNeedsLayout()
         playerView.layoutIfNeeded()
 
@@ -114,12 +116,22 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         // off-screen graphics context — no render-server commit that could flash.
         // For dismissing, skip the player snapshot entirely — the artwork overlay is
         // the visual anchor, and eliminating this render cuts the setup delay.
+        let playerBackground = (toViewController as? PlayerContainerViewController)?.artworkBackground
         let toView: UIView?
         if isPresenting {
+            // The player blurs its artwork asynchronously, which only lands after the transition.
+            if let miniPlayerImage = miniPlayerArtwork.imageView?.image {
+                playerBackground?.showArtworkImmediately(miniPlayerImage)
+            }
+            let playerBackgroundColor = playerView.backgroundColor
+            playerView.backgroundColor = .clear
+            playerBackground?.isHidden = true
             let renderer = UIGraphicsImageRenderer(bounds: playerView.bounds)
             let snapshotImage = renderer.image { _ in
                 playerView.drawHierarchy(in: playerView.bounds, afterScreenUpdates: true)
             }
+            playerBackground?.isHidden = false
+            playerView.backgroundColor = playerBackgroundColor
             let imageView = UIImageView(image: snapshotImage)
             imageView.clipsToBounds = true
             toView = imageView
@@ -134,10 +146,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         var artwork: UIImageView?
 
         // Calculate initial and final frame for the artwork
-        var fullPlayerArtworkFrame: CGRect = fullPlayerArtwork.superview?.convert(fullPlayerArtwork.frame, to: nil) ?? .zero
-        if isPresenting {
-            fullPlayerArtworkFrame.origin.y -= containerView.frame.height
-        }
+        let fullPlayerArtworkFrame: CGRect = fullPlayerArtwork.superview?.convert(fullPlayerArtwork.frame, to: nil) ?? .zero
 
         let miniPlayerArtworkFrame = miniPlayerArtwork.superview?.convert(miniPlayerArtwork.frame, to: nil) ?? .zero
         let miniPlayerArtworkWithShadowFrame = miniPlayerArtwork.superview?.superview?.convert(miniPlayerArtwork.superview?.frame ?? .zero, to: nil) ?? .zero
@@ -181,7 +190,7 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         // to prevent see-through during the present cross-fade.
         let miniPlayerBackgroundColor = (fromViewController as? MiniPlayerViewController)?.mainView.backgroundColor
 
-        let fullPlayerBackgroundColor = (toViewController as? PlayerContainerViewController)?.nowPlayingItem.view.backgroundColor
+        let fullPlayerBackgroundColor = (toViewController as? PlayerContainerViewController)?.artworkBackground.backgroundColor
 
         let fromColor = isPresenting ? miniPlayerBackgroundColor : fullPlayerBackgroundColor
         let toColor = isPresenting ? fullPlayerBackgroundColor : miniPlayerBackgroundColor
@@ -230,6 +239,14 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
         backgroundTransitionView.backgroundColor = fromColor
         backgroundTransitionView.frame = backgroundFromFrame
 
+        let backgroundCopy = PlayerArtworkBackgroundView()
+        backgroundCopy.frame = backgroundTransitionView.bounds
+        backgroundCopy.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        backgroundCopy.alpha = isPresenting ? 0 : 1
+        backgroundTransitionView.insertSubview(backgroundCopy, at: 0)
+        backgroundCopy.layoutIfNeeded()
+        playerBackground?.addCopy(backgroundCopy)
+
         toView?.layer.opacity = isPresenting ? 0 : 1
         toView?.frame = .init(x: 0, y: 0, width: fromFrame.width, height: fromFrame.height)
 
@@ -260,6 +277,8 @@ class MiniPlayerToFullPlayerAnimator: NSObject, UIViewControllerAnimatedTransiti
             backgroundTransitionView.frame = backgroundToFrame
             backgroundTransitionView.backgroundColor = toColor
             backgroundTransitionView.layer.cornerRadius = self.isPresenting ? 0 : miniPlayerView.layer.cornerRadius
+            backgroundCopy.layer.cornerRadius = backgroundTransitionView.layer.cornerRadius
+            backgroundCopy.alpha = self.isPresenting ? 1 : 0
 
             // Miniplayer
             miniPlayerSnapshotView?.layer.opacity = self.isPresenting ? 0 : 1

@@ -12,8 +12,9 @@ class SimpleActionView: UIView {
 
     private var label: UILabel!
     private var secondaryLabel: UILabel?
+    private var textStack: UIStackView?
+    private var textView: UIView!
     private var labelVerticalConstraints: [NSLayoutConstraint] = []
-    private var secondaryLabelVerticalConstraints: [NSLayoutConstraint] = []
 
     init(frame: CGRect, action: OptionAction, delegate: OptionsPickerRootController, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01) {
         self.action = action
@@ -40,10 +41,30 @@ class SimpleActionView: UIView {
         label.text = action.label
         label.textColor = action.destructive ? AppTheme.destructiveTextColor(for: themeOverride) : AppTheme.mainTextColor(for: themeOverride)
         label.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(label)
         label.setContentHuggingPriority(.defaultLow, for: .vertical)
         label.setContentCompressionResistancePriority(.required, for: .vertical)
         label.setContentCompressionResistancePriority(.init(rawValue: 751), for: .horizontal)
+        var textView: UIView = label
+        if let secondaryText = action.secondaryLabel {
+            let secondaryLabel = UILabel()
+            secondaryLabel.font = UIFont.font(ofSize: 16, weight: .semibold, scalingWith: .callout)
+            secondaryLabel.adjustsFontForContentSizeCategory = true
+            secondaryLabel.numberOfLines = 0
+            secondaryLabel.text = secondaryText
+            // swiftlint:disable:next inverse_text_alignment
+            secondaryLabel.textAlignment = .right
+            secondaryLabel.textColor = ThemeColor.primaryText02(for: themeOverride)
+            secondaryLabel.setContentCompressionResistancePriority(.init(rawValue: 749), for: .horizontal)
+
+            let textStack = UIStackView(arrangedSubviews: [label, secondaryLabel])
+            textStack.spacing = 24
+            self.textStack = textStack
+            self.secondaryLabel = secondaryLabel
+            textView = textStack
+        }
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(textView)
+        self.textView = textView
         let iconTintColor = action.destructive ? AppTheme.destructiveTextColor(for: themeOverride) : AppTheme.colorForStyle(iconTintStyle, themeOverride: themeOverride)
 
         var image = action.icon.flatMap { UIImage(named: $0) }
@@ -62,43 +83,21 @@ class SimpleActionView: UIView {
                 imageView.centerYAnchor.constraint(equalTo: centerYAnchor),
                 imageView.heightAnchor.constraint(equalToConstant: 24),
                 imageView.widthAnchor.constraint(equalToConstant: 24),
-                label.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20),
+                textView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20),
             ])
             self.imageView = imageView
         } else {
             NSLayoutConstraint.activate([
-                label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+                textView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             ])
         }
         labelVerticalConstraints = [
-            label.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
-            label.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
+            textView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
+            textView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
         ]
         NSLayoutConstraint.activate(labelVerticalConstraints)
         self.label = label
-        var previousView: UIView = label
-
-        if let secondaryText = action.secondaryLabel {
-            let secondaryLabel = UILabel()
-            secondaryLabel.font = UIFont.font(ofSize: 16, weight: .semibold, scalingWith: .callout)
-            secondaryLabel.adjustsFontForContentSizeCategory = true
-            secondaryLabel.numberOfLines = 0
-            secondaryLabel.text = secondaryText
-            // swiftlint:disable:next inverse_text_alignment
-            secondaryLabel.textAlignment = .right
-            secondaryLabel.textColor = ThemeColor.primaryText02(for: themeOverride)
-            secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
-            secondaryLabel.setContentCompressionResistancePriority(.init(rawValue: 749), for: .horizontal)
-            addSubview(secondaryLabel)
-
-            secondaryLabelVerticalConstraints = [
-                secondaryLabel.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
-                secondaryLabel.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
-            ]
-            NSLayoutConstraint.activate(secondaryLabelVerticalConstraints)
-            self.secondaryLabel = secondaryLabel
-            previousView = secondaryLabel
-        }
+        var previousView: UIView = textView
 
         if action.onOffAction {
             let onOffSwitch = ThemeableSwitch()
@@ -128,8 +127,8 @@ class SimpleActionView: UIView {
             ])
             previousView = imageView
         }
-        if previousView != label {
-            label.trailingAnchor.constraint(equalTo: previousView.leadingAnchor, constant: -24).isActive = true
+        if previousView != textView {
+            textView.trailingAnchor.constraint(equalTo: previousView.leadingAnchor, constant: -24).isActive = true
         }
         trailingAnchor.constraint(equalTo: previousView.trailingAnchor, constant: 20).isActive = true
 
@@ -153,21 +152,11 @@ class SimpleActionView: UIView {
     func configureForSheetPresentation() {
         NSLayoutConstraint.deactivate(labelVerticalConstraints)
         labelVerticalConstraints = [
-            label.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: 8),
-            label.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -8),
-            label.centerYAnchor.constraint(equalTo: centerYAnchor)
+            textView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: 8),
+            textView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -8),
+            textView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ]
         NSLayoutConstraint.activate(labelVerticalConstraints)
-
-        if let secondaryLabel {
-            NSLayoutConstraint.deactivate(secondaryLabelVerticalConstraints)
-            secondaryLabelVerticalConstraints = [
-                secondaryLabel.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: 8),
-                secondaryLabel.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -8),
-                secondaryLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
-            ]
-            NSLayoutConstraint.activate(secondaryLabelVerticalConstraints)
-        }
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -223,6 +212,14 @@ class SimpleActionView: UIView {
 
         if let selectedView {
             selectedView.updateSizeConstraints(to: imageSize)
+        }
+
+        if let textStack, let secondaryLabel {
+            let isStacked = traitCollection.preferredContentSizeCategory.isAccessibilityCategory
+            textStack.axis = isStacked ? .vertical : .horizontal
+            textStack.spacing = isStacked ? 4 : 24
+            // swiftlint:disable:next inverse_text_alignment
+            secondaryLabel.textAlignment = isStacked ? .natural : .right
         }
     }
 }
