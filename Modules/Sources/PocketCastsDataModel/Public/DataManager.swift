@@ -613,6 +613,13 @@ public class DataManager {
         episodeManager.bulkSave(episodes: episodes, dbQueue: dbQueue)
     }
 
+    /// Saves the episodes that aren't in the database yet, in one transaction.
+    /// - Returns: The episodes it saved.
+    @discardableResult
+    public func insertEpisodesIfMissing(_ episodes: [Episode]) -> [Episode] {
+        episodeManager.insertIfMissing(episodes: episodes, dbQueue: dbQueue)
+    }
+
     public func bulkSetStarred(starred: Bool, episodes: [Episode], updateSyncStatus: Bool) {
         episodeManager.bulkSetStarred(starred: starred, episodes: episodes, updateSyncFlag: updateSyncStatus, dbQueue: dbQueue)
     }

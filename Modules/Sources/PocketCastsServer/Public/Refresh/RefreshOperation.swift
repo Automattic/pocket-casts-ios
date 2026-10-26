@@ -143,13 +143,12 @@ class RefreshOperation: Operation, @unchecked Sendable {
         // the returned dictionary is indexed by podcast UUID and contains all the new episodes for that podcast
         let podcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
         let updatedPodcasts = refreshResult.podcastUpdates
-        var metadataRequestsQueued = 0
+        var receivedEpisodes = [(podcast: Podcast, episodes: [Episode])]()
         for podcast in podcasts {
             guard let podcastEpisodes = updatedPodcasts?[podcast.uuid], !podcastEpisodes.isEmpty else { continue }
 
             let episodes: [Episode] = podcastEpisodes.reversed().compactMap({ episode in
-                guard let episodeUuid = episode.uuid else { return nil }
-                if let _ = DataManager.shared.findEpisode(uuid: episodeUuid) { return nil }
+                guard episode.uuid != nil else { return nil }
 
                 let newEpisode = Episode()
                 newEpisode.podcast_id = podcast.id
@@ -160,9 +159,14 @@ class RefreshOperation: Operation, @unchecked Sendable {
                 newEpisode.populate(fromEpisode: episode)
                 return newEpisode
             })
+            receivedEpisodes.append((podcast, episodes))
+        }
 
-            DataManager.shared.bulkSave(episodes: episodes)
+        let savedUuids = Set(DataManager.shared.insertEpisodesIfMissing(receivedEpisodes.flatMap(\.episodes)).map(\.uuid))
 
+        var metadataRequestsQueued = 0
+        for (podcast, receivedPodcastEpisodes) in receivedEpisodes {
+            let episodes = receivedPodcastEpisodes.filter { savedUuids.contains($0.uuid) }
             for episode in episodes {
                 if isCancelled {
                     cleanupAfterCancel()
