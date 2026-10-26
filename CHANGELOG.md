@@ -1,3 +1,7 @@
+8.25
+-----
+
+
 8.24
 -----
 - Fix the Sleep Timer countdown being hidden under the logo in the Dynamic Island when another Live Activity is showing [#5523](https://github.com/Automattic/pocket-casts-ios/pull/5523)
