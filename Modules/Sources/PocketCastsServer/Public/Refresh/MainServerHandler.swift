@@ -20,6 +20,9 @@ protocol BaseRequest: Encodable {
 public class MainServerHandler {
     private static let callTimeout = 60.seconds
 
+    /// The most podcasts one refresh request checks, when refreshing in batches.
+    private static let refreshBatchSize = 100
+
     public static let shared = MainServerHandler()
 
     private static let parserVersion = "1.7"
@@ -191,23 +194,56 @@ public class MainServerHandler {
     }
 
     public func refresh(podcasts: [Podcast], completion: @escaping (PodcastRefreshResponse?) -> Void) {
-        refresh(request: makeRefreshRequest(podcasts: podcasts), completion: completion)
+        refresh(requests: makeRefreshRequests(podcasts: podcasts), completion: completion)
     }
 
-    func makeRefreshRequest(podcasts: [Podcast], lastEpisodeOverrides: [String: String] = [:]) -> URLRequest? {
+    /// Builds the requests that check `podcasts` for new episodes, in batches the server can handle at the same time.
+    func makeRefreshRequests(podcasts: [Podcast], lastEpisodeOverrides: [String: String] = [:]) -> [URLRequest]? {
         FileLog.shared.addMessage("Refresh - Started)")
         let startDate = Date()
-        let request = createRefreshRequest(podcasts: podcasts, lastEpisodeOverrides: lastEpisodeOverrides)
-        FileLog.shared.addMessage("Refresh - Sending request for \(podcasts.count) podcasts, built in \(startDate.elapsedTimeDescription)")
-        return request
+        let batches = FeatureFlag.refreshPodcastsInBatches.enabled && !podcasts.isEmpty ? podcasts.chunked(into: MainServerHandler.refreshBatchSize) : [podcasts]
+        var requests = [URLRequest]()
+        for batch in batches {
+            guard let request = createRefreshRequest(podcasts: batch, lastEpisodeOverrides: lastEpisodeOverrides) else { return nil }
+            requests.append(request)
+        }
+        FileLog.shared.addMessage("Refresh - Sending \(requests.count) request(s) for \(podcasts.count) podcasts, built in \(startDate.elapsedTimeDescription)")
+        return requests
     }
 
-    func refresh(request: URLRequest?, completion: @escaping (PodcastRefreshResponse?) -> Void) {
-        guard let request else {
+    /// Sends the refresh requests at the same time and merges their responses. Fails if any of them fails.
+    func refresh(requests: [URLRequest]?, completion: @escaping (PodcastRefreshResponse?) -> Void) {
+        guard let requests, !requests.isEmpty else {
             completion(PodcastRefreshResponse.failedResponse())
             return
         }
 
+        let requestDate = Date()
+        let group = DispatchGroup()
+        let lock = NSLock()
+        var responses = [PodcastRefreshResponse]()
+        var receivedByteCount = 0
+        for request in requests {
+            group.enter()
+            send(refreshRequest: request) { response, byteCount in
+                lock.withLock {
+                    responses.append(response)
+                    receivedByteCount += byteCount
+                }
+                group.leave()
+            }
+        }
+
+        group.notify(queue: .global()) {
+            let response = PodcastRefreshResponse.merged(responses)
+            if response.success() {
+                FileLog.shared.addMessage("Refresh - Server responded in \(requestDate.elapsedTimeDescription) with \(receivedByteCount) bytes")
+            }
+            completion(response)
+        }
+    }
+
+    private func send(refreshRequest request: URLRequest, completion: @escaping (PodcastRefreshResponse, Int) -> Void) {
         let requestDate = Date()
         tokenHelper.callSecureUrl(request: request) { response, data, error in
             let statusCode = response?.statusCode ?? 0
@@ -218,13 +254,11 @@ public class MainServerHandler {
                 } else {
                     FileLog.shared.addMessage("Refresh failed: response returned no data, status code \(statusCode) after \(requestDate.elapsedTimeDescription)")
                 }
-                completion(PodcastRefreshResponse.failedResponse())
+                completion(PodcastRefreshResponse.failedResponse(), 0)
                 return
             }
-            FileLog.shared.addMessage("Refresh - Server responded in \(requestDate.elapsedTimeDescription) with \(data.count) bytes")
             FileLog.shared.addMessage("Decoding Refresh Response)")
-            let refreshResponse = ServerHelper.decodeRefreshResponse(from: data)
-            completion(refreshResponse)
+            completion(ServerHelper.decodeRefreshResponse(from: data), data.count)
         }
     }
 
