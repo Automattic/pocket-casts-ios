@@ -44,26 +44,26 @@ class StatusPageViewModel: ObservableObject {
         Service(
             title: L10n.settingsStatusRefreshService,
             description: L10n.settingsStatusRefreshServiceDescription,
-            failureMessage: L10n.settingsStatusServiceAdBlockerHelpSingular("refresh.pocketcasts.com"),
+            failureMessage: L10n.settingsStatusServiceAdBlockerHelpSingularDevice("refresh.pocketcasts.com"),
             urls: ["https://refresh.pocketcasts.com/health.html"]
         ),
         Service(
             title: L10n.settingsStatusAccountService,
             description: L10n.settingsStatusAccountServiceDescription,
-            failureMessage: L10n.settingsStatusServiceAdBlockerHelpSingular("api.pocketcasts.com"),
+            failureMessage: L10n.settingsStatusServiceAdBlockerHelpSingularDevice("api.pocketcasts.com"),
             urls: ["https://api.pocketcasts.com/health"]
         ),
         Service(
             title: L10n.settingsStatusDiscover,
             description: L10n.settingsStatusDiscoverDescription,
-            failureMessage: L10n.settingsStatusServiceAdBlockerHelpSingular("static.pocketcasts.com, cache.pocketcasts.com and podcasts.pocketcasts.com"),
+            failureMessage: L10n.settingsStatusServiceAdBlockerHelpSingularDevice("static.pocketcasts.com, cache.pocketcasts.com and podcasts.pocketcasts.com"),
             urls: ["https://static.pocketcasts.com/discover/ios/content.json",
                    "https://cache.pocketcasts.com/mobile/podcast/full/e7a6f7d0-02f2-0133-1c51-059c869cc4eb"]
         ),
         Service(
             title: L10n.settingsStatusHost,
             description: L10n.settingsStatusHostDescription,
-            failureMessage: L10n.settingsStatusHostFailureMessage,
+            failureMessage: L10n.settingsStatusHostFailureMessageDevice,
             urls: ["https://dts.podtrac.com/redirect.mp3/static.pocketcasts.com/assets/feeds/status/episode1.mp3"]
         )
     ]

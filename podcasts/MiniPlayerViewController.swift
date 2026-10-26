@@ -125,6 +125,8 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
         view.isHidden = false
 
+        setupAccessibility()
+
         if #available(iOS 26.0, *) {
             setupLiquidGlassLayout()
         } else {
@@ -133,6 +135,16 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         addUINotificationObservers()
         playbackStateDidChange()
         themeChanged()
+    }
+
+    private func setupAccessibility() {
+        for artworkView in [podcastArtwork, podcastArtwork.superview] {
+            artworkView?.accessibilityLabel = L10n.accessibilityMiniPlayer
+            artworkView?.accessibilityHint = L10n.accessibilityMiniPlayerHint
+        }
+        skipBackBtn.accessibilityLabel = L10n.skipBack
+        skipFwdBtn.accessibilityLabel = L10n.skipForward
+        upNextBtn.accessibilityLabel = L10n.accessibilityUpNextList
     }
 
     private func setupCorners() {
@@ -256,10 +268,15 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         }
     }
 
-    /// The large screen layout is used when the accessory is hosted in a regular width window.
+    /// The large screen layout is used when the accessory is hosted in a regular width window
+    /// and is wide enough to fit it.
     private var wantsLargeLayout: Bool {
-        forcedLargeLayout ?? (hostTabBarController != nil && view.window?.traitCollection.horizontalSizeClass == .regular)
+        forcedLargeLayout ?? (hostTabBarController != nil
+            && view.window?.traitCollection.horizontalSizeClass == .regular
+            && view.bounds.width >= Self.largeLayoutMinimumWidth)
     }
+
+    private static let largeLayoutMinimumWidth: CGFloat = 560
 
     override func updateViewConstraints() {
         if #available(iOS 26.0, *), let glassProgressView {
@@ -292,7 +309,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         guard hostTabBarController != nil,
               view.window?.traitCollection.horizontalSizeClass == .regular,
               accessoryWindowWidth > 0 else { return }
-        let constraint = view.widthAnchor.constraint(equalToConstant: min(780, max(accessoryWindowWidth - 32, 560)))
+        let constraint = view.widthAnchor.constraint(equalToConstant: min(780, max(accessoryWindowWidth - 32, Self.largeLayoutMinimumWidth)))
         constraint.priority = UILayoutPriority(999)
         constraint.isActive = true
         accessoryWidthConstraint = constraint
@@ -301,7 +318,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        if let windowWidth = view.window?.bounds.width, windowWidth != accessoryWindowWidth {
+        if let windowWidth = view.window?.bounds.width, windowWidth != accessoryWindowWidth || wantsLargeLayout != isLargeLayoutApplied {
             view.setNeedsUpdateConstraints()
         }
 

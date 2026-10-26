@@ -88,7 +88,6 @@
                         </view>
                         <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Wl-Qr-Alh" userLabel="Overflow Button" customClass="ThemeSecondaryButton" customModule="podcasts" customModuleProvider="target">
                             <rect key="frame" x="326" y="10" width="36" height="36"/>
-                            <accessibility key="accessibilityConfiguration" label="Episode Actions"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="0Wl-Qr-Alh" secondAttribute="height" multiplier="1:1" id="yX1-jd-9q2"/>
                             </constraints>
