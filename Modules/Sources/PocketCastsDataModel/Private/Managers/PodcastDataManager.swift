@@ -333,7 +333,7 @@ class PodcastDataManager {
         } catch {
             FileLog.shared.addMessage("PodcastDataManager.save error: \(error)")
         }
-        cachePodcasts(dbQueue: dbQueue)
+        cachePodcast(uuid: podcast.uuid, dbQueue: dbQueue)
     }
 
     func bulkSetFolderUuid(folderUuid: String, podcastUuids: [String], dbQueue: GRDBQueue) {
@@ -499,7 +499,7 @@ class PodcastDataManager {
     private func saveSingleValue(name: String, value: Any?, podcastUuid: String, dbQueue: GRDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET \(name) = ? WHERE uuid = ?", values: [value ?? NSNull(), podcastUuid], methodName: "PodcastDataManager.saveSingleValue", onQueue: dbQueue)
 
-        cachePodcasts(dbQueue: dbQueue)
+        cachePodcast(uuid: podcastUuid, dbQueue: dbQueue)
     }
 
     // MARK: - Caching
@@ -522,6 +522,22 @@ class PodcastDataManager {
                 }
             } catch {
                 FileLog.shared.addMessage("PodcastDataManager.cachePodcasts error: \(error)")
+            }
+        }
+    }
+
+    /// Reloads one podcast into the cache, for writes that change a single podcast.
+    private func cachePodcast(uuid: String, dbQueue: GRDBQueue) {
+        dbQueue.read { db in
+            do {
+                let resultSet = try db.executeQuery("SELECT * from \(DataManager.podcastTableName) WHERE uuid = ?", values: [uuid])
+
+                let podcast = resultSet.next() ? self.createPodcastFrom(resultSet: resultSet) : nil
+                cachedPodcasts.withLock { cachedPodcasts in
+                    cachedPodcasts[uuid] = podcast
+                }
+            } catch {
+                FileLog.shared.addMessage("PodcastDataManager.cachePodcast error: \(error)")
             }
         }
     }

@@ -952,6 +952,32 @@ final class PodcastDataManagerTests: DataManagerTestCase {
         }
     }
 
+    func testSaveKeepsTheOtherCachedPodcasts() throws {
+        try runWithDataManager { dataManager in
+            let saved = self.createTestPodcast(uuid: "saved", title: "Saved", dataManager: dataManager)
+            _ = self.createTestPodcast(uuid: "other", title: "Other", dataManager: dataManager)
+
+            saved.title = "Saved Again"
+            dataManager.save(podcast: saved)
+
+            XCTAssertEqual(dataManager.findPodcast(uuid: "saved")?.title, "Saved Again")
+            XCTAssertEqual(dataManager.findPodcast(uuid: "other")?.title, "Other")
+            XCTAssertEqual(dataManager.allPodcasts(includeUnsubscribed: true).count, 2)
+        }
+    }
+
+    func testSaveCachesTheSavedValuesNotTheCallersObject() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(uuid: "copy-test-uuid", title: "Saved Title", dataManager: dataManager)
+
+            podcast.title = "Unsaved Title"
+
+            let found = dataManager.findPodcast(uuid: "copy-test-uuid")
+            XCTAssertEqual(found?.title, "Saved Title")
+            XCTAssertFalse(found === podcast)
+        }
+    }
+
     func testSaveGeneratesIdIfZero() throws {
         try runWithDataManager { dataManager in
             let podcast = Podcast()
