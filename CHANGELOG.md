@@ -1,5 +1,6 @@
 8.24
 -----
+- Fix long Discover section titles such as "British Podcast Awards Winners 2026" being cut off at one line; they now wrap to two [#5461](https://github.com/Automattic/pocket-casts-ios/pull/5461)
 - Open Podcast Settings as a sheet on iPad and other large screens [#5393](https://github.com/Automattic/pocket-casts-ios/pull/5393)
 - Show the standard iPad tab bar and a centered mini player on iPad [#5472](https://github.com/Automattic/pocket-casts-ios/pull/5472)
 - Show a wider mini player with elapsed and remaining time, transcript and bookmark buttons on iPad and other large screens [#5477](https://github.com/Automattic/pocket-casts-ios/pull/5477)

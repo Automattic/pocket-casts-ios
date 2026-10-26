@@ -37,7 +37,7 @@ class LargeListSummaryCellHeaderView: UIView {
         let label = ThemeableLabel()
         label.textColor = ThemeColor.primaryText01()
         label.font = .font(ofSize: 22, weight: .bold, scalingWith: .title1)
-        label.numberOfLines = 1
+        label.numberOfLines = 2
         label.adjustsFontForContentSizeCategory = true
         return label
     }()
