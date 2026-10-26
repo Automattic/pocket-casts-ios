@@ -37,6 +37,8 @@
     <string>忽略</string>
     <key>accessibility_episode_playback</key>
     <string>剧集回放</string>
+    <key>accessibility_follow_podcast</key>
+    <string>关注 %1$@</string>
     <key>accessibility_hide_filter_details</key>
     <string>轻点以隐藏过滤器详情</string>
     <key>accessibility_hint_player_navigate_to_podcast_label</key>
@@ -73,6 +75,8 @@
     <string>轻点以查看或设置账户</string>
     <key>accessibility_sort_and_options</key>
     <string>排序和选项</string>
+    <key>accessibility_unfollow_podcast</key>
+    <string>取消关注 %1$@</string>
     <key>account</key>
     <string>帐户</string>
     <key>account_change_email</key>
@@ -754,6 +758,8 @@ Pocket Casts Plus</string>
     <string>电视和电影</string>
     <key>discover_change_region</key>
     <string>更改区域，当前为 %1$@</string>
+    <key>discover_clear_category</key>
+    <string>清除分类</string>
     <key>discover_episode_fail_to_load</key>
     <string>The episode couldn't be loaded</string>
     <key>discover_featured</key>
@@ -1343,6 +1349,8 @@ Pocket Casts。</string>
     <string>创建文件夹</string>
     <key>folder_create_new</key>
     <string>创建新文件夹</string>
+    <key>folder_create_skip</key>
+    <string>跳过</string>
     <key>folder_delete</key>
     <string>删除文件夹</string>
     <key>folder_delete_prompt_msg</key>
@@ -1962,6 +1970,10 @@ Pocket Casts。</string>
     <string>通过 Pocket Casts Plus 随机排列您的剧集，并享用更多功能</string>
     <key>paywall_dynamic_headline_watch</key>
     <string>通过 Pocket Casts Plus 在手表上收听播客，并享用更多功能</string>
+    <key>pcasts_import_message</key>
+    <string>这将用此文件的内容替换您的播客和设置，随后 Pocket Casts 将会关闭。</string>
+    <key>pcasts_import_title</key>
+    <string>导入播客和设置</string>
     <key>phone</key>
     <string>电话</string>
     <key>play</key>
@@ -2261,6 +2273,10 @@ Pocket Casts。</string>
     <string>浏览播客</string>
     <key>playlist_manual_create_error_message</key>
     <string>很抱歉，创建您的播放列表时出现错误。</string>
+    <key>playlist_manual_empty_state_subtitle</key>
+    <string>从您关注的播客中选择剧集。 或者在任意剧集上向左滑动，即可边浏览边添加。</string>
+    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
+    <string>找到您喜欢的播客，然后在任意剧集上向左滑动即可添加。</string>
     <key>playlist_manual_empty_state_title</key>
     <string>开始构建您的播放列表</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
@@ -2285,6 +2301,8 @@ Pocket Casts。</string>
     <string>替换当前的“接下来播放”？</string>
     <key>playlist_play_all_sheet_button_title</key>
     <string>替换并播放</string>
+    <key>playlist_play_all_sheet_description</key>
+    <string>播放此剧集将替换您当前的“接下来播放”。 将其保存为播放列表以保留。</string>
     <key>playlist_play_all_sheet_title</key>
     <string>替换您的“接下来播放”？</string>
     <key>playlist_play_all_sheet_toggle</key>
@@ -2521,8 +2539,6 @@ Pocket Casts。</string>
     <string>Pocket Casts Plus</string>
     <key>pocket_casts_plus_short</key>
     <string>Plus</string>
-    <key>pocket_casts_welcome_newsletter_title</key>
-    <string>获取时事通讯</string>
     <key>podcast_access_ended</key>
     <string>访问已结束：%1$@</string>
     <key>podcast_access_ends</key>
@@ -3251,8 +3267,6 @@ Pocket Casts。</string>
     <string>在浏览器中打开链接</string>
     <key>settings_general_play_back_actions</key>
     <string>额外播放操作</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>在手机锁定屏幕中添加“星标”选项。</string>
     <key>settings_general_player_header</key>
     <string>播放器</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3403,8 +3417,6 @@ Pocket Casts。</string>
     <string>常见播客主机</string>
     <key>settings_status_host_description</key>
     <string>播客作者在不受 Pocket Casts 管理的各种托管提供商中托管剧集文件。</string>
-    <key>settings_status_host_failure_message</key>
-    <string>最常见的原因是您的电话或网络上配置了广告拦截器。 您需要取消屏蔽此域名才能下载播客。 请注意，Pocket Casts 不托管，也不选择播客的托管位置，这是由节目作者决定的，不受我们的控制。</string>
     <key>settings_status_internet</key>
     <string>互联网</string>
     <key>settings_status_internet_description</key>
@@ -3417,8 +3429,6 @@ Pocket Casts。</string>
     <string>该服务用于查找新剧集。</string>
     <key>settings_status_run</key>
     <string>立即运行</string>
-    <key>settings_status_service_ad_blocker_help_singular</key>
-    <string>最常见的原因是您的电话或网络上配置了广告拦截器。 您需要取消屏蔽域名 %1$@</string>
     <key>settings_storage</key>
     <string>存储和数据使用情况</string>
     <key>settings_storage_data_warning</key>
@@ -3429,8 +3439,6 @@ Pocket Casts。</string>
     <string>移动数据</string>
     <key>settings_storage_usage</key>
     <string>使用情况</string>
-    <key>settings_storage_usage_footer</key>
-    <string>这可能与您的 iPhone 设置中显示的存储空间不同。iOS 会自动管理缓存数据，并在需要时将其释放。</string>
     <key>settings_third_party_analytics</key>
     <string>第三方分析</string>
     <key>settings_title</key>
@@ -3469,8 +3477,6 @@ Pocket Casts。</string>
     <string>设置账户</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>摇晃重启睡眠计时器</string>
-    <key>shake_to_restart_sleep_timer_description</key>
-    <string>如果打开，则当您摇晃手机时，睡眠计时器将重启。</string>
     <key>share</key>
     <string>共享</string>
     <key>share_clip</key>
@@ -4270,6 +4276,8 @@ Pocket Casts。</string>
     <string>无需更改队列顺序，即可轻松播放随机剧集。</string>
     <key>up_next_shuffle_announcement_title</key>
     <string>推出随机播放功能</string>
+    <key>up_next_shuffle_button</key>
+    <string>随机排列</string>
     <key>up_next_shuffle_toast_message</key>
     <string>随机播放功能已启用。 剧集将按随机顺序播放。</string>
     <key>up_next_sort_duration_tooltip_body</key>
@@ -4422,22 +4430,8 @@ Pocket Casts。</string>
     <string>“接下来播放”列表无内容</string>
     <key>week</key>
     <string>星期</string>
-    <key>welcome_discover_button</key>
-    <string>查找我的下一个播客</string>
-    <key>welcome_discover_description</key>
-    <string>在我们精心策划的“发现”页面中查找低调的和热门播客。</string>
-    <key>welcome_discover_title</key>
-    <string>发现新事物</string>
     <key>welcome_import_button</key>
     <string>导入播客</string>
-    <key>welcome_import_description</key>
-    <string>来自其他应用？ 随时随地访问您的播客。</string>
-    <key>welcome_import_title</key>
-    <string>导入您的播客</string>
-    <key>welcome_new_account_title</key>
-    <string>欢迎，现在开始聆听吧！</string>
-    <key>welcome_plus_title</key>
-    <string>谢谢，现在开始聆听吧！</string>
     <key>whats_new</key>
     <string>新内容</string>
     <key>whats_new_blog_more_link_text</key>

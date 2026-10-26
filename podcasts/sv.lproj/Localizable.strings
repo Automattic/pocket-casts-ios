@@ -1970,6 +1970,10 @@ UPPDATERINGAR</string>
     <string>Spela upp dina avsnitt slumpvis och mer därtill med Pocket Cast Plus</string>
     <key>paywall_dynamic_headline_watch</key>
     <string>Lyssna via din klocka och mer därtill med Pocket Casts Plus</string>
+    <key>pcasts_import_message</key>
+    <string>Detta kommer att ersätta dina podcasts och inställningar med innehållet i den här filen och Pocket Casts kommer att stängas.</string>
+    <key>pcasts_import_title</key>
+    <string>Importera podcasts och inställningar</string>
     <key>phone</key>
     <string>Telefon</string>
     <key>play</key>
@@ -2269,6 +2273,10 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Bläddra bland podcasts</string>
     <key>playlist_manual_create_error_message</key>
     <string>Något gick fel när din spellista skapades.</string>
+    <key>playlist_manual_empty_state_subtitle</key>
+    <string>Välj avsnitt från de podcasts du följer. Eller svep åt vänster på valfritt avsnitt för att lägga till avsnitt allteftersom.</string>
+    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
+    <string>Hitta en podcast som du gillar och svep sedan åt vänster på valfritt avsnitt för att lägga till det.</string>
     <key>playlist_manual_empty_state_title</key>
     <string>Börja bygga din spellista</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
@@ -2293,6 +2301,8 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Ersätt nuvarande Nästa?</string>
     <key>playlist_play_all_sheet_button_title</key>
     <string>Byt ut och spela upp</string>
+    <key>playlist_play_all_sheet_description</key>
+    <string>Om du spelar upp detta ersätts din nuvarande Nästa. Spara det som en spellista för att behålla det.</string>
     <key>playlist_play_all_sheet_title</key>
     <string>Byt ut din Nästa?</string>
     <key>playlist_play_all_sheet_toggle</key>
@@ -2529,8 +2539,6 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Pocket Casts Plus</string>
     <key>pocket_casts_plus_short</key>
     <string>Plus</string>
-    <key>pocket_casts_welcome_newsletter_title</key>
-    <string>Registrera dig för nyhetsbrevet</string>
     <key>podcast_access_ended</key>
     <string>Åtkomst upphörde: %1$@</string>
     <key>podcast_access_ends</key>
@@ -3259,8 +3267,6 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Öppna länkar i webbläsare</string>
     <key>settings_general_play_back_actions</key>
     <string>Flera uppspelningsåtgärder</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Lägger till alternativet Stjärnmärk på din telefons låsskärm.</string>
     <key>settings_general_player_header</key>
     <string>SPELARE</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3411,8 +3417,6 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Vanliga podcastvärdar</string>
     <key>settings_status_host_description</key>
     <string>Podcastskapare använder olika värdtjänster för sina avsnittsfiler. Dessa hanteras inte av Pocket Casts.</string>
-    <key>settings_status_host_failure_message</key>
-    <string>Den vanligaste orsaken är att du har en annonsblockerare konfigurerad på din telefon eller i ditt nätverk. Du måste avblockera den här domänen för att ladda ner podcasts. Observera att Pocket Casts inte är värd för dina podcasts eller väljer vilken värdtjänst som används för dem. Det är upp till showens skapare och ligger utanför vår kontroll.</string>
     <key>settings_status_internet</key>
     <string>Internet</string>
     <key>settings_status_internet_description</key>
@@ -3425,8 +3429,6 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Tjänsten som används för att hitta nya avsnitt.</string>
     <key>settings_status_run</key>
     <string>Kör nu</string>
-    <key>settings_status_service_ad_blocker_help_singular</key>
-    <string>Den vanligaste orsaken är att du har en annonsblockerare konfigurerad på din telefon eller i ditt nätverk. Du måste avblockera domänen %1$@</string>
     <key>settings_storage</key>
     <string>Lagrings- och dataanvändning</string>
     <key>settings_storage_data_warning</key>
@@ -3437,8 +3439,6 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>MOBILDATA</string>
     <key>settings_storage_usage</key>
     <string>ANVÄNDNING</string>
-    <key>settings_storage_usage_footer</key>
-    <string>Detta kan skilja sig från det lagringsutrymme som visas i dina iPhone-inställningar. iOS hanterar cachelagrade data automatiskt och frigör dem vid behov.</string>
     <key>settings_third_party_analytics</key>
     <string>Analyser från tredje part</string>
     <key>settings_title</key>
@@ -3477,8 +3477,6 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Konfigurera konto</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>Skaka för att starta om sömntimern</string>
-    <key>shake_to_restart_sleep_timer_description</key>
-    <string>Om det här alternativet är aktiverat kommer sömntimern att starta om när du skakar din telefon.</string>
     <key>share</key>
     <string>Dela</string>
     <key>share_clip</key>
@@ -4432,22 +4430,8 @@ Båda alternativen är ärligt talat riktigt bra. 🙂</string>
     <string>Inget i Nästa</string>
     <key>week</key>
     <string>vecka</string>
-    <key>welcome_discover_button</key>
-    <string>Hitta min nästa podcast</string>
-    <key>welcome_discover_description</key>
-    <string>Du kan hitta både mindre kända och trendande podcasts på vår kurerade Upptäck-sida.</string>
-    <key>welcome_discover_title</key>
-    <string>Upptäck något nytt</string>
     <key>welcome_import_button</key>
     <string>Importera podcasts</string>
-    <key>welcome_import_description</key>
-    <string>Kommer du från en annan app? Ta dina podcasts med dig.</string>
-    <key>welcome_import_title</key>
-    <string>Importera dina podcasts</string>
-    <key>welcome_new_account_title</key>
-    <string>Välkommen, nu kan du börja lyssna.</string>
-    <key>welcome_plus_title</key>
-    <string>Tack, nu kan du börja lyssna.</string>
     <key>whats_new</key>
     <string>Nyheter</string>
     <key>whats_new_blog_more_link_text</key>

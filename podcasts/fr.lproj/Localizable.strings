@@ -37,6 +37,8 @@
     <string>Ignorer</string>
     <key>accessibility_episode_playback</key>
     <string>Lecture de l’épisode</string>
+    <key>accessibility_follow_podcast</key>
+    <string>Suivre %1$@</string>
     <key>accessibility_hide_filter_details</key>
     <string>Appuyer pour masquer les détails du filtre</string>
     <key>accessibility_hint_player_navigate_to_podcast_label</key>
@@ -73,6 +75,8 @@
     <string>Appuyer pour afficher ou configurer le compte</string>
     <key>accessibility_sort_and_options</key>
     <string>Tri et options</string>
+    <key>accessibility_unfollow_podcast</key>
+    <string>Se désabonner de %1$@</string>
     <key>account</key>
     <string>Compte</string>
     <key>account_change_email</key>
@@ -754,6 +758,8 @@ Vous pouvez vous déconnecter à tout moment des réglages.</string>
     <string>TV et films</string>
     <key>discover_change_region</key>
     <string>Changer la région, actuellement %1$@</string>
+    <key>discover_clear_category</key>
+    <string>Effacer la catégorie</string>
     <key>discover_episode_fail_to_load</key>
     <string>Impossible de charger l’épisode</string>
     <key>discover_featured</key>
@@ -1343,6 +1349,8 @@ que vous avez écouté était
     <string>Créer un dossier</string>
     <key>folder_create_new</key>
     <string>Créer un nouveau dossier</string>
+    <key>folder_create_skip</key>
+    <string>Ignorer</string>
     <key>folder_delete</key>
     <string>Supprimer le dossier</string>
     <key>folder_delete_prompt_msg</key>
@@ -1962,6 +1970,10 @@ MISES À JOUR</string>
     <string>Écouter vos épisodes en mode aléatoire avec Pocket Casts Plus, et plus encore</string>
     <key>paywall_dynamic_headline_watch</key>
     <string>Contrôler votre écoute depuis votre montre avec Pocket Casts Plus, et plus encore</string>
+    <key>pcasts_import_message</key>
+    <string>Cela remplacera vos podcasts et vos réglages par le contenu de ce fichier, et Pocket Casts se fermera.</string>
+    <key>pcasts_import_title</key>
+    <string>Importer des podcasts et des réglages</string>
     <key>phone</key>
     <string>Téléphone</string>
     <key>play</key>
@@ -2261,6 +2273,10 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>Parcourir les podcasts</string>
     <key>playlist_manual_create_error_message</key>
     <string>Toutes nos excuses, un problème est survenu lors de la création de votre liste de lecture.</string>
+    <key>playlist_manual_empty_state_subtitle</key>
+    <string>Choisissez des épisodes parmi les podcasts que vous suivez. Ou glissez à gauche sur n’importe quel épisode pour l’ajouter en passant</string>
+    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
+    <string>Trouvez un podcast que vous aimez, puis balayez vers la gauche sur n’importe quel épisode pour l’ajouter.</string>
     <key>playlist_manual_empty_state_title</key>
     <string>Commencer à créer votre playlist</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
@@ -2285,6 +2301,8 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>Remplacer la file d’attente actuelle ?</string>
     <key>playlist_play_all_sheet_button_title</key>
     <string>Remplacer et lire</string>
+    <key>playlist_play_all_sheet_description</key>
+    <string>Lire ce contenu remplacera votre file d’attente actuelle. Enregistrez-le comme liste de lecture pour le conserver.</string>
     <key>playlist_play_all_sheet_title</key>
     <string>Remplacer votre file d’attente ?</string>
     <key>playlist_play_all_sheet_toggle</key>
@@ -2521,8 +2539,6 @@ Essayez d’ajuster les règles ou enregistrez cette playlist pour les futurs é
     <string>Pocket Casts Plus</string>
     <key>pocket_casts_plus_short</key>
     <string>Plus</string>
-    <key>pocket_casts_welcome_newsletter_title</key>
-    <string>Recevoir la newsletter</string>
     <key>podcast_access_ended</key>
     <string>Accès au podcast expiré le %1$@</string>
     <key>podcast_access_ends</key>
@@ -3251,8 +3267,6 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Ouvrir les liens dans le navigateur</string>
     <key>settings_general_play_back_actions</key>
     <string>Actions de lecture supplémentaires</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Ajoute une option étoile sur l’écran de verrouillage de votre téléphone.</string>
     <key>settings_general_player_header</key>
     <string>LECTEUR</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3403,8 +3417,6 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Hébergeurs de podcasts courants</string>
     <key>settings_status_host_description</key>
     <string>Les auteurs de podcasts hébergent les fichiers d’épisode chez divers hébergeurs non gérés par Pocket Casts.</string>
-    <key>settings_status_host_failure_message</key>
-    <string>La cause la plus courante est qu’un bloqueur de publicités est configuré sur votre téléphone ou votre réseau. Vous devrez débloquer ce domaine pour télécharger des podcasts. Veuillez noter que Pocket Casts n’héberge pas ou ne choisit pas où les podcasts sont hébergés. C’est une décision de l’auteur de l’épisode qui est hors de notre contrôle.</string>
     <key>settings_status_internet</key>
     <string>Internet</string>
     <key>settings_status_internet_description</key>
@@ -3417,8 +3429,6 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Le service utilisé pour trouver de nouveaux épisodes.</string>
     <key>settings_status_run</key>
     <string>Exécuter maintenant</string>
-    <key>settings_status_service_ad_blocker_help_singular</key>
-    <string>La cause la plus courante est qu’un bloqueur de publicités est configuré sur votre téléphone ou votre réseau. Vous devrez débloquer le domaine %1$@</string>
     <key>settings_storage</key>
     <string>Stockage et utilisation des données</string>
     <key>settings_storage_data_warning</key>
@@ -3429,8 +3439,6 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>DONNÉES MOBILES</string>
     <key>settings_storage_usage</key>
     <string>UTILISATION</string>
-    <key>settings_storage_usage_footer</key>
-    <string>Cela peut différer de l’espace de stockage indiqué dans les réglages de votre iPhone. iOS gère les données mises en cache automatiquement et les libère si nécessaire.</string>
     <key>settings_third_party_analytics</key>
     <string>Statistiques tierces</string>
     <key>settings_title</key>
@@ -3469,8 +3477,6 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Créer un compte</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>Secouer pour redémarrer la mise en veille</string>
-    <key>shake_to_restart_sleep_timer_description</key>
-    <string>Si cette fonction est activée, la mise en veille redémarrera si vous secouez votre téléphone.</string>
     <key>share</key>
     <string>Partager</string>
     <key>share_clip</key>
@@ -4270,6 +4276,8 @@ Appuyez sur le bouton ci-dessous pour vous reconnecter à votre compte Pocket Ca
     <string>Écoutez facilement un épisode aléatoire sans changer l’ordre dans votre file d’attente.</string>
     <key>up_next_shuffle_announcement_title</key>
     <string>Présentation de la lecture aléatoire</string>
+    <key>up_next_shuffle_button</key>
+    <string>Aléatoire</string>
     <key>up_next_shuffle_toast_message</key>
     <string>La lecture aléatoire est activée. Les épisodes seront lus de manière aléatoire.</string>
     <key>up_next_sort_duration_tooltip_body</key>
@@ -4422,22 +4430,8 @@ Impossible de se tromper. 🙂</string>
     <string>Rien dans Up Next</string>
     <key>week</key>
     <string>semaine</string>
-    <key>welcome_discover_button</key>
-    <string>Trouver mon prochain podcast</string>
-    <key>welcome_discover_description</key>
-    <string>Découvrez des podcasts tendance et d’autres passés inaperçus sur notre page des découvertes sélectionnées avec soin.</string>
-    <key>welcome_discover_title</key>
-    <string>Découvrir quelque chose de nouveau</string>
     <key>welcome_import_button</key>
     <string>Importer des podcasts</string>
-    <key>welcome_import_description</key>
-    <string>Vous utilisiez une autre application auparavant ? Emportez vos podcasts partout avec vous.</string>
-    <key>welcome_import_title</key>
-    <string>Importer vos podcasts</string>
-    <key>welcome_new_account_title</key>
-    <string>Bienvenue. Maintenant, commencez à écouter du contenu !</string>
-    <key>welcome_plus_title</key>
-    <string>Merci. Maintenant, commencez à écouter du contenu !</string>
     <key>whats_new</key>
     <string>Quoi de neuf</string>
     <key>whats_new_blog_more_link_text</key>

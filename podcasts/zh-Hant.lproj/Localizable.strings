@@ -37,6 +37,8 @@
     <string>忽略</string>
     <key>accessibility_episode_playback</key>
     <string>單集播放</string>
+    <key>accessibility_follow_podcast</key>
+    <string>追蹤「%1$@」</string>
     <key>accessibility_hide_filter_details</key>
     <string>點選即可隱藏篩選器詳細資訊</string>
     <key>accessibility_hint_player_navigate_to_podcast_label</key>
@@ -754,6 +756,8 @@ Pocket Casts Plus</string>
     <string>電視和電影</string>
     <key>discover_change_region</key>
     <string>變更區域，目前為 %1$@</string>
+    <key>discover_clear_category</key>
+    <string>清除類別</string>
     <key>discover_episode_fail_to_load</key>
     <string>無法載入該單集</string>
     <key>discover_featured</key>
@@ -1343,6 +1347,8 @@ Pocket Casts Plus</string>
     <string>建立資料夾</string>
     <key>folder_create_new</key>
     <string>建立新的資料夾</string>
+    <key>folder_create_skip</key>
+    <string>略過</string>
     <key>folder_delete</key>
     <string>刪除資料夾</string>
     <key>folder_delete_prompt_msg</key>
@@ -1962,6 +1968,10 @@ Pocket Casts Plus</string>
     <string>透過 Pocket Casts Plus 隨機播放單集並享有更多功能</string>
     <key>paywall_dynamic_headline_watch</key>
     <string>運用 Pocket Casts Plus 直接從手錶聆聽並享有更多功能</string>
+    <key>pcasts_import_message</key>
+    <string>系統會用這個檔案的內容取代你的 Podcast 和設定，且 Pocket Casts 將會關閉。</string>
+    <key>pcasts_import_title</key>
+    <string>匯入 Podcast 和設定</string>
     <key>phone</key>
     <string>手機</string>
     <key>play</key>
@@ -2261,6 +2271,10 @@ Pocket Casts Plus</string>
     <string>瀏覽 Podcast</string>
     <key>playlist_manual_create_error_message</key>
     <string>很抱歉，建立播放清單時發生錯誤。</string>
+    <key>playlist_manual_empty_state_subtitle</key>
+    <string>可從目前追蹤的 Podcast 挑選單集， 或者在任何單集上向左滑動就能輕鬆新增。</string>
+    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
+    <string>尋找喜歡的 Podcast，然後向左滑動任何單集就能新增。</string>
     <key>playlist_manual_empty_state_title</key>
     <string>著手建立自己的播放清單</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
@@ -2285,6 +2299,8 @@ Pocket Casts Plus</string>
     <string>要取代目前的「接下來播放」嗎？</string>
     <key>playlist_play_all_sheet_button_title</key>
     <string>取代並播放</string>
+    <key>playlist_play_all_sheet_description</key>
+    <string>如果選擇播放，即會取代目前的「接下來播放」。 儲存為播放清單，就能保留下來。</string>
     <key>playlist_play_all_sheet_title</key>
     <string>要取代「接下來播放」嗎？</string>
     <key>playlist_play_all_sheet_toggle</key>
@@ -2521,8 +2537,6 @@ Pocket Casts Plus</string>
     <string>Pocket Casts Plus</string>
     <key>pocket_casts_plus_short</key>
     <string>Plus</string>
-    <key>pocket_casts_welcome_newsletter_title</key>
-    <string>取得電子報</string>
     <key>podcast_access_ended</key>
     <string>存取權限結束時間：%1$@</string>
     <key>podcast_access_ends</key>
@@ -3251,8 +3265,6 @@ Pocket Casts Plus</string>
     <string>在瀏覽器開啟連結</string>
     <key>settings_general_play_back_actions</key>
     <string>其他播放動作</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>可在手機鎖定畫面新增星級評分選項。</string>
     <key>settings_general_player_header</key>
     <string>播放器</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3403,8 +3415,6 @@ Pocket Casts Plus</string>
     <string>Podcast 常見託管服務商</string>
     <key>settings_status_host_description</key>
     <string>Podcast 作者會將單集檔案交由各式託管服務商管理，而這些服務商不受 Pocket Casts 管理。</string>
-    <key>settings_status_host_failure_message</key>
-    <string>最常見的原因是在手機或網路上設定了廣告封鎖程式。  你需要解除封鎖此網域才能下載 Podcast。 請注意，Pocket Casts 不負責管理 Podcast 或選擇託管服務商，一切由節目作者決定。</string>
     <key>settings_status_internet</key>
     <string>網際網路</string>
     <key>settings_status_internet_description</key>
@@ -3417,8 +3427,6 @@ Pocket Casts Plus</string>
     <string>該服務用於尋找新單集。</string>
     <key>settings_status_run</key>
     <string>立即執行</string>
-    <key>settings_status_service_ad_blocker_help_singular</key>
-    <string>最常見的原因是在手機或網路上設定了廣告封鎖程式。  你需要解除封鎖網域 %1$@</string>
     <key>settings_storage</key>
     <string>儲存空間與數據使用</string>
     <key>settings_storage_data_warning</key>
@@ -3429,8 +3437,6 @@ Pocket Casts Plus</string>
     <string>行動數據</string>
     <key>settings_storage_usage</key>
     <string>使用方式</string>
-    <key>settings_storage_usage_footer</key>
-    <string>此部分可能與 iPhone 設定中顯示的儲存空間不同。iOS 會自動管理快取資料，並在需要時進行釋出。</string>
     <key>settings_third_party_analytics</key>
     <string>第三方分析</string>
     <key>settings_title</key>
@@ -3469,8 +3475,6 @@ Pocket Casts Plus</string>
     <string>設定帳號</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>搖動以重新啟動睡眠計時器</string>
-    <key>shake_to_restart_sleep_timer_description</key>
-    <string>在睡眠計時器開啟的狀態下，搖動手機會重新啟動計時器。</string>
     <key>share</key>
     <string>分享</string>
     <key>share_clip</key>
@@ -4270,6 +4274,8 @@ Pocket Casts Plus</string>
     <string>隨機播放節目很簡單，而且不會改變佇列的排序。</string>
     <key>up_next_shuffle_announcement_title</key>
     <string>隆重介紹隨機播放</string>
+    <key>up_next_shuffle_button</key>
+    <string>隨機播放</string>
     <key>up_next_shuffle_toast_message</key>
     <string>隨機播放已開啟。 系統會隨機播放單集。</string>
     <key>up_next_sort_duration_tooltip_body</key>
@@ -4422,22 +4428,8 @@ Pocket Casts Plus</string>
     <string>「接著播放」中沒有內容</string>
     <key>week</key>
     <string>週</string>
-    <key>welcome_discover_button</key>
-    <string>尋找我的下一個 Podcast</string>
-    <key>welcome_discover_description</key>
-    <string>在我們精心策劃的「探索」頁面中尋找低調時髦的 Podcast。</string>
-    <key>welcome_discover_title</key>
-    <string>探索新事物</string>
     <key>welcome_import_button</key>
     <string>匯入 Podcast 節目</string>
-    <key>welcome_import_description</key>
-    <string>是其他應用程式的內容？ 將 Podcast 節目隨身帶著聽。</string>
-    <key>welcome_import_title</key>
-    <string>匯入你的 Podcast 節目</string>
-    <key>welcome_new_account_title</key>
-    <string>歡迎，立刻讓你聽聽看！</string>
-    <key>welcome_plus_title</key>
-    <string>謝謝，立刻讓你聽聽看！</string>
     <key>whats_new</key>
     <string>新功能</string>
     <key>whats_new_blog_more_link_text</key>
