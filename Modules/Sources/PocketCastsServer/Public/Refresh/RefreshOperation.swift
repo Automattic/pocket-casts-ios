@@ -94,13 +94,12 @@ class RefreshOperation: Operation, @unchecked Sendable {
         // the returned dictionary is indexed by podcast UUID and contains all the new episodes for that podcast
         let podcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
         let updatedPodcasts = refreshResult.podcastUpdates
-        var metadataRequestsQueued = 0
+        var receivedEpisodes = [(podcast: Podcast, episodes: [Episode])]()
         for podcast in podcasts {
             guard let podcastEpisodes = updatedPodcasts?[podcast.uuid], !podcastEpisodes.isEmpty else { continue }
 
-            var episodesMissingDetails = [Episode]()
             let episodes: [Episode] = podcastEpisodes.reversed().compactMap({ episode in
-                guard let episodeUuid = episode.uuid else { return nil }
+                guard episode.uuid != nil else { return nil }
 
                 let newEpisode = Episode()
                 newEpisode.podcast_id = podcast.id
@@ -109,21 +108,19 @@ class RefreshOperation: Operation, @unchecked Sendable {
                 newEpisode.episodeStatus = DownloadStatus.notDownloaded.rawValue
                 newEpisode.addedDate = Date()
                 newEpisode.populate(fromEpisode: episode)
-
-                if let existingEpisode = DataManager.shared.findEpisode(uuid: episodeUuid) {
-                    // the sync can save a new episode from Up Next with only its title and URL before the refresh gets to it
-                    if existingEpisode.fileType == nil, existingEpisode.detailedDescription == nil {
-                        episodesMissingDetails.append(newEpisode)
-                    }
-                    return nil
-                }
-
                 return newEpisode
             })
+            receivedEpisodes.append((podcast, episodes))
+        }
 
-            DataManager.shared.bulkSave(episodes: episodes)
-            DataManager.shared.fillMissingDetails(from: episodesMissingDetails)
+        let allReceivedEpisodes = receivedEpisodes.flatMap(\.episodes)
+        let savedUuids = Set(DataManager.shared.insertEpisodesIfMissing(allReceivedEpisodes).map(\.uuid))
+        // the sync can save a new episode from Up Next with only its title and URL before the refresh gets to it
+        DataManager.shared.fillMissingDetails(from: allReceivedEpisodes.filter { !savedUuids.contains($0.uuid) })
 
+        var metadataRequestsQueued = 0
+        for (podcast, receivedPodcastEpisodes) in receivedEpisodes {
+            let episodes = receivedPodcastEpisodes.filter { savedUuids.contains($0.uuid) }
             for episode in episodes {
                 if isCancelled {
                     return .cancelled
