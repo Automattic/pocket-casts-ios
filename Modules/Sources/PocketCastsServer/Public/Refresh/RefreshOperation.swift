@@ -9,24 +9,26 @@ class RefreshOperation: Operation, @unchecked Sendable {
 
     private let createdDate = Date()
 
-    private lazy var apiQueue: OperationQueue = {
-        let queue = OperationQueue()
-        queue.maxConcurrentOperationCount = 1
+    /// The sync that ran before this operation, if the refresh didn't wait for it.
+    private let previousSync: SyncOperation?
 
-        return queue
-    }()
+    private var currentSync: SyncOperation?
 
-    init(result: RefreshResult, completionHandler: ((RefreshFetchResult) -> Void)?) {
+    init(result: RefreshResult, previousSync: SyncOperation? = nil, completionHandler: ((RefreshFetchResult) -> Void)?) {
         refreshResult = result
+        self.previousSync = previousSync
         self.completionHandler = completionHandler
         super.init()
+    }
+
+    override func cancel() {
+        super.cancel()
+        currentSync?.cancel()
     }
 
     override func main() {
         autoreleasepool {
             if isCancelled {
-                cleanupAfterCancel()
-
                 return
             }
 
@@ -50,51 +52,22 @@ class RefreshOperation: Operation, @unchecked Sendable {
             ServerNotificationsHelper.shared.firePodcastRefreshSucceeded()
 
             if isCancelled {
-                cleanupAfterCancel()
-
                 return
             }
 
-            // refresh is done, now perform a sync if the user has a sync account
-            if SyncManager.isUserLoggedIn() {
-                NotificationCenter.default.post(name: ServerNotifications.syncStarted, object: nil)
-                let syncStartDate = Date()
+            // refresh is done, now perform a sync if the user has a sync account and it didn't already run
+            var sync = previousSync
+            if sync == nil, SyncManager.isUserLoggedIn() {
+                let syncOperation = SyncOperation()
+                currentSync = syncOperation
+                syncOperation.start()
+                sync = syncOperation
+            }
 
-                if SubscriptionHelper.hasActiveSubscription() { addTimedOperation(RetrieveCustomFilesTask()) }
-                addTimedOperation(UpNextSyncTask())
-                let syncTask = SyncTask()
-                addTimedOperation(syncTask)
-
-                addTimedOperation(SyncHistoryTask())
-
-                addTimedOperation(SyncSettingsTask())
-
-                #if !os(watchOS)
-                    ServerSettings.iapUnverifiedPurchaseReceiptDate() == nil ? addTimedOperation(SubscriptionStatusTask()) : addTimedOperation(PurchaseReceiptTask())
-                #endif
-
-                #if !os(watchOS)
-                    // update our local copy of the remote stats. Doesn't really matter if this fails or succeeds
-                    StatsManager.shared.loadRemoteStats(completion: nil)
-                #endif
-
-                apiQueue.waitUntilAllOperationsAreFinished()
-
-                // we use the sync task as the main indication of whether the sync has failed
-                let syncResult = syncTask.status
-                if syncResult == .failed || syncResult == .cancelled {
-                    FileLog.shared.addMessage("Sync failed in \(syncStartDate.elapsedTimeDescription)")
-                    completionHandler?(.failed)
-                } else {
-                    // however we use the refresh to indicate to iOS whether we found new stuff or not
-                    completionHandler?(refreshResult == .successNewData ? .newData : .noData)
-
-                    FileLog.shared.addMessage("Sync succeeded in \(syncStartDate.elapsedTimeDescription)")
-
-                    ServerNotificationsHelper.shared.fireSyncCompleted()
-                    ServerConfig.shared.syncDelegate?.playlistChanged()
-                }
-            } else { // no sync required, we're done
+            if let sync, !sync.succeeded {
+                completionHandler?(.failed)
+            } else {
+                // we use the refresh to indicate to iOS whether we found new stuff or not
                 completionHandler?(refreshResult == .successNewData ? .newData : .noData)
             }
 
@@ -110,15 +83,8 @@ class RefreshOperation: Operation, @unchecked Sendable {
         }
     }
 
-    private func addTimedOperation(_ task: ApiBaseTask) {
-        task.logsDuration = true
-        apiQueue.addOperation(task)
-    }
-
     func performRefresh() -> UpdateStatus {
         if isCancelled {
-            cleanupAfterCancel()
-
             return .cancelled
         }
 
@@ -132,9 +98,9 @@ class RefreshOperation: Operation, @unchecked Sendable {
         for podcast in podcasts {
             guard let podcastEpisodes = updatedPodcasts?[podcast.uuid], !podcastEpisodes.isEmpty else { continue }
 
+            var episodesMissingDetails = [Episode]()
             let episodes: [Episode] = podcastEpisodes.reversed().compactMap({ episode in
                 guard let episodeUuid = episode.uuid else { return nil }
-                if let _ = DataManager.shared.findEpisode(uuid: episodeUuid) { return nil }
 
                 let newEpisode = Episode()
                 newEpisode.podcast_id = podcast.id
@@ -143,15 +109,23 @@ class RefreshOperation: Operation, @unchecked Sendable {
                 newEpisode.episodeStatus = DownloadStatus.notDownloaded.rawValue
                 newEpisode.addedDate = Date()
                 newEpisode.populate(fromEpisode: episode)
+
+                if let existingEpisode = DataManager.shared.findEpisode(uuid: episodeUuid) {
+                    // the sync can save a new episode from Up Next with only its title and URL before the refresh gets to it
+                    if existingEpisode.fileType == nil, existingEpisode.detailedDescription == nil {
+                        episodesMissingDetails.append(newEpisode)
+                    }
+                    return nil
+                }
+
                 return newEpisode
             })
 
             DataManager.shared.bulkSave(episodes: episodes)
+            DataManager.shared.fillMissingDetails(from: episodesMissingDetails)
 
             for episode in episodes {
                 if isCancelled {
-                    cleanupAfterCancel()
-
                     return .cancelled
                 }
 
@@ -184,10 +158,6 @@ class RefreshOperation: Operation, @unchecked Sendable {
         FileLog.shared.addMessage("Refresh complete found \(newEpisodesAdded) new episodes in \(startDate.elapsedTimeDescription)")
 
         return (newEpisodesAdded > 0) ? .successNewData : .successNoNewData
-    }
-
-    private func cleanupAfterCancel() {
-        apiQueue.cancelAllOperations()
     }
 
     private func processAutoAddUpNextCandidates() {
