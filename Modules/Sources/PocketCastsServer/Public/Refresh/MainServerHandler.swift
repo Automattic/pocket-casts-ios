@@ -191,13 +191,22 @@ public class MainServerHandler {
     }
 
     public func refresh(podcasts: [Podcast], completion: @escaping (PodcastRefreshResponse?) -> Void) {
+        refresh(request: makeRefreshRequest(podcasts: podcasts), completion: completion)
+    }
+
+    func makeRefreshRequest(podcasts: [Podcast], lastEpisodeOverrides: [String: String] = [:]) -> URLRequest? {
         FileLog.shared.addMessage("Refresh - Started)")
         let startDate = Date()
-        guard let request = createRefreshRequest(podcasts: podcasts) else {
+        let request = createRefreshRequest(podcasts: podcasts, lastEpisodeOverrides: lastEpisodeOverrides)
+        FileLog.shared.addMessage("Refresh - Sending request for \(podcasts.count) podcasts, built in \(startDate.elapsedTimeDescription)")
+        return request
+    }
+
+    func refresh(request: URLRequest?, completion: @escaping (PodcastRefreshResponse?) -> Void) {
+        guard let request else {
             completion(PodcastRefreshResponse.failedResponse())
             return
         }
-        FileLog.shared.addMessage("Refresh - Sending request for \(podcasts.count) podcasts, built in \(startDate.elapsedTimeDescription)")
 
         let requestDate = Date()
         tokenHelper.callSecureUrl(request: request) { response, data, error in
@@ -219,7 +228,8 @@ public class MainServerHandler {
         }
     }
 
-    public func createRefreshRequest(podcasts: [Podcast]) -> URLRequest? {
+    /// - Parameter lastEpisodeOverrides: The episode to fetch new episodes after, by podcast UUID, instead of each podcast's latest one.
+    public func createRefreshRequest(podcasts: [Podcast], lastEpisodeOverrides: [String: String] = [:]) -> URLRequest? {
         guard let uniqueId = ServerConfig.shared.syncDelegate?.uniqueAppId() else {
             return nil
         }
@@ -235,7 +245,7 @@ public class MainServerHandler {
         var jsonRequest = jsonWithStandardParams(uniqueId: uniqueId)
         jsonRequest["push_sound"] = "11" // for legacy reasons, this is always the push sound we send, since it's no longer configurable
         jsonRequest["podcasts"] = podcasts.map(\.uuid).joined(separator: ",")
-        jsonRequest["last_episodes"] = podcasts.map { $0.forceRefreshEpisodeFrom ?? $0.latestEpisodeUuid ?? "" }.joined(separator: ",")
+        jsonRequest["last_episodes"] = podcasts.map { lastEpisodeOverrides[$0.uuid] ?? $0.forceRefreshEpisodeFrom ?? $0.latestEpisodeUuid ?? "" }.joined(separator: ",")
         jsonRequest["push_messages_on"] = podcasts.map { (pushEnabled && newEpisodePushEnabled && $0.pushEnabled) ? "1" : "0" }.joined()
         if let pushToken = ServerSettings.pushToken() {
             jsonRequest["push_token"] = pushToken

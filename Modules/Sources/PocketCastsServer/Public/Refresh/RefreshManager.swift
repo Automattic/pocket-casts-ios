@@ -16,6 +16,9 @@ public class RefreshManager {
         return queue
     }()
 
+    /// The episode each podcast's next refresh should start after, kept while the sync ran but the refresh failed.
+    private let pendingLastEpisodesLock = NSLock()
+
     // the watch has less resources than a phone, so be a bit more aggressive about not refreshing constantly
     #if os(watchOS)
         private static let minTimeBetweenRefreshes = 1.minute
@@ -88,13 +91,60 @@ public class RefreshManager {
         UserDefaults.standard.set(Date(), forKey: ServerConstants.UserDefaults.lastRefreshStartTime)
 
         DispatchQueue.global().async { [weak self] in
-            MainServerHandler.shared.refresh(podcasts: podcasts) { [weak self] refreshResponse in
-                guard let self else { return }
-
-                self.processPodcastRefreshResponse(refreshResponse) { _ in
-                    completion?()
-                }
+            self?.performRefresh(podcasts: podcasts) { _ in
+                completion?()
             }
+        }
+    }
+
+    private func performRefresh(podcasts: [Podcast], completion: ((RefreshFetchResult) -> Void)?) {
+        guard FeatureFlag.syncBeforeRefresh.enabled, SyncManager.isUserLoggedIn() else {
+            MainServerHandler.shared.refresh(podcasts: podcasts) { [weak self] refreshResponse in
+                self?.processPodcastRefreshResponse(refreshResponse, completion: completion)
+            }
+            return
+        }
+
+        // The request captures each podcast's latest episode, so build it before the sync adds any
+        let lastEpisodes = pendingLastEpisodes()
+        let request = MainServerHandler.shared.makeRefreshRequest(podcasts: podcasts, lastEpisodeOverrides: lastEpisodes)
+        let requestedLastEpisodes = Dictionary(podcasts.map { ($0.uuid, lastEpisodes[$0.uuid] ?? $0.forceRefreshEpisodeFrom ?? $0.latestEpisodeUuid ?? "") }, uniquingKeysWith: { first, _ in first })
+
+        let sync = SyncOperation()
+        refreshQueue.addOperation(sync)
+
+        MainServerHandler.shared.refresh(request: request) { [weak self] refreshResponse in
+            guard let self else { return }
+
+            if refreshResponse?.success() == true {
+                self.removePendingLastEpisodes(for: Array(requestedLastEpisodes.keys))
+            } else {
+                // The sync may have added episodes newer than the ones this refresh was meant to fetch
+                self.addPendingLastEpisodes(requestedLastEpisodes)
+            }
+            self.processPodcastRefreshResponse(refreshResponse, previousSync: sync, completion: completion)
+        }
+    }
+
+    private func pendingLastEpisodes() -> [String: String] {
+        pendingLastEpisodesLock.withLock {
+            UserDefaults.standard.dictionary(forKey: ServerConstants.UserDefaults.refreshPendingLastEpisodes) as? [String: String] ?? [:]
+        }
+    }
+
+    private func addPendingLastEpisodes(_ lastEpisodes: [String: String]) {
+        pendingLastEpisodesLock.withLock {
+            let pending = UserDefaults.standard.dictionary(forKey: ServerConstants.UserDefaults.refreshPendingLastEpisodes) as? [String: String] ?? [:]
+            UserDefaults.standard.set(pending.merging(lastEpisodes) { existing, _ in existing }, forKey: ServerConstants.UserDefaults.refreshPendingLastEpisodes)
+        }
+    }
+
+    private func removePendingLastEpisodes(for podcastUuids: [String]) {
+        pendingLastEpisodesLock.withLock {
+            guard var pending = UserDefaults.standard.dictionary(forKey: ServerConstants.UserDefaults.refreshPendingLastEpisodes) as? [String: String], !pending.isEmpty else { return }
+
+            podcastUuids.forEach { pending[$0] = nil }
+            UserDefaults.standard.set(pending, forKey: ServerConstants.UserDefaults.refreshPendingLastEpisodes)
         }
     }
     #endif
@@ -135,11 +185,15 @@ public class RefreshManager {
     public func refreshPodcasts(completion: @escaping (RefreshFetchResult) -> Void) {
         DispatchQueue.global().async { [weak self] in
             let podcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
+            #if os(watchOS)
             MainServerHandler.shared.refresh(podcasts: podcasts) { [weak self] refreshResponse in
                 guard let self else { return }
 
                 self.processPodcastRefreshResponse(refreshResponse, completion: completion)
             }
+            #else
+            self?.performRefresh(podcasts: podcasts, completion: completion)
+            #endif
         }
     }
 
@@ -147,17 +201,22 @@ public class RefreshManager {
         refreshQueue.cancelAllOperations()
     }
 
-    private func processPodcastRefreshResponse(_ refreshResponse: PodcastRefreshResponse?, completion: ((RefreshFetchResult) -> Void)?) {
+    private func processPodcastRefreshResponse(_ refreshResponse: PodcastRefreshResponse?, previousSync: SyncOperation? = nil, completion: ((RefreshFetchResult) -> Void)?) {
         guard let response = refreshResponse, response.success() else {
             FileLog.shared.addMessage("Podcast refresh failed with message: \(refreshResponse?.message ?? "none"). See previous log for more details.")
             ServerNotificationsHelper.shared.firePodcastRefreshFailed()
-            completion?(.failed)
+            if previousSync != nil {
+                // report back once the sync that started with this refresh has finished
+                refreshQueue.addOperation { completion?(.failed) }
+            } else {
+                completion?(.failed)
+            }
 
             return
         }
 
         if let result = response.result {
-            let refreshOperation = RefreshOperation(result: result, completionHandler: completion)
+            let refreshOperation = RefreshOperation(result: result, previousSync: previousSync, completionHandler: completion)
             refreshQueue.addOperation(refreshOperation)
         }
     }
