@@ -9,6 +9,8 @@ extension WhatsNewAction.Kind {
             NavigationManager.shared.navigateTo(NavigationManager.filterAddKey, data: nil)
         case .openDiscover:
             NavigationManager.shared.navigateTo(NavigationManager.discoverPageKey, data: nil)
+        case .openFiles:
+            NavigationManager.shared.navigateTo(NavigationManager.settingsProfileKey, data: [NavigationManager.profileRowKey: NavigationManager.profileRowFilesKey])
         case .openNetworks:
             NavigationManager.shared.navigateTo(NavigationManager.discoverNetworksPageKey, data: nil)
         case .openPlaylists:

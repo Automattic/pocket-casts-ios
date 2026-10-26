@@ -33,7 +33,7 @@ struct PodcastPickerView: View {
                 }
                 .padding(.top, 3)
                 ThemedDivider()
-                Text(L10n.selectedPodcastCount(pickerModel.selectedPodcastUuids.count, capitalized: true))
+                Text(L10n.selectedPodcastCount(pickerModel.selectedPodcastUuids.count))
                     .font(.subheadline)
                     .textStyle(PrimaryText())
                     .padding(.top, 3)

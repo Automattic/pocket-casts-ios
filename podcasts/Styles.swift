@@ -207,6 +207,7 @@ struct RoundedButtonStyle: ButtonStyle {
 
 struct RoundedButton: ViewModifier {
     @EnvironmentObject var theme: Theme
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var destructive: Bool
 
@@ -218,14 +219,14 @@ struct RoundedButton: ViewModifier {
         HStack {
             Spacer()
             content
-                .font(.system(size: 18, weight: .semibold))
+                .font(size: 18, style: .body, weight: .semibold)
                 .foregroundColor(ThemeColor.primaryUi01(for: theme.activeTheme).color)
             Spacer()
         }
         .padding()
         .background(destructive ? ThemeColor.support05(for: theme.activeTheme).color : ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
         .cornerRadius(ViewConstants.buttonCornerRadius)
-        .frame(height: 44)
+        .frame(height: dynamicTypeSize.isAccessibilitySize ? nil : 44)
     }
 }
 

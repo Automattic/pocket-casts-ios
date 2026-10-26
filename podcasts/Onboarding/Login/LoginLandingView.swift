@@ -322,7 +322,7 @@ private struct LoginButtons: View {
             }.buttonStyle(RoundedButtonStyle(theme: theme, maxContentSizeCategory: .accessibilityMedium))
 
             if shouldShowLogin {
-                Button("Login") {
+                Button(L10n.accountLogin) {
                     coordinator.loginTapped()
                 }.buttonStyle(SimpleTextButtonStyle(theme: theme, maxContentSizeCategory: .accessibilityMedium))
             }

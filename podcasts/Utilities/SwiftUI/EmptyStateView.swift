@@ -65,6 +65,15 @@ struct EmptyStateView<Title: View, Style: EmptyStateViewStyle>: View {
     }
 
     var body: some View {
+        ViewThatFits(in: .vertical) {
+            content
+            ScrollView {
+                content
+            }
+        }
+    }
+
+    private var content: some View {
         VStack(spacing: EmptyConstants.spacing) {
 
             if let icon {
@@ -77,6 +86,8 @@ struct EmptyStateView<Title: View, Style: EmptyStateViewStyle>: View {
             title()
                 .font(.headline)
                 .foregroundStyle(style.title)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
 
             if let message {
                 Text(message)
@@ -93,6 +104,8 @@ struct EmptyStateView<Title: View, Style: EmptyStateViewStyle>: View {
             }
             .font(style: .subheadline, weight: .medium)
             .foregroundStyle(style.button)
+            .multilineTextAlignment(.center)
+            .fixedSize(horizontal: false, vertical: true)
         }
         .frame(maxWidth: maxContentWidth)
         .padding(.horizontal, EmptyConstants.padding)

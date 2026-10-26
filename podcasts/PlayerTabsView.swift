@@ -32,6 +32,13 @@ enum PlayerTabs: Int {
 
 @MainActor
 class PlayerTabsView: UIScrollView {
+    /// Where the first tab's title starts in the large screen player, measured from the leading
+    /// edge of the tabs. The pages line their content up with it.
+    static let largeScreenTitleInset = largeScreenLeadingMargin + TabConstants.titleInset
+
+    /// The gap between the leading edge of the large screen player's tabs and the first tab.
+    static let largeScreenLeadingMargin: CGFloat = 16
+
     var tabs: [PlayerTabs] = [.nowPlaying] {
         didSet {
             updateTabs()
@@ -196,6 +203,7 @@ class PlayerTabsView: UIScrollView {
 private enum TabConstants {
     static let titleFont = UIFont.systemFont(ofSize: 15, weight: .semibold)
     static let spacing: CGFloat = 0
+    static let titleInset: CGFloat = 12
 
     static let lineHeight: CGFloat = 2
 
@@ -370,7 +378,7 @@ private class PlayerTabButton: UIButton {
             text = ThemeColor.playerContrast02()
         }
 
-        config.contentInsets = .init(top: 8, leading: 12, bottom: 8, trailing: 12)
+        config.contentInsets = .init(top: 8, leading: TabConstants.titleInset, bottom: 8, trailing: TabConstants.titleInset)
 
         config.attributedTitle = {
             var attributedTitle = AttributedString(title)

@@ -503,6 +503,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         if rightButtons.count > 1 {
             navigationItem.trailingItemGroups = [UIBarButtonItemGroup(barButtonItems: rightButtons, representativeItem: nil)]
         } else {
+            navigationItem.trailingItemGroups = []
             navigationItem.setRightBarButtonItems(rightButtons, animated: animated)
         }
         navigationItem.setLeftBarButton(leftButton, animated: animated)

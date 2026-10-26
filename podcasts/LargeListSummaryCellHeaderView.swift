@@ -114,5 +114,6 @@ class LargeListSummaryCellHeaderView: UIView {
 
     func updateSize() {
         topLabel.updateNumberOfLines(regular: 1, accessibility: 2)
+        bottomLabel.updateNumberOfLines(regular: 2, accessibility: 3)
     }
 }
