@@ -24,6 +24,7 @@
 - Fix the Account header staying light in dark themes, which made the trial and expiry captions unreadable [#5466](https://github.com/Automattic/pocket-casts-ios/pull/5466)
 - Fix the New playlist and Smart rules sheets staying white in dark themes, which hid their titles [#5470](https://github.com/Automattic/pocket-casts-ios/pull/5470)
 - Fix the episode card's Details and Bookmarks tabs showing the opposite page in right-to-left languages [#5488](https://github.com/Automattic/pocket-casts-ios/pull/5488)
+- Fix the Add to playlist sheet showing one more episode than the playlist holds when the episode is already in it [#5493](https://github.com/Automattic/pocket-casts-ios/pull/5493)
 - Fix refresh, sync and downloads hanging until relaunch after the sync token expires [#5490](https://github.com/Automattic/pocket-casts-ios/pull/5490)
 - Fix the Discover "All Categories" pill running past the screen edge at the largest text sizes [#5504](https://github.com/Automattic/pocket-casts-ios/pull/5504)
 - Show episode titles in the CarPlay Up Next row, so queued episodes from the same podcast can be told apart [#5514](https://github.com/Automattic/pocket-casts-ios/pull/5514)
