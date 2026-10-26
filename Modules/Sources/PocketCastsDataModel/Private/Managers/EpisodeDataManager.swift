@@ -420,6 +420,35 @@ class EpisodeDataManager {
         }
     }
 
+    func insertIfMissing(episodes: [Episode], dbQueue: GRDBQueue) -> [Episode] {
+        guard !episodes.isEmpty else { return [] }
+
+        var inserted = [Episode]()
+        do {
+            try dbQueue.dbPool.write { db in
+                var savedUuids = Set<String>()
+                for uuids in episodes.map(\.uuid).chunked(into: 500) {
+                    let placeholders = Array(repeating: "?", count: uuids.count).joined(separator: ",")
+                    let existing = try String.fetchAll(db, sql: "SELECT uuid FROM \(DataManager.episodeTableName) WHERE uuid IN (\(placeholders))", arguments: StatementArguments(uuids))
+                    savedUuids.formUnion(existing)
+                }
+
+                for episode in episodes where !savedUuids.contains(episode.uuid) {
+                    if episode.id == 0 {
+                        episode.id = DBUtils.generateUniqueId()
+                    }
+                    try episode.save(db)
+                    savedUuids.insert(episode.uuid)
+                    inserted.append(episode)
+                }
+            }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.insertIfMissing error: \(error)")
+            return []
+        }
+        return inserted
+    }
+
     func fillMissingDetails(from episodes: [Episode], dbQueue: GRDBQueue) {
         guard !episodes.isEmpty else { return }
 
