@@ -7,6 +7,7 @@
 - Fix the App Icon row cutting off the last visible icon on iPad [#5475](https://github.com/Automattic/pocket-casts-ios/pull/5475)
 - Fix the Podcasts layout picker selecting the opposite layout in right-to-left languages [#5486](https://github.com/Automattic/pocket-casts-ios/pull/5486)
 - Fix a crash when sharing a Discover list, collection or the Networks grid on iPad [#5459](https://github.com/Automattic/pocket-casts-ios/pull/5459)
+- Fix the Playback Effects sheet being cut off in right-to-left languages [#5487](https://github.com/Automattic/pocket-casts-ios/pull/5487)
 - Fix a crash when the Plus paywall for generated transcripts appears while folding or unfolding iPhone Duo [#5520](https://github.com/Automattic/pocket-casts-ios/pull/5520)
 - Fix the Podcasts list keeping its old order when a sort order is picked right after changing the layout [#5485](https://github.com/Automattic/pocket-casts-ios/pull/5485)
 - Fix the content of the Now Playing tabs not lining up with the tab titles on iPad and other large screens [#5502](https://github.com/Automattic/pocket-casts-ios/pull/5502)
