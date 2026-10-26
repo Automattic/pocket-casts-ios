@@ -283,11 +283,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func handleAppRefresh(task: BGTask) {
         scheduleNextBackgroundRefresh()
 
+        let startDate = Date()
         task.expirationHandler = {
-            FileLog.shared.addMessage("Background refresh timed out")
+            FileLog.shared.addMessage("Background refresh timed out after \(startDate.elapsedTimeDescription)")
         }
 
         RefreshManager.shared.refreshPodcasts(completion: { refreshFetchResult in
+            FileLog.shared.addMessage("Background refresh finished in \(startDate.elapsedTimeDescription) with result \(refreshFetchResult)")
             task.setTaskCompleted(success: refreshFetchResult != .failed)
         })
         badgeHelper.updateBadge()
