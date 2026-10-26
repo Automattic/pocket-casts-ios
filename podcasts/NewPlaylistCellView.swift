@@ -5,6 +5,7 @@ struct NewPlaylistCellView: View {
     @EnvironmentObject var theme: Theme
     @ObservedObject var viewModel: NewPlaylistCellViewModel
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @ScaledMetric(relativeTo: .largeTitle) private var imageSize: CGFloat = 56
 
     private var title: String {
@@ -19,7 +20,7 @@ struct NewPlaylistCellView: View {
     private var subtitle: String? {
         switch viewModel.displayType {
         case .check:
-            return L10n.playlistEpisodesCount(viewModel.episodesCount)
+            return L10n.playlistEpisodeCount(viewModel.episodesCount)
         case .toggle, .count, .plain:
             if viewModel.isSmartPlaylist {
                 return L10n.smartPlaylist
@@ -65,9 +66,14 @@ struct NewPlaylistCellView: View {
                     subtitleView(text: subtitle)
                         .lineLimit(2)
                 }
+                if dynamicTypeSize.isAccessibilitySize {
+                    accesoryView()
+                }
             }
             Spacer()
-            accesoryView()
+            if !dynamicTypeSize.isAccessibilitySize {
+                accesoryView()
+            }
         }
         .accessibilityElement(children: .combine)
         .background(.clear)
@@ -86,7 +92,7 @@ struct NewPlaylistCellView: View {
             HStack(spacing: 5.0) {
                 subtitleView(text: "\(viewModel.episodesCount)")
                     .lineLimit(1)
-                    .accessibilityLabel("\(viewModel.episodesCount) \(L10n.episodes)")
+                    .accessibilityLabel(L10n.playlistEpisodeCount(viewModel.episodesCount))
             }
         default:
             EmptyView()
