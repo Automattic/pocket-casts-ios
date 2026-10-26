@@ -26,8 +26,13 @@ class SyncOperation: Operation, @unchecked Sendable {
             NotificationCenter.default.post(name: ServerNotifications.syncStarted, object: nil)
             let startDate = Date()
 
-            if SubscriptionHelper.hasActiveSubscription() { addTimedOperation(RetrieveCustomFilesTask()) }
-            addTimedOperation(UpNextSyncTask())
+            // Up Next syncs share a queue, so this one doesn't overlap one started by an Up Next change
+            var upNextTasks: [ApiBaseTask] = [UpNextSyncTask()]
+            if SubscriptionHelper.hasActiveSubscription() { upNextTasks.insert(RetrieveCustomFilesTask(), at: 0) }
+            upNextTasks.forEach { $0.logsDuration = true }
+            upNextTasksLock.withLock { self.upNextTasks = upNextTasks }
+            RefreshManager.shared.upNextQueue.addOperations(upNextTasks, waitUntilFinished: true)
+
             let syncTask = SyncTask()
             addTimedOperation(syncTask)
 
@@ -60,8 +65,12 @@ class SyncOperation: Operation, @unchecked Sendable {
         }
     }
 
+    private var upNextTasks = [ApiBaseTask]()
+    private let upNextTasksLock = NSLock()
+
     override func cancel() {
         super.cancel()
+        upNextTasksLock.withLock { upNextTasks }.forEach { $0.cancel() }
         apiQueue.cancelAllOperations()
     }
 
