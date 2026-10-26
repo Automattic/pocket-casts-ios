@@ -400,7 +400,8 @@ extension PlayerContainerViewController {
     /// transcripts. Closing it moves on to the next tab rather than revealing the transcript.
     private func showLargeScreenTranscriptPaywall() {
         guard let layout = largeScreenLayout, layout.transcriptPaywall == nil,
-              let transcriptTab = layout.transcriptTab, let transcriptView = transcriptTab.view else { return }
+              let transcriptTab = layout.transcriptTab, transcriptTab.parent != nil,
+              let transcriptView = transcriptTab.view else { return }
 
         let paywall = GeneratedTranscriptsPremiumOverlay(playbackManager: PlaybackManager.shared)
         paywall.largeScreenBackground = artworkBackground
