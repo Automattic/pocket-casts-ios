@@ -9,6 +9,18 @@ struct ProfileHeaderView: View {
 
     /// Update the UI depending on the size of the screen
     @Environment(\.horizontalSizeClass) private var sizeClass
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
+    private func rowLayout<Content: View>(
+        alignment: VerticalAlignment = .center,
+        spacing: CGFloat? = nil,
+        @ViewBuilder content: () -> Content
+    ) -> some View {
+        let layout = dynamicTypeSize.isAccessibilitySize
+            ? AnyLayout(VStackLayout(spacing: spacing))
+            : AnyLayout(HStackLayout(alignment: alignment, spacing: spacing))
+        return layout(content)
+    }
 
     private func isShowingVertically(width: CGFloat) -> Bool {
         sizeClass == .compact || width < 720
@@ -62,7 +74,7 @@ struct ProfileHeaderView: View {
 
             if viewModel.profile.isLoggedIn {
                 if FeatureFlag.shareProfile.enabled {
-                    HStack(spacing: 12) {
+                    rowLayout(spacing: 12) {
                         Button {
                             viewModel.accountTapped()
                         } label: {
@@ -126,7 +138,7 @@ struct ProfileHeaderView: View {
     /// Renders the podcast, listening, and saved time stats
     private func stats() -> some View {
         // Stats
-        HStack(alignment: .top) {
+        rowLayout(alignment: .top) {
             let stats = viewModel.stats
 
             // Podcast Count

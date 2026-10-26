@@ -55,6 +55,15 @@ final class PlayerArtworkBackgroundView: UIView {
         copy.artworkView.image = artworkView.image
     }
 
+    /// Shows the blurred image right away, without waiting for `reloadArtwork` to load and blur it.
+    func showArtworkImmediately(_ image: UIImage) {
+        guard let blurredImage = PlayerArtworkBlur.blurredImage(from: image) else { return }
+
+        for view in [self] + copies.allObjects {
+            view.artworkView.image = blurredImage
+        }
+    }
+
     func reloadArtwork(for episode: BaseEpisode?) {
         artworkEpisodeUuid = episode?.uuid
         guard let episode else {

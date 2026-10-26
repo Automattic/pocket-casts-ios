@@ -93,12 +93,15 @@ struct SmartPlaylistRulesSectionView: View {
             Text(rule.title)
                 .foregroundStyle(theme.primaryText01)
                 .font(size: 17, style: .body)
+                .lineLimit(2)
+                .minimumScaleFactor(0.8)
                 .fixedSize(horizontal: false, vertical: true)
 
             Spacer()
 
             inlinePicker(for: rule)
                 .labelsHidden()
+                .layoutPriority(1)
         }
     }
 

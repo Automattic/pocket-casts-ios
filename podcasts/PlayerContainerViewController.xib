@@ -33,7 +33,7 @@
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n9H-5y-Rbm" userLabel="Close Button" customClass="ThemeableUIButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                     <rect key="frame" x="14" y="16" width="44" height="44"/>
-                                    <accessibility key="accessibilityConfiguration" identifier="Close player" label="Close player"/>
+                                    <accessibility key="accessibilityConfiguration" identifier="Close player"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="YgN-8A-XLV"/>
                                         <constraint firstAttribute="width" constant="44" id="tQf-4Q-6eX"/>
@@ -51,7 +51,6 @@
                                 </view>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HBu-bE-aeT" customClass="UpNextButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                     <rect key="frame" x="360" y="16" width="44" height="44"/>
-                                    <accessibility key="accessibilityConfiguration" label="Up Next List"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="Uoj-jj-poH"/>
                                         <constraint firstAttribute="width" constant="44" id="iNo-lG-GYf"/>

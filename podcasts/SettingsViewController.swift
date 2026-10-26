@@ -134,7 +134,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: settingsCellId, for: indexPath) as! TopLevelSettingsCell
-        cell.plusIndicator.isHidden = true
+        cell.showsPlusIndicator = false
 
         let tableRow = tableData[indexPath.section][indexPath.row]
         cell.settingsLabel.text = tableRow.display.text
@@ -143,7 +143,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
 
         switch tableRow {
         case .appearance, .customFiles, .watch:
-            cell.plusIndicator.isHidden = SubscriptionHelper.hasActiveSubscription()
+            cell.showsPlusIndicator = !SubscriptionHelper.hasActiveSubscription()
         default:
             break
         }

@@ -234,6 +234,10 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2)
         ])
 
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (cell: IconSelectorCell, _) in
+            cell.collectionView.collectionViewLayout.invalidateLayout()
+        }
+
         selectedIcon = IconType(iconName: UIApplication.shared.alternateIconName ?? "AppIcon-Default")
 
         if let gridLayout = collectionView.collectionViewLayout as? GridLayout {
@@ -249,9 +253,13 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
         collectionView.collectionViewLayout.invalidateLayout()
     }
 
-    private var numVisibleColoumns = 3 as CGFloat
+    private var numVisibleColoumns: CGFloat {
+        traitCollection.preferredContentSizeCategory.isAccessibilityCategory ? 2 : 3
+    }
     private var itemSpacing = 0 as CGFloat
-    private var maxCellWidth = 124 as CGFloat
+    private var maxCellWidth: CGFloat {
+        traitCollection.preferredContentSizeCategory.isAccessibilityCategory ? 186 : 124
+    }
     var cellHeight: CGFloat {
         cellWidth * 148 / 124
     } // Design: width = 124 height = 148

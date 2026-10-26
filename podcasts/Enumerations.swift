@@ -67,13 +67,13 @@ extension PodcastEpisodeSortOrder {
     var description: String {
         switch self {
         case .titleAtoZ:
-            return L10n.podcastsEpisodeSortTitleAToZ.localizedCapitalized
+            return L10n.podcastsEpisodeSortTitleAToZ
         case .titleZtoA:
-            return L10n.podcastsEpisodeSortTitleZToA.localizedCapitalized
+            return L10n.podcastsEpisodeSortTitleZToA
         case .newestToOldest:
-            return L10n.podcastsEpisodeSortNewestToOldest.localizedCapitalized
+            return L10n.podcastsEpisodeSortNewestToOldest
         case .oldestToNewest:
-            return L10n.podcastsEpisodeSortOldestToNewest.localizedCapitalized
+            return L10n.podcastsEpisodeSortOldestToNewest
         case .shortestToLongest:
             return L10n.podcastsEpisodeSortShortestToLongest
         case .longestToShortest:
