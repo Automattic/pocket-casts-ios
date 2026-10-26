@@ -5,6 +5,7 @@
 - Show a wider mini player with elapsed and remaining time, transcript and bookmark buttons on iPad and other large screens [#5477](https://github.com/Automattic/pocket-casts-ios/pull/5477)
 - Fix the App Icon row cutting off the last visible icon on iPad [#5475](https://github.com/Automattic/pocket-casts-ios/pull/5475)
 - Fix a crash when sharing a Discover list, collection or the Networks grid on iPad [#5459](https://github.com/Automattic/pocket-casts-ios/pull/5459)
+- Fix a crash when the Plus paywall for generated transcripts appears while folding or unfolding iPhone Duo [#5520](https://github.com/Automattic/pocket-casts-ios/pull/5520)
 - Fix the Podcasts list keeping its old order when a sort order is picked right after changing the layout [#5485](https://github.com/Automattic/pocket-casts-ios/pull/5485)
 - Fix the content of the Now Playing tabs not lining up with the tab titles on iPad and other large screens [#5502](https://github.com/Automattic/pocket-casts-ios/pull/5502)
 - Fix the Chapters header turning dark when the list is scrolled [#5507](https://github.com/Automattic/pocket-casts-ios/pull/5507)
@@ -23,6 +24,7 @@
 - Fix refresh, sync and downloads hanging until relaunch after the sync token expires [#5490](https://github.com/Automattic/pocket-casts-ios/pull/5490)
 - Fix the Discover "All Categories" pill running past the screen edge at the largest text sizes [#5504](https://github.com/Automattic/pocket-casts-ios/pull/5504)
 - Show episode titles in the CarPlay Up Next row, so queued episodes from the same podcast can be told apart [#5514](https://github.com/Automattic/pocket-casts-ios/pull/5514)
+- Fix the full player showing a black background while opening it on iOS 18 and earlier [#5519](https://github.com/Automattic/pocket-casts-ios/pull/5519)
 - Fix German capitalization, singular and plural wording, number formatting and untranslated texts in smart playlist rules, playlists, bookmarks, folders, Auto Download, the player, Discover categories and Import [#5511](https://github.com/Automattic/pocket-casts-ios/pull/5511)
 - Fix text breaking mid-word, truncating or not scaling in the Profile, Stats, Create Folder, empty states, episode card, player Details, playlists, paywall and other screens at the largest text sizes [#5512](https://github.com/Automattic/pocket-casts-ios/pull/5512)
 

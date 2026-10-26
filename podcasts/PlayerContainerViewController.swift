@@ -395,7 +395,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         tabsView.tabs = [.nowPlaying]
     }
 
-    private func adjustHeaderConstraintIfNeeded() {
+    func adjustHeaderConstraintIfNeeded() {
         guard let window = view.window else { return }
 
         let requiredHeight = 50 + window.safeAreaInsets.top
