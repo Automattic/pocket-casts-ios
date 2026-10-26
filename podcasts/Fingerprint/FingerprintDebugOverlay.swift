@@ -46,8 +46,8 @@ class FingerprintDebugOverlay: UIView {
         // Fall back to the episode's duration so the playback cursor and tap-to-seek
         // work regardless of fingerprint state.
         let fingerprintDuration = FingerprintTimingManager.shared.totalDuration ?? 0
-        totalDuration = fingerprintDuration > 0 ? fingerprintDuration : PlaybackManager.shared.duration()
-        playbackPosition = PlaybackManager.shared.currentTime()
+        totalDuration = fingerprintDuration > 0 ? fingerprintDuration : PlaybackManager.shared.duration
+        playbackPosition = PlaybackManager.shared.currentTime
         isHighlighting = FingerprintTimingManager.shared.isWithinMatchedContent(forPlaybackTime: playbackPosition)
         statusLabel.text = "\(describe(state: FingerprintTimingManager.shared.state)) · \(isHighlighting ? "🟢 highlighting" : "🔴 suppressed")"
         setNeedsDisplay()

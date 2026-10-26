@@ -263,11 +263,11 @@ class NowPlayingViewModel: Identifiable {
     }
 
     var isTrimSilenceAvailable: Bool {
-        return playbackManager.silenceRemovalAvailable()
+        return playbackManager.isSilenceRemovalAvailable
     }
 
     var isVolumeBoostAvailable: Bool {
-        return playbackManager.volumeBoostAvailable()
+        return playbackManager.isVolumeBoostAvailable
     }
 
     var maxPlaybackSpeed: Double {

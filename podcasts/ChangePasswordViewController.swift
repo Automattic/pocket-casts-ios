@@ -286,10 +286,6 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
         updateButtonState()
     }
 
-    @objc func confirmFieldDidChange() {
-        updateButtonState()
-    }
-
     private func updateButtonState() {
         mainButton.isEnabled = validFields()
         mainButton.buttonStyle = mainButton.isEnabled ? .primaryInteractive01 : .primaryInteractive01Disabled

@@ -67,12 +67,25 @@ extension CarPlaySceneDelegate {
     }
 
     func createUpNextImageItem(episodes: [BaseEpisode]) -> CPListImageRowItem {
-        var images = [UIImage]()
-        for episode in episodes {
-            images.append(CarPlayImageHelper.image(for: episode, maxSize: CPListImageRowItem.maximumImageSize))
+        let item: CPListImageRowItem
+        if #available(iOS 26.0, *) {
+            let elements = episodes.map { episode in
+                CPListImageRowItemRowElement(
+                    image: CarPlayImageHelper.image(for: episode, maxSize: CPListImageRowItemRowElement.maximumImageSize),
+                    title: episode.displayableTitle(),
+                    subtitle: episode.subTitle()
+                )
+            }
+            item = CPListImageRowItem(text: L10n.carplayUpNextQueue, elements: elements, allowsMultipleLines: false)
+        } else {
+            let images = episodes.map { CarPlayImageHelper.image(for: $0, maxSize: CPListImageRowItem.maximumImageSize) }
+            if #available(iOS 17.4, *) {
+                item = CPListImageRowItem(text: L10n.carplayUpNextQueue, images: images, imageTitles: episodes.map { $0.displayableTitle() })
+            } else {
+                item = CPListImageRowItem(text: L10n.carplayUpNextQueue, images: images)
+            }
         }
 
-        let item = CPListImageRowItem(text: L10n.carplayUpNextQueue, images: images)
         item.listImageRowHandler = { [weak self] _, index, completion in
             guard let episode = episodes[safe: index] else { return }
 

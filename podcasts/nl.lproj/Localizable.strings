@@ -2257,8 +2257,6 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>Podcasts doorbladeren</string>
     <key>playlist_manual_create_error_message</key>
     <string>Er is iets fout gegaan bij het aanmaken van je afspeellijst.</string>
-    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
-    <string>Veeg een aflevering naar links om deze aan je playlist toe te voegen.</string>
     <key>playlist_manual_empty_state_title</key>
     <string>Begin met het bouwen van je playlist</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
@@ -2283,8 +2281,6 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>Huidige Hierna vervangen?</string>
     <key>playlist_play_all_sheet_button_title</key>
     <string>Vervangen en afspelen</string>
-    <key>playlist_play_all_sheet_description</key>
-    <string>Als je dit afspeelt, wordt je huidige Hierna vervangen.</string>
     <key>playlist_play_all_sheet_title</key>
     <string>Je Hierna vervangen?</string>
     <key>playlist_play_all_sheet_toggle</key>
@@ -2315,12 +2311,6 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>Alle gevolgde podcasts</string>
     <key>playlist_smart_rule_save_button</key>
     <string>Slimme regel opslaan</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_off</key>
-    <string>Favoriete afleveringen kunnen nog steeds verschijnen als ze overeenkomen met je andere regels.</string>
-    <key>playlist_smart_rule_starred_header_subtitle_toggle_on</key>
-    <string>Neem alleen favoriete afleveringen op die overeenkomen met je andere regels.</string>
-    <key>playlist_smart_rule_starred_header_title</key>
-    <string>Favoriete afleveringen</string>
     <key>playlist_smart_rules_title</key>
     <string>Slimme regels</string>
     <key>playlists</key>

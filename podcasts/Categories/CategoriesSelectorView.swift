@@ -119,7 +119,7 @@ struct CategoriesPillsView: View {
             Analytics.track(.discoverCategoriesPillTapped, properties: ["name": "all", "region": region ?? "none", "id": -1])
         }, label: {
             HStack {
-                Text("All Categories")
+                Text(L10n.discoverAllCategories)
                 Image(systemName: "chevron.down")
             }
         })

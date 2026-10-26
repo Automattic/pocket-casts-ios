@@ -68,7 +68,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     @IBOutlet var buttonsStackView: UIStackView!
     @IBOutlet var downloadBtn: UIButton! {
         didSet {
-            downloadBtn.titleLabel?.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
+            downloadBtn.titleLabel?.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote, maxSizeCategory: .extraExtraExtraLarge)
             downloadBtn.titleLabel?.adjustsFontForContentSizeCategory = true
             downloadBtn.titleLabel?.numberOfLines = 3
             downloadBtn.imageView?.adjustsImageSizeForAccessibilityContentSizeCategory = true
@@ -77,7 +77,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     @IBOutlet var addButton: UIButton! {
         didSet {
-            addButton.titleLabel?.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
+            addButton.titleLabel?.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote, maxSizeCategory: .extraExtraExtraLarge)
             addButton.titleLabel?.adjustsFontForContentSizeCategory = true
             addButton.titleLabel?.numberOfLines = 3
         }
@@ -87,7 +87,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     @IBOutlet var playStatusButton: UIButton! {
         didSet {
-            playStatusButton.titleLabel?.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
+            playStatusButton.titleLabel?.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote, maxSizeCategory: .extraExtraExtraLarge)
             playStatusButton.titleLabel?.adjustsFontForContentSizeCategory = true
             playStatusButton.titleLabel?.numberOfLines = 3
         }
@@ -95,7 +95,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
 
     @IBOutlet var archiveButton: UIButton! {
         didSet {
-            archiveButton.titleLabel?.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
+            archiveButton.titleLabel?.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote, maxSizeCategory: .extraExtraExtraLarge)
             archiveButton.titleLabel?.adjustsFontForContentSizeCategory = true
             archiveButton.titleLabel?.numberOfLines = 3
         }

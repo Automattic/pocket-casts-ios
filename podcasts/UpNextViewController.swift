@@ -412,7 +412,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc func updateTimeRemainingLabel() {
         var totalDuration = PlaybackManager.shared.queue.upNextTotalDuration(includePlayingEpisode: false)
         if let episode = PlaybackManager.shared.currentEpisode {
-            let currentTime = PlaybackManager.shared.currentTime()
+            let currentTime = PlaybackManager.shared.currentTime
             totalDuration += episode.duration.seconds - currentTime - PlaybackManager.shared.deselectedChapterDuration(after: currentTime)
         }
         let time = TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration)
@@ -503,6 +503,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         if rightButtons.count > 1 {
             navigationItem.trailingItemGroups = [UIBarButtonItemGroup(barButtonItems: rightButtons, representativeItem: nil)]
         } else {
+            navigationItem.trailingItemGroups = []
             navigationItem.setRightBarButtonItems(rightButtons, animated: animated)
         }
         navigationItem.setLeftBarButton(leftButton, animated: animated)

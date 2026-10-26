@@ -9,6 +9,12 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     var willAttachPlayer: (() -> Void)?
     var willDeattachPlayer: (() -> Void)?
 
+    /// Only the full screen button rotates a landscape video on a phone, tapping the video leaves the orientation alone.
+    var rotatesToLandscape = false
+
+    /// What the player was in when the video was opened, so opening it doesn't rotate the interface even if the phone is held in landscape.
+    var orientationAtPresentation: UIInterfaceOrientation = .portrait
+
     private var controlsTintColor: UIColor { ThemeColor.contrast01(for: .extraDark) }
 
     @IBOutlet var routePickerView: PCRoutePickerView! {
@@ -310,11 +316,11 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     @objc private func progressUpdated() {
         if timeSlider.isScrubbing() || PlaybackManager.shared.isSeeking { return }
 
-        updateUpTo(upTo: PlaybackManager.shared.currentTime(), duration: PlaybackManager.shared.duration(), moveSlider: true)
+        updateUpTo(upTo: PlaybackManager.shared.currentTime, duration: PlaybackManager.shared.duration, moveSlider: true)
     }
 
     @objc private func trackChanged() {
-        guard PlaybackManager.shared.currentEpisode != nil, PlaybackManager.shared.isCurrentEpisodeVideo() else {
+        guard PlaybackManager.shared.currentEpisode != nil, PlaybackManager.shared.isCurrentEpisodeVideo else {
             dismiss(animated: true, completion: nil)
             return
         }
@@ -385,11 +391,11 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     }
 
     override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
-        isLandscapeVideoOnPhone ? preferredLandscapeOrientation : super.preferredInterfaceOrientationForPresentation
+        isLandscapeVideoOnPhone ? preferredLandscapeOrientation : orientationAtPresentation
     }
 
     private var isLandscapeVideoOnPhone: Bool {
-        isLandscapeVideo && (traitCollection.horizontalSizeClass == .compact || traitCollection.verticalSizeClass == .compact)
+        rotatesToLandscape && isLandscapeVideo && (traitCollection.horizontalSizeClass == .compact || traitCollection.verticalSizeClass == .compact)
     }
 
     /// Asked for before we're presented, while the player is still attached to the video in the player.

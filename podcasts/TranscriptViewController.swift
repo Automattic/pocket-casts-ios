@@ -179,8 +179,8 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         if FeatureFlag.generatedTranscripts.enabled, value {
             // A tab has no row of buttons above the banner.
             let bannerTop = isPlayerTab ? -44.0 : 0.0
-            transcriptViewTopConstraint?.constant = 80.0 + topMargin + bannerTop
-            topGradientTopConstraint?.constant = 100.0 + topMargin + bannerTop
+            transcriptViewTopConstraint?.constant = 104.0 + topMargin + bannerTop
+            topGradientTopConstraint?.constant = 124.0 + topMargin + bannerTop
             topGradientHeightConstraint?.constant = 30.0
         } else {
             transcriptViewTopConstraint?.constant = 0.0 + topMargin
@@ -830,8 +830,13 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private func updateTextMargins() {
         let readableFrame = view.readableContentGuide.layoutFrame
         guard !readableFrame.isEmpty else { return }
-        let leftMargin = readableFrame.minX + Sizes.textMargin
-        let rightMargin = view.bounds.maxX - readableFrame.maxX + Sizes.textMargin
+        var leftMargin = readableFrame.minX + Sizes.textMargin
+        var rightMargin = view.bounds.maxX - readableFrame.maxX + Sizes.textMargin
+        if isPlayerTab {
+            let margin = PlayerTabsView.largeScreenTitleInset - transcriptView.textContainer.lineFragmentPadding
+            leftMargin = margin
+            rightMargin = margin
+        }
         var topInset = 0.75 * Sizes.topGradientHeight
         if FeatureFlag.generatedTranscripts.enabled,
            transcriptManager?.hasGeneratedTranscripts == true {
@@ -968,7 +973,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     @objc private func updateTranscriptPosition() {
         guard let transcript else { return }
 
-        let rawTime = playbackManager.currentTime()
+        let rawTime = playbackManager.currentTime
 
         // Highlighting is opt-in: only paint while playback is confidently on
         // matched content. Off it — dynamic ads, unmatched audio, regions not yet
@@ -1136,7 +1141,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             return
         }
 
-        let fromPosition = playbackManager.currentTime()
+        let fromPosition = playbackManager.currentTime
         playbackManager.seekTo(time: seekTime)
         syncedSeeksCount += 1
         track(.syncedTranscriptsSeekUsed, properties: [

@@ -305,14 +305,6 @@ enum AnalyticsHelper {
         }
     }
 
-    // MARK: - Account Creation
-
-    extension AnalyticsHelper {
-        static func createAccountDismissed() {
-            logEvent("close_account_missing")
-        }
-    }
-
     // MARK: - Folders
 
     extension AnalyticsHelper {

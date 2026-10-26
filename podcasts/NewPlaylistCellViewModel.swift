@@ -19,12 +19,4 @@ class NewPlaylistCellViewModel: ObservableObject {
     @Published var playlistName: String = ""
     @Published var isSmartPlaylist: Bool = false
     @Published var displayType: DisplayType = .count
-
-    var isBelowEpisodeLimit: Bool {
-#if DEBUG
-        episodesCount < Settings.debugPlaylistsLimit
-#else
-        episodesCount < Constants.Limits.maxFilterItems
-#endif
-    }
 }

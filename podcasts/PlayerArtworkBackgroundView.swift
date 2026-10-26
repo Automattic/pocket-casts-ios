@@ -2,7 +2,7 @@ import CoreImage
 import PocketCastsDataModel
 import UIKit
 
-/// The large screen player background: the blurred and scaled up artwork, under a layer of the
+/// The player background: the blurred and scaled up artwork, under a layer of the
 /// player's dark artwork-based color at 70% opacity.
 final class PlayerArtworkBackgroundView: UIView {
     private let artworkView = UIImageView()
@@ -53,6 +53,15 @@ final class PlayerArtworkBackgroundView: UIView {
         copy.backgroundColor = backgroundColor
         copy.tintView.backgroundColor = tintView.backgroundColor
         copy.artworkView.image = artworkView.image
+    }
+
+    /// Shows the blurred image right away, without waiting for `reloadArtwork` to load and blur it.
+    func showArtworkImmediately(_ image: UIImage) {
+        guard let blurredImage = PlayerArtworkBlur.blurredImage(from: image) else { return }
+
+        for view in [self] + copies.allObjects {
+            view.artworkView.image = blurredImage
+        }
     }
 
     func reloadArtwork(for episode: BaseEpisode?) {

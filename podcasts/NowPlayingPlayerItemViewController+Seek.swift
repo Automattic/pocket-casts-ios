@@ -18,7 +18,7 @@ extension NowPlayingPlayerItemViewController: TimeSliderDelegate {
     }
 
     func sliderDidProvisionallySlide(to time: TimeInterval) {
-        updateUpTo(upTo: time, duration: PlaybackManager.shared.duration(), moveSlider: false)
+        updateUpTo(upTo: time, duration: PlaybackManager.shared.duration, moveSlider: false)
         updateProvisionalChapterInfoForTime(time: time)
     }
 

@@ -29,6 +29,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @IBOutlet var skipBackBtn: SkipButton! {
         didSet {
             skipBackBtn.skipBack = true
+            skipBackBtn.accessibilityLabel = L10n.skipBack
             skipBackBtn.semanticContentAttribute = .playback
         }
     }
@@ -36,6 +37,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @IBOutlet var skipFwdBtn: SkipButton! {
         didSet {
             skipFwdBtn.skipBack = false
+            skipFwdBtn.accessibilityLabel = L10n.skipForward
             skipFwdBtn.semanticContentAttribute = .playback
             skipFwdBtn.longPressed = { [weak self] in
                 self?.skipForwardLongPressed()
@@ -53,6 +55,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet var episodeImage: UIImageView! {
         didSet {
+            episodeImage.accessibilityLabel = L10n.accessibilityPodcastArtwork
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
             tapGesture.numberOfTapsRequired = 1
             tapGesture.numberOfTouchesRequired = 1
@@ -112,7 +115,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             floatingVideoView.addGestureRecognizer(tapGesture)
 
             floatingVideoView.onFullScreenTapped = { [weak self] in
-                self?.videoTapped()
+                self?.showVideo(rotatesToLandscape: true)
             }
         }
     }
@@ -289,6 +292,9 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         setUpArtworkImageView()
         letTitleInfoGrow()
         limitShelfWidth()
+        if usesLargeScreenStyle {
+            playPauseBtn.useSymbolImage(pointSize: 120, scalesToFit: true)
+        }
 
         #if !APPCLIP
         let upNextPan = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler(_:)))
@@ -463,6 +469,10 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             titleInfoView.heightAnchor.constraint(greaterThanOrEqualToConstant: fixedHeight.constant),
             titleView.topAnchor.constraint(greaterThanOrEqualTo: episodeInfoView.topAnchor, constant: 12)
         ])
+
+        let compactControlsHeight = bottomControlsStackView.heightAnchor.constraint(equalToConstant: 0)
+        compactControlsHeight.priority = .defaultHigh
+        compactControlsHeight.isActive = true
     }
 
     /// Keeps the shelf in the large screen player from stretching across a wide Now Playing, as
@@ -606,7 +616,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         if GeneratedChapterSeeker.isEnabled {
             // Clear any spinner left over from a resolve this tap supersedes.
             resetChapterSkipResolving()
-            if let previous = PlaybackManager.shared.previousPlayableChapter() {
+            if let previous = PlaybackManager.shared.previousPlayableChapter {
                 PlaybackManager.shared.trackChapterSkippedIfNeeded(to: previous)
                 GeneratedChapterSeeker.seek(
                     to: previous,
@@ -629,7 +639,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         if GeneratedChapterSeeker.isEnabled {
             // Clear any spinner left over from a resolve this tap supersedes.
             resetChapterSkipResolving()
-            guard let next = PlaybackManager.shared.nextPlayableChapter() else {
+            guard let next = PlaybackManager.shared.nextPlayableChapter else {
                 // No next chapter — respect the producer's end of the last chapter
                 // (the same fallback `skipToNextChapter` makes). This isn't a
                 // chapter start, so there's nothing to fingerprint-resolve.
@@ -694,7 +704,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     #endif
 
     @objc private func chapterLinkTapped() {
-        let chapters = PlaybackManager.shared.currentChapters()
+        let chapters = PlaybackManager.shared.currentChapters
         guard let urlString = chapters.url, let url = URL(string: urlString) else { return }
 
         #if APPCLIP
@@ -718,10 +728,16 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     @objc private func videoTapped() {
+        showVideo(rotatesToLandscape: false)
+    }
+
+    private func showVideo(rotatesToLandscape: Bool) {
         guard PlaybackManager.shared.currentEpisode != nil, presentedViewController == nil else { return }
 
-        if PlaybackManager.shared.shouldRenderVideo() {
+        if PlaybackManager.shared.shouldRenderVideo {
             let videoController = VideoViewController()
+            videoController.rotatesToLandscape = rotatesToLandscape
+            videoController.orientationAtPresentation = view.window?.windowScene?.interfaceOrientation ?? .portrait
             videoViewController = videoController
             videoViewController?.modalPresentationStyle = .fullScreen
             if #available(iOS 18.0, *) {
@@ -788,9 +804,13 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     private func toggleTranscript() {
         let isShowing = displayTranscript
 
-        let transitionBackground = usesLargeScreenStyle ? PlayerColorHelper.playerBackgroundColor01() : view.backgroundColor
-        skipBackBtn.prepareForAnimateTransition(withBackground: transitionBackground)
-        skipFwdBtn.prepareForAnimateTransition(withBackground: transitionBackground)
+        if usesLargeScreenStyle {
+            skipBackBtn.prepareForAnimateTransitionReplacingAnimation()
+            skipFwdBtn.prepareForAnimateTransitionReplacingAnimation()
+        } else {
+            skipBackBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
+            skipFwdBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
+        }
         playPauseBtn.prepareForAnimateTransition()
 
         playerContainer?.transcriptContainerView.layer.opacity = isShowing ? 0 : 1

@@ -76,6 +76,7 @@ struct CategoryButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.callout.weight(.medium))
+            .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
             .fixedSize(horizontal: true, vertical: false)
             .padding(.horizontal, cornerStyle.horizontalPadding)
             .padding(.vertical, Constants.Padding.vertical)

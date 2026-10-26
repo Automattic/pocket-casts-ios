@@ -152,6 +152,11 @@ class NewPlaylistViewController: PCViewController {
         navigationController?.navigationBar.standardAppearance = appearance
     }
 
+    override func handleThemeChanged() {
+        view.backgroundColor = AppTheme.viewBackgroundColor
+        setupNavBar()
+    }
+
     private func setupContent() {
         isModalInPresentation = true
 

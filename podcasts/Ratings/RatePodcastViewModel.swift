@@ -13,8 +13,6 @@ class RatePodcastViewModel: ObservableObject {
 
     @Published var isSubmitting: Bool = false
 
-    @Published var showConfirmation: Bool = false
-
     @Published var anErrorOccurred: Bool = false
 
     @Published var stars: Double = 0 {

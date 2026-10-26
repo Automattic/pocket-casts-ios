@@ -126,6 +126,7 @@ class PlaylistPreviewViewController: PCViewController {
     }
 
     override func handleThemeChanged() {
+        view.backgroundColor = AppTheme.viewBackgroundColor
         setupNavBar()
     }
 
