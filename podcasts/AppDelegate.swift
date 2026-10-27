@@ -287,6 +287,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let completion = BackgroundRefreshCompletion(task: task)
         task.expirationHandler = {
             FileLog.shared.addMessage("Background refresh timed out after \(startDate.elapsedTimeDescription)")
+            guard FeatureFlag.refreshImprovements.enabled else { return }
+
             RefreshManager.shared.cancelAllRefreshes()
             completion.complete(success: false)
         }

@@ -43,10 +43,11 @@ public class RefreshManager {
         if !SyncManager.isUserLoggedIn() { return }
 
         // if the user has an active subscription, there might be custom episodes in their Up Next, so grab those first
+        let queue = FeatureFlag.refreshImprovements.enabled ? upNextQueue : refreshQueue
         if SubscriptionHelper.hasActiveSubscription() {
-            upNextQueue.addOperation(RetrieveCustomFilesTask())
+            queue.addOperation(RetrieveCustomFilesTask())
         }
-        upNextQueue.addOperation(UpNextSyncTask())
+        queue.addOperation(UpNextSyncTask())
     }
 
 
@@ -84,7 +85,7 @@ public class RefreshManager {
     public func refreshPodcasts(forceEvenIfRefreshedRecently: Bool = false) {
         #if !os(watchOS)
         var refreshID: UUID?
-        if !forceEvenIfRefreshedRecently {
+        if !forceEvenIfRefreshedRecently, FeatureFlag.refreshImprovements.enabled {
             guard let id = runningRefresh.begin(completion: nil) else {
                 FileLog.shared.addMessage("Refresh - Joined the refresh that's already running")
                 return
@@ -215,9 +216,13 @@ public class RefreshManager {
 
     public func refreshPodcasts(completion: @escaping (RefreshFetchResult) -> Void) {
         #if !os(watchOS)
-        guard let refreshID = runningRefresh.begin(completion: completion) else {
-            FileLog.shared.addMessage("Refresh - Joined the refresh that's already running")
-            return
+        var refreshID: UUID?
+        if FeatureFlag.refreshImprovements.enabled {
+            guard let id = runningRefresh.begin(completion: completion) else {
+                FileLog.shared.addMessage("Refresh - Joined the refresh that's already running")
+                return
+            }
+            refreshID = id
         }
         #endif
 
@@ -231,7 +236,11 @@ public class RefreshManager {
             }
             #else
             self?.performRefresh(podcasts: podcasts) { [weak self] result in
-                self?.runningRefresh.finish(id: refreshID, result: result)
+                if let refreshID {
+                    self?.runningRefresh.finish(id: refreshID, result: result)
+                } else {
+                    completion(result)
+                }
             }
             #endif
         }

@@ -26,12 +26,16 @@ class SyncOperation: Operation, @unchecked Sendable {
             NotificationCenter.default.post(name: ServerNotifications.syncStarted, object: nil)
             let startDate = Date()
 
-            // Up Next syncs share a queue, so this one doesn't overlap one started by an Up Next change
             var upNextTasks: [ApiBaseTask] = [UpNextSyncTask()]
             if SubscriptionHelper.hasActiveSubscription() { upNextTasks.insert(RetrieveCustomFilesTask(), at: 0) }
-            upNextTasks.forEach { $0.logsDuration = true }
-            upNextTasksLock.withLock { self.upNextTasks = upNextTasks }
-            RefreshManager.shared.upNextQueue.addOperations(upNextTasks, waitUntilFinished: true)
+            if FeatureFlag.refreshImprovements.enabled {
+                // Up Next syncs share a queue, so this one doesn't overlap one started by an Up Next change
+                upNextTasks.forEach { $0.logsDuration = true }
+                upNextTasksLock.withLock { self.upNextTasks = upNextTasks }
+                RefreshManager.shared.upNextQueue.addOperations(upNextTasks, waitUntilFinished: true)
+            } else {
+                upNextTasks.forEach(addTimedOperation)
+            }
 
             let syncTask = SyncTask()
             addTimedOperation(syncTask)
