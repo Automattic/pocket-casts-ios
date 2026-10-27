@@ -263,6 +263,16 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show the synced transcript timing debug overlay at the bottom of the transcript (debug builds only)
     case transcriptDebugOverlay
 
+    /// Sync Up Next, episodes, history and settings while the podcast refresh runs, instead of after it
+    case syncBeforeRefresh
+
+    /// Check followed podcasts for new episodes with several smaller requests sent at the same time
+    case refreshPodcastsInBatches
+
+    /// Save the episodes a refresh finds in one transaction, reload only the changed podcast into the podcast cache,
+    /// join a refresh that's already running, and stop the background refresh when its time runs out
+    case refreshImprovements
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -447,6 +457,12 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .transcriptDebugOverlay:
             false
+        case .syncBeforeRefresh:
+            true
+        case .refreshPodcastsInBatches:
+            BuildEnvironment.current == .debug
+        case .refreshImprovements:
+            true
         }
     }
 

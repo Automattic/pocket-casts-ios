@@ -280,15 +280,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    private func handleAppRefresh(task: BGTask) {
+    private func handleAppRefresh(task: BackgroundRefreshTask) {
         scheduleNextBackgroundRefresh()
 
+        let startDate = Date()
+        let completion = BackgroundRefreshCompletion(task: task)
         task.expirationHandler = {
-            FileLog.shared.addMessage("Background refresh timed out")
+            FileLog.shared.addMessage("Background refresh timed out after \(startDate.elapsedTimeDescription)")
+            guard FeatureFlag.refreshImprovements.enabled else { return }
+
+            RefreshManager.shared.cancelAllRefreshes()
+            completion.complete(success: false)
         }
 
         RefreshManager.shared.refreshPodcasts(completion: { refreshFetchResult in
-            task.setTaskCompleted(success: refreshFetchResult != .failed)
+            FileLog.shared.addMessage("Background refresh finished in \(startDate.elapsedTimeDescription) with result \(refreshFetchResult)")
+            completion.complete(success: refreshFetchResult != .failed)
         })
         badgeHelper.updateBadge()
     }
@@ -423,5 +430,34 @@ struct SentryLogger: ErrorLogger {
     #if os(iOS)
     CrashLoggingAdapter.shared?.crashLogging?.logError(error, tags: context ?? [:], level: .warning)
     #endif
+    }
+}
+
+/// The parts of a `BGTask` the background refresh uses.
+protocol BackgroundRefreshTask: AnyObject {
+    var expirationHandler: (() -> Void)? { get set }
+    func setTaskCompleted(success: Bool)
+}
+
+extension BGTask: BackgroundRefreshTask {}
+
+/// Completes a background task once, whether the refresh finishes or the task expires first.
+private final class BackgroundRefreshCompletion: @unchecked Sendable {
+    private let task: BackgroundRefreshTask
+    private let lock = NSLock()
+    private var isCompleted = false
+
+    init(task: BackgroundRefreshTask) {
+        self.task = task
+    }
+
+    func complete(success: Bool) {
+        let shouldComplete = lock.withLock {
+            defer { isCompleted = true }
+            return !isCompleted
+        }
+        if shouldComplete {
+            task.setTaskCompleted(success: success)
+        }
     }
 }
