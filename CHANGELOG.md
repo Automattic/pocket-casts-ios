@@ -1,5 +1,6 @@
 8.25
 -----
+- Sync Up Next, listening progress and settings without waiting for new episodes to load, and save new episodes much faster in large libraries [#5527](https://github.com/Automattic/pocket-casts-ios/pull/5527)
 
 
 8.24
