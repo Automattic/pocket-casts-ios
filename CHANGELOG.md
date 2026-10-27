@@ -1,5 +1,6 @@
 8.25
 -----
+- Fix the episode details screen showing the podcast cover when episode artwork is enabled and available [#5430](https://github.com/Automattic/pocket-casts-ios/pull/5430)
 
 
 8.24
@@ -43,7 +44,6 @@
 
 8.23
 -----
-- Fix the episode details screen showing the podcast cover when episode artwork is enabled and available
 - Add initial support for iPhone Duo
 - Show multiple columns in the Discover list sections on iPad and other wide layouts [#5384](https://github.com/Automattic/pocket-casts-ios/pull/5384)
 - Use the artwork background in the Now Playing screen and its transcript on all iOS versions [#5464](https://github.com/Automattic/pocket-casts-ios/pull/5464)
