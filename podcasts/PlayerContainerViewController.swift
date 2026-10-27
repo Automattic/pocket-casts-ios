@@ -11,10 +11,15 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     }
 
     #if APPCLIP
-    @IBOutlet var upNextBtn: UIButton!
+    @IBOutlet var upNextBtn: UIButton! {
+        didSet {
+            upNextBtn.accessibilityLabel = L10n.accessibilityUpNextList
+        }
+    }
     #else
     @IBOutlet var upNextBtn: UpNextButton! {
         didSet {
+            upNextBtn.accessibilityLabel = L10n.accessibilityUpNextList
             upNextBtn.themeOverride = .dark
             upNextBtn.iconColor = AppTheme.colorForStyle(.playerContrast01)
         }
@@ -41,9 +46,51 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     @IBOutlet weak var transcriptContainerView: UIView!
 
+    /// Whether the player paints the blurred artwork background and its items are transparent
+    /// over it, which is always, except in the App Clip.
+    let usesArtworkStyle = PlayerContainerViewController.isArtworkStyleAvailable
+
+    static var isArtworkStyleAvailable: Bool {
+        #if APPCLIP
+        return false
+        #else
+        return true
+        #endif
+    }
+
+    /// Whether the player uses the large screen layout: Now Playing and the tabs side by side
+    /// in a `UIArrangementViewController` when there's room.
+    let usesLargeScreenLayout = PlayerContainerViewController.isLargeScreenLayoutAvailable
+
+    static var isLargeScreenLayoutAvailable: Bool {
+        #if APPCLIP
+        return false
+        #else
+        guard FeatureFlag.largeScreenNowPlaying.enabled else { return false }
+        if #available(iOS 27.1, *) {
+            return true
+        }
+        return false
+        #endif
+    }
+
+    /// The largest text size of the transcript and the chapters in the large screen layout.
+    static let largeScreenMaximumContentSizeCategory = UIContentSizeCategory.accessibilityExtraLarge
+
+    #if !APPCLIP
+    /// The `PlayerLargeScreenLayout` when `usesLargeScreenLayout` is on.
+    var largeScreenLayoutStorage: AnyObject?
+
+    let artworkBackground = PlayerArtworkBackgroundView()
+    /// A copy of the background under the transcript that covers Now Playing.
+    let transcriptBackground = PlayerArtworkBackgroundView()
+    var transcriptBackgroundConstraints: [NSLayoutConstraint] = []
+    #endif
+
     lazy var nowPlayingItem: NowPlayingPlayerItemViewController = {
         let item = NowPlayingPlayerItemViewController()
         item.containerDelegate = self
+        item.usesLargeScreenStyle = usesArtworkStyle
         item.view.translatesAutoresizingMaskIntoConstraints = false
 
         return item
@@ -52,6 +99,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     #if !APPCLIP
     lazy var showNotesItem: ShowNotesPlayerItemViewController = {
         let item = ShowNotesPlayerItemViewController()
+        item.usesLargeScreenStyle = usesArtworkStyle
         item.scrollViewHandler = self
         item.containerDelegate = self
         item.view.translatesAutoresizingMaskIntoConstraints = false
@@ -61,9 +109,13 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     lazy var chaptersItem: ChaptersViewController = {
         let item = ChaptersViewController()
+        item.usesLargeScreenStyle = usesArtworkStyle
         item.scrollViewHandler = self
         item.containerDelegate = self
         item.view.translatesAutoresizingMaskIntoConstraints = false
+        if usesLargeScreenLayout {
+            item.view.maximumContentSizeCategory = Self.largeScreenMaximumContentSizeCategory
+        }
 
         return item
     }()
@@ -84,6 +136,10 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         let item = TranscriptViewController(playbackManager: playbackManager)
 
         item.view.translatesAutoresizingMaskIntoConstraints = false
+        item.usesLargeScreenStyle = usesArtworkStyle
+        if usesLargeScreenLayout {
+            item.view.maximumContentSizeCategory = Self.largeScreenMaximumContentSizeCategory
+        }
         item.scrollViewHandler = self
         item.containerDelegate = self
         return item
@@ -108,6 +164,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     @IBOutlet var closeBtn: ThemeableUIButton! {
         didSet {
             closeBtn.style = .playerContrast02
+            closeBtn.accessibilityLabel = L10n.accessibilityClosePlayer
         }
     }
 
@@ -163,6 +220,9 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
             transcriptsItem.didDisappear()
             generatedTranscriptsPremiumOverlay.didDisappear()
         }
+        if #available(iOS 27.1, *) {
+            largeScreenViewDidDisappear()
+        }
         #endif
     }
 
@@ -170,6 +230,12 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         super.viewDidLayoutSubviews()
 
         adjustHeaderConstraintIfNeeded()
+        #if !APPCLIP
+        if #available(iOS 27.1, *) {
+            updateLargeScreenLayoutIfNeeded()
+        }
+        updateTranscriptBackground()
+        #endif
         adjustPlayerNoSlidingRegion()
     }
 
@@ -242,6 +308,14 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         nowPlayingItem.displayTranscript = false
     }
 
+    /// Selects the transcript tab, which only exists next to Now Playing in the large screen
+    /// layout. Returns `false` when there's no such tab.
+    func showTranscriptTab() -> Bool {
+        guard let index = tabsView.tabs.firstIndex(of: .transcript) else { return false }
+        didSwitchToTab(index: index)
+        return true
+    }
+
     // MARK: - PlayerTabDelegate
 
     func didSwitchToTab(index: Int) {
@@ -295,6 +369,14 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     }
 
     private func setupPlayer() {
+        #if !APPCLIP
+        setUpArtworkBackground()
+        if #available(iOS 27.1, *), usesLargeScreenLayout {
+            setUpLargeScreenLayout()
+            return
+        }
+        #endif
+
         nowPlayingItem.willBeAddedToPlayer()
         mainScrollView.addSubview(nowPlayingItem.view)
         addChild(nowPlayingItem)
@@ -313,7 +395,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         tabsView.tabs = [.nowPlaying]
     }
 
-    private func adjustHeaderConstraintIfNeeded() {
+    func adjustHeaderConstraintIfNeeded() {
         guard let window = view.window else { return }
 
         let requiredHeight = 50 + window.safeAreaInsets.top
@@ -323,8 +405,19 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         }
     }
 
+    /// Whether the Now Playing page is on screen: always next to the tabs in the large screen
+    /// split, otherwise only while its tab is selected.
+    var isNowPlayingVisible: Bool {
+        #if !APPCLIP
+        if #available(iOS 27.1, *), isShowingLargeScreenSplit {
+            return true
+        }
+        #endif
+        return tabsView.currentTab == 0
+    }
+
     func adjustPlayerNoSlidingRegion() {
-        if tabsView.currentTab == 0 {
+        if tabsView.tabs[safe: tabsView.currentTab] == .nowPlaying {
             let sliderRegion = mainScrollView.convert(nowPlayingItem.timeSlider.frame, from: nowPlayingItem.timeSlider.superview)
             // the slider has a large region for the popup that you get when interacting with it, which we don't need to block off (hence the 30pt top offset), and since fingers are imprecise we go 20pt lower too
             let adjustedRegion = sliderRegion.inset(by: UIEdgeInsets(top: 30, left: -10, bottom: -20, right: -10))
@@ -347,6 +440,13 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
     // MARK: - Hide/Show tabs
 
     func scrollView(isEnabled: Bool) {
+        var isEnabled = isEnabled
+        #if !APPCLIP
+        if #available(iOS 27.1, *), isShowingLargeScreenSplit {
+            // The transcript only covers Now Playing, so the tabs next to it keep paging.
+            isEnabled = true
+        }
+        #endif
         mainScrollView.isScrollEnabled = isEnabled
         view.layoutIfNeeded()
     }
@@ -355,10 +455,15 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     #if !APPCLIP
     func showTranscript() {
-        addChild(transcriptsItem)
+        var transcriptParent: UIViewController = self
+        if #available(iOS 27.1, *), let largeScreenTranscriptParent {
+            transcriptParent = largeScreenTranscriptParent
+        }
+        transcriptParent.addChild(transcriptsItem)
         transcriptContainerView.addSubview(transcriptsItem.view)
         transcriptsItem.view.anchorToAllSidesOf(view: transcriptContainerView)
-        transcriptsItem.didMove(toParent: self)
+        transcriptsItem.didMove(toParent: transcriptParent)
+        updateTranscriptBackground()
         transcriptsItem.willBeAddedToPlayer()
         transcriptsItem.themeDidChange()
         transcriptsItem.showGeneratedTranscriptsPremiumOverlay = { [weak self] in
@@ -399,10 +504,56 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     private func configureTranscriptView() {
         transcriptContainerView.bottomAnchor.constraint(equalTo: nowPlayingItem.bottomControlsStackView.topAnchor).isActive = true
-        transcriptContainerView.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
+        coverWithTranscriptBackground()
 
         transcriptContainerView.addSubview(transcriptsItem.view)
         transcriptsItem.view.anchorToAllSidesOf(view: transcriptContainerView)
+    }
+
+    // MARK: - Artwork Background
+
+    private func setUpArtworkBackground() {
+        artworkBackground.translatesAutoresizingMaskIntoConstraints = false
+        view.insertSubview(artworkBackground, at: 0)
+        artworkBackground.anchorToAllSidesOf(view: view)
+        tabsView.fadesEdgesWithMask = true
+
+        addCustomObserver(.episodeEmbeddedArtworkLoaded, selector: #selector(artworkDidLoad))
+    }
+
+    func updateArtworkBackground() {
+        artworkBackground.update(episode: PlaybackManager.shared.currentEpisode, tintColor: PlayerColorHelper.playerBackgroundColor01())
+    }
+
+    @objc private func artworkDidLoad() {
+        artworkBackground.reloadArtwork(for: PlaybackManager.shared.currentEpisode)
+    }
+
+    /// The transcript covers Now Playing with a copy of the player background, not a solid color.
+    func coverWithTranscriptBackground() {
+        NSLayoutConstraint.deactivate(transcriptBackgroundConstraints)
+        transcriptBackgroundConstraints = []
+        transcriptBackground.translatesAutoresizingMaskIntoConstraints = false
+        transcriptContainerView.clipsToBounds = true
+        transcriptContainerView.backgroundColor = .clear
+        transcriptContainerView.insertSubview(transcriptBackground, at: 0)
+        artworkBackground.addCopy(transcriptBackground)
+    }
+
+    /// Lines the transcript's copy of the player background up with the original, once the
+    /// transcript is on screen and they share a view hierarchy.
+    func updateTranscriptBackground() {
+        guard transcriptBackgroundConstraints.isEmpty,
+              transcriptContainerView.window != nil,
+              transcriptBackground.superview != nil else { return }
+
+        transcriptBackgroundConstraints = [
+            transcriptBackground.leadingAnchor.constraint(equalTo: artworkBackground.leadingAnchor),
+            transcriptBackground.topAnchor.constraint(equalTo: artworkBackground.topAnchor),
+            transcriptBackground.widthAnchor.constraint(equalTo: artworkBackground.widthAnchor),
+            transcriptBackground.heightAnchor.constraint(equalTo: artworkBackground.heightAnchor)
+        ]
+        NSLayoutConstraint.activate(transcriptBackgroundConstraints)
     }
     #endif
 }
@@ -423,6 +574,11 @@ private extension PlayerContainerViewController {
         if tabsView.currentTab != index {
             tabsView.currentTab = index
         }
+        #if !APPCLIP
+        if #available(iOS 27.1, *) {
+            rememberLargeScreenTab()
+        }
+        #endif
 
         let offset = CGFloat(index) * mainScrollView.frame.width
 

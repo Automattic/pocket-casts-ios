@@ -3,32 +3,32 @@ import PocketCastsDataModel
 
 @objc protocol PlaybackProtocol: AnyObject {
     func loadEpisode(_ episode: BaseEpisode)
-    func playing() -> Bool
-    func buffering() -> Bool
-    func futureBufferAvailable() -> TimeInterval
+    var isPlaying: Bool { get }
+    var isBuffering: Bool { get }
+    var futureBufferAvailable: TimeInterval { get }
     func play(completion: (() -> Void)?)
     func pause()
-    func playbackRate() -> Double
+    var playbackRate: Double { get }
     func setPlaybackRate(_ rate: Double)
 
     func seekTo(_ time: TimeInterval, completion: (() -> Void)?)
-    func currentTime() -> TimeInterval
-    func duration() -> TimeInterval
+    var currentTime: TimeInterval { get }
+    var duration: TimeInterval { get }
 
     func endPlayback(permanent: Bool)
 
     func effectsDidChange()
 
-    func isReadyToPlay() -> Bool
+    var isReadyToPlay: Bool { get }
 
-    func supportsGoogleCast() -> Bool
+    var supportsGoogleCast: Bool { get }
 
-    func shouldBePlaying() -> Bool
+    var shouldBePlaying: Bool { get }
 
     func routeDidChange(shouldPause: Bool)
     func interruptionDidStart()
 
-    func internalPlayerForVideoPlayback() -> AVPlayer?
+    var internalPlayerForVideoPlayback: AVPlayer? { get }
 
     func setVolume(_ volume: Float)
 

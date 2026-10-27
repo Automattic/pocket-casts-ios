@@ -3,17 +3,17 @@ import SwiftUI
 
 struct ThemeSelectorView: View {
     @EnvironmentObject var theme: Theme
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var title: String
     var onThemeSelected: (Theme.ThemeType) -> Void
     var dismissAction: () -> Void
     @State var selectedTheme: Theme.ThemeType
 
-    let columns = [
-        GridItem(.flexible(), alignment: .top),
-        GridItem(.flexible(), alignment: .top),
-        GridItem(.flexible(), alignment: .top)
-    ]
+    private var columns: [GridItem] {
+        let count = dynamicTypeSize.isAccessibilitySize ? 2 : 3
+        return Array(repeating: GridItem(.flexible(), alignment: .top), count: count)
+    }
 
     var body: some View {
         ZStack {
@@ -75,7 +75,8 @@ struct ThemePreviewView: View {
                 .textStyle(PrimaryText())
         }
         .opacity(isLocked ? 0.5 : 1)
-        .accessibilityLabel(isLocked ? L10n.accessibilityPlusOnly : themeType.description)
+        .accessibilityLabel(themeType.description)
+        .accessibilityHint(isLocked ? L10n.accessibilityPlusOnly : "")
     }
 }
 

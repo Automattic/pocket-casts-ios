@@ -24,11 +24,14 @@ class ChaptersViewController: PlayerItemViewController {
         return header
     }()
 
+    private var tableTopBelowHeader: NSLayoutConstraint?
+    private var tableTopAtEdge: NSLayoutConstraint?
+
     lazy var playbackManager = PlaybackManager.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        chaptersTable.sectionHeaderTopPadding = 0
+        setUpHeader()
 
         registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (controller: ChaptersViewController, _) in
             controller.updateSize()
@@ -36,8 +39,12 @@ class ChaptersViewController: PlayerItemViewController {
     }
 
     override func willBeAddedToPlayer() {
+        if usesLargeScreenStyle {
+            additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
+        }
+        header.usesLargeScreenStyle = usesLargeScreenStyle
         updateColors()
-        header.update()
+        updateHeader()
         addObservers()
     }
 
@@ -53,7 +60,7 @@ class ChaptersViewController: PlayerItemViewController {
     }
 
     func scrollToCurrentlyPlayingChapter(animated: Bool) {
-        let currentChapter = PlaybackManager.shared.currentChapters()
+        let currentChapter = PlaybackManager.shared.currentChapters
 
         guard let index = playbackManager.index(for: currentChapter) else {
             return
@@ -77,7 +84,7 @@ class ChaptersViewController: PlayerItemViewController {
     @objc private func update() {
         chaptersTable.reloadData()
         updateColors()
-        header.update()
+        updateHeader()
     }
 
     @objc private func enableOrDisableChapterSelectionIfUserJustPurchased() {
@@ -90,9 +97,40 @@ class ChaptersViewController: PlayerItemViewController {
     }
 
     private func updateColors() {
-        view.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
-        chaptersTable.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
-        header.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
+        let backgroundColor = usesLargeScreenStyle ? .clear : PlayerColorHelper.playerBackgroundColor01()
+        view.backgroundColor = backgroundColor
+        chaptersTable.backgroundColor = backgroundColor
+    }
+
+    /// The header sits above the table instead of being its section header, so the chapters
+    /// scroll up to its bottom edge and not under it, and it needs no fill to hide them.
+    private func setUpHeader() {
+        header.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(header)
+
+        for constraint in view.constraints where constraint.firstItem === chaptersTable && constraint.firstAttribute == .top {
+            constraint.isActive = false
+        }
+        tableTopBelowHeader = chaptersTable.topAnchor.constraint(equalTo: header.bottomAnchor)
+        tableTopAtEdge = chaptersTable.topAnchor.constraint(equalTo: view.topAnchor)
+
+        NSLayoutConstraint.activate([
+            header.topAnchor.constraint(equalTo: view.topAnchor),
+            header.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            header.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+        updateHeaderVisibility()
+    }
+
+    private func updateHeader() {
+        header.update()
+        updateHeaderVisibility()
+    }
+
+    private func updateHeaderVisibility() {
+        header.isHidden = !shouldShowDeselectChaptersHeader
+        tableTopBelowHeader?.isActive = !header.isHidden
+        tableTopAtEdge?.isActive = header.isHidden
     }
 
     func updateSize() {

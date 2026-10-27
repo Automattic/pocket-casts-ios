@@ -45,7 +45,7 @@
                     </constraints>
                 </view>
                 <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="iJi-Yt-ez5" customClass="ThemeableCollectionView" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="16" y="76" width="350" height="169"/>
+                    <rect key="frame" x="0.0" y="76" width="370" height="169"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" priority="999" constant="169" id="O9B-Ec-Krr"/>
@@ -59,18 +59,18 @@
             </subviews>
             <viewLayoutGuide key="safeArea" id="LyU-Kg-8Dd"/>
             <constraints>
-                <constraint firstItem="CeQ-tP-ch9" firstAttribute="leading" secondItem="LyU-Kg-8Dd" secondAttribute="leading" constant="16" id="hdr-ld-001"/>
+                <constraint firstItem="CeQ-tP-ch9" firstAttribute="leading" secondItem="Fw0-IT-oEE" secondAttribute="leadingMargin" constant="16" id="hdr-ld-001"/>
                 <constraint firstItem="CeQ-tP-ch9" firstAttribute="top" secondItem="Fw0-IT-oEE" secondAttribute="top" constant="30" id="hdr-tp-001"/>
-                <constraint firstItem="LyU-Kg-8Dd" firstAttribute="trailing" secondItem="sF0-fo-tPV" secondAttribute="trailing" constant="16" id="btn-tr-001"/>
+                <constraint firstAttribute="trailingMargin" secondItem="sF0-fo-tPV" secondAttribute="trailing" constant="16" id="btn-tr-001"/>
                 <constraint firstItem="sF0-fo-tPV" firstAttribute="centerY" secondItem="CeQ-tP-ch9" secondAttribute="centerY" id="btn-cy-001"/>
                 <constraint firstItem="sF0-fo-tPV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="CeQ-tP-ch9" secondAttribute="trailing" constant="5" id="btn-ld-001"/>
                 <constraint firstItem="iJi-Yt-ez5" firstAttribute="top" secondItem="CeQ-tP-ch9" secondAttribute="bottom" constant="16" id="cvw-tp-001"/>
-                <constraint firstAttribute="trailing" secondItem="8lf-U1-Pgg" secondAttribute="trailing" constant="16" id="4UU-zd-txK"/>
+                <constraint firstAttribute="trailingMargin" secondItem="8lf-U1-Pgg" secondAttribute="trailing" constant="16" id="4UU-zd-txK"/>
                 <constraint firstAttribute="bottom" secondItem="8lf-U1-Pgg" secondAttribute="bottom" id="a4K-dl-1du"/>
-                <constraint firstItem="8lf-U1-Pgg" firstAttribute="leading" secondItem="Fw0-IT-oEE" secondAttribute="leading" constant="16" id="lAW-pH-GZr"/>
-                <constraint firstAttribute="trailing" secondItem="iJi-Yt-ez5" secondAttribute="trailing" constant="4" id="jUE-w2-UeS"/>
+                <constraint firstItem="8lf-U1-Pgg" firstAttribute="leading" secondItem="Fw0-IT-oEE" secondAttribute="leadingMargin" constant="16" id="lAW-pH-GZr"/>
+                <constraint firstAttribute="trailing" secondItem="iJi-Yt-ez5" secondAttribute="trailing" id="jUE-w2-UeS"/>
                 <constraint firstAttribute="bottom" secondItem="iJi-Yt-ez5" secondAttribute="bottom" constant="30" id="p8E-lt-7LD"/>
-                <constraint firstItem="iJi-Yt-ez5" firstAttribute="leading" secondItem="Fw0-IT-oEE" secondAttribute="leading" constant="16" id="tSn-G0-qnf"/>
+                <constraint firstItem="iJi-Yt-ez5" firstAttribute="leading" secondItem="Fw0-IT-oEE" secondAttribute="leading" id="tSn-G0-qnf"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

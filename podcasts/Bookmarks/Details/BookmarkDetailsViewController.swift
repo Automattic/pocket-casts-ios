@@ -128,8 +128,8 @@ private extension BookmarkDetailsViewController {
     }
 
     func confirmDeletion() {
-        let alert = UIAlertController(title: L10n.bookmarkDeleteWarningTitle,
-                                      message: L10n.bookmarkDeleteWarningBody,
+        let alert = UIAlertController(title: L10n.bookmarkDeleteWarningTitleSingular,
+                                      message: L10n.bookmarkDeleteWarningBodySingular,
                                       preferredStyle: .alert)
 
         alert.addAction(.init(title: L10n.cancel, style: .cancel, handler: { [analyticsSource] _ in

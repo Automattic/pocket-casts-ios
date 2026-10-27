@@ -1,7 +1,55 @@
+8.25
+-----
+
+
+8.24
+-----
+- Fix the Sleep Timer countdown being hidden under the logo in the Dynamic Island when another Live Activity is showing [#5523](https://github.com/Automattic/pocket-casts-ios/pull/5523)
+- Fix the top line of a generated transcript opened from Episode Details being cut in half under the banner while scrolling [#5522](https://github.com/Automattic/pocket-casts-ios/pull/5522)
+- Fix long Discover section titles such as "British Podcast Awards Winners 2026" being cut off at one line; they now wrap to two [#5461](https://github.com/Automattic/pocket-casts-ios/pull/5461)
+- Open Podcast Settings as a sheet on iPad and other large screens [#5393](https://github.com/Automattic/pocket-casts-ios/pull/5393)
+- Show the standard iPad tab bar and a centered mini player on iPad [#5472](https://github.com/Automattic/pocket-casts-ios/pull/5472)
+- Show a wider mini player with elapsed and remaining time, transcript and bookmark buttons on iPad and other large screens [#5477](https://github.com/Automattic/pocket-casts-ios/pull/5477)
+- Fix the App Icon row cutting off the last visible icon on iPad [#5475](https://github.com/Automattic/pocket-casts-ios/pull/5475)
+- Fix the Podcasts layout picker selecting the opposite layout in right-to-left languages [#5486](https://github.com/Automattic/pocket-casts-ios/pull/5486)
+- Fix a crash when sharing a Discover list, collection or the Networks grid on iPad [#5459](https://github.com/Automattic/pocket-casts-ios/pull/5459)
+- Fix the Playback Effects sheet being cut off in right-to-left languages [#5487](https://github.com/Automattic/pocket-casts-ios/pull/5487)
+- Fix a crash when the Plus paywall for generated transcripts appears while folding or unfolding iPhone Duo [#5520](https://github.com/Automattic/pocket-casts-ios/pull/5520)
+- Fix the Podcasts list keeping its old order when a sort order is picked right after changing the layout [#5485](https://github.com/Automattic/pocket-casts-ios/pull/5485)
+- Fix the theme picker hyphenating theme names at accessibility text sizes [#5505](https://github.com/Automattic/pocket-casts-ios/pull/5505)
+- Fix the player's More Actions showing Download after the playing episode finishes downloading [#5506](https://github.com/Automattic/pocket-casts-ios/pull/5506)
+- Fix the content of the Now Playing tabs not lining up with the tab titles on iPad and other large screens [#5502](https://github.com/Automattic/pocket-casts-ios/pull/5502)
+- Fix the Chapters header turning dark when the list is scrolled [#5507](https://github.com/Automattic/pocket-casts-ios/pull/5507)
+- Fix the player, mini player and podcast page announcing some controls in English with VoiceOver in other languages [#5503](https://github.com/Automattic/pocket-casts-ios/pull/5503)
+- Fix the Login button on the login landing not being translated [#5501](https://github.com/Automattic/pocket-casts-ios/pull/5501)
+- CarPlay opens on Now Playing when an episode is playing, instead of the Podcasts tab [#5446](https://github.com/Automattic/pocket-casts-ios/pull/5446)
+- Add deep links to the Stats, Files, Starred, Bookmarks, Listening History and Help screens in Profile [#5491](https://github.com/Automattic/pocket-casts-ios/pull/5491)
+- Fix several right-to-left layout issues: text alignment in Discover, the Podcasts list and Podcast Settings, the half rating star, the player chapter arrows and episode swipe actions [#5510](https://github.com/Automattic/pocket-casts-ios/pull/5510)
+- Fix Up Next changes made while the phone is locked not syncing to other devices until the next unlocked sync [#5498](https://github.com/Automattic/pocket-casts-ios/pull/5498)
+- Replace the bell icon on the Profile tab's What's New button with an inbox icon [#5460](https://github.com/Automattic/pocket-casts-ios/pull/5460)
+- Fix Up Next still offering Select Episodes and Clear Up Next after the queue is emptied [#5492](https://github.com/Automattic/pocket-casts-ios/pull/5492)
+- Fix the empty Starred list offering Select and multi-select with nothing to select [#5463](https://github.com/Automattic/pocket-casts-ios/pull/5463)
+- Fix the Account header staying light in dark themes, which made the trial and expiry captions unreadable [#5466](https://github.com/Automattic/pocket-casts-ios/pull/5466)
+- Fix the New playlist and Smart rules sheets staying white in dark themes, which hid their titles [#5470](https://github.com/Automattic/pocket-casts-ios/pull/5470)
+- Fix the episode card's Details and Bookmarks tabs showing the opposite page in right-to-left languages [#5488](https://github.com/Automattic/pocket-casts-ios/pull/5488)
+- Fix the Add to playlist sheet showing one more episode than the playlist holds when the episode is already in it [#5493](https://github.com/Automattic/pocket-casts-ios/pull/5493)
+- Fix refresh, sync and downloads hanging until relaunch after the sync token expires [#5490](https://github.com/Automattic/pocket-casts-ios/pull/5490)
+- Fix the Discover "All Categories" pill running past the screen edge at the largest text sizes [#5504](https://github.com/Automattic/pocket-casts-ios/pull/5504)
+- Show episode titles in the CarPlay Up Next row, so queued episodes from the same podcast can be told apart [#5514](https://github.com/Automattic/pocket-casts-ios/pull/5514)
+- Fix the full player showing a black background while opening it on iOS 18 and earlier [#5519](https://github.com/Automattic/pocket-casts-ios/pull/5519)
+- Fix German capitalization, singular and plural wording, number formatting and untranslated texts in smart playlist rules, playlists, bookmarks, folders, Auto Download, the player, Discover categories and Import [#5511](https://github.com/Automattic/pocket-casts-ios/pull/5511)
+- Fix text breaking mid-word, truncating or not scaling in the Profile, Stats, Create Folder, empty states, episode card, player Details, playlists, paywall and other screens at the largest text sizes [#5512](https://github.com/Automattic/pocket-casts-ios/pull/5512)
+- Fix Settings copy saying "phone" or "iPhone" on iPad [#5462](https://github.com/Automattic/pocket-casts-ios/pull/5462)
+
 8.23
 -----
 - Fix the episode details screen showing the podcast cover when episode artwork is enabled and available
+- Add initial support for iPhone Duo
 - Show multiple columns in the Discover list sections on iPad and other wide layouts [#5384](https://github.com/Automattic/pocket-casts-ios/pull/5384)
+- Use the artwork background in the Now Playing screen and its transcript on all iOS versions [#5464](https://github.com/Automattic/pocket-casts-ios/pull/5464)
+- Fix Discover sections losing their titles and running under the next section [#5417](https://github.com/Automattic/pocket-casts-ios/pull/5417)
+- Rotate the full screen video only when tapping the full screen button [#5454](https://github.com/Automattic/pocket-casts-ios/pull/5454)
+- Fix a crash when saving episode artwork [#5452](https://github.com/Automattic/pocket-casts-ios/pull/5452)
 - Remove the "Gift … of Pocket Casts Plus!" tooltip from the Profile tab [#5310](https://github.com/Automattic/pocket-casts-ios/pull/5310)
 - Fix closing a folder's Add or Remove Podcasts sheet saving the selection. The sheet now has a Done button, and creating a folder with no podcasts selected shows "Skip" instead of "Add 0 Podcasts" [#5312](https://github.com/Automattic/pocket-casts-ios/pull/5312)
 - Fix the podcast page sometimes freezing and no longer scrolling after expanding a long description [#5319](https://github.com/Automattic/pocket-casts-ios/pull/5319)
@@ -32,6 +80,11 @@
 - Leave deselected chapters out of the time left in the player and Up Next [#5401](https://github.com/Automattic/pocket-casts-ios/pull/5401)
 - Fix a network page sometimes showing its name in the navigation bar, dark on the dark header, before you scroll, and showing an empty link row for networks without a website [#5422](https://github.com/Automattic/pocket-casts-ios/pull/5422)
 - Fix the playlist "Add episodes" sheet showing both a close and a Done button, and a duplicate back button after opening a folder or podcast [#5400](https://github.com/Automattic/pocket-casts-ios/pull/5400)
+- Fix the lock screen and Control Center skip buttons skipping to the next chapter instead of by seconds when Headphone Controls is set to Next Chapter [#5207](https://github.com/Automattic/pocket-casts-ios/pull/5207)
+- Show Now Playing and its Transcript, Details, Chapters, and Bookmarks tabs side by side on iPad and unfolded iPhone Duo on iOS 27.1 and later [#5432](https://github.com/Automattic/pocket-casts-ios/pull/5432)
+- Fix the player scrubber, its time labels, and the skip buttons being out of order in right-to-left languages. They now stay left to right in the full and mini player, and row chevrons in Profile and Settings point the right way [#5437](https://github.com/Automattic/pocket-casts-ios/pull/5437)
+- Improve VoiceOver in Discover, Up Next, Select Theme and the mini player: Follow buttons name their podcast, explicit badges and the selected category are announced, and the shuffle, back and theme buttons have proper labels [#5438](https://github.com/Automattic/pocket-casts-ios/pull/5438)
+- Fix refresh, sync and downloads hanging until relaunch after the sync token expires [#5490](https://github.com/Automattic/pocket-casts-ios/pull/5490)
 
 8.22
 -----

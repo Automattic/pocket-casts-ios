@@ -9,7 +9,7 @@ extension ListeningHistoryViewController: SwipeTableViewCellDelegate, SwipeHandl
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         guard !isMultiSelectEnabled, let episode = episodes[safe: indexPath.section]?.elements[safe: indexPath.row]?.episode else { return nil }
 
-        switch orientation {
+        switch orientation.resolvedForLayoutDirection {
         case .left:
             let actions = SwipeActionsHelper.createLeftActionsForEpisode(episode, tableView: tableView, indexPath: indexPath, swipeHandler: self)
             return actions.swipeKitActions()

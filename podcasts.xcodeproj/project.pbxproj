@@ -23,6 +23,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		9C6BEBC308B8EEAABCE1C914 /* PlayerArtworkBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AB833CB47059B2859C1599 /* PlayerArtworkBackgroundView.swift */; };
+		CF99C0A0A56B724361E9DC58 /* PlayerContainerViewController+LargeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D7F24D7D9960020B7503731 /* PlayerContainerViewController+LargeScreen.swift */; };
 		0C364CA72FAB8BAA00B46BDA /* MiniPlayerLongPressPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C364CA62FAB8BAA00B46BDA /* MiniPlayerLongPressPreviewViewController.swift */; };
 		0C52E9EA2FFD8D9B00C2B9D1 /* TroubleshootingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C52E9E92FFD8D9B00C2B9D1 /* TroubleshootingViewModel.swift */; };
 		0C52E9EC2FFD8DAD00C2B9D1 /* TroubleshootingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C52E9EB2FFD8DAD00C2B9D1 /* TroubleshootingView.swift */; };
@@ -1575,6 +1577,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		94AB833CB47059B2859C1599 /* PlayerArtworkBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerArtworkBackgroundView.swift; sourceTree = "<group>"; };
+		7D7F24D7D9960020B7503731 /* PlayerContainerViewController+LargeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlayerContainerViewController+LargeScreen.swift"; sourceTree = "<group>"; };
 		0C364CA62FAB8BAA00B46BDA /* MiniPlayerLongPressPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerLongPressPreviewViewController.swift; sourceTree = "<group>"; };
 		0C52E9E92FFD8D9B00C2B9D1 /* TroubleshootingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TroubleshootingViewModel.swift; sourceTree = "<group>"; };
 		0C52E9EB2FFD8DAD00C2B9D1 /* TroubleshootingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TroubleshootingView.swift; sourceTree = "<group>"; };
@@ -4303,6 +4307,8 @@
 				BD2F3BA12366C0DA00416633 /* PlayerContainerViewController+Update.swift */,
 				BD2F3BA32366C0F900416633 /* PlayerContainerViewController+Gestures.swift */,
 				BD2F3BA52366C17500416633 /* PlayerContainerViewController+Scroll.swift */,
+				94AB833CB47059B2859C1599 /* PlayerArtworkBackgroundView.swift */,
+				7D7F24D7D9960020B7503731 /* PlayerContainerViewController+LargeScreen.swift */,
 				BD92323023629E1900C1E118 /* PlayerContainerViewController.xib */,
 			);
 			name = "Full Size Player";
@@ -6786,6 +6792,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C6BEBC308B8EEAABCE1C914 /* PlayerArtworkBackgroundView.swift in Sources */,
+				CF99C0A0A56B724361E9DC58 /* PlayerContainerViewController+LargeScreen.swift in Sources */,
 				A13200320100000000000001 /* SetSleepTimerIntent.swift in Sources */,
 				A13200320100000000000002 /* MigratedSleepTimerIntent.swift in Sources */,
 				A8E1B6C42D754F0397C2E5A1 /* SleepTimerIntentDuration.swift in Sources */,

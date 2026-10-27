@@ -68,11 +68,11 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="WxJ-0n-BDv" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="PPP-Gg-9mJ"/>
-                <constraint firstAttribute="trailing" secondItem="sP1-02-h75" secondAttribute="trailing" constant="16" id="UCN-Zk-aUb"/>
-                <constraint firstItem="sP1-02-h75" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="a8R-CF-oSy"/>
-                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="WxJ-0n-BDv" secondAttribute="trailing" constant="16" id="na5-mN-dIN"/>
-                <constraint firstItem="WxJ-0n-BDv" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="rmU-zu-v8y"/>
+                <constraint firstItem="WxJ-0n-BDv" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerXWithinMargins" id="PPP-Gg-9mJ"/>
+                <constraint firstAttribute="trailingMargin" secondItem="sP1-02-h75" secondAttribute="trailing" constant="16" id="UCN-Zk-aUb"/>
+                <constraint firstItem="sP1-02-h75" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leadingMargin" constant="16" id="a8R-CF-oSy"/>
+                <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="WxJ-0n-BDv" secondAttribute="trailing" constant="16" id="na5-mN-dIN"/>
+                <constraint firstItem="WxJ-0n-BDv" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="leadingMargin" constant="16" id="rmU-zu-v8y"/>
                 <constraint firstItem="sP1-02-h75" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="x9G-Aq-vQF"/>
                 <constraint firstAttribute="bottom" secondItem="WxJ-0n-BDv" secondAttribute="bottom" constant="20" id="y75-qi-HAh"/>
                 <constraint firstItem="WxJ-0n-BDv" firstAttribute="top" secondItem="sP1-02-h75" secondAttribute="bottom" priority="999" constant="16" id="yYe-Hs-gR3"/>

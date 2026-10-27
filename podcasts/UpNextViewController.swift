@@ -289,13 +289,16 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         if !SubscriptionHelper.hasActiveSubscription() || !SyncManager.isUserLoggedIn() {
             shuffleButton.setImage(UIImage(named: "shuffle-plus"), for: .normal)
             shuffleButton.isSelected = false
+            shuffleButton.accessibilityHint = L10n.accessibilityPlusOnly
         } else {
             let unselected = UIImage(named: "shuffle")?.withTintColor(AppTheme.colorForStyle(.primaryIcon02, themeOverride: themeOverride), renderingMode: .alwaysOriginal)
             let selected = UIImage(named: "shuffle-enabled")?.withTintColor(AppTheme.colorForStyle(.primaryIcon01, themeOverride: themeOverride), renderingMode: .alwaysOriginal)
             shuffleButton.setImage(unselected, for: .normal)
             shuffleButton.setImage(selected, for: .selected)
+            shuffleButton.accessibilityHint = nil
             updateShuffleButtonState()
         }
+        shuffleButton.accessibilityLabel = L10n.upNextShuffleButton
         shuffleButton.imageView?.adjustsImageSizeForAccessibilityContentSizeCategory = true
         shuffleButton.imageView?.contentMode = .scaleAspectFit
         shuffleButton.imageView?.translatesAutoresizingMaskIntoConstraints = false
@@ -409,7 +412,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc func updateTimeRemainingLabel() {
         var totalDuration = PlaybackManager.shared.queue.upNextTotalDuration(includePlayingEpisode: false)
         if let episode = PlaybackManager.shared.currentEpisode {
-            let currentTime = PlaybackManager.shared.currentTime()
+            let currentTime = PlaybackManager.shared.currentTime
             totalDuration += episode.duration.seconds - currentTime - PlaybackManager.shared.deselectedChapterDuration(after: currentTime)
         }
         let time = TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration)
@@ -500,6 +503,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         if rightButtons.count > 1 {
             navigationItem.trailingItemGroups = [UIBarButtonItemGroup(barButtonItems: rightButtons, representativeItem: nil)]
         } else {
+            navigationItem.trailingItemGroups = []
             navigationItem.setRightBarButtonItems(rightButtons, animated: animated)
         }
         navigationItem.setLeftBarButton(leftButton, animated: animated)

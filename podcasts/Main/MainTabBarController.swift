@@ -72,6 +72,9 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         })
     }
 
+    private var miniPlayerBottomConstraint: NSLayoutConstraint?
+    private var isMiniPlayerAnchoredToTabBar = false
+
     private var isShowingErrorToast = false
     private var dismissErrorWorkItem: DispatchWorkItem?
 
@@ -84,11 +87,8 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             if let scene = controller.view.window?.windowScene {
                 Theme.systemIsDark = (scene.traitCollection.userInterfaceStyle == .dark)
             }
-            controller.fixTarBarTraitCollectionOnIpadForiOS18()
             controller.fireSystemThemeMayHaveChanged()
         }
-
-        fixTarBarTraitCollectionOnIpadForiOS18()
 
         pcTabs = [.podcasts, .filter, .discover, .upNext, .profile]
 
@@ -248,22 +248,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         Settings.shouldShowInitialOnboardingFlow = false
     }
 
-    // TODO: This workaround is planned to be replaced later.
-    private func fixTarBarTraitCollectionOnIpadForiOS18() {
-        if #available(iOS 18.0, *),
-           UIDevice.current.userInterfaceIdiom == .pad {
-            traitOverrides.horizontalSizeClass = .compact
-            if let rootHorizontalSizeClass = view.window?.traitCollection.horizontalSizeClass {
-                tabBar.traitOverrides.horizontalSizeClass = rootHorizontalSizeClass
-                if let viewControllers {
-                    for vc in viewControllers {
-                        vc.traitOverrides.horizontalSizeClass = rootHorizontalSizeClass
-                    }
-                }
-            }
-        }
-    }
-
     @objc func themeDidChange() {
         updateTabBarColor()
         setNeedsStatusBarAppearanceUpdate()
@@ -281,16 +265,38 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             miniPlayer.loadViewIfNeeded()
         } else {
             miniPlayer.view.translatesAutoresizingMaskIntoConstraints = false
-            view.insertSubview(miniPlayer.view, belowSubview: tabBar)
+            if tabBar.superview === view {
+                view.insertSubview(miniPlayer.view, belowSubview: tabBar)
+            } else {
+                view.addSubview(miniPlayer.view)
+            }
 
             NSLayoutConstraint.activate([
                 miniPlayer.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                miniPlayer.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                miniPlayer.view.bottomAnchor.constraint(equalTo: tabBar.topAnchor)
+                miniPlayer.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             ])
+            anchorMiniPlayerToBottom()
 
             miniPlayer.changeHeightTo(miniPlayer.desiredHeight())
         }
+    }
+
+    /// On iOS 18 the tab bar floats at the top on regular width and isn't part of this view's
+    /// hierarchy, so the mini player sits on the bottom safe area instead of on top of the tab bar.
+    private func anchorMiniPlayerToBottom() {
+        guard let miniPlayerView = NavigationManager.shared.miniPlayer?.view, miniPlayerView.superview === view else { return }
+        let anchorsToTabBar = tabBar.isDescendant(of: view)
+        guard miniPlayerBottomConstraint == nil || anchorsToTabBar != isMiniPlayerAnchoredToTabBar else { return }
+        miniPlayerBottomConstraint?.isActive = false
+        let bottomAnchor = anchorsToTabBar ? tabBar.topAnchor : view.safeAreaLayoutGuide.bottomAnchor
+        miniPlayerBottomConstraint = miniPlayerView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        miniPlayerBottomConstraint?.isActive = true
+        isMiniPlayerAnchoredToTabBar = anchorsToTabBar
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        anchorMiniPlayerToBottom()
     }
 
     // MARK: - UITabBarDelegate
@@ -466,16 +472,20 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
     }
 
     func navigateToProfile(row: ProfileViewController.TableRow? = nil, animated: Bool) {
-        switchToTab(.profile)
-        guard let navController = selectedViewController as? UINavigationController else {
-            return
+        guard let miniPlayer = NavigationManager.shared.miniPlayer, miniPlayer.playerOpenState != .animating else { return }
+
+        miniPlayer.closeFullScreenPlayer { [weak self] in
+            guard let self, switchToTab(.profile),
+                  let navController = selectedViewController as? UINavigationController else {
+                return
+            }
+            navController.popToRootViewController(animated: animated && row == nil)
+            guard let profileViewController = navController.topViewController as? ProfileViewController,
+                let row else {
+                return
+            }
+            profileViewController.navigateToRow(row)
         }
-        navController.popToRootViewController(animated: animated)
-        guard let profileViewController = navController.topViewController as? ProfileViewController,
-            let row else {
-            return
-        }
-        profileViewController.navigateToRow(row)
     }
 
     func navigateToFilter(_ filter: EpisodeFilter?, animated: Bool) {
@@ -1180,7 +1190,11 @@ extension MainTabBarController {
     /// The distance from the bottom of the window to the top of the tab bar or the mini player, whichever is higher.
     private var toastBottomInset: CGFloat {
         guard let window = view.window else { return 0 }
-        var top = tabBar.convert(tabBar.bounds, to: nil).minY
+        var top = window.bounds.height - window.safeAreaInsets.bottom
+        let tabBarTop = tabBar.convert(tabBar.bounds, to: nil).minY
+        if tabBarTop > window.bounds.midY {
+            top = min(top, tabBarTop)
+        }
         if let miniPlayerView = NavigationManager.shared.miniPlayer?.view, miniPlayerView.window != nil, !miniPlayerView.isHidden {
             let frame = miniPlayerView.convert(miniPlayerView.bounds, to: nil)
             if frame.height > 0 {

@@ -256,6 +256,13 @@ public enum FeatureFlag: String, CaseIterable {
     /// Ignore non-200 responses (such as 304 Not Modified) to the background Up Next sync instead of treating them as an empty queue
     case ignoreUnsuccessfulBackgroundUpNextSync
 
+    /// Show the full screen player and its tabs side by side on large screens (iOS 27.1+),
+    /// over a blurred artwork background
+    case largeScreenNowPlaying
+
+    /// Show the synced transcript timing debug overlay at the bottom of the transcript (debug builds only)
+    case transcriptDebugOverlay
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -436,6 +443,10 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .ignoreUnsuccessfulBackgroundUpNextSync:
             true
+        case .largeScreenNowPlaying:
+            true
+        case .transcriptDebugOverlay:
+            false
         }
     }
 

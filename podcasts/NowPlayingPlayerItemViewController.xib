@@ -28,6 +28,7 @@
                 <outlet property="floatingVideoView" destination="auM-3f-elA" id="OGa-U7-JAh"/>
                 <outlet property="playPauseBtn" destination="XXp-BW-AVr" id="Di2-7G-pn5"/>
                 <outlet property="playPauseHeightConstraint" destination="dtu-hS-iiu" id="s0N-0P-nEh"/>
+                <outlet property="playSkipStackView" destination="0FS-5h-EyM" id="Ps7-Sk-q4V"/>
                 <outlet property="playerBottomSpacing" destination="zFk-ce-kom" id="MBu-Nk-TqD"/>
                 <outlet property="playerControlsStackView" destination="ACg-CR-Hm8" id="Sgd-Fl-WU9"/>
                 <outlet property="podcastName" destination="aMx-eC-OGM" id="ahS-1J-UQ6"/>
@@ -50,7 +51,7 @@
                     <subviews>
                         <imageView contentMode="scaleAspectFit" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="dXr-Zd-0wP">
                             <rect key="frame" x="30" y="0.0" width="354" height="354"/>
-                            <accessibility key="accessibilityConfiguration" label="Podcast Artwork">
+                            <accessibility key="accessibilityConfiguration">
                                 <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
                                 <bool key="isElement" value="YES"/>
                             </accessibility>
@@ -258,7 +259,6 @@
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ooq-fV-tVm" customClass="SkipButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="137" height="80"/>
-                                            <accessibility key="accessibilityConfiguration" label="Skip Back"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="HQu-Ug-ojg"/>
                                             </constraints>
@@ -282,7 +282,6 @@
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fDG-Tg-2mf" customClass="SkipButton" customModule="Pocket_Casts_App_Clip" customModuleProvider="target">
                                             <rect key="frame" x="257" y="0.0" width="137" height="80"/>
-                                            <accessibility key="accessibilityConfiguration" label="Skip Forward"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <state key="selected">
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

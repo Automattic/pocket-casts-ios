@@ -6,6 +6,12 @@ import UIKit
 extension PlayerContainerViewController {
     func updateColors() {
         view.backgroundColor = PlayerColorHelper.playerBackgroundColor01()
+        #if !APPCLIP
+        updateArtworkBackground()
+        if #available(iOS 27.1, *) {
+            updateLargeScreenColors()
+        }
+        #endif
     }
 
     @objc func update() {
@@ -21,6 +27,11 @@ extension PlayerContainerViewController {
 
     private func updateAvailableTabs() {
         #if !APPCLIP
+        if #available(iOS 27.1, *), usesLargeScreenLayout {
+            updateLargeScreenTabs(force: false)
+            return
+        }
+
         guard let playingEpisode = PlaybackManager.shared.currentEpisode else { return }
 
         // Update the colors when the episode changes

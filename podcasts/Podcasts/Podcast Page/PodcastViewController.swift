@@ -884,7 +884,18 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
 
         let settingsController = PodcastSettingsViewController(podcast: podcast)
         settingsController.episodes = episodeInfo
-        navigationController?.pushViewController(settingsController, animated: true)
+        // Check the window's traits: MainTabBarController can leave its children with a compact horizontal size class on iPad
+        if let windowTraits = view.window?.traitCollection, windowTraits.horizontalSizeClass == .regular, windowTraits.verticalSizeClass == .regular {
+            settingsController.onUnsubscribe = { [weak self] in
+                self?.dismiss(animated: true)
+                self?.navigationController?.popToRootViewController(animated: true)
+            }
+            let navController = SJUIUtils.navController(for: settingsController)
+            navController.modalPresentationStyle = .formSheet
+            present(navController, animated: true)
+        } else {
+            navigationController?.pushViewController(settingsController, animated: true)
+        }
         Analytics.track(.podcastScreenSettingsTapped)
     }
 
@@ -1472,34 +1483,6 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
         }
         present(vc, animated: true)
         return vc
-    }
-
-    // MARK: - Long press actions
-
-    func archiveAll(startingAt: Episode) {
-        guard let podcast else { return }
-
-        DispatchQueue.global().async { [weak self] in
-            guard let allObjects = self?.episodeInfo[safe: 1]?.elements, !allObjects.isEmpty else { return }
-
-            var haveFoundFirst = false
-            for object in allObjects {
-                guard let listEpisode = object as? ListEpisode else { continue }
-
-                if !haveFoundFirst, listEpisode.episode.uuid != startingAt.uuid { continue }
-
-                haveFoundFirst = true
-                if listEpisode.episode.archived { continue }
-
-                EpisodeManager.archiveEpisode(episode: listEpisode.episode, fireNotification: false)
-            }
-
-            DispatchQueue.main.async { [weak self] in
-                guard let strongSelf = self else { return }
-
-                strongSelf.loadLocalEpisodes(podcast: podcast, animated: false)
-            }
-        }
     }
 
     // MARK: - Accessibility fix

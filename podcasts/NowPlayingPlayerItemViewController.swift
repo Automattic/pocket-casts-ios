@@ -29,12 +29,16 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     @IBOutlet var skipBackBtn: SkipButton! {
         didSet {
             skipBackBtn.skipBack = true
+            skipBackBtn.accessibilityLabel = L10n.skipBack
+            skipBackBtn.semanticContentAttribute = .playback
         }
     }
 
     @IBOutlet var skipFwdBtn: SkipButton! {
         didSet {
             skipFwdBtn.skipBack = false
+            skipFwdBtn.accessibilityLabel = L10n.skipForward
+            skipFwdBtn.semanticContentAttribute = .playback
             skipFwdBtn.longPressed = { [weak self] in
                 self?.skipForwardLongPressed()
             }
@@ -43,8 +47,15 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet var playPauseBtn: PlayPauseButton!
 
+    @IBOutlet var playSkipStackView: UIStackView! {
+        didSet {
+            playSkipStackView.semanticContentAttribute = .playback
+        }
+    }
+
     @IBOutlet var episodeImage: UIImageView! {
         didSet {
+            episodeImage.accessibilityLabel = L10n.accessibilityPodcastArtwork
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
             tapGesture.numberOfTapsRequired = 1
             tapGesture.numberOfTouchesRequired = 1
@@ -104,7 +115,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             floatingVideoView.addGestureRecognizer(tapGesture)
 
             floatingVideoView.onFullScreenTapped = { [weak self] in
-                self?.videoTapped()
+                self?.showVideo(rotatesToLandscape: true)
             }
         }
     }
@@ -174,7 +185,11 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet var playerControlsStackView: UIStackView!
 
-    @IBOutlet var timeSliderHolderView: UIView!
+    @IBOutlet var timeSliderHolderView: UIView! {
+        didSet {
+            timeSliderHolderView.semanticContentAttribute = .playback
+        }
+    }
 
     @IBOutlet var timeElapsed: ThemeableLabel! {
         didSet {
@@ -275,6 +290,11 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         }
 
         setUpArtworkImageView()
+        letTitleInfoGrow()
+        limitShelfWidth()
+        if usesLargeScreenStyle {
+            playPauseBtn.useSymbolImage(pointSize: 120, scalesToFit: true)
+        }
 
         #if !APPCLIP
         let upNextPan = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler(_:)))
@@ -340,6 +360,15 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         }
     }
 
+    /// Selects the transcript tab when it's next to Now Playing, and covers Now Playing with
+    /// the transcript otherwise.
+    func openTranscript() {
+        if playerContainer?.showTranscriptTab() == true {
+            return
+        }
+        displayTranscript = true
+    }
+
     private func loadBannerAd() {
 #if !APPCLIP
         if SubscriptionHelper.shouldDisplayPlayerBannerAd {
@@ -361,8 +390,16 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 #endif
     }
 
+    /// The parent, or, in the large screen layout, the parent of the pane it's shown in.
     private var playerContainer: PlayerContainerViewController? {
-        parent as? PlayerContainerViewController
+        var ancestor = parent
+        while let controller = ancestor {
+            if let playerContainer = controller as? PlayerContainerViewController {
+                return playerContainer
+            }
+            ancestor = controller.parent
+        }
+        return nil
     }
 
     override func viewDidLayoutSubviews() {
@@ -372,6 +409,8 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             // Render the shelf as a proper pill instead of the default rounded rectangle.
             shelfBg.layer.cornerRadius = shelfBg.bounds.height / 2
         }
+
+        updateShelfSpacing()
 
         // there's some expensive operations in resizeControls,
         // so only do them if the bounds has actually changed
@@ -411,6 +450,65 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         skipFwdBtn.changeSize(to: skipSize)
 
         view.layoutIfNeeded()
+    }
+
+    /// Lets the episode title and podcast name in the large screen player take the room they need
+    /// at large text sizes, with some space around them, instead of overflowing their fixed height
+    /// into the artwork and the scrubber.
+    private func letTitleInfoGrow() {
+        guard usesLargeScreenStyle,
+              let titleInfoView = episodeInfoView.superview,
+              let titleView = episodeInfoView.subviews.first,
+              let fixedHeight = titleInfoView.constraints.first(where: { $0.firstItem === titleInfoView && $0.firstAttribute == .height && $0.secondItem == nil }) else { return }
+
+        let preferredHeight = titleInfoView.heightAnchor.constraint(equalToConstant: fixedHeight.constant)
+        preferredHeight.priority = .defaultHigh - 1
+        fixedHeight.isActive = false
+        NSLayoutConstraint.activate([
+            preferredHeight,
+            titleInfoView.heightAnchor.constraint(greaterThanOrEqualToConstant: fixedHeight.constant),
+            titleView.topAnchor.constraint(greaterThanOrEqualTo: episodeInfoView.topAnchor, constant: 12)
+        ])
+
+        let compactControlsHeight = bottomControlsStackView.heightAnchor.constraint(equalToConstant: 0)
+        compactControlsHeight.priority = .defaultHigh
+        compactControlsHeight.isActive = true
+    }
+
+    /// Keeps the shelf in the large screen player from stretching across a wide Now Playing, as
+    /// on iPad, by letting it be narrower than the edges it's pinned to. It stays centered.
+    private func limitShelfWidth() {
+        guard usesLargeScreenStyle,
+              let shelfStackView = shelfBg.superview,
+              let leading = shelfStackView.constraints.first(where: { $0.firstItem === shelfBg && $0.firstAttribute == .leading && $0.secondAttribute == .leadingMargin }),
+              let trailing = shelfStackView.constraints.first(where: { $0.secondItem === shelfBg && $0.secondAttribute == .trailing && $0.firstAttribute == .trailingMargin }) else { return }
+
+        let preferredWidth = shelfBg.widthAnchor.constraint(equalToConstant: 440)
+        preferredWidth.priority = .defaultHigh
+        NSLayoutConstraint.deactivate([leading, trailing])
+        NSLayoutConstraint.activate([
+            shelfBg.leadingAnchor.constraint(greaterThanOrEqualTo: shelfStackView.layoutMarginsGuide.leadingAnchor, constant: leading.constant),
+            shelfStackView.layoutMarginsGuide.trailingAnchor.constraint(greaterThanOrEqualTo: shelfBg.trailingAnchor, constant: trailing.constant),
+            preferredWidth
+        ])
+    }
+
+    /// Gives each shelf button the same space on both sides in the large screen player, where the
+    /// shelf is wide, instead of pushing the first and last ones to its edges.
+    private func updateShelfSpacing() {
+        guard usesLargeScreenStyle else { return }
+
+        let buttons = playerControlsStackView.arrangedSubviews.filter { !$0.isHidden }
+        guard !buttons.isEmpty, shelfBg.bounds.width > 0 else { return }
+
+        let buttonsWidth = CGFloat(buttons.count) * shelfIconSize
+        let shelfInset = (shelfBg.bounds.width - playerControlsStackView.bounds.width) / 2
+        let buttonInset = (shelfBg.bounds.width - buttonsWidth) / CGFloat(2 * buttons.count)
+        let margin = max(0, buttonInset - shelfInset)
+        guard playerControlsStackView.directionalLayoutMargins.leading != margin else { return }
+
+        playerControlsStackView.isLayoutMarginsRelativeArrangement = true
+        playerControlsStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: margin, bottom: 0, trailing: margin)
     }
 
     private var artworkCornerRadius: CGFloat {
@@ -518,7 +616,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         if GeneratedChapterSeeker.isEnabled {
             // Clear any spinner left over from a resolve this tap supersedes.
             resetChapterSkipResolving()
-            if let previous = PlaybackManager.shared.previousPlayableChapter() {
+            if let previous = PlaybackManager.shared.previousPlayableChapter {
                 PlaybackManager.shared.trackChapterSkippedIfNeeded(to: previous)
                 GeneratedChapterSeeker.seek(
                     to: previous,
@@ -541,7 +639,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         if GeneratedChapterSeeker.isEnabled {
             // Clear any spinner left over from a resolve this tap supersedes.
             resetChapterSkipResolving()
-            guard let next = PlaybackManager.shared.nextPlayableChapter() else {
+            guard let next = PlaybackManager.shared.nextPlayableChapter else {
                 // No next chapter — respect the producer's end of the last chapter
                 // (the same fallback `skipToNextChapter` makes). This isn't a
                 // chapter start, so there's nothing to fingerprint-resolve.
@@ -606,7 +704,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     #endif
 
     @objc private func chapterLinkTapped() {
-        let chapters = PlaybackManager.shared.currentChapters()
+        let chapters = PlaybackManager.shared.currentChapters
         guard let urlString = chapters.url, let url = URL(string: urlString) else { return }
 
         #if APPCLIP
@@ -630,10 +728,16 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     }
 
     @objc private func videoTapped() {
+        showVideo(rotatesToLandscape: false)
+    }
+
+    private func showVideo(rotatesToLandscape: Bool) {
         guard PlaybackManager.shared.currentEpisode != nil, presentedViewController == nil else { return }
 
-        if PlaybackManager.shared.shouldRenderVideo() {
+        if PlaybackManager.shared.shouldRenderVideo {
             let videoController = VideoViewController()
+            videoController.rotatesToLandscape = rotatesToLandscape
+            videoController.orientationAtPresentation = view.window?.windowScene?.interfaceOrientation ?? .portrait
             videoViewController = videoController
             videoViewController?.modalPresentationStyle = .fullScreen
             if #available(iOS 18.0, *) {
@@ -700,8 +804,13 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     private func toggleTranscript() {
         let isShowing = displayTranscript
 
-        skipBackBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
-        skipFwdBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
+        if usesLargeScreenStyle {
+            skipBackBtn.prepareForAnimateTransitionReplacingAnimation()
+            skipFwdBtn.prepareForAnimateTransitionReplacingAnimation()
+        } else {
+            skipBackBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
+            skipFwdBtn.prepareForAnimateTransition(withBackground: view.backgroundColor)
+        }
         playPauseBtn.prepareForAnimateTransition()
 
         playerContainer?.transcriptContainerView.layer.opacity = isShowing ? 0 : 1

@@ -9,6 +9,33 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
     private let playbackManager: TranscriptPlaybackManaging
     let analyticsSource: AnalyticsSource
 
+    /// The player background. When it's set
+    /// before the view loads, the overlay covers the top of the transcript with a copy of it
+    /// instead of a solid color, so it blends in with the rest of the player.
+    weak var largeScreenBackground: PlayerArtworkBackgroundView?
+
+    private lazy var largeScreenBackgroundCopy: PlayerArtworkBackgroundView = {
+        let copy = PlayerArtworkBackgroundView()
+        copy.translatesAutoresizingMaskIntoConstraints = false
+        return copy
+    }()
+
+    private lazy var largeScreenBackgroundContainer: UIView = {
+        let container = UIView()
+        container.translatesAutoresizingMaskIntoConstraints = false
+        container.clipsToBounds = true
+        container.layer.mask = largeScreenBackgroundMask
+        return container
+    }()
+
+    private var largeScreenBackgroundConstraints: [NSLayoutConstraint] = []
+
+    private lazy var largeScreenBackgroundMask: CAGradientLayer = {
+        let mask = CAGradientLayer()
+        mask.colors = [UIColor.black.cgColor, UIColor.black.cgColor, UIColor.clear.cgColor]
+        return mask
+    }()
+
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -62,8 +89,13 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.contentInsetAdjustmentBehavior = .never
         return view
     }()
+
+    private static let badgeTopMargin: CGFloat = 56
+
+    private var badgeTopConstraint: NSLayoutConstraint?
 
     private lazy var paywallButton: UIButton = {
         var config = UIButton.Configuration.filled()
@@ -169,7 +201,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
     }
 
     private func setupView() {
-        view.backgroundColor = showFromEpisode ? .clear : backgroundColor
+        view.backgroundColor = showFromEpisode || largeScreenBackground != nil ? .clear : backgroundColor
 
         view.addSubview(blurEffectView)
         view.addSubview(topGradient)
@@ -178,6 +210,17 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         topSolidView.backgroundColor = showFromEpisode ? ThemeColor.primaryUi01() : PlayerColorHelper.playerBackgroundColor01()
         topSolidView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(topSolidView)
+
+        if let largeScreenBackground {
+            topSolidView.isHidden = true
+            topGradient.isHidden = true
+            view.clipsToBounds = true
+            largeScreenBackground.addCopy(largeScreenBackgroundCopy)
+            largeScreenBackgroundContainer.addSubview(largeScreenBackgroundCopy)
+            view.addSubview(largeScreenBackgroundContainer)
+            largeScreenBackgroundContainer.anchorToAllSidesOf(view: view)
+            scrollView.delegate = self
+        }
 
         if showFromEpisode {
             let overlay = UIView()
@@ -202,6 +245,9 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         let topMargin = showFromEpisode ? 24.0 : 0.0
         let paywallButtonBottomMargin: CGFloat = showFromEpisode ? -readableContentGuideMargin : 0.0
 
+        let badgeTopConstraint = badge.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: Self.badgeTopMargin + view.safeAreaInsets.top)
+        self.badgeTopConstraint = badgeTopConstraint
+
         NSLayoutConstraint.activate(
             [
                 blurEffectView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -218,7 +264,7 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
                 scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 badge.centerXAnchor.constraint(equalTo: titleLabel.centerXAnchor),
-                badge.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 56),
+                badgeTopConstraint,
                 titleLabel.topAnchor.constraint(equalTo: badge.bottomAnchor, constant: 24),
                 titleLabel.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor, constant: readableContentGuideMargin),
                 titleLabel.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor, constant: -readableContentGuideMargin),
@@ -244,14 +290,65 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         )
     }
 
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        badgeTopConstraint?.constant = Self.badgeTopMargin + view.safeAreaInsets.top
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         // Inset bottom of scroll content by button height + spacing
         let buttonHeight = paywallButton.frame.height
         let spacing: CGFloat = 10 // padding above + below button
-        scrollView.contentInset.bottom = buttonHeight + spacing
-        scrollView.verticalScrollIndicatorInsets.bottom = buttonHeight + spacing
+        let bottomInset = buttonHeight + spacing + view.safeAreaInsets.bottom
+        scrollView.contentInset.bottom = bottomInset
+        scrollView.verticalScrollIndicatorInsets.bottom = bottomInset
+
+        alignLargeScreenBackgroundCopy()
+        updateLargeScreenBackgroundCopy()
+    }
+
+    override func didMove(toParent parent: UIViewController?) {
+        super.didMove(toParent: parent)
+
+        alignLargeScreenBackgroundCopy()
+    }
+
+    /// Lines the copy up with the background it copies whenever they're in the same window.
+    private func alignLargeScreenBackgroundCopy() {
+        guard let largeScreenBackground, let window = view.window, largeScreenBackground.window === window,
+              largeScreenBackgroundConstraints.first?.isActive != true else { return }
+
+        if largeScreenBackgroundConstraints.isEmpty {
+            largeScreenBackgroundConstraints = [
+                largeScreenBackgroundCopy.leadingAnchor.constraint(equalTo: largeScreenBackground.leadingAnchor),
+                largeScreenBackgroundCopy.topAnchor.constraint(equalTo: largeScreenBackground.topAnchor),
+                largeScreenBackgroundCopy.widthAnchor.constraint(equalTo: largeScreenBackground.widthAnchor),
+                largeScreenBackgroundCopy.heightAnchor.constraint(equalTo: largeScreenBackground.heightAnchor)
+            ]
+        }
+        NSLayoutConstraint.activate(largeScreenBackgroundConstraints)
+    }
+
+    /// Fades the copy out under the description like the solid color and its gradient do.
+    private func updateLargeScreenBackgroundCopy() {
+        guard largeScreenBackground != nil else { return }
+
+        scrollView.layoutIfNeeded()
+        let bounds = largeScreenBackgroundContainer.bounds
+        let descriptionFrame = view.convert(descriptionLabel.bounds, from: descriptionLabel)
+        guard bounds.height > 0 else { return }
+
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        largeScreenBackgroundMask.frame = bounds
+        largeScreenBackgroundMask.locations = [
+            0,
+            NSNumber(value: descriptionFrame.minY / bounds.height),
+            NSNumber(value: (descriptionFrame.maxY + 50) / bounds.height)
+        ]
+        CATransaction.commit()
     }
 
     @objc private func closeTapped() {
@@ -282,5 +379,11 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
             return
         }
         Analytics.track(event, properties: ["episode_uuid": episodeUUID, "podcast_uuid": podcastUUID, "source": analyticsSource.rawValue])
+    }
+}
+
+extension GeneratedTranscriptsPremiumOverlay: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        updateLargeScreenBackgroundCopy()
     }
 }

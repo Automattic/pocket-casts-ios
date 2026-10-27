@@ -16,7 +16,6 @@ class NewPlaylistCell: ThemeableCell {
 
     static let reuseIdentifier = "PlaylistCell"
     static let cellHeight = 81.0
-    static let emptyPlaylist = EpisodeFilter()
 
     lazy var separatorView: UIView = {
         let view = UIView()
@@ -55,6 +54,7 @@ class NewPlaylistCell: ThemeableCell {
                 .environmentObject(Theme.shared)
         }
         .margins(.vertical, 12)
+        .margins(.leading, 16)
 
         addSubview(artworkImageSource)
         addSubview(separatorView)

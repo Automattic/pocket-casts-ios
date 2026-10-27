@@ -103,11 +103,10 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="iHc-Gl-5D7" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="7XX-Sb-gN7"/>
-                <constraint firstAttribute="trailing" secondItem="iHc-Gl-5D7" secondAttribute="trailing" id="Bj6-jN-GnN"/>
+                <constraint firstAttribute="trailingMargin" secondItem="iHc-Gl-5D7" secondAttribute="trailing" id="Bj6-jN-GnN"/>
                 <constraint firstItem="iHc-Gl-5D7" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="Q9T-fY-m82"/>
                 <constraint firstAttribute="bottom" secondItem="iHc-Gl-5D7" secondAttribute="bottom" id="YTE-0V-1sW"/>
-                <constraint firstItem="iHc-Gl-5D7" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="iUu-qp-SY3"/>
-                <constraint firstItem="iHc-Gl-5D7" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="lP1-tY-z6Y"/>
+                <constraint firstItem="iHc-Gl-5D7" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leadingMargin" id="iUu-qp-SY3"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="138" y="130"/>

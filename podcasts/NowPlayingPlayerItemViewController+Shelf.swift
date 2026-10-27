@@ -24,6 +24,11 @@ protocol NowPlayingActionsDelegate: AnyObject {
 }
 
 extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
+    /// The tint of the shelf buttons that are on. The large screen background comes from the
+    /// artwork, as the podcast color does, so they're white there to always stand out.
+    var activeShelfButtonTintColor: UIColor {
+        usesLargeScreenStyle ? ThemeColor.playerContrast01() : PlayerColorHelper.playerHighlightColor01(for: .dark)
+    }
 
     @objc func reloadShelfActions() {
         guard let playingEpisode = PlaybackManager.shared.currentEpisode else { return }
@@ -35,7 +40,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         #endif
 
         // don't reload the actions unless we need to
-        if !lastShelfLoadState.updateRequired(shelfActions: actions, episodeUuid: playingEpisode.uuid, effectsOn: PlaybackManager.shared.effects.effectsEnabled(), sleepTimerOn: PlaybackManager.shared.sleepTimerActive(), episodeStarred: playingEpisode.keepEpisode, episodeStatus: playingEpisode.episodeStatus, videoToggleAvailable: PlaybackManager.shared.canToggleVideoRendering(), videoRendering: PlaybackManager.shared.shouldRenderVideo()) { return }
+        if !lastShelfLoadState.updateRequired(shelfActions: actions, episodeUuid: playingEpisode.uuid, effectsOn: PlaybackManager.shared.effects.effectsEnabled(), sleepTimerOn: PlaybackManager.shared.isSleepTimerActive, episodeStarred: playingEpisode.keepEpisode, episodeStatus: playingEpisode.episodeStatus, videoToggleAvailable: PlaybackManager.shared.canToggleVideoRendering, videoRendering: PlaybackManager.shared.shouldRenderVideo) { return }
 
         // load the first 4 actions into the player, followed by an overflow icon
         playerControlsStackView.removeAllSubviews()
@@ -74,15 +79,15 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             let effectsBtn = EffectsButton(frame: CGRect.zero)
             effectsBtn.isPointerInteractionEnabled = true
             effectsBtn.effectsOn = effects.effectsEnabled()
-            effectsBtn.tintColor = effectsBtn.effectsOn ? PlayerColorHelper.playerHighlightColor01(for: .dark) : ThemeColor.playerContrast02()
+            effectsBtn.tintColor = effectsBtn.effectsOn ? activeShelfButtonTintColor : ThemeColor.playerContrast02()
             effectsBtn.addTarget(self, action: #selector(effectsBtnTapped(_:)), for: .touchUpInside)
 
             addToShelf(on: effectsBtn)
         case .sleepTimer:
             let sleepBtn = SleepTimerButton(frame: CGRect.zero)
             sleepBtn.isPointerInteractionEnabled = true
-            let sleepTimerActive = PlaybackManager.shared.sleepTimerActive()
-            sleepBtn.tintColor = sleepTimerActive ? PlayerColorHelper.playerHighlightColor01(for: .dark) : ThemeColor.playerContrast02()
+            let sleepTimerActive = PlaybackManager.shared.isSleepTimerActive
+            sleepBtn.tintColor = sleepTimerActive ? activeShelfButtonTintColor : ThemeColor.playerContrast02()
             sleepBtn.sleepTimerOn = sleepTimerActive
             sleepBtn.addTarget(self, action: #selector(sleepBtnTapped(_:)), for: .touchUpInside)
             sleepBtn.accessibilityLabel = sleepTimerActive ? L10n.playerAccessibilitySleepTimerOn : L10n.playerActionTitleSleepTimer
@@ -90,6 +95,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             sleepBtn.setupAnimation()
         case .routePicker:
             let picker = sharedRoutePicker(largeSize: true)
+            picker.activeTintColor = activeShelfButtonTintColor
             playerControlsStackView.addArrangedSubview(picker)
             addToShelf(on: picker)
         case .shareEpisode:
@@ -125,7 +131,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
                 starBtn.setImage(starImage, for: .normal)
                 starBtn.accessibilityLabel = PlayerAction.starEpisode.title(episode: playingEpisode)
                 starBtn.addTarget(self, action: #selector(starTapped(_:)), for: .touchUpInside)
-                starBtn.imageView?.tintColor = playingEpisode.keepEpisode ? PlayerColorHelper.playerHighlightColor01(for: .dark) : ThemeColor.playerContrast02()
+                starBtn.imageView?.tintColor = playingEpisode.keepEpisode ? activeShelfButtonTintColor : ThemeColor.playerContrast02()
 
                 addToShelf(on: starBtn)
             }
@@ -193,7 +199,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             addToShelf(on: button)
 #endif
         case .videoToggle:
-            let renderingVideo = PlaybackManager.shared.shouldRenderVideo()
+            let renderingVideo = PlaybackManager.shared.shouldRenderVideo
             let button = UIButton(frame: CGRect.zero)
             button.isPointerInteractionEnabled = true
             button.imageView?.tintColor = ThemeColor.playerContrast02()
@@ -294,7 +300,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
     func transcriptTapped() {
         #if !APPCLIP
-        displayTranscript = true
+        openTranscript()
         #endif
     }
 
@@ -426,7 +432,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         }
         shelfButtonTapped(.transcript)
 
-        displayTranscript = true
+        openTranscript()
         #endif
     }
 
@@ -541,7 +547,7 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
             UIView.transition(with: starBtn, duration: Constants.Animation.defaultAnimationTime, options: .transitionCrossDissolve, animations: {
                 starBtn.setImage(starImage, for: .normal)
-                starBtn.imageView?.tintColor = episode.keepEpisode ? PlayerColorHelper.playerHighlightColor01(for: .dark) : ThemeColor.playerContrast02()
+                starBtn.imageView?.tintColor = episode.keepEpisode ? self.activeShelfButtonTintColor : ThemeColor.playerContrast02()
             }, completion: nil)
         }
     }

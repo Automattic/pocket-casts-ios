@@ -138,6 +138,7 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         podcastDescription.sizeToFit()
 
         subscribeButton.shouldAnimate = false
+        subscribeButton.setFollowAccessibilityLabels(podcastTitle: podcast.title?.localized)
         subscribeButton.currentlyOn = delegate?.isSubscribed(podcast: podcast) ?? false
         subscribeButton.shouldAnimate = true
 

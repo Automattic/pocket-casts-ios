@@ -13,6 +13,12 @@
 /* A common string used throughout the app. Accessibility hint to inform that the control dismisses the current window. */
 "accessibility_dismiss" = "Dismiss";
 
+/* Accessibility label for the button that follows a podcast, used in lists where several podcasts each have a Follow button. '%1$@' is a placeholder for the podcast title. */
+"accessibility_follow_podcast" = "Follow %1$@";
+
+/* Accessibility label for the button on a podcast the user already follows, used in lists where several podcasts each have this button. '%1$@' is a placeholder for the podcast title. */
+"accessibility_unfollow_podcast" = "Unfollow %1$@";
+
 /* An accessibility label to direct the user tap to get access to filter details. */
 "accessibility_hide_filter_details" = "Tap to hide filter details";
 
@@ -24,6 +30,24 @@
 
 /* A common string used throughout the app. Accessibility hint to inform that the control opens a menu for more options. */
 "accessibility_more_actions" = "More actions";
+
+/* Accessibility label for the mini player's artwork, which opens the full size player */
+"accessibility_mini_player" = "Player";
+
+/* Accessibility hint for the mini player's artwork. Tapping it opens the full size player */
+"accessibility_mini_player_hint" = "Tap to open full size player";
+
+/* Accessibility label for the button that closes the full size player */
+"accessibility_close_player" = "Close player";
+
+/* Accessibility label for the button that opens the Up Next queue from the player */
+"accessibility_up_next_list" = "Up Next List";
+
+/* Accessibility label for the large podcast artwork shown in the full size player */
+"accessibility_podcast_artwork" = "Podcast Artwork";
+
+/* Accessibility label for the button that opens the actions menu for the episodes on the podcast page */
+"accessibility_episode_actions" = "Episode Actions";
 
 /* A common string used throughout the app. An accessibility label to inform the user the completed percentage of a given task. '%1$@' is a placeholder for the localized spelled out number for Voice Over */
 "accessibility_percent_complete_format" = "%1$@ percent completed";
@@ -574,6 +598,9 @@
 /* Prompt to allow the user to manually change the regional information for the Discover tab. '%1$@' is a placeholder for the current region. */
 "discover_change_region" = "Change Region, currently %1$@";
 
+/* Accessibility label for the X button next to the selected category pill on Discover. Clears the selected category so all categories are shown again. */
+"discover_clear_category" = "Clear Category";
+
 /* Badge used to mark featured podcasts. */
 "discover_featured" = "Featured";
 
@@ -762,6 +789,12 @@
 
 /* Title used when displaying all episodes from a search. */
 "discover_all_episodes" = "All Episodes";
+
+/* Title of the Discover pill that opens the full list of podcast categories. */
+"discover_all_categories" = "All Categories";
+
+/* Header of the sheet that lets the user pick a podcast category on Discover. */
+"discover_select_a_category" = "Select a Category";
 
 /* A common string used throughout the app. Confirmation text. */
 "done" = "Done";
@@ -2489,10 +2522,10 @@
 "settings_auto_downloads_no_podcasts_selected" = "No Podcasts Selected";
 
 /* Label indicating the number of selected podcasts. '%1$@' is a placeholder for the number of podcasts selected. */
-"settings_auto_downloads_podcasts_selected_format" = "%1$@ podcasts selected";
+"settings_auto_downloads_podcasts_selected_format" = "%1$@ Podcasts Selected";
 
 /* Label indicating the number of selected podcasts. This is the singular form for an accompanying plural option. */
-"settings_auto_downloads_podcasts_selected_singular" = "1 podcast selected";
+"settings_auto_downloads_podcasts_selected_singular" = "1 Podcast Selected";
 
 /* Subtitle explaining the toggle to auto download the top episodes of a filter. */
 "settings_auto_downloads_subtitle_filters" = "Download the top episodes in a filter.";
@@ -2666,7 +2699,7 @@
 "settings_general_play_back_actions" = "Extra Playback Actions";
 
 /* Subtitle explaining the toggle to modify what controls are available on the lock screen. */
-"settings_general_play_back_actions_subtitle" = "Adds a star option to your phone lock screen.";
+"settings_general_play_back_actions_subtitle_device" = "Adds a star option to your lock screen.";
 
 /* Section header for the general settings that are more player related. */
 "settings_general_player_header" = "PLAYER";
@@ -2878,8 +2911,8 @@
 /* Section header for information about storage space used. */
 "settings_storage_usage" = "USAGE";
 
-/* Footer note on the Storage & Data Use screen explaining why iOS may report higher storage than the app does. */
-"settings_storage_usage_footer" = "This may differ from the storage shown in your iPhone Settings. iOS manages cached data automatically and frees it up when needed.";
+/* Footer note on the Storage & Data Use screen explaining why the system may report higher storage than the app does. '%1$@' is a placeholder for the device model name, e.g. 'iPhone' or 'iPad'. */
+"settings_storage_usage_footer_device" = "This may differ from the storage shown in your %1$@ Settings. Your device manages cached data automatically and frees it up when needed.";
 
 /* Title for the settings screen */
 "settings_title" = "Podcast Settings";
@@ -2981,7 +3014,7 @@
 "settings_status_refresh_service_description" = "The service used to find new episodes.";
 
 /* Failure message for a service check. */
-"settings_status_service_ad_blocker_help_singular" = "The most common cause is that you have an ad-blocker configured on your phone or network. You’ll need to unblock the domain %1$@";
+"settings_status_service_ad_blocker_help_singular_device" = "The most common cause is that you have an ad-blocker configured on your device or network. You’ll need to unblock the domain %1$@";
 
 /* Title for the service being checked, in this case, the Pocket Cast's Account Service. */
 "settings_status_account_service" = "Account Service";
@@ -3002,7 +3035,7 @@
 "settings_status_host_description" = "Podcast authors host episode files in various hosting providers not managed by Pocket Casts.";
 
 /* Failure message for the podcast host check. */
-"settings_status_host_failure_message" = "The most common cause is that you have an ad-blocker configured on your phone or network. You’ll need to unblock this domain to download podcasts. Please note Pocket Casts doesn’t host or choose where podcasts are hosted, that’s up to the author of the show and is out of our control.";
+"settings_status_host_failure_message_device" = "The most common cause is that you have an ad-blocker configured on your device or network. You’ll need to unblock this domain to download podcasts. Please note Pocket Casts doesn’t host or choose where podcasts are hosted, that’s up to the author of the show and is out of our control.";
 
 /* Title of the Troubleshooting screen, reachable from the Help & Feedback "more" menu. */
 "troubleshooting_title" = "Troubleshooting";
@@ -3730,9 +3763,6 @@
 /* The description for the Pocket Casts Newsletter */
 "pocket_casts_newsletter_description" = "Receive news, app updates, themed playlists, interviews, and more.";
 
-/* The heading shown for the Pocket Casts Newsletter */
-"pocket_casts_welcome_newsletter_title" = "Get the Newsletter";
-
 /* Title for page one of the 7.20 what's new dialog. */
 "whats_new_page_one_title_7_20" = "Folders";
 
@@ -4261,29 +4291,8 @@
 /* Subtitle when displaying the user episode completion rate, all in lowercase. */
 "eoy_year_completion_rate" = "completion rate";
 
-/* Title of the view displayed after a user successfully upgrades to plus */
-"welcome_plus_title" = "Thank you, now let's get you listening!";
-
-/* Title of the view displayed after a user successfully creates an account */
-"welcome_new_account_title" = "Welcome, now let's get you listening!";
-
-/* Title of a section informing the user they can import their podcasts from another app */
-"welcome_import_title" = "Import your podcasts";
-
-/* Description of a section informing the user they can import their podcasts from another app */
-"welcome_import_description" = "Coming from another app? Bring your podcasts with you.";
-
 /* Title of a button prompting the user to import their podcasts */
 "welcome_import_button" = "Import Podcasts";
-
-/* Title of a section informing the user they can find new podcasts in the discover section */
-"welcome_discover_title" = "Discover something new";
-
-/* Description of a section informing the user they can find new podcasts in the discover section */
-"welcome_discover_description" = "Find under-the-radar and trending podcasts in our hand-curated Discover page.";
-
-/* Title of a button prompting the user find new podcasts in discover */
-"welcome_discover_button" = "Find My Next Podcast";
 
 /* Label that informs the user they have a free account */
 "account_details_free_account" = "Free Account";
@@ -4518,6 +4527,12 @@
 
 /* The body of an alert message asking the user if they want to continue with deleting the selected bookmarks */
 "bookmark_delete_warning_body" = "Are you sure you want to delete these bookmarks, there’s no way to undo it!";
+
+/* The title of an alert message asking the user if they want to continue with deleting a single bookmark */
+"bookmark_delete_warning_title_singular" = "Delete Bookmark?";
+
+/* The body of an alert message asking the user if they want to continue with deleting a single bookmark */
+"bookmark_delete_warning_body_singular" = "Are you sure you want to delete this bookmark, there’s no way to undo it!";
 
 /* The default title to use for a bookmark */
 "bookmark_default_title" = "Bookmark";
@@ -4796,7 +4811,7 @@
 "auto_restart_sleep_timer_description" = "If on, the sleep timer will restart automatically if you play an episode within 5 minutes after the last pause.";
 
 /* Description of the option to shake to restart sleep timer */
-"shake_to_restart_sleep_timer_description" = "If on, the sleep timer will restart when you shake your phone.";
+"shake_to_restart_sleep_timer_description_device" = "If on, the sleep timer will restart when you shake your device.";
 
 /* Title of a screen that display Folders history */
 "folders_history" = "Folders History";
@@ -5194,6 +5209,9 @@
 
 /* Toast message displayed when the user enables the Up Next Shuffle option */
 "up_next_shuffle_toast_message" = "Shuffle is on. Episodes will play in random order.";
+
+/* Accessibility label for the Up Next Shuffle button, which plays the queued episodes in random order */
+"up_next_shuffle_button" = "Shuffle";
 
 /* Title shown at the top of the Up Next sort options picker */
 "up_next_sort_title" = "Sort Up Next";

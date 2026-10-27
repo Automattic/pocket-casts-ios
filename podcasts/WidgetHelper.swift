@@ -129,7 +129,7 @@ class WidgetHelper {
         let episodeTitle = episode.title ?? ""
         var duration = episode.duration
         var isPlaying = false
-        let currentTime = PlaybackManager.shared.currentTime()
+        let currentTime = PlaybackManager.shared.currentTime
 
         if episode.uuid == PlaybackManager.shared.currentEpisode?.uuid, currentTime.isFinite {
             duration = duration - currentTime

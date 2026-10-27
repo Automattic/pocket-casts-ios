@@ -184,7 +184,7 @@ extension BookmarkListViewModel {
     }
 
     func deleteTapped(_ bookmark: Bookmark) {
-        confirmDeletion { [weak self] in
+        confirmDeletion(count: 1) { [weak self] in
             self?.actuallyDelete([bookmark])
         }
     }
@@ -198,7 +198,7 @@ extension BookmarkListViewModel {
         let items = selectedItems
         guard !items.isEmpty else { return }
 
-        confirmDeletion { [weak self] in
+        confirmDeletion(count: items.count) { [weak self] in
             self?.actuallyDelete(items)
             self?.toggleMultiSelection()
         }
@@ -246,11 +246,11 @@ extension BookmarkListViewModel {
 }
 
 private extension BookmarkListViewModel {
-    func confirmDeletion(_ delete: @escaping () -> Void) {
+    func confirmDeletion(count: Int, _ delete: @escaping () -> Void) {
         guard let router else { return }
         let source = analyticsSource
-        let alert = UIAlertController(title: L10n.bookmarkDeleteWarningTitle,
-                                      message: L10n.bookmarkDeleteWarningBody,
+        let alert = UIAlertController(title: count == 1 ? L10n.bookmarkDeleteWarningTitleSingular : L10n.bookmarkDeleteWarningTitle,
+                                      message: count == 1 ? L10n.bookmarkDeleteWarningBodySingular : L10n.bookmarkDeleteWarningBody,
                                       preferredStyle: .alert)
 
         alert.addAction(.init(title: L10n.cancel, style: .cancel, handler: { _ in

@@ -67,7 +67,7 @@ class StorageAndDataUseViewController: PCViewController, UITableViewDelegate, UI
         let footer = UITableViewHeaderFooterView()
         let label = ThemeableLabel()
         label.style = .primaryText02
-        label.text = L10n.settingsStorageUsageFooter
+        label.text = L10n.settingsStorageUsageFooterDevice(UIDevice.current.localizedModel)
         label.numberOfLines = 0
         label.font = UIFont.font(ofSize: 13, weight: .regular, scalingWith: .footnote)
         label.adjustsFontForContentSizeCategory = true

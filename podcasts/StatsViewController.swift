@@ -134,7 +134,7 @@ class StatsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 } else {
                     castCell.listenLabel.text = L10n.statsListenHistoryNoDate
                 }
-                castCell.accessibilityLabel = L10n.statsAccessibilityListenHistoryFormat(castCell.timeLabel.text ?? "", castCell.descriptionLabel.text ?? "")
+                castCell.accessibilityLabel = L10n.statsAccessibilityListenHistoryFormat((castCell.timeLabel.text ?? "").trimmingCharacters(in: CharacterSet(charactersIn: ".")), castCell.descriptionLabel.text ?? "")
             }
             return castCell
         case .heatmap:

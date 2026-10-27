@@ -33,8 +33,9 @@ class PlayPauseButton: BasePlayPauseButton {
 
     /// Replaces the Lottie glyph on a solid circle with a tinted
     /// `play.circle.fill`/`pause.circle.fill` symbol. The glyph is a true
-    /// cutout, and Liquid Glass renders the symbol like other tinted icons.
-    func useSymbolImage(pointSize: CGFloat) {
+    /// cutout, and Liquid Glass renders the symbol like other tinted icons. With `scalesToFit`,
+    /// the symbol follows the size of the button, with its circle filling it, instead of staying at `pointSize`.
+    func useSymbolImage(pointSize: CGFloat, scalesToFit: Bool = false) {
         guard symbolImageView == nil else { return }
 
         circleView.isHidden = true
@@ -43,7 +44,7 @@ class PlayPauseButton: BasePlayPauseButton {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.isUserInteractionEnabled = false
-        imageView.contentMode = .center
+        imageView.contentMode = scalesToFit ? .scaleAspectFit : .center
         imageView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: pointSize)
         imageView.tintColor = circleColor
         addSubview(imageView)
@@ -51,6 +52,12 @@ class PlayPauseButton: BasePlayPauseButton {
             imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
             imageView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
+        if scalesToFit {
+            NSLayoutConstraint.activate([
+                imageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1.22),
+                imageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 1.22)
+            ])
+        }
         symbolImageView = imageView
         updateSymbolImage(animated: false)
     }
@@ -59,7 +66,7 @@ class PlayPauseButton: BasePlayPauseButton {
         guard let symbolImageView, symbolImageIsPlaying != isPlaying,
               let image = UIImage(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill") else { return }
 
-        if animated, symbolImageIsPlaying != nil, UIApplication.shared.applicationState == .active {
+        if animated, symbolImageIsPlaying != nil, window != nil, !bounds.isEmpty, UIApplication.shared.applicationState == .active {
             symbolImageView.setSymbolImage(image, contentTransition: .replace)
         } else {
             symbolImageView.image = image
@@ -96,7 +103,7 @@ class PlayPauseButton: BasePlayPauseButton {
     // When using UIVIew.animate LottieAnimationView doesn't play nice with it
     // Here we snapshot the view to provide a smooth animation
     func prepareForAnimateTransition() {
-        guard let snapshot = snapshotView(afterScreenUpdates: false) else { return }
+        guard symbolImageView == nil, let snapshot = snapshotView(afterScreenUpdates: false) else { return }
 
         snapshot.translatesAutoresizingMaskIntoConstraints = false
         addSubview(snapshot)

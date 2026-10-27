@@ -19,6 +19,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     private static let cellId = "LargeListCell"
 
     private var lastLayedOutWidth = 0 as CGFloat
+    private var lastLayedOutInsets = UIEdgeInsets.zero
 
     private var relatedPodcastID: String? {
         didSet {
@@ -51,6 +52,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         (view as? ThemeableView)?.style = .primaryUi02
 
         collectionView.register(UINib(nibName: "LargeListCell", bundle: nil), forCellWithReuseIdentifier: LargeListSummaryViewController.cellId)
+        collectionView.contentInsetAdjustmentBehavior = .never
 
         collectionView.backgroundColor = UIColor.clear
 
@@ -85,11 +87,21 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
             titleTopConstraint.constant = padding / 2
         }
 
-        if lastLayedOutWidth != view.bounds.width {
+        if lastLayedOutWidth != view.bounds.width || lastLayedOutInsets != horizontalInsets {
             lastLayedOutWidth = view.bounds.width
+            lastLayedOutInsets = horizontalInsets
             largeListCollectionViewHeight.constant = cellWidth + cellExtraHeight
+            collectionView.collectionViewLayout.invalidateLayout()
             collectionView.layoutIfNeeded()
+            updateInsets()
         }
+    }
+
+    private func updateInsets() {
+        let leadingInset = cellSpacing + horizontalInsets.left
+        collectionView.contentOffset.x -= leadingInset - collectionView.contentInset.left
+        collectionView.contentInset.left = leadingInset
+        collectionView.contentInset.right = horizontalInsets.right
     }
 
     override func viewWillAppear(_ animated: Bool) {

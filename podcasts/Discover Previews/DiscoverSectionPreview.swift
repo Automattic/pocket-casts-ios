@@ -65,14 +65,14 @@ private struct SectionHost: UIViewControllerRepresentable {
 
         section.registerDiscoverDelegate(delegate)
 
-        parent.addChild(section)
-        parent.view.addSubview(section.view)
-        section.view.translatesAutoresizingMaskIntoConstraints = false
+        let content = UIViewControllerContentConfiguration(parentViewController: parent, viewController: section).makeContentView()
+        parent.view.addSubview(content)
+        content.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            section.view.topAnchor.constraint(equalTo: parent.view.topAnchor),
-            section.view.leadingAnchor.constraint(equalTo: parent.view.leadingAnchor),
-            section.view.trailingAnchor.constraint(equalTo: parent.view.trailingAnchor),
-            section.view.bottomAnchor.constraint(equalTo: parent.view.bottomAnchor)
+            content.topAnchor.constraint(equalTo: parent.view.topAnchor),
+            content.leadingAnchor.constraint(equalTo: parent.view.leadingAnchor),
+            content.trailingAnchor.constraint(equalTo: parent.view.trailingAnchor),
+            content.bottomAnchor.constraint(equalTo: parent.view.bottomAnchor)
         ])
         section.didMove(toParent: parent)
 

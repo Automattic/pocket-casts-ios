@@ -15,7 +15,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
     private var isInteractive: Bool { interactiveVelocity != 0 }
 
     private var isVideoShown: Bool {
-        PlaybackManager.shared.shouldRenderVideo()
+        PlaybackManager.shared.shouldRenderVideo
     }
 
     private var presentDuration: TimeInterval { isInteractive ? 0.45 : 0.5 }
@@ -180,7 +180,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         toView.frame = CGRect(x: -miniFrame.minX, y: 0, width: finalFrame.width, height: finalFrame.height)
         panel.addSubview(toView)
 
-        let miniSnapshot = makeMiniSnapshot(frame: miniFrame, cornerRadius: miniCornerRadius, isInline: isMiniInline)
+        let miniSnapshot = makeMiniSnapshot(frame: miniFrame, cornerRadius: miniCornerRadius, isInline: isMiniInline, isLarge: miniVC.isLargeLayoutApplied)
         container.addSubview(miniSnapshot)
         miniSnapshotController?.synchronizeScrollingTitleAnimation(with: miniVC)
 
@@ -290,14 +290,15 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         let miniFrame = mini.convert(mini.bounds, to: container)
         let miniCornerRadius = miniPillCornerRadius(for: miniFrame)
         let destArtFrame = miniArtwork.convert(miniArtwork.bounds, to: container)
-        // The full-player artwork only lives on the Now Playing tab — on the
+        // The full-player artwork only lives on the Now Playing tab (unless
+        // the tabs are next to it on a large screen) — on the
         // other tabs `nowPlayingItem` is scrolled horizontally off-screen
         // inside `mainScrollView`, so morphing an artwork view back to the
         // mini player would slide it across the screen from nowhere visible.
         // Skip the morph entirely in that case and let the mini snapshot's
         // own artwork appear in place instead. Video podcasts also skip the
         // morph because `episodeImage` is hidden behind the floating video.
-        let shouldMorphArtwork = fromVC.tabsView.currentTab == 0 && !isVideoShown
+        let shouldMorphArtwork = fromVC.isNowPlayingVisible && !isVideoShown
         let sourceArtFrame = container.convert(fromArtwork.convert(fromArtwork.bounds, to: fromView), from: fromView)
         let sourceArtCornerRadius = fromArtwork.layer.cornerRadius
         let isMiniInline = mini.traitCollection.tabAccessoryEnvironment == .inline
@@ -332,6 +333,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             frame: CGRect(x: miniFrame.minX, y: dragOffset, width: miniFrame.width, height: miniFrame.height),
             cornerRadius: miniCornerRadius,
             isInline: isMiniInline,
+            isLarge: miniVC.isLargeLayoutApplied,
             artworkImage: shouldMorphArtwork ? nil : miniArtwork.imageView?.image
         )
         miniSnapshot.alpha = 0
@@ -439,7 +441,7 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
     /// When `artworkImage` is non-nil the clone displays it directly; otherwise
     /// the clone's artwork slot is hidden because a floating artwork view
     /// occupies that space during the morph.
-    private func makeMiniSnapshot(frame: CGRect, cornerRadius: CGFloat, isInline: Bool, artworkImage: UIImage? = nil) -> UIView {
+    private func makeMiniSnapshot(frame: CGRect, cornerRadius: CGFloat, isInline: Bool, isLarge: Bool, artworkImage: UIImage? = nil) -> UIView {
         let clone = MiniPlayerViewController()
         clone.loadViewIfNeeded()
         guard let cloneView = clone.viewIfLoaded else {
@@ -452,10 +454,12 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         // `tabAccessoryEnvironment` trait stays at the default — force the
         // layout flavor that matches the live mini player.
         clone.setForcedInlineLayout(isInline)
+        clone.setForcedLargeLayout(isLarge)
+        clone.copyTranscriptAvailability(from: miniPlayer)
         if let artworkImage, let artworkImageView = clone.podcastArtwork?.imageView {
             artworkImageView.image = artworkImage
         } else {
-            clone.podcastArtwork?.isHidden = true
+            clone.podcastArtwork?.alpha = 0
         }
         cloneView.isUserInteractionEnabled = false
         cloneView.frame = frame
@@ -584,12 +588,16 @@ extension PlayerContainerViewController {
     /// header's frame.
     fileprivate func setPlayerHeaderHidden(_ hidden: Bool, animated: Bool, delay: TimeInterval = 0) {
         let target: CGFloat = hidden ? 0 : 1
+        var headerViews: [UIView] = [headerView]
+        if #available(iOS 27.1, *) {
+            headerViews += largeScreenHeaderViews
+        }
         guard animated else {
-            headerView.alpha = target
+            headerViews.forEach { $0.alpha = target }
             return
         }
         UIView.animate(withDuration: 0.25, delay: delay, options: [.curveEaseInOut]) {
-            self.headerView.alpha = target
+            headerViews.forEach { $0.alpha = target }
         }
     }
 }

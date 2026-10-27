@@ -51,7 +51,7 @@
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tJx-CO-hRe" customClass="PodcastImageView" customModule="podcasts" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
-                                    <accessibility key="accessibilityConfiguration" hint="Tap to open full size player" label="Player">
+                                    <accessibility key="accessibilityConfiguration">
                                         <accessibilityTraits key="traits" button="YES"/>
                                         <bool key="isElement" value="YES"/>
                                     </accessibility>
@@ -61,7 +61,7 @@
                                     </constraints>
                                 </view>
                             </subviews>
-                            <accessibility key="accessibilityConfiguration" hint="Tap to open full size player" label="Player">
+                            <accessibility key="accessibilityConfiguration">
                                 <accessibilityTraits key="traits" button="YES"/>
                                 <bool key="isElement" value="YES"/>
                             </accessibility>
@@ -74,7 +74,6 @@
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="92g-6h-Yd9" userLabel="Skip Back">
                             <rect key="frame" x="76.5" y="5.5" width="44" height="44"/>
-                            <accessibility key="accessibilityConfiguration" label="Skip Back"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="Woi-QS-Vfx"/>
                                 <constraint firstAttribute="width" constant="44" id="nOK-wd-Pse"/>
@@ -97,7 +96,6 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JHq-wc-GDV" userLabel="Skip Forward">
                             <rect key="frame" x="188.5" y="5.5" width="44" height="44"/>
-                            <accessibility key="accessibilityConfiguration" label="Skip Forward"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="44" id="lSC-b9-3WW"/>
                                 <constraint firstAttribute="height" constant="44" id="n5h-Xf-4jI"/>
@@ -109,7 +107,6 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nTH-nm-IG6" userLabel="Up Next Button" customClass="UpNextButton" customModule="podcasts" customModuleProvider="target">
                             <rect key="frame" x="261" y="5.5" width="44" height="44"/>
-                            <accessibility key="accessibilityConfiguration" label="Up Next List"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="44" id="1HL-eT-cXQ"/>
                                 <constraint firstAttribute="height" constant="44" id="Vyt-hi-Owa"/>
@@ -135,12 +132,12 @@
                         <constraint firstItem="Bqa-eT-t3r" firstAttribute="leading" secondItem="AxG-ti-suk" secondAttribute="leading" constant="8" id="1bY-32-Orr"/>
                         <constraint firstItem="aWD-bx-vF2" firstAttribute="bottom" secondItem="rTj-uk-yNW" secondAttribute="bottom" id="3o7-NK-mt2"/>
                         <constraint firstItem="aWD-bx-vF2" firstAttribute="trailing" secondItem="rTj-uk-yNW" secondAttribute="trailing" id="7jR-Np-bxm"/>
-                        <constraint firstItem="CjL-4C-tuh" firstAttribute="leading" secondItem="92g-6h-Yd9" secondAttribute="trailing" constant="14" id="Hpx-DY-ja8"/>
+                        <constraint firstItem="CjL-4C-tuh" firstAttribute="left" secondItem="92g-6h-Yd9" secondAttribute="right" constant="14" id="Hpx-DY-ja8"/>
                         <constraint firstItem="Bqa-eT-t3r" firstAttribute="centerY" secondItem="rTj-uk-yNW" secondAttribute="centerY" constant="-1" id="Lbg-0F-tuy"/>
                         <constraint firstItem="CjL-4C-tuh" firstAttribute="centerX" secondItem="AxG-ti-suk" secondAttribute="centerX" id="QrQ-7f-Rhl"/>
                         <constraint firstItem="92g-6h-Yd9" firstAttribute="centerY" secondItem="CjL-4C-tuh" secondAttribute="centerY" id="ROp-c6-jc0"/>
                         <constraint firstItem="AxG-ti-suk" firstAttribute="trailing" secondItem="nTH-nm-IG6" secondAttribute="trailing" constant="4" id="Rz8-a5-0NK"/>
-                        <constraint firstItem="JHq-wc-GDV" firstAttribute="leading" secondItem="CjL-4C-tuh" secondAttribute="trailing" constant="14" id="VlI-G2-BRC"/>
+                        <constraint firstItem="JHq-wc-GDV" firstAttribute="left" secondItem="CjL-4C-tuh" secondAttribute="right" constant="14" id="VlI-G2-BRC"/>
                         <constraint firstItem="JHq-wc-GDV" firstAttribute="centerY" secondItem="CjL-4C-tuh" secondAttribute="centerY" id="Wjy-z8-CWj"/>
                         <constraint firstItem="nTH-nm-IG6" firstAttribute="centerY" secondItem="CjL-4C-tuh" secondAttribute="centerY" id="f40-dR-nqk"/>
                         <constraint firstItem="CjL-4C-tuh" firstAttribute="centerY" secondItem="Bqa-eT-t3r" secondAttribute="centerY" id="hcs-EK-GcX"/>
