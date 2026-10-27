@@ -528,6 +528,11 @@ class PodcastDataManager {
 
     /// Reloads one podcast into the cache, for writes that change a single podcast.
     private func cachePodcast(uuid: String, dbQueue: GRDBQueue) {
+        guard FeatureFlag.refreshImprovements.enabled else {
+            cachePodcasts(dbQueue: dbQueue)
+            return
+        }
+
         dbQueue.read { db in
             do {
                 let resultSet = try db.executeQuery("SELECT * from \(DataManager.podcastTableName) WHERE uuid = ?", values: [uuid])

@@ -269,6 +269,10 @@ public enum FeatureFlag: String, CaseIterable {
     /// Check followed podcasts for new episodes with several smaller requests sent at the same time
     case refreshPodcastsInBatches
 
+    /// Save the episodes a refresh finds in one transaction, reload only the changed podcast into the podcast cache,
+    /// join a refresh that's already running, and stop the background refresh when its time runs out
+    case refreshImprovements
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -457,6 +461,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .refreshPodcastsInBatches:
             BuildEnvironment.current == .debug
+        case .refreshImprovements:
+            true
         }
     }
 

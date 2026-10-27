@@ -113,10 +113,18 @@ class RefreshOperation: Operation, @unchecked Sendable {
             receivedEpisodes.append((podcast, episodes))
         }
 
-        let allReceivedEpisodes = receivedEpisodes.flatMap(\.episodes)
-        let savedUuids = Set(DataManager.shared.insertEpisodesIfMissing(allReceivedEpisodes).map(\.uuid))
-        // the sync can save a new episode from Up Next with only its title and URL before the refresh gets to it
-        DataManager.shared.fillMissingDetails(from: allReceivedEpisodes.filter { !savedUuids.contains($0.uuid) })
+        let savedUuids: Set<String>
+        if FeatureFlag.refreshImprovements.enabled {
+            let allReceivedEpisodes = receivedEpisodes.flatMap(\.episodes)
+            savedUuids = Set(DataManager.shared.insertEpisodesIfMissing(allReceivedEpisodes).map(\.uuid))
+            // the sync can save a new episode from Up Next with only its title and URL before the refresh gets to it
+            DataManager.shared.fillMissingDetails(from: allReceivedEpisodes.filter { !savedUuids.contains($0.uuid) })
+        } else {
+            savedUuids = saveEpisodesOneByOne(receivedEpisodes)
+        }
+        if isCancelled {
+            return .cancelled
+        }
 
         var metadataRequestsQueued = 0
         for (podcast, receivedPodcastEpisodes) in receivedEpisodes {
@@ -155,6 +163,33 @@ class RefreshOperation: Operation, @unchecked Sendable {
         FileLog.shared.addMessage("Refresh complete found \(newEpisodesAdded) new episodes in \(startDate.elapsedTimeDescription)")
 
         return (newEpisodesAdded > 0) ? .successNewData : .successNoNewData
+    }
+
+    /// Saves each podcast's new episodes separately, looking up every episode first.
+    /// - Returns: The UUIDs of the episodes it saved.
+    private func saveEpisodesOneByOne(_ receivedEpisodes: [(podcast: Podcast, episodes: [Episode])]) -> Set<String> {
+        var savedUuids = Set<String>()
+        for (_, episodes) in receivedEpisodes {
+            if isCancelled {
+                break
+            }
+
+            var episodesMissingDetails = [Episode]()
+            let newEpisodes = episodes.filter { episode in
+                guard let existingEpisode = DataManager.shared.findEpisode(uuid: episode.uuid) else { return true }
+
+                // the sync can save a new episode from Up Next with only its title and URL before the refresh gets to it
+                if existingEpisode.fileType == nil, existingEpisode.detailedDescription == nil {
+                    episodesMissingDetails.append(episode)
+                }
+                return false
+            }
+
+            DataManager.shared.bulkSave(episodes: newEpisodes)
+            DataManager.shared.fillMissingDetails(from: episodesMissingDetails)
+            savedUuids.formUnion(newEpisodes.map(\.uuid))
+        }
+        return savedUuids
     }
 
     private func processAutoAddUpNextCandidates() {
