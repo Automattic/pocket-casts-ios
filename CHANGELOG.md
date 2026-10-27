@@ -11,6 +11,8 @@
 - Hide Share Podcasts and Edit Podcasts from the Podcasts tab's options menu when nothing is followed [#5541](https://github.com/Automattic/pocket-casts-ios/pull/5541)
 - Fix VoiceOver reaching the player's tabs, Up Next and chapter controls hidden behind an open transcript [#5538](https://github.com/Automattic/pocket-casts-ios/pull/5538)
 - Fix VoiceOver not announcing which region is selected in Discover's Select Content Region list [#5537](https://github.com/Automattic/pocket-casts-ios/pull/5537)
+- Sync Up Next, listening progress and settings without waiting for new episodes to load, and save new episodes much faster in large libraries [#5527](https://github.com/Automattic/pocket-casts-ios/pull/5527)
+
 
 8.24
 -----
