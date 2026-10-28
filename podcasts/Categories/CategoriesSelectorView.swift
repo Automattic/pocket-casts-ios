@@ -136,7 +136,7 @@ struct CategoriesPillsView: View {
                 Analytics.track(.discoverCategoriesPickerClosed, properties: ["region": region ?? "none"])
             }
         }
-        .onChange(of: selectedCategory) {
+        .onDisappear {
             showingCategories = false
         }
     }
