@@ -1,6 +1,6 @@
 8.25
 -----
-
+- Fix the Select a Category sheet reopening when clearing a category picked from All Categories in Discover [#5535](https://github.com/Automattic/pocket-casts-ios/pull/5535)
 
 8.24
 -----
