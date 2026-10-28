@@ -1,6 +1,7 @@
 8.25
 -----
 - Fix the Select a Category sheet reopening when clearing a category picked from All Categories in Discover [#5535](https://github.com/Automattic/pocket-casts-ios/pull/5535)
+- Fix the empty Starred and Files screens using a lighter background than the other Profile screens in dark mode [#5532](https://github.com/Automattic/pocket-casts-ios/pull/5532)
 
 8.24
 -----

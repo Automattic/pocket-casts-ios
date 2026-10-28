@@ -76,6 +76,7 @@ class StarredViewController: PCViewController {
 
         refreshQueue.maxConcurrentOperationCount = 1
         self.title = L10n.statusStarred
+        (view as? ThemeableView)?.style = .primaryUi02
         setupNavBar()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: starredTable)
         if SyncManager.isUserLoggedIn() {
