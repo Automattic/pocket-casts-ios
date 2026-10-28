@@ -33,7 +33,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
     }
 
-    private var updateTimer: Timer?
+    private(set) var updateTimer: Timer?
     private var updateCount = 0
 
     private var currentEffects: PlaybackEffects?
@@ -1723,7 +1723,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         StatsManager.shared.persistTimes()
     }
 
-    private func startUpdateTimer() {
+    func startUpdateTimer() {
         // schedule the timer on a thread that has a run loop, the main thread being a good option
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
@@ -2354,6 +2354,11 @@ class PlaybackManager: ServerPlaybackDelegate {
                 wasPlayingBeforeInterruption = player.shouldBePlaying
                 player.interruptionDidStart()
             }
+
+            // Stop the progress timer while another app has the audio, otherwise the sleep timer (and listening stats) keep counting down.
+            // If the interruption ends with shouldResume, play() restarts it.
+            cancelUpdateTimer()
+            syncSleepTimerLiveActivity(isPaused: true)
 
             if let episode = currentEpisode {
                 catchUpHelper.playbackDidPause(of: episode)
