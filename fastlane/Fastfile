@@ -218,7 +218,10 @@ platform :ios do
     run_tests(
       scheme: SCHEME,
       devices: ['iPhone 17 Pro'],
-      output_types: 'junit'
+      output_types: 'junit',
+      # Workaround: on Xcode 27, post-test simulator diagnostics collection can hang until its 600 s timeout.
+      # Drop once a newer Xcode no longer does.
+      xcargs: '-collect-test-diagnostics never'
     )
   end
 
