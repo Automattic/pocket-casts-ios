@@ -1,6 +1,6 @@
 8.25
 -----
-
+- Fix the podcast page saying "All 1 episodes" were archived, and showing the archived message for podcasts with no episodes [#5533](https://github.com/Automattic/pocket-casts-ios/pull/5533)
 
 8.24
 -----
