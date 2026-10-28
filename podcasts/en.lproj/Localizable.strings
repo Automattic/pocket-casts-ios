@@ -1944,6 +1944,9 @@
 /* Informational message informing the user that no episodes are being displayed because they're all archived. '%1$@' is a placeholder for the number of episodes. */
 "podcast_archived_msg" = "All %1$@ episodes of this podcast have been archived";
 
+/* Informational message informing the user that no episodes are being displayed because the podcast's only episode is archived. This is the singular version of an accompanying plural format. */
+"podcast_archived_msg_singular" = "The only episode of this podcast has been archived";
+
 /* A common string used throughout the app. Displays the count of selected podcasts. '%1$@' is a placeholder for the number of podcasts, the value will be more than one. */
 "podcast_count_plural_format" = "%1$@ podcasts";
 
