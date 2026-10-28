@@ -18,6 +18,10 @@ final class UpNextSortOptionTests: XCTestCase {
         Date(timeIntervalSince1970: 1_000_000 + daysFromNow * 86_400)
     }
 
+    func testDeliberateFailureToTriggerDiagnosticsCollection() {
+        XCTFail("Deliberate failure: validation PR for #5528, do not merge")
+    }
+
     func testNewestToOldestSortsByPublishedDateDescending() {
         let episodes = [
             episode("old", published: date(1)),
