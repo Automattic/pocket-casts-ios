@@ -1,6 +1,7 @@
 8.25
 -----
 - Fix the transcript search's previous and next arrows becoming disabled after tapping Search again [#5531](https://github.com/Automattic/pocket-casts-ios/pull/5531)
+- Show a single Cancel button instead of Share and Search while searching a transcript, and keep it above the keyboard on iPad [#5536](https://github.com/Automattic/pocket-casts-ios/pull/5536)
 
 8.24
 -----
