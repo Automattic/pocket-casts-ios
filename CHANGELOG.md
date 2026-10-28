@@ -1,6 +1,6 @@
 8.25
 -----
-
+- Fix the transcript search's previous and next arrows becoming disabled after tapping Search again [#5531](https://github.com/Automattic/pocket-casts-ios/pull/5531)
 
 8.24
 -----
