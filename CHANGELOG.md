@@ -1,6 +1,6 @@
 8.25
 -----
-
+- Improve VoiceOver labels: Recent searches remove buttons name the search they remove, onboarding Follow buttons include the podcast name, and played episode rows say "Played" [#5534](https://github.com/Automattic/pocket-casts-ios/pull/5534)
 
 8.24
 -----
