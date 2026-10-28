@@ -375,7 +375,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
         // Move focus to the textView on the input accessory view
         searchView.textField.becomeFirstResponder()
-        searchView.enableUpDownButtons(false)
+        updateNumberOfResults()
 
         track(.transcriptSearchShown)
     }
