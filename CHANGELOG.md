@@ -1,5 +1,6 @@
 8.25
 -----
+- Show a single Cancel button instead of Share and Search while searching a transcript, and keep it above the keyboard on iPad [#5536](https://github.com/Automattic/pocket-casts-ios/pull/5536)
 - Fix the empty Starred and Files screens using a lighter background than the other Profile screens in dark mode [#5532](https://github.com/Automattic/pocket-casts-ios/pull/5532)
 
 8.24
