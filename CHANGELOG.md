@@ -1,6 +1,6 @@
 8.25
 -----
-
+- Fix the Sleep Timer counting down and listening stats increasing while another app is playing audio [#5530](https://github.com/Automattic/pocket-casts-ios/pull/5530)
 
 8.24
 -----
