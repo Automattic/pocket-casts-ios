@@ -12,7 +12,10 @@ class PodcastChapterParser {
     }
 
     func parseRemoteFile(_ remoteUrl: String, episodeDuration: TimeInterval, completion: @escaping (([ChapterInfo]) -> Void)) {
-        guard let url = URL(string: remoteUrl) else { return }
+        guard let url = URL(string: remoteUrl) else {
+            completion([])
+            return
+        }
 
         parseChapters(url: url, episodeDuration: episodeDuration, completion: completion)
     }
@@ -141,6 +144,7 @@ class PodcastChapterParser {
                 }
             } catch {
                 FileLog.shared.addMessage("Encountered crash while trying to parse chapters \(error)")
+                completion([])
             }
         }
     }
