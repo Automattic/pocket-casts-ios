@@ -438,8 +438,9 @@ extension AppDelegate {
 
         JLRoutes.global().addRoute("/upsell") { parameters -> Bool in
             guard let viewController = SceneHelper.rootViewController() else { return false }
+            guard let flow = OnboardingFlow.Flow(upsellRouteTier: SubscriptionHelper.activeTier) else { return true }
             let source = PlusUpgradeViewSource(routeParameters: parameters)
-            NavigationManager.shared.navigateTo(NavigationManager.subscriptionRequiredPageKey, data: ["source": source, NavigationManager.subscriptionUpgradeVCKey: viewController])
+            NavigationManager.shared.navigateTo(NavigationManager.subscriptionRequiredPageKey, data: ["source": source, "flow": flow, NavigationManager.subscriptionUpgradeVCKey: viewController])
             return true
         }
     }
@@ -614,5 +615,18 @@ extension AppDelegate {
 extension PlusUpgradeViewSource {
     init(routeParameters parameters: [String: Any]) {
         self = PlusUpgradeViewSource(rawValue: parameters["source"] as? String ?? PlusUpgradeViewSource.deepLink.rawValue) ?? .unknown
+    }
+}
+
+extension OnboardingFlow.Flow {
+    init?(upsellRouteTier tier: SubscriptionTier) {
+        switch tier {
+        case .none:
+            self = .plusUpsell
+        case .plus:
+            self = .patronAccountUpgrade
+        case .patron:
+            return nil
+        }
     }
 }
