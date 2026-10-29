@@ -17,6 +17,11 @@ class CountryCell: ThemeableCell {
         countryName.text = region.name.localized
         countryFlag.kf.setImage(with: URL(string: region.flag))
 
-        accessoryType = (region.code == selectedRegion) ? UITableViewCell.AccessoryType.checkmark : UITableViewCell.AccessoryType.none
+        let isCurrentRegion = region.code == selectedRegion
+        accessoryType = isCurrentRegion ? UITableViewCell.AccessoryType.checkmark : UITableViewCell.AccessoryType.none
+
+        isAccessibilityElement = true
+        accessibilityLabel = countryName.text
+        accessibilityTraits = isCurrentRegion ? [.button, .selected] : .button
     }
 }
