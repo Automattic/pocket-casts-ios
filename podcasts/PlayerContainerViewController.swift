@@ -471,6 +471,8 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
                 self?.showGeneratedTranscriptsPremiumOverlay()
             }
         }
+        headerView.accessibilityElementsHidden = true
+        nowPlayingItem.view.accessibilityElements = [nowPlayingItem.bottomControlsStackView, nowPlayingItem.errorContainer].compactMap { $0 }
     }
 
     private func showGeneratedTranscriptsPremiumOverlay() {
@@ -500,6 +502,8 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         transcriptsItem.removeFromParent()
         transcriptsItem.view.removeFromSuperview()
         transcriptsItem.didDisappear()
+        headerView.accessibilityElementsHidden = false
+        nowPlayingItem.view.accessibilityElements = nil
     }
 
     private func configureTranscriptView() {
