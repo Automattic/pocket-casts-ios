@@ -389,6 +389,9 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         desc.append(title)
         desc.append(info)
 
+        if episode.played() {
+            desc.append(L10n.statusPlayed)
+        }
         if episode.downloaded(pathFinder: DownloadManager.shared) {
             desc.append(L10n.statusDownloaded)
         } else if episode.downloadFailed() {

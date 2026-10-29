@@ -1,7 +1,11 @@
 8.25
 -----
 - Fix the episode details screen showing the podcast cover when episode artwork is enabled and available [#5430](https://github.com/Automattic/pocket-casts-ios/pull/5430)
-
+- Fix the podcast page saying "All 1 episodes" were archived, and showing the archived message for podcasts with no episodes [#5533](https://github.com/Automattic/pocket-casts-ios/pull/5533)
+- Fix the Select a Category sheet reopening when clearing a category picked from All Categories in Discover [#5535](https://github.com/Automattic/pocket-casts-ios/pull/5535)
+- Improve VoiceOver labels: Recent searches remove buttons name the search they remove, onboarding Follow buttons include the podcast name, and played episode rows say "Played" [#5534](https://github.com/Automattic/pocket-casts-ios/pull/5534)
+- Show a single Cancel button instead of Share and Search while searching a transcript, and keep it above the keyboard on iPad [#5536](https://github.com/Automattic/pocket-casts-ios/pull/5536)
+- Fix the empty Starred and Files screens using a lighter background than the other Profile screens in dark mode [#5532](https://github.com/Automattic/pocket-casts-ios/pull/5532)
 
 8.24
 -----

@@ -2,9 +2,6 @@ import UIKit
 import PocketCastsUtils
 
 protocol TranscriptSearchAccessoryViewDelegate: AnyObject {
-    // When "Done" is tapped on this view
-    func doneTapped()
-
     // When "Search" is tapped on the keyboard
     func searchButtonTapped()
 
@@ -34,7 +31,7 @@ class TranscriptSearchAccessoryView: UIInputView {
     private lazy var mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.layoutMargins = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+        stackView.layoutMargins = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 0)
         stackView.isLayoutMarginsRelativeArrangement = true
         return stackView
     }()
@@ -43,19 +40,6 @@ class TranscriptSearchAccessoryView: UIInputView {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         return stackView
-    }()
-
-    private lazy var doneButton: UIButton = {
-        if #available(iOS 26.0, *) {
-            return createDoneGlassButton()
-        }
-        return createButton(
-            title: L10n.done,
-            action: #selector(done),
-            titleColor: .label,
-            highlightedTitleColor: .systemGray,
-            contentInsets: .init(top: 8, leading: 16, bottom: 8, trailing: 16)
-        )
     }()
 
     private lazy var downButton: UIButton = createSymbolButton(
@@ -99,7 +83,6 @@ class TranscriptSearchAccessoryView: UIInputView {
 
         addSubview(mainStackView)
         mainStackView.addArrangedSubview(innerStackView)
-        innerStackView.addArrangedSubview(doneButton)
 
         // On iOS 26 the keyboard input view is transparent, so we float the field
         // and the navigation buttons as Liquid Glass capsules over the keyboard.
@@ -110,9 +93,6 @@ class TranscriptSearchAccessoryView: UIInputView {
             innerStackView.alignment = .fill
             mainStackView.layoutMargins = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
             mainStackView.isLayoutMarginsRelativeArrangement = true
-
-            // Keep the Done checkmark circular by matching its width to its height.
-            doneButton.widthAnchor.constraint(equalTo: doneButton.heightAnchor).isActive = true
 
             let fieldContainer = makeGlassContainer(wrapping: textField)
             fieldContainer.setContentHuggingPriority(.defaultLow, for: .horizontal)
@@ -136,11 +116,6 @@ class TranscriptSearchAccessoryView: UIInputView {
         updateSize()
     }
 
-    @objc private func done() {
-        textField.resignFirstResponder()
-        delegate?.doneTapped()
-    }
-
     @objc private func previousMatch() {
         delegate?.previousMatch()
     }
@@ -161,7 +136,6 @@ class TranscriptSearchAccessoryView: UIInputView {
     func updateSize() {
         textField.font = UIFont.font(with: .body, maxSizeCategory: maxContentSizeCategory)
         textField.rightLabel.font = UIFont.font(with: .callout, maxSizeCategory: maxContentSizeCategory)
-        doneButton.titleLabel?.font = UIFont.font(with: .callout, maxSizeCategory: maxContentSizeCategory)
         let config = UIImage.SymbolConfiguration(pointSize: UIFont.font(with: .callout, maxSizeCategory: maxContentSizeCategory).pointSize)
         upButton.setImage(UIImage(systemName: "chevron.up")?.withConfiguration(config), for: .normal)
         downButton.setImage(UIImage(systemName: "chevron.down")?.withConfiguration(config), for: .normal)
@@ -200,19 +174,6 @@ private extension TranscriptSearchAccessoryView {
     }
 
     @available(iOS 26.0, *)
-    func createDoneGlassButton() -> UIButton {
-        var config = UIButton.Configuration.prominentGlass()
-        config.image = UIImage(systemName: "checkmark")
-        config.baseBackgroundColor = .systemBlue
-        config.cornerStyle = .capsule
-        let button = UIButton(configuration: config)
-        button.tintColor = .white
-        button.accessibilityLabel = L10n.done
-        button.addTarget(self, action: #selector(done), for: .touchUpInside)
-        return button
-    }
-
-    @available(iOS 26.0, *)
     func makeGlassContainer(wrapping content: UIView) -> UIVisualEffectView {
         let effect = UIGlassEffect()
         effect.isInteractive = true
@@ -227,26 +188,6 @@ private extension TranscriptSearchAccessoryView {
             content.bottomAnchor.constraint(equalTo: container.contentView.bottomAnchor)
         ])
         return container
-    }
-
-    func createButton(title: String, action: Selector, titleColor: UIColor, highlightedTitleColor: UIColor, contentInsets: NSDirectionalEdgeInsets) -> UIButton {
-        let button = UIButton(type: .system)
-        button.addTarget(self, action: action, for: .touchUpInside)
-        let attributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: titleColor,
-            .font: UIFont.font(with: .callout, maxSizeCategory: maxContentSizeCategory)
-        ]
-        button.setAttributedTitle(NSAttributedString(string: title, attributes: attributes), for: .normal)
-        button.setTitle(title, for: .normal)
-        button.setTitleColor(titleColor, for: .normal)
-        button.setTitleColor(highlightedTitleColor, for: .highlighted)
-
-        button.titleLabel?.adjustsFontForContentSizeCategory = false
-
-        var buttonConfig = UIButton.Configuration.plain()
-        buttonConfig.contentInsets = contentInsets
-        button.configuration = buttonConfig
-        return button
     }
 
     func createSymbolButton(imageName: String, action: Selector, contentInsets: NSDirectionalEdgeInsets) -> UIButton {
@@ -276,12 +217,10 @@ private extension TranscriptSearchAccessoryView {
 
     func configureHuggingAndCompressionPriorities() {
         textField.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        doneButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         upButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         downButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 
         textField.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        doneButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         upButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         downButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }

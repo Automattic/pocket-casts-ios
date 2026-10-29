@@ -44,7 +44,12 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     // or ahead of this index; reset when a new transcript is loaded.
     private var cachedCueIndex: Int = 0
 
-    private var isSearching = false
+    private var isSearching = false {
+        didSet {
+            guard isSearching != oldValue else { return }
+            restoreControlButtonsLayout()
+        }
+    }
     private var searchIndicesResult: [Int] = []
     private var currentSearchIndex = 0
     private var searchTerm: String?
@@ -310,12 +315,18 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
         stackView.addArrangedSubview(searchButton)
 
+        cancelButton.isHidden = true
+        stackView.addArrangedSubview(cancelButton)
+
         view.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         let topMargin = showFromEpisode ? 8.0 : 0.0
         if isPlayerTab {
+            let safeAreaBottomConstraint = stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Sizes.floatingButtonsBottomMargin)
+            safeAreaBottomConstraint.priority = .defaultHigh
             NSLayoutConstraint.activate([
-                stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Sizes.floatingButtonsBottomMargin),
+                safeAreaBottomConstraint,
+                stackView.bottomAnchor.constraint(lessThanOrEqualTo: view.keyboardLayoutGuide.topAnchor, constant: -Sizes.floatingButtonsBottomMargin),
                 stackView.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor, constant: -Sizes.textMargin)
             ])
         } else {
@@ -375,7 +386,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
         // Move focus to the textView on the input accessory view
         searchView.textField.becomeFirstResponder()
-        searchView.enableUpDownButtons(false)
+        updateNumberOfResults()
 
         track(.transcriptSearchShown)
     }
@@ -406,6 +417,13 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         searchView.textField.resignFirstResponder()
 
         resignFirstResponder()
+    }
+
+    @objc private func cancelSearch() {
+        dismissSearch()
+        resetSearch()
+        searchView.removeFromSuperview()
+        scheduleAutoScrollBack()
     }
 
     private lazy var bannerLabel: UILabel = {
@@ -535,6 +553,29 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         shareButton.configuration = configuration
         shareButton.titleLabel?.adjustsFontForContentSizeCategory = false
         return shareButton
+    }()
+
+    private lazy var cancelButton: RoundButton = {
+        let titleColor = showFromEpisode ? ThemeColor.primaryInteractive01() : .white
+        let tintColor = showFromEpisode ? ThemeColor.primaryInteractive01().withAlphaComponent(0.1) : .white.withAlphaComponent(0.2)
+
+        var configuration = UIButton.Configuration.filled()
+        configuration.contentInsets = .init(top: 4, leading: 12, bottom: 4, trailing: 12)
+        configuration.baseForegroundColor = titleColor
+        configuration.baseBackgroundColor = tintColor
+
+        let cancelButton = RoundButton(type: .system)
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.font(with: .callout, maxSizeCategory: .extraExtraExtraLarge)
+        ]
+        cancelButton.setAttributedTitle(NSAttributedString(string: L10n.cancel, attributes: attributes), for: .normal)
+        cancelButton.addTarget(self, action: #selector(cancelSearch), for: .touchUpInside)
+        cancelButton.setTitleColor(titleColor, for: .normal)
+        cancelButton.tintColor = tintColor
+        cancelButton.layer.masksToBounds = true
+        cancelButton.configuration = configuration
+        cancelButton.titleLabel?.adjustsFontForContentSizeCategory = false
+        return cancelButton
     }()
 
     private lazy var hiddenTextView: UITextField = {
@@ -673,6 +714,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     @objc private func update() {
         updateColors()
         resetKmp()
+        dismissSearch()
         resetSearch()
         loadTranscript()
     }
@@ -708,8 +750,9 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     private func restoreControlButtonsLayout() {
-        shareButton.isHidden = !FeatureFlag.shareTranscripts.enabled
-        searchButton.isHidden = false
+        shareButton.isHidden = !FeatureFlag.shareTranscripts.enabled || isSearching
+        searchButton.isHidden = isSearching
+        cancelButton.isHidden = !isSearching
     }
 
     private var currentEpisodeUUID: String?
@@ -816,6 +859,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         ]
         searchButton.setAttributedTitle(NSAttributedString(string: L10n.search, attributes: attributes), for: .normal)
         shareButton.setAttributedTitle(NSAttributedString(string: L10n.share, attributes: attributes), for: .normal)
+        cancelButton.setAttributedTitle(NSAttributedString(string: L10n.cancel, attributes: attributes), for: .normal)
         playButton.updateSize()
 
         bannerLabel.font = .font(ofSize: 13, weight: .medium, scalingWith: .footnote, maxSizeCategory: .extraExtraExtraLarge)
@@ -1405,13 +1449,6 @@ private extension TranscriptViewController {
 }
 
 extension TranscriptViewController: TranscriptSearchAccessoryViewDelegate {
-    func doneTapped() {
-        dismissSearch()
-        resetSearch()
-        searchView.removeFromSuperview()
-        scheduleAutoScrollBack()
-    }
-
     func searchButtonTapped() {
         becomeFirstResponder()
     }

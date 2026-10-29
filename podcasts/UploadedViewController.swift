@@ -110,6 +110,7 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
         registerCells()
         title = L10n.files
+        (view as? ThemeableView)?.style = .primaryUi02
 
         if SubscriptionHelper.hasActiveSubscription() {
             let controller = UploadedFilesRefreshController(source: .files)
