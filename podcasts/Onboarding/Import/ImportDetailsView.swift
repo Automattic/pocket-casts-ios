@@ -106,14 +106,6 @@ struct ImportDetailsView: View {
                 return
             }
             opmlURLImportResult = .none
-            NotificationCenter.default.addObserver(forName: Notification.Name("SJOpmlImportCompleted"), object: nil, queue: nil) { _ in
-                opmlURLImportResult = .success
-                opmlImportInProgress = false
-            }
-            NotificationCenter.default.addObserver(forName: Notification.Name("SJOpmlImportFailed"), object: nil, queue: nil) { _ in
-                opmlURLImportResult = .failure
-                opmlImportInProgress = false
-            }
 
             guard let url = URL(string: opmlURLText) else {
                 opmlURLImportResult = .failure
@@ -133,6 +125,16 @@ struct ImportDetailsView: View {
         })
         .buttonStyle(RoundedButtonStyle(theme: theme))
         .padding([.leading, .trailing], Constants.horizontalPadding)
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name("SJOpmlImportCompleted"))) { _ in
+            guard opmlImportInProgress else { return }
+            opmlURLImportResult = .success
+            opmlImportInProgress = false
+        }
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name("SJOpmlImportFailed"))) { _ in
+            guard opmlImportInProgress else { return }
+            opmlURLImportResult = .failure
+            opmlImportInProgress = false
+        }
     }
 
     private enum Constants {
