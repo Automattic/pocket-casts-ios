@@ -5,6 +5,7 @@
 - Improve VoiceOver labels: Recent searches remove buttons name the search they remove, onboarding Follow buttons include the podcast name, and played episode rows say "Played" [#5534](https://github.com/Automattic/pocket-casts-ios/pull/5534)
 - Show a single Cancel button instead of Share and Search while searching a transcript, and keep it above the keyboard on iPad [#5536](https://github.com/Automattic/pocket-casts-ios/pull/5536)
 - Fix the empty Starred and Files screens using a lighter background than the other Profile screens in dark mode [#5532](https://github.com/Automattic/pocket-casts-ios/pull/5532)
+- Fix VoiceOver reaching the player's tabs, Up Next and chapter controls hidden behind an open transcript [#5538](https://github.com/Automattic/pocket-casts-ios/pull/5538)
 
 8.24
 -----
