@@ -1,5 +1,6 @@
 8.25
 -----
+- Fix the mini player's progress bar and times being mirrored in right-to-left languages while the full player's are not, and show the remaining time in the mini player on iPhone [#5539](https://github.com/Automattic/pocket-casts-ios/pull/5539)
 - Fix the podcast page saying "All 1 episodes" were archived, and showing the archived message for podcasts with no episodes [#5533](https://github.com/Automattic/pocket-casts-ios/pull/5533)
 - Fix the Select a Category sheet reopening when clearing a category picked from All Categories in Discover [#5535](https://github.com/Automattic/pocket-casts-ios/pull/5535)
 - Improve VoiceOver labels: Recent searches remove buttons name the search they remove, onboarding Follow buttons include the podcast name, and played episode rows say "Played" [#5534](https://github.com/Automattic/pocket-casts-ios/pull/5534)
