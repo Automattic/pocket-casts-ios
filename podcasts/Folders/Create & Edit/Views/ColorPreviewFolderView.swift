@@ -9,45 +9,50 @@ struct ColorPreviewFolderView: View {
     var dismissAction: (String?) -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Group {
-                Text(L10n.color.localizedUppercase)
-                    .textStyle(SecondaryText())
-                    .font(.subheadline)
-                    .padding(.bottom, -8)
-                ThemedDivider()
-                ColorSelectRow(model: model)
-                ThemedDivider()
-                Text(L10n.folderColorDetail)
-                    .font(.footnote)
-                    .textStyle(SecondaryText())
-                    .padding(.top, -8)
-            }
-            Group {
-                Text(L10n.preview.localizedUppercase)
-                    .textStyle(SecondaryText())
-                    .font(.subheadline)
-                    .padding(.bottom, -8)
-                    .padding(.top, 10)
-                ThemedDivider()
-                HStack {
-                    FolderPreviewWrapper(model: model, showName: Settings.libraryType != .list)
-                        .frame(width: previewTileSize(), height: previewTileSize())
-                    if Settings.libraryType == .list {
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text(model.name)
-                                .textStyle(PrimaryText())
-                                .font(.subheadline)
-                            Text(L10n.podcastCount(model.selectedPodcastUuids.count))
-                                .textStyle(SecondaryText())
-                                .font(.subheadline)
-                        }
-                    }
-                    Spacer()
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                Group {
+                    Text(L10n.color.localizedUppercase)
+                        .textStyle(SecondaryText())
+                        .font(.subheadline)
+                        .padding(.bottom, -8)
+                    ThemedDivider()
+                    ColorSelectRow(model: model)
+                    ThemedDivider()
+                    Text(L10n.folderColorDetail)
+                        .font(.footnote)
+                        .textStyle(SecondaryText())
+                        .padding(.top, -8)
                 }
-                ThemedDivider()
+                Group {
+                    Text(L10n.preview.localizedUppercase)
+                        .textStyle(SecondaryText())
+                        .font(.subheadline)
+                        .padding(.bottom, -8)
+                        .padding(.top, 10)
+                    ThemedDivider()
+                    HStack {
+                        FolderPreviewWrapper(model: model, showName: Settings.libraryType != .list)
+                            .frame(width: previewTileSize(), height: previewTileSize())
+                        if Settings.libraryType == .list {
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text(model.name)
+                                    .textStyle(PrimaryText())
+                                    .font(.subheadline)
+                                Text(L10n.podcastCount(model.selectedPodcastUuids.count))
+                                    .textStyle(SecondaryText())
+                                    .font(.subheadline)
+                            }
+                        }
+                        Spacer()
+                    }
+                    ThemedDivider()
+                }
             }
-            Spacer()
+            .padding()
+        }
+        .scrollBounceBehavior(.basedOnSize)
+        .safeAreaInset(edge: .bottom) {
             Button {
                 let folderUuid = model.createFolder()
                 Analytics.track(.folderSaved, properties: ["number_of_podcasts": model.selectedPodcastUuids.count, "color": UIColor(model.color).hexString()])
@@ -56,8 +61,9 @@ struct ColorPreviewFolderView: View {
                 Text(L10n.folderSaveFolder)
                     .textStyle(RoundedButton())
             }
+            .padding()
+            .background(theme.primaryUi01)
         }
-        .padding()
         .navigationTitle(L10n.folderChooseColor)
         .onAppear {
             Analytics.track(.folderCreateColorShown, properties: ["number_of_podcasts": model.selectedPodcastUuids.count])
