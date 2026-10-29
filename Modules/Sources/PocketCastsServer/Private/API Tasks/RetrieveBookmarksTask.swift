@@ -32,6 +32,10 @@ class RetrieveBookmarksTask: ApiBaseTask, @unchecked Sendable {
         parse(response: response)
     }
 
+    override func apiTokenAcquisitionFailed() {
+        onBookmarksRetrieved(nil)
+    }
+
     private func parse(response: Data) {
         do {
             let bookmarksResponse = try Api_BookmarksResponse(serializedBytes: response)
