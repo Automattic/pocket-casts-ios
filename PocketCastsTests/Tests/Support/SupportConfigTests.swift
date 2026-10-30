@@ -77,6 +77,15 @@ final class SupportConfigTests: XCTestCase {
         XCTAssertEqual(encodedBody.removingPercentEncoding, body.replacingOccurrences(of: "\n", with: "\r\n"))
     }
 
+    func testCopyableEmailHasTheAddressSubjectAndBody() {
+        let config = SupportConfig(type: .support)
+        let body = "\n\n\n----------\nDebug log: https://mc.a8c.com/encrypted-logs.php?uuid=ABC-123\n"
+
+        let email = config.copyableEmail(body: body)
+
+        XCTAssertEqual(email, "To: support@pocketcasts.com\nSubject: \(config.subject)\n\n----------\nDebug log: https://mc.a8c.com/encrypted-logs.php?uuid=ABC-123\n")
+    }
+
     func testBodyTagsChatbotAndSurveyRequests() {
         XCTAssertTrue(SupportConfig(type: .chatbotSupport).body(optOut: true).contains("chatbot_support"))
         XCTAssertTrue(SupportConfig(type: .satisfactionSurvey).body(optOut: true).contains("satisfaction_survey"))
