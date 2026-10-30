@@ -14,46 +14,72 @@ struct EventLoggingDataProvider: EventLoggingDataSource {
 }
 
 /// Lets a caller wait for a queued log upload to finish, keyed by the log's UUID.
+///
+/// An upload is registered with `expect` before it's queued, so a result that arrives before `wait` starts isn't lost.
+/// Results for uploads nobody is expecting, such as a duplicate or one that arrives after the wait timed out, are dropped.
 final class LogUploadWaiters: @unchecked Sendable {
     static let shared = LogUploadWaiters()
 
-    private let lock = NSLock()
-    private var waiters: [String: CheckedContinuation<Bool, Never>] = [:]
-    /// Results that arrived before anyone started waiting for them.
-    private var results: [String: Bool] = [:]
+    private enum State {
+        case expected
+        case finished(succeeded: Bool)
+        case waiting(CheckedContinuation<Bool, Never>)
+    }
 
-    /// Returns `true` once the upload finishes, or `false` if it fails or doesn't finish within `timeout`.
+    private let lock = NSLock()
+    private var uploads: [String: State] = [:]
+
+    func expect(_ uuid: String) {
+        lock.lock()
+        uploads[uuid] = .expected
+        lock.unlock()
+    }
+
+    func forget(_ uuid: String) {
+        lock.lock()
+        uploads[uuid] = nil
+        lock.unlock()
+    }
+
+    /// Returns `true` once the upload finishes, or `false` if it fails, doesn't finish within `timeout`, or was never expected.
     func wait(for uuid: String, timeout: TimeInterval) async -> Bool {
         await withCheckedContinuation { continuation in
             lock.lock()
-            if let result = results.removeValue(forKey: uuid) {
+            switch uploads[uuid] {
+            case .finished(let succeeded):
+                uploads[uuid] = nil
                 lock.unlock()
-                continuation.resume(returning: result)
-                return
-            }
-            waiters[uuid] = continuation
-            lock.unlock()
-
-            DispatchQueue.global().asyncAfter(deadline: .now() + timeout) { [weak self] in
-                self?.resume(uuid, with: false)
+                continuation.resume(returning: succeeded)
+            case .expected:
+                uploads[uuid] = .waiting(continuation)
+                lock.unlock()
+                DispatchQueue.global().asyncAfter(deadline: .now() + timeout) { [weak self] in
+                    self?.complete(uuid, succeeded: false)
+                }
+            case .waiting, nil:
+                lock.unlock()
+                continuation.resume(returning: false)
             }
         }
     }
 
     func uploadFinished(_ uuid: String, succeeded: Bool) {
-        lock.lock()
-        if waiters[uuid] == nil {
-            results[uuid] = succeeded
-        }
-        lock.unlock()
-        resume(uuid, with: succeeded)
+        complete(uuid, succeeded: succeeded)
     }
 
-    private func resume(_ uuid: String, with result: Bool) {
+    private func complete(_ uuid: String, succeeded: Bool) {
         lock.lock()
-        let continuation = waiters.removeValue(forKey: uuid)
-        lock.unlock()
-        continuation?.resume(returning: result)
+        switch uploads[uuid] {
+        case .expected:
+            uploads[uuid] = .finished(succeeded: succeeded)
+            lock.unlock()
+        case .waiting(let continuation):
+            uploads[uuid] = nil
+            lock.unlock()
+            continuation.resume(returning: succeeded)
+        case .finished, nil:
+            lock.unlock()
+        }
     }
 }
 
@@ -62,10 +88,12 @@ extension FileLog: @retroactive EventLoggingDelegate {
         let logFilePath = URL(fileURLWithPath: filePath)
         let dataProvider = EventLoggingDataProvider(logUploadFile: logFilePath)
         let logFile = LogFile(url: logFilePath)
+        LogUploadWaiters.shared.expect(logFile.uuid)
         do {
             let eventLogging = EventLogging(dataSource: dataProvider, delegate: self)
             try eventLogging.enqueueLogForUpload(log: logFile)
         } catch {
+            LogUploadWaiters.shared.forget(logFile.uuid)
             addMessage("FileLog: failed to queue \(logFilePath.lastPathComponent) for upload: \(error)")
             throw LogError.logGenerationFailed
         }
@@ -82,7 +110,7 @@ extension FileLog: @retroactive EventLoggingDelegate {
         }
 
         guard await LogUploadWaiters.shared.wait(for: uuid, timeout: timeout) else {
-            addMessage("FileLog: log \(uuid) didn't finish uploading within \(Int(timeout))s")
+            addMessage("FileLog: log \(uuid) wasn't uploaded: the upload failed or took longer than \(Int(timeout))s")
             return nil
         }
         return uuid

@@ -52,9 +52,6 @@ extension L10n {
     /* Button title after the support email address is copied. */
     static let supportEmailAddressCopied = "Email Address Copied"
 
-    /// When localizing  this text should be transitioned to use `L10n.ok`
-    static let supportOK = "Ok"
-
     /* Prompt to submit a service request. */
     static let supportSubmit = "Submit"
 
