@@ -41,6 +41,14 @@ final class SupportConfigTests: XCTestCase {
         XCTAssertTrue(body.contains("Debug Log: ABC-123\nWatch Log: DEF-456\n"))
     }
 
+    func testUploadedLogsLinkToTheEncryptedLogsTool() {
+        XCTAssertEqual(SupportConfig.logReference("Debug log", uuid: "ABC-123"), "Debug log: https://mc.a8c.com/encrypted-logs.php?uuid=ABC-123")
+    }
+
+    func testLogsThatFailedToUploadSaySo() {
+        XCTAssertEqual(SupportConfig.logReference("Watch log", uuid: nil), "Watch log: couldn't be uploaded")
+    }
+
     func testBodyTagsChatbotAndSurveyRequests() {
         XCTAssertTrue(SupportConfig(type: .chatbotSupport).body(optOut: true).contains("chatbot_support"))
         XCTAssertTrue(SupportConfig(type: .satisfactionSurvey).body(optOut: true).contains("satisfaction_survey"))

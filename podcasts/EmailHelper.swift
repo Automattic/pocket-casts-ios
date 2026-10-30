@@ -22,9 +22,13 @@ class EmailHelper: NSObject {
                         }
                     } else {
                         // Without Mail set up, a mailto: link can't carry attachments, so upload the logs
-                        // and name them in the body instead. Respect the user's choice to leave them out.
+                        // and link them in the body instead. Respect the user's choice to leave them out.
+                        // Wait for the uploads before opening the email app, which sends this app to the background,
+                        // and keep running if the user leaves while they're still in progress.
                         let optOut = UserDefaults.standard.debugOptedOut
+                        let backgroundTask = UIApplication.shared.beginBackgroundTask(withName: "Support log upload")
                         let logReferences = optOut ? [] : await config.uploadedLogReferences()
+                        UIApplication.shared.endBackgroundTask(backgroundTask)
                         loadingAlert.hideAlert(false) {
                             Self.openMailApp(source, config: config, body: config.body(optOut: optOut, logReferences: logReferences))
                         }

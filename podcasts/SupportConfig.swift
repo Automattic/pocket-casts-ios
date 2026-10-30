@@ -106,16 +106,26 @@ struct SupportConfig {
         return attachments
     }
 
-    /// Queues the logs for encrypted upload and returns a line naming each one.
+    /// Uploads the logs as encrypted logs, waiting for each upload to finish, and returns a line for each one:
+    /// a link support can open, or a note that it couldn't be uploaded.
     func uploadedLogReferences() async -> [String] {
-        var references = ["Debug Log: \(await FileLog.shared.encryptedLogUUID())"]
+        var references = [Self.logReference("Debug log", uuid: await FileLog.shared.uploadDebugLog(timeout: Self.logUploadTimeout))]
 
-        let watchLog = await FileLog.shared.encryptedWatchLogUUID()
-        if watchLog != FileLog.noWearableLogsAvailable {
-            references.append("Watch Log: \(watchLog)")
+        if let watchLogPath = try? await FileLog.shared.watchLogFileForUpload() {
+            let uuid = await FileLog.shared.uploadLog(atPath: watchLogPath, timeout: Self.logUploadTimeout)
+            references.append(Self.logReference("Watch log", uuid: uuid))
         }
 
         return references
+    }
+
+    static let logUploadTimeout: TimeInterval = 15
+
+    static func logReference(_ name: String, uuid: String?) -> String {
+        guard let uuid else {
+            return "\(name): couldn't be uploaded"
+        }
+        return "\(name): https://mc.a8c.com/encrypted-logs.php?uuid=\(uuid)"
     }
 
     private var allPodcasts: String {
