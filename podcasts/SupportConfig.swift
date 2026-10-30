@@ -133,11 +133,14 @@ struct SupportConfig {
 
     /// Uploads the logs as encrypted logs, waiting for each upload to finish, and returns a line for each one:
     /// a link support can open, or a note that it couldn't be uploaded.
+    /// Both logs upload at once and share one deadline, so the whole wait stays within `logUploadTimeout`.
     func uploadedLogReferences() async -> [String] {
-        var references = [Self.logReference("Debug log", uuid: await FileLog.shared.uploadDebugLog(timeout: Self.logUploadTimeout))]
+        let deadline = Date().addingTimeInterval(Self.logUploadTimeout)
+        async let debugLogUUID = FileLog.shared.uploadDebugLog(timeout: Self.logUploadTimeout)
+        async let watchLog = Self.uploadWatchLog(before: deadline)
 
-        if let watchLogPath = try? await FileLog.shared.watchLogFileForUpload() {
-            let uuid = await FileLog.shared.uploadLog(atPath: watchLogPath, timeout: Self.logUploadTimeout)
+        var references = [Self.logReference("Debug log", uuid: await debugLogUUID)]
+        if case let .attempted(uuid) = await watchLog {
             references.append(Self.logReference("Watch log", uuid: uuid))
         }
 
@@ -145,6 +148,24 @@ struct SupportConfig {
     }
 
     static let logUploadTimeout: TimeInterval = 15
+
+    private enum WatchLogUpload {
+        case noLogs
+        case attempted(uuid: String?)
+    }
+
+    /// Uploads the Apple Watch log, if the watch has one, in whatever time is left before `deadline`.
+    private static func uploadWatchLog(before deadline: Date) async -> WatchLogUpload {
+        guard let watchLogPath = try? await FileLog.shared.watchLogFileForUpload() else {
+            return .noLogs
+        }
+
+        let remaining = deadline.timeIntervalSinceNow
+        guard remaining > 0 else {
+            return .attempted(uuid: nil)
+        }
+        return .attempted(uuid: await FileLog.shared.uploadLog(atPath: watchLogPath, timeout: remaining))
+    }
 
     static func logReference(_ name: String, uuid: String?) -> String {
         guard let uuid else {
