@@ -259,10 +259,6 @@
 		461C46C7274D80990003D3A9 /* LocalizationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461C46C6274D80990003D3A9 /* LocalizationHelpers.swift */; };
 		461C46CE274D9E400003D3A9 /* LocalizationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461C46C6274D80990003D3A9 /* LocalizationHelpers.swift */; };
 		461C46CF274D9E420003D3A9 /* LocalizationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461C46C6274D80990003D3A9 /* LocalizationHelpers.swift */; };
-		462EE0A826FB9FDA003D67DC /* ActivityDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462EE0A726FB9FDA003D67DC /* ActivityDialog.swift */; };
-		462EE0AB26FCBF74003D67DC /* ZendeskSupportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462EE0AA26FCBF74003D67DC /* ZendeskSupportService.swift */; };
-		462EE0AD26FCC081003D67DC /* ZenDeskHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462EE0AC26FCC081003D67DC /* ZenDeskHelpers.swift */; };
-		462EE0AF26FCCF97003D67DC /* PCMessageSupportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462EE0AE26FCCF97003D67DC /* PCMessageSupportViewModel.swift */; };
 		462EE0B827024FF3003D67DC /* ApiCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462EE0B427024FF3003D67DC /* ApiCredentials.swift */; };
 		46305CF2272B0962003AC87B /* FileLog+FileUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46305CF1272B0962003AC87B /* FileLog+FileUpload.swift */; };
 		46316CF027A85E7F00458BA4 /* GenerateScreenshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46316CEF27A85E7F00458BA4 /* GenerateScreenshots.swift */; };
@@ -272,10 +268,8 @@
 		463538A726E16CD100BA9D35 /* Strings+L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463538A626E16CD100BA9D35 /* Strings+L10n.swift */; };
 		463538AB26E814B300BA9D35 /* DataModel+Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463538AA26E814B300BA9D35 /* DataModel+Strings.swift */; };
 		463538AC26E814DD00BA9D35 /* DataModel+Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463538AA26E814B300BA9D35 /* DataModel+Strings.swift */; };
-		463538B826F0E88700BA9D35 /* MessageSupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463538B726F0E88700BA9D35 /* MessageSupportView.swift */; };
 		463538F426F2413400BA9D35 /* Strings+L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463538A626E16CD100BA9D35 /* Strings+L10n.swift */; };
 		463538F526F2415300BA9D35 /* Strings+L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463538A626E16CD100BA9D35 /* Strings+L10n.swift */; };
-		4635390E26F3C42C00BA9D35 /* MessageSupportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4635390D26F3C42C00BA9D35 /* MessageSupportViewModel.swift */; };
 		463C127A2714B57800178F9E /* Themeable+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463C12792714B57800178F9E /* Themeable+SwiftUI.swift */; };
 		4647623128F70CD0006D005A /* AuthenticationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4647623028F70CD0006D005A /* AuthenticationHelper.swift */; };
 		46673A3127A9B67E005F9EF5 /* iPad_GenerateScreenshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46673A3027A9B67E005F9EF5 /* iPad_GenerateScreenshots.swift */; };
@@ -300,8 +294,6 @@
 		46C3D552275EA16200DDE116 /* SingleEpisodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C3D551275EA16200DDE116 /* SingleEpisodeViewController.swift */; };
 		46C3D554275EA19B00DDE116 /* SingleEpisodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46C3D553275EA19B00DDE116 /* SingleEpisodeViewController.xib */; };
 		46C3D556275EA6C400DDE116 /* DiscoverEpisodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C3D555275EA6C400DDE116 /* DiscoverEpisodeViewModel.swift */; };
-		46CD3C9B2715E25800F5EB8F /* SupportLogsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CD3C9A2715E25800F5EB8F /* SupportLogsView.swift */; };
-		46CD3C9F2715E38E00F5EB8F /* SupportLogsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CD3C9E2715E38E00F5EB8F /* SupportLogsViewModel.swift */; };
 		46CD3CA12715E3E600F5EB8F /* SupportConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CD3CA02715E3E600F5EB8F /* SupportConfig.swift */; };
 		46FBD8B5276A874F00867746 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 46FBD8B9276A874F00867746 /* Intents.intentdefinition */; };
 		46FBD8B6276A874F00867746 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 46FBD8B9276A874F00867746 /* Intents.intentdefinition */; settings = {ATTRIBUTES = (codegen, ); }; };
@@ -1795,10 +1787,6 @@
 		45ECEF7B27E910E300C65030 /* PocketCastsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PocketCastsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		460C375426D831E3008B3609 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		461C46C6274D80990003D3A9 /* LocalizationHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationHelpers.swift; sourceTree = "<group>"; };
-		462EE0A726FB9FDA003D67DC /* ActivityDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDialog.swift; sourceTree = "<group>"; };
-		462EE0AA26FCBF74003D67DC /* ZendeskSupportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZendeskSupportService.swift; sourceTree = "<group>"; };
-		462EE0AC26FCC081003D67DC /* ZenDeskHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZenDeskHelpers.swift; sourceTree = "<group>"; };
-		462EE0AE26FCCF97003D67DC /* PCMessageSupportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCMessageSupportViewModel.swift; sourceTree = "<group>"; };
 		462EE0B427024FF3003D67DC /* ApiCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiCredentials.swift; sourceTree = "<group>"; };
 		46305CF1272B0962003AC87B /* FileLog+FileUpload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileLog+FileUpload.swift"; sourceTree = "<group>"; };
 		46305CF3272B09F2003AC87B /* ApiCredentials.tpl */ = {isa = PBXFileReference; lastKnownFileType = text; path = ApiCredentials.tpl; sourceTree = "<group>"; };
@@ -1806,8 +1794,6 @@
 		46316CF127A85F3000458BA4 /* XCUIElement+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+Extensions.swift"; sourceTree = "<group>"; };
 		463538A626E16CD100BA9D35 /* Strings+L10n.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+L10n.swift"; sourceTree = "<group>"; };
 		463538AA26E814B300BA9D35 /* DataModel+Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataModel+Strings.swift"; sourceTree = "<group>"; };
-		463538B726F0E88700BA9D35 /* MessageSupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSupportView.swift; sourceTree = "<group>"; };
-		4635390D26F3C42C00BA9D35 /* MessageSupportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSupportViewModel.swift; sourceTree = "<group>"; };
 		463C12792714B57800178F9E /* Themeable+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Themeable+SwiftUI.swift"; sourceTree = "<group>"; };
 		4647623028F70CD0006D005A /* AuthenticationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationHelper.swift; sourceTree = "<group>"; };
 		46673A3027A9B67E005F9EF5 /* iPad_GenerateScreenshots.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iPad_GenerateScreenshots.swift; sourceTree = "<group>"; };
@@ -1844,8 +1830,6 @@
 		46C3D551275EA16200DDE116 /* SingleEpisodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleEpisodeViewController.swift; sourceTree = "<group>"; };
 		46C3D553275EA19B00DDE116 /* SingleEpisodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SingleEpisodeViewController.xib; sourceTree = "<group>"; };
 		46C3D555275EA6C400DDE116 /* DiscoverEpisodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverEpisodeViewModel.swift; sourceTree = "<group>"; };
-		46CD3C9A2715E25800F5EB8F /* SupportLogsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportLogsView.swift; sourceTree = "<group>"; };
-		46CD3C9E2715E38E00F5EB8F /* SupportLogsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportLogsViewModel.swift; sourceTree = "<group>"; };
 		46CD3CA02715E3E600F5EB8F /* SupportConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportConfig.swift; sourceTree = "<group>"; };
 		46FBD8B8276A874F00867746 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; name = Base; path = Base.lproj/Intents.intentdefinition; sourceTree = "<group>"; };
 		46FBD8BB276A875700867746 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Intents.strings; sourceTree = "<group>"; };
@@ -3364,13 +3348,6 @@
 		462EE0A926FCBF5B003D67DC /* Zendesk */ = {
 			isa = PBXGroup;
 			children = (
-				462EE0A726FB9FDA003D67DC /* ActivityDialog.swift */,
-				4635390D26F3C42C00BA9D35 /* MessageSupportViewModel.swift */,
-				463538B726F0E88700BA9D35 /* MessageSupportView.swift */,
-				462EE0AA26FCBF74003D67DC /* ZendeskSupportService.swift */,
-				462EE0AC26FCC081003D67DC /* ZenDeskHelpers.swift */,
-				46CD3C9A2715E25800F5EB8F /* SupportLogsView.swift */,
-				46CD3C9E2715E38E00F5EB8F /* SupportLogsViewModel.swift */,
 				46305CF1272B0962003AC87B /* FileLog+FileUpload.swift */,
 			);
 			path = Zendesk;
@@ -4327,7 +4304,6 @@
 			children = (
 				462EE0A926FCBF5B003D67DC /* Zendesk */,
 				BD65E51A1CD9BDE000B90A67 /* OnlineSupportController.swift */,
-				462EE0AE26FCCF97003D67DC /* PCMessageSupportViewModel.swift */,
 				46CD3CA02715E3E600F5EB8F /* SupportConfig.swift */,
 				8BD5A4E32A1E844D00F473C6 /* StatusPageView.swift */,
 				8BFB434D2A1FFB4B00F3D409 /* StatusPageViewModel.swift */,
@@ -7043,7 +7019,6 @@
 				9A5723712EAFBC5600E0A733 /* PlaylistDetailViewModel+PlayAll.swift in Sources */,
 				8B472E022A4B83CE005905F4 /* AutoplayHelper.swift in Sources */,
 				BDA681AB220D03930053BEEE /* UserEpisodeManager.swift in Sources */,
-				462EE0A826FB9FDA003D67DC /* ActivityDialog.swift in Sources */,
 				404367C323BAD4E200328B1D /* DiscoverCollectionHeader.swift in Sources */,
 				BD585C252047C74D00AC842C /* AppDelegate+Defaults.swift in Sources */,
 				BD6C3F02237916A200C01403 /* ShelfActionsViewController.swift in Sources */,
@@ -7082,7 +7057,6 @@
 				46C3D556275EA6C400DDE116 /* DiscoverEpisodeViewModel.swift in Sources */,
 				BD054A7A1E3EDEB300D9195B /* SharedConstants.swift in Sources */,
 				C72CED36289DB8690017883A /* AppDelegate+Analytics.swift in Sources */,
-				462EE0AB26FCBF74003D67DC /* ZendeskSupportService.swift in Sources */,
 				BDF4D30F2175AA830086463E /* StarredViewController+Table.swift in Sources */,
 				BDE292E423680D6100A4EEAE /* EffectsViewController.swift in Sources */,
 				BD907DAE21537B51004D7C02 /* SiriSettingsViewController.swift in Sources */,
@@ -7119,7 +7093,6 @@
 				FF5381AE2C90FF1500829525 /* ReferralCardMiniView.swift in Sources */,
 				BD86D94F217EB81C0010FA1B /* FilterDownloadCell.swift in Sources */,
 				BD6B432A2755F516005E4017 /* AboutViewLogos.swift in Sources */,
-				462EE0AD26FCC081003D67DC /* ZenDeskHelpers.swift in Sources */,
 				9AA3B6312D27F0B600A0E30E /* CancelSubscriptionPlansViewModel.swift in Sources */,
 				403B5B0621812E6000821A54 /* AppDelegate+SiriShortcuts.swift in Sources */,
 				1035FFED2CEE5F4E00C1E80D /* CancelSubscriptionOption.swift in Sources */,
@@ -7166,7 +7139,6 @@
 				0C52E9EC2FFD8DAD00C2B9D1 /* TroubleshootingView.swift in Sources */,
 				4006E31423AC453700174DEB /* ExpandedCollectionViewController+CollectionView.swift in Sources */,
 				BD27B8C92756FA20007A0EA7 /* ModalCloseButton.swift in Sources */,
-				462EE0AF26FCCF97003D67DC /* PCMessageSupportViewModel.swift in Sources */,
 				4036B0A425240F5D00AE08E6 /* WidgetHelper.swift in Sources */,
 				BD92323823629FAA00C1E118 /* ShowNotesPlayerItemViewController.swift in Sources */,
 				40A0A90B24B3FD7800C29362 /* DownloadsViewController+MultiSelect.swift in Sources */,
@@ -7225,7 +7197,6 @@
 				400AB301220BA8DC0003EE21 /* UploadedViewController+Table.swift in Sources */,
 				4647623128F70CD0006D005A /* AuthenticationHelper.swift in Sources */,
 				FF4A73D62C8745D200587128 /* ReferralSendPassView.swift in Sources */,
-				46CD3C9B2715E25800F5EB8F /* SupportLogsView.swift in Sources */,
 				BD2F3BAD2366CA5600416633 /* NowPlayingPlayerItemViewController+Seek.swift in Sources */,
 				9A1F6F502DBAB70200ADF727 /* CancelSubscriptionWinbackOfferView.swift in Sources */,
 				BD2F3BA02366C01400416633 /* PlayerColorHelper.swift in Sources */,
@@ -7269,7 +7240,6 @@
 				FF9088ED2E00438500FA1E7C /* HorizontaCollectionModel.swift in Sources */,
 				BDD525382047782600AAD211 /* SJUIUtils.swift in Sources */,
 				40C2B6C224CFD69800549663 /* UploadedViewController.+MultiSelect.swift in Sources */,
-				4635390E26F3C42C00BA9D35 /* MessageSupportViewModel.swift in Sources */,
 				9AF646842E58B5CD00627836 /* PlaylistDetailViewController+EmptyState.swift in Sources */,
 				BD874EF71C9A428B00F5B2A5 /* GeneralSettingsViewController.swift in Sources */,
 				BD98C54B1BA802AA00E85D3B /* DiscoverDisclosureCell.swift in Sources */,
@@ -7296,7 +7266,6 @@
 				BD0F6D7B24BD60FF00EDFB99 /* FilterDurationViewController.swift in Sources */,
 				BD98C54F1BA8058800E85D3B /* PodcastHeaderListViewController.swift in Sources */,
 				BDB4E7D4240E3C7A005770E3 /* DefaultPlayer.swift in Sources */,
-				46CD3C9F2715E38E00F5EB8F /* SupportLogsViewModel.swift in Sources */,
 				BD4098821B9EFF6E007F36BD /* PlayBufferManager.swift in Sources */,
 				4051A5812281B38100C13C12 /* NewsletterCell.swift in Sources */,
 				408426352134CBE60076D82E /* SmallListCell.swift in Sources */,
@@ -7307,7 +7276,6 @@
 				BD44A4452302DAC6004F55B2 /* CommonUpNextItem.swift in Sources */,
 				100C99552CE7B801008D73E9 /* CancelSubscriptionView.swift in Sources */,
 				BDA2065D1BB3AF5D00D38389 /* DownloadProgress.swift in Sources */,
-				463538B826F0E88700BA9D35 /* MessageSupportView.swift in Sources */,
 				BD9A43EE1D067AF20012FD9B /* ColorManager.swift in Sources */,
 				BD9FF6291B8EFC6F009F075E /* DiscoverSummaryProtocol.swift in Sources */,
 				BD92323523629F7B00C1E118 /* PlayerItemViewController.swift in Sources */,
