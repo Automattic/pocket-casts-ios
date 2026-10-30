@@ -1,56 +1,56 @@
-import Combine
 import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
-enum SupportCustomField: Int, CaseIterable {
-    case debugLog = 360_049_192_052
-    case wearableLog = 360_049_192_072
-    case allPodcasts = 360_049_245_291
-    case metaData = 360_049_245_311
-
-    var dispalyTitle: String {
-        switch self {
-        case .debugLog:
-            return L10n.supportLogsDebug
-        case .wearableLog:
-            return L10n.supportLogsWearable
-        case .allPodcasts:
-            return L10n.supportLogsPodcasts
-        case .metaData:
-            return L10n.supportLogsMetaData
-        }
-    }
-
-    var displayOrder: Int {
-        switch self {
-        case .debugLog:
-            return 4
-        case .wearableLog:
-            return 3
-        case .allPodcasts:
-            return 2
-        case .metaData:
-            return 1
-        }
-    }
+enum SupportRequestType {
+    case feedback
+    case satisfactionSurvey
+    case support
+    case chatbotSupport
 }
 
-extension ZDCustomField {
-    init(_ field: SupportCustomField, value: String) {
-        self.init(id: field.rawValue, value: value)
-    }
-}
+/// Describes the email a support or feedback request is sent as: who it goes to, its subject,
+/// and the device details and logs that go with it.
+struct SupportConfig {
+    static let supportAddress = "support@pocketcasts.com"
+    static let chatbotSupportAddress = "chatbot-support@pocketcasts.com"
 
-struct SupportConfig: ZDConfig {
-    let apiKey = ApiCredentials.zendeskAPIKey
-    let baseURL = ApiCredentials.zendeskNewUrl
-    let fallbackBaseURL = ApiCredentials.zendeskUrl
-    let type: ZDType
+    struct Attachment {
+        let fileName: String
+        let data: Data
+    }
+
+    let type: SupportRequestType
     private let maxCharacterCount = 65000
-    private let logsOptedOutMessage = "No log file uploaded: User opted out"
-    private let optedOutMessage = "User opted out"
+
+    var recipient: String {
+        type == .chatbotSupport ? Self.chatbotSupportAddress : Self.supportAddress
+    }
+
+    var isFeedback: Bool {
+        switch type {
+        case .feedback, .satisfactionSurvey:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var subject: String {
+        let requestType = (isFeedback ? L10n.supportFeedback : L10n.support)
+        var subject = "iOS \(requestType) v\(Settings.appVersion())"
+
+        if SubscriptionHelper.hasActiveSubscription() {
+            subject += " - Plus Account"
+        }
+
+        #if DEBUG
+            subject += " - (Testing)"
+        #endif
+
+        return subject
+    }
 
     var tags: [String] {
         var tagList = ["platform_ios", "app_version_\(Settings.appVersion())", "pocket_casts"]
@@ -70,79 +70,55 @@ struct SupportConfig: ZDConfig {
         return tagList
     }
 
-    var subject: String {
-        let requestType = (isFeedback ? L10n.supportFeedback : L10n.support)
-        var subject = "iOS \(requestType) v\(Settings.appVersion())"
+    /// The device details and tags, as the header of the attached debug log or in the body of an email without attachments.
+    private func deviceDetails(optOut: Bool) -> String {
+        // DebugInfo ends with a newline only when opted out, so trim it before adding the tags.
+        DebugInfo.string(optOut: optOut).trimmingCharacters(in: .newlines) + "\nTags: \(tags.joined(separator: ", "))\n"
+    }
 
-        if SubscriptionHelper.hasActiveSubscription() {
-            subject += " - Plus Account"
+    /// The body of an email that can't carry attachments: room for the customer to write, then the device
+    /// details and the uploaded logs (`logReferences`) below a divider.
+    func body(optOut: Bool, logReferences: [String] = []) -> String {
+        var details = deviceDetails(optOut: optOut)
+        if !logReferences.isEmpty {
+            details += "\n" + logReferences.joined(separator: "\n") + "\n"
         }
 
-        #if DEBUG
-            subject += " - (Testing)"
-        #endif
-
-        return subject
+        return "\n\n\n----------\n\(L10n.supportEmailDetailsPrompt)\n\n\(details)"
     }
 
-    // MARK: Custom Fields
+    /// The files attached to the email: the app's debug log headed by the device details and followed podcasts, and the Apple Watch log when there is one.
+    func attachments() async -> [Attachment] {
+        let debugLog = """
+        \(deviceDetails(optOut: false))
+        Podcasts:
+        \(allPodcasts)
 
-    func customFields(forDisplay: Bool, optOut: Bool) -> AnyPublisher<[ZDCustomField], Never> {
-        guard !optOut else {
-            return Just([
-                appMetaData(optOut: true),
-                ZDCustomField(.allPodcasts, value: optedOutMessage),
-                ZDCustomField(.wearableLog, value: logsOptedOutMessage),
-                ZDCustomField(.debugLog, value: logsOptedOutMessage)
-            ]).eraseToAnyPublisher()
+        Debug Log:
+        \(await FileLog.shared.logFileAsString())
+        """
+
+        var attachments = [Attachment(fileName: "debug.txt", data: Data(debugLog.utf8))]
+        if let watchLog = await FileLog.shared.watchLogFileAsString() {
+            attachments.append(Attachment(fileName: "watch-debug.txt", data: Data(watchLog.utf8)))
         }
 
-        return Publishers.MergeMany(debugLog(forDisplay: forDisplay), watchLog(forDisplay: forDisplay))
-            .collect()
-            .receive(on: DispatchQueue.global(qos: .background), options: nil)
-            .eraseToAnyPublisher()
-            .map { asyncFields in
-                [appMetaData(optOut: false), allPodcasts] + asyncFields
-            }
-            .eraseToAnyPublisher()
+        return attachments
     }
 
-    private func debugLog(forDisplay: Bool) -> AnyPublisher<ZDCustomField, Never> {
-        Future { promise in
-            Task {
-                // Either the file contents to show the user, or the UUID of the file queued for upload
-                let value = forDisplay
-                    ? await FileLog.shared.logFileAsString()
-                    : await FileLog.shared.encryptedLogUUID()
+    /// Queues the logs for encrypted upload and returns a line naming each one.
+    func uploadedLogReferences() async -> [String] {
+        var references = ["Debug Log: \(await FileLog.shared.encryptedLogUUID())"]
 
-                promise(.success(ZDCustomField(.debugLog, value: value)))
-            }
+        let watchLog = await FileLog.shared.encryptedWatchLogUUID()
+        if watchLog != FileLog.noWearableLogsAvailable {
+            references.append("Watch Log: \(watchLog)")
         }
-        .eraseToAnyPublisher()
+
+        return references
     }
 
-    private func watchLog(forDisplay: Bool) -> AnyPublisher<ZDCustomField, Never> {
-        Future { promise in
-            Task {
-                // Either the file contents to show the user, or the UUID of the file queued for upload
-                let value: String
-                if forDisplay {
-                    value = await WatchManager.shared.requestLogFile() ?? "No wearable logs were available. If you use the Watch app, open it and reopen this screen."
-                } else {
-                    value = await FileLog.shared.encryptedWatchLogUUID()
-                }
-
-                promise(.success(ZDCustomField(.wearableLog, value: value)))
-            }
-        }
-        .eraseToAnyPublisher()
-    }
-
-    private func appMetaData(optOut: Bool) -> ZDCustomField {
-        return ZDCustomField(.metaData, value: DebugInfo.string(optOut: optOut))
-    }
-
-    private var allPodcasts: ZDCustomField {
+    private var allPodcasts: String {
         let allPodcasts = DataManager.shared.allPodcastsOrderedByTitle()
             .map { podcast -> String in
                 let podcastTitle = podcast.title ?? ""
@@ -150,8 +126,6 @@ struct SupportConfig: ZDConfig {
             }
             .joined(separator: "\n")
 
-        let reduced = String(allPodcasts.prefix(maxCharacterCount))
-
-        return ZDCustomField(.allPodcasts, value: reduced)
+        return String(allPodcasts.prefix(maxCharacterCount))
     }
 }

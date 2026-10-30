@@ -20,71 +20,34 @@ extension L10n {
     /// These items are intentionally left un-localized to help enforce the expectation that we only provide support in English at this time.
     ///
 
-    /* Support request screen title for opening a request for support (instead of providing feedback) */
+    /* Subject label for a support request (instead of providing feedback) */
     static let support = "Support"
 
-    /// When localizing  this text should be transitioned to use `L10n.cancel`
-    static let supportCancel = "Cancel"
-
-    /* Persistent prompt on the support request screen for the user to enter a description about their request */
-    static let supportCommentIndicator = "Description:"
-
-    /* Persistent prompt on the support request screen for the user to enter their email */
-    static let supportEmailIndicator = "Email:"
-
-    /* Placeholder in the email text box */
-    static let supportEmailPlaceholder = "Enter your email"
-
-    /* Error message for when the support request fails to process. */
-    static let supportErrorMsg = "Please try again later or you can reach out directly by emailing us at 'support@pocketcasts.com'"
-
-    /* Error title for when the support request fails to process. */
-    static let supportErrorTitle = "Oops something went wrong"
-
-    /* Support request screen title for opening a request that suggests a new feature (instead of asking for support) */
+    /* Subject label for a request that suggests a new feature (instead of asking for support) */
     static let supportFeedback = "Feedback"
 
-    /* Privacy toggle to indicate if the user is ok with the inclusion of debug logs. */
-    static let supportIncludeDebugInformation = "Include Debug Information:"
+    /* Line in the support email body, below the space for the customer's message and above the device details. */
+    static let supportEmailDetailsPrompt = "Please write your message above this line. The details below help our team look into your request."
 
-    /* Title for the display field that shows the attached debug logs */
-    static let supportLogsDebug = "Debug Logs:"
+    /* Activity message shown while the support email and its logs are prepared. */
+    static let supportPreparingEmail = "Preparing email..."
 
-    /* Title for the display field that shows the attached meta data */
-    static let supportLogsMetaData = "Meta Data:"
+    /* Title of the alert shown when no email app can open the support email. */
+    static let supportNoEmailAppTitle = "No email app found"
 
-    /// When localizing  this text should be transitioned to use `L10n.podcastsPlural + ":"`
-    static let supportLogsPodcasts = "Podcasts:"
+    /* Message of the alert shown when no email app can open the support email. The parameter is the support email address. */
+    static func supportNoEmailAppMessage(_ address: String) -> String {
+        "Please email us at \(address) from any email app."
+    }
 
-    /* Title for the display field that shows the attached tags */
-    static let supportLogsTags = "Tags:"
-
-    /* Title for the display field that shows the attached wearable logs */
-    static let supportLogsWearable = "Watch Logs:"
-
-    /* Persistent prompt on the support request screen for the user to enter their name */
-    static let supportNameIndicator = "Name:"
-
-    /* Placeholder in the name text box */
-    static let supportNamePlaceholder = "Enter your name"
+    /* Button that copies the support email address. */
+    static let supportCopyEmailAddress = "Copy Email Address"
 
     /// When localizing  this text should be transitioned to use `L10n.ok`
     static let supportOK = "Ok"
 
     /* Prompt to submit a service request. */
     static let supportSubmit = "Submit"
-
-    /* Confirmation title on the support request screen thanking them for submitting their request */
-    static let supportThankyou = "Thank you!"
-
-    /* Confirmation message on the support request screen letting them know that responses will be sent to their email. */
-    static let supportThankyouMessage = "Keep an eye on your email, and we'll get back to you as soon as possible."
-
-    /* Title for the screen that displays the attached logs */
-    static let supportTitleAttachedLogs = "Attached Logs"
-
-    /* Activity message letting the user know that a process ir running. */
-    static let supportWorking = "Working..."
 
     // MARK: Helper Functions
 
