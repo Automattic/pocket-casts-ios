@@ -118,9 +118,18 @@ class NavigationManager {
         mainController?.dismissPresentedViewController(completion: completion)
     }
 
+    private static let pagesBehindSettingsSheet: Set<String> = [
+        podcastPageKey, folderPageKey, episodePageKey, podcastListPageKey, discoverPageKey, discoverNetworksPageKey,
+        filterPageKey, filterAddKey, filesPageKey, upNextPageKey, featurePageKey, settingsProfileKey
+    ]
+
     private func performNavigation(_ place: String, data: NSDictionary?, animated: Bool) {
         lastNavKey = place
         lastNavData = data
+
+        if NavigationManager.pagesBehindSettingsSheet.contains(place) {
+            mainController?.dismissSettingsSheet()
+        }
 
         if place == NavigationManager.podcastPageKey {
             guard let data else { return }
