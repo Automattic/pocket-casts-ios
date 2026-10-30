@@ -1,56 +1,56 @@
-import Combine
 import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
-enum SupportCustomField: Int, CaseIterable {
-    case debugLog = 360_049_192_052
-    case wearableLog = 360_049_192_072
-    case allPodcasts = 360_049_245_291
-    case metaData = 360_049_245_311
-
-    var dispalyTitle: String {
-        switch self {
-        case .debugLog:
-            return L10n.supportLogsDebug
-        case .wearableLog:
-            return L10n.supportLogsWearable
-        case .allPodcasts:
-            return L10n.supportLogsPodcasts
-        case .metaData:
-            return L10n.supportLogsMetaData
-        }
-    }
-
-    var displayOrder: Int {
-        switch self {
-        case .debugLog:
-            return 4
-        case .wearableLog:
-            return 3
-        case .allPodcasts:
-            return 2
-        case .metaData:
-            return 1
-        }
-    }
+enum SupportRequestType {
+    case feedback
+    case satisfactionSurvey
+    case support
+    case chatbotSupport
 }
 
-extension ZDCustomField {
-    init(_ field: SupportCustomField, value: String) {
-        self.init(id: field.rawValue, value: value)
-    }
-}
+/// Describes the email a support or feedback request is sent as: who it goes to, its subject,
+/// and the device details and logs that go with it.
+struct SupportConfig {
+    static let supportAddress = "support@pocketcasts.com"
+    static let chatbotSupportAddress = "chatbot-support@pocketcasts.com"
 
-struct SupportConfig: ZDConfig {
-    let apiKey = ApiCredentials.zendeskAPIKey
-    let baseURL = ApiCredentials.zendeskNewUrl
-    let fallbackBaseURL = ApiCredentials.zendeskUrl
-    let type: ZDType
+    struct Attachment {
+        let fileName: String
+        let data: Data
+    }
+
+    let type: SupportRequestType
     private let maxCharacterCount = 65000
-    private let logsOptedOutMessage = "No log file uploaded: User opted out"
-    private let optedOutMessage = "User opted out"
+
+    var recipient: String {
+        type == .chatbotSupport ? Self.chatbotSupportAddress : Self.supportAddress
+    }
+
+    var isFeedback: Bool {
+        switch type {
+        case .feedback, .satisfactionSurvey:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var subject: String {
+        let requestType = (isFeedback ? L10n.supportFeedback : L10n.support)
+        var subject = "iOS \(requestType) v\(Settings.appVersion())"
+
+        if SubscriptionHelper.hasActiveSubscription() {
+            subject += " - Plus Account"
+        }
+
+        #if DEBUG
+            subject += " - (Testing)"
+        #endif
+
+        return subject
+    }
 
     var tags: [String] {
         var tagList = ["platform_ios", "app_version_\(Settings.appVersion())", "pocket_casts"]
@@ -70,79 +70,111 @@ struct SupportConfig: ZDConfig {
         return tagList
     }
 
-    var subject: String {
-        let requestType = (isFeedback ? L10n.supportFeedback : L10n.support)
-        var subject = "iOS \(requestType) v\(Settings.appVersion())"
-
-        if SubscriptionHelper.hasActiveSubscription() {
-            subject += " - Plus Account"
-        }
-
-        #if DEBUG
-            subject += " - (Testing)"
-        #endif
-
-        return subject
+    /// The device details and tags, as the header of the attached debug log or in the body of an email without attachments.
+    private func deviceDetails(optOut: Bool) -> String {
+        // DebugInfo ends with a newline only when opted out, so trim it before adding the tags.
+        DebugInfo.string(optOut: optOut).trimmingCharacters(in: .newlines) + "\nTags: \(tags.joined(separator: ", "))\n"
     }
 
-    // MARK: Custom Fields
+    /// The body of an email that can't carry attachments: room for the customer to write, then the device
+    /// details and the uploaded logs (`logReferences`) below a divider.
+    func body(optOut: Bool, logReferences: [String] = []) -> String {
+        var details = deviceDetails(optOut: optOut)
+        if !logReferences.isEmpty {
+            details += "\n" + logReferences.joined(separator: "\n") + "\n"
+        }
 
-    func customFields(forDisplay: Bool, optOut: Bool) -> AnyPublisher<[ZDCustomField], Never> {
+        return "\n\n\n----------\n\(L10n.supportEmailDetailsPrompt)\n\n\(details)"
+    }
+
+    /// The whole email as text to paste into any email app: address, subject, then the body without its leading blank lines.
+    func copyableEmail(body: String) -> String {
+        let trimmedBody = String(body.drop(while: \.isNewline))
+        return "To: \(recipient)\nSubject: \(subject)\n\n\(trimmedBody)"
+    }
+
+    /// A `mailto:` link for an email that can't carry attachments.
+    func mailtoURL(body: String) -> URL? {
+        // RFC 6068: line breaks must be CRLF, and everything outside the unreserved set is percent-encoded.
+        // URLComponents leaves `?`, `=` and `/` alone in query values, which cuts the body short in Gmail.
+        let unreserved = CharacterSet(charactersIn: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~")
+        func encode(_ value: String) -> String {
+            value.addingPercentEncoding(withAllowedCharacters: unreserved) ?? ""
+        }
+
+        let crlfBody = body.replacingOccurrences(of: "\r\n", with: "\n").replacingOccurrences(of: "\n", with: "\r\n")
+        return URL(string: "mailto:\(recipient)?subject=\(encode(subject))&body=\(encode(crlfBody))")
+    }
+
+    /// The files attached to the email: the app's debug log headed by the device details and followed podcasts, and the Apple Watch log when there is one.
+    /// A user who opted out of sharing debug information gets only the basic device details, as with the in-app form before.
+    func attachments(optOut: Bool) async -> [Attachment] {
         guard !optOut else {
-            return Just([
-                appMetaData(optOut: true),
-                ZDCustomField(.allPodcasts, value: optedOutMessage),
-                ZDCustomField(.wearableLog, value: logsOptedOutMessage),
-                ZDCustomField(.debugLog, value: logsOptedOutMessage)
-            ]).eraseToAnyPublisher()
+            let details = deviceDetails(optOut: true) + "\nLogs not included: the user opted out of sharing debug information.\n"
+            return [Attachment(fileName: "debug.txt", data: Data(details.utf8))]
         }
 
-        return Publishers.MergeMany(debugLog(forDisplay: forDisplay), watchLog(forDisplay: forDisplay))
-            .collect()
-            .receive(on: DispatchQueue.global(qos: .background), options: nil)
-            .eraseToAnyPublisher()
-            .map { asyncFields in
-                [appMetaData(optOut: false), allPodcasts] + asyncFields
-            }
-            .eraseToAnyPublisher()
-    }
+        let debugLog = """
+        \(deviceDetails(optOut: false))
+        Podcasts:
+        \(allPodcasts)
 
-    private func debugLog(forDisplay: Bool) -> AnyPublisher<ZDCustomField, Never> {
-        Future { promise in
-            Task {
-                // Either the file contents to show the user, or the UUID of the file queued for upload
-                let value = forDisplay
-                    ? await FileLog.shared.logFileAsString()
-                    : await FileLog.shared.encryptedLogUUID()
+        Debug Log:
+        \(await FileLog.shared.logFileAsString())
+        """
 
-                promise(.success(ZDCustomField(.debugLog, value: value)))
-            }
+        var attachments = [Attachment(fileName: "debug.txt", data: Data(debugLog.utf8))]
+        if let watchLog = await FileLog.shared.watchLogFileAsString() {
+            attachments.append(Attachment(fileName: "watch-debug.txt", data: Data(watchLog.utf8)))
         }
-        .eraseToAnyPublisher()
+
+        return attachments
     }
 
-    private func watchLog(forDisplay: Bool) -> AnyPublisher<ZDCustomField, Never> {
-        Future { promise in
-            Task {
-                // Either the file contents to show the user, or the UUID of the file queued for upload
-                let value: String
-                if forDisplay {
-                    value = await WatchManager.shared.requestLogFile() ?? "No wearable logs were available. If you use the Watch app, open it and reopen this screen."
-                } else {
-                    value = await FileLog.shared.encryptedWatchLogUUID()
-                }
+    /// Uploads the logs as encrypted logs, waiting for each upload to finish, and returns a line for each one:
+    /// a link support can open, or a note that it couldn't be uploaded.
+    /// Both logs upload at once and share one deadline, so the whole wait stays within `logUploadTimeout`.
+    func uploadedLogReferences() async -> [String] {
+        let deadline = Date().addingTimeInterval(Self.logUploadTimeout)
+        async let debugLogUUID = FileLog.shared.uploadDebugLog(timeout: Self.logUploadTimeout)
+        async let watchLog = Self.uploadWatchLog(before: deadline)
 
-                promise(.success(ZDCustomField(.wearableLog, value: value)))
-            }
+        var references = [Self.logReference("Debug log", uuid: await debugLogUUID)]
+        if case let .attempted(uuid) = await watchLog {
+            references.append(Self.logReference("Watch log", uuid: uuid))
         }
-        .eraseToAnyPublisher()
+
+        return references
     }
 
-    private func appMetaData(optOut: Bool) -> ZDCustomField {
-        return ZDCustomField(.metaData, value: DebugInfo.string(optOut: optOut))
+    static let logUploadTimeout: TimeInterval = 15
+
+    private enum WatchLogUpload {
+        case noLogs
+        case attempted(uuid: String?)
     }
 
-    private var allPodcasts: ZDCustomField {
+    /// Uploads the Apple Watch log, if the watch has one, in whatever time is left before `deadline`.
+    private static func uploadWatchLog(before deadline: Date) async -> WatchLogUpload {
+        guard let watchLogPath = try? await FileLog.shared.watchLogFileForUpload() else {
+            return .noLogs
+        }
+
+        let remaining = deadline.timeIntervalSinceNow
+        guard remaining > 0 else {
+            return .attempted(uuid: nil)
+        }
+        return .attempted(uuid: await FileLog.shared.uploadLog(atPath: watchLogPath, timeout: remaining))
+    }
+
+    static func logReference(_ name: String, uuid: String?) -> String {
+        guard let uuid else {
+            return "\(name): couldn't be uploaded"
+        }
+        return "\(name): https://mc.a8c.com/encrypted-logs.php?uuid=\(uuid)"
+    }
+
+    private var allPodcasts: String {
         let allPodcasts = DataManager.shared.allPodcastsOrderedByTitle()
             .map { podcast -> String in
                 let podcastTitle = podcast.title ?? ""
@@ -150,8 +182,6 @@ struct SupportConfig: ZDConfig {
             }
             .joined(separator: "\n")
 
-        let reduced = String(allPodcasts.prefix(maxCharacterCount))
-
-        return ZDCustomField(.allPodcasts, value: reduced)
+        return String(allPodcasts.prefix(maxCharacterCount))
     }
 }
