@@ -8,6 +8,15 @@ class EmailHelper: NSObject {
     /// Dismisses the mail composer. Held statically because callers don't keep the helper around.
     private static let mailComposeDelegate = MailComposeDelegate()
 
+    /// Debug builds launched with `-SupportForceMailtoFallback YES` take the path for devices without Mail set up.
+    private static var forceMailtoFallback: Bool {
+        #if DEBUG
+            UserDefaults.standard.bool(forKey: "SupportForceMailtoFallback")
+        #else
+            false
+        #endif
+    }
+
     func presentSupportDialog(_ source: UIViewController, type: SupportRequestType) {
         let config = SupportConfig(type: type)
         let loadingAlert = ShiftyLoadingAlert(title: L10n.supportPreparingEmail)
@@ -15,7 +24,7 @@ class EmailHelper: NSObject {
         Task { @MainActor in
             loadingAlert.showAlert(source, hasProgress: false) {
                 Task { @MainActor in
-                    if MFMailComposeViewController.canSendMail() {
+                    if MFMailComposeViewController.canSendMail() && !Self.forceMailtoFallback {
                         let attachments = await config.attachments()
                         loadingAlert.hideAlert(false) {
                             Self.presentMailComposer(source, config: config, attachments: attachments)
@@ -54,15 +63,7 @@ class EmailHelper: NSObject {
 
     @MainActor
     private static func openMailApp(_ source: UIViewController, config: SupportConfig, body: String) {
-        var components = URLComponents()
-        components.scheme = "mailto"
-        components.path = config.recipient
-        components.queryItems = [
-            URLQueryItem(name: "subject", value: config.subject),
-            URLQueryItem(name: "body", value: body)
-        ]
-
-        guard let url = components.url else {
+        guard let url = config.mailtoURL(body: body) else {
             showNoMailAppAlert(source, config: config)
             return
         }

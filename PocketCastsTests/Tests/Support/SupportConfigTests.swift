@@ -49,6 +49,34 @@ final class SupportConfigTests: XCTestCase {
         XCTAssertEqual(SupportConfig.logReference("Watch log", uuid: nil), "Watch log: couldn't be uploaded")
     }
 
+    func testMailtoURLKeepsTheLogLinkInTheBody() throws {
+        let config = SupportConfig(type: .support)
+        let body = "Hi\n\nDebug log: https://mc.a8c.com/encrypted-logs.php?uuid=ABC-123&x=1"
+
+        let url = try XCTUnwrap(config.mailtoURL(body: body))
+
+        // One `?` starts the query; the body's own `?`, `=` and `&` are encoded so they stay in the body.
+        XCTAssertTrue(url.absoluteString.hasPrefix("mailto:support@pocketcasts.com?subject="))
+        XCTAssertEqual(url.absoluteString.components(separatedBy: "?").count, 2)
+        XCTAssertEqual(url.absoluteString.components(separatedBy: "&").count, 2)
+        XCTAssertTrue(url.absoluteString.contains("encrypted-logs.php%3Fuuid%3DABC-123%26x%3D1"))
+    }
+
+    func testMailtoURLUsesCRLFLineBreaks() throws {
+        let url = try XCTUnwrap(SupportConfig(type: .support).mailtoURL(body: "\n\nHi\nthere"))
+
+        XCTAssertTrue(url.absoluteString.hasSuffix("&body=%0D%0A%0D%0AHi%0D%0Athere"))
+    }
+
+    func testMailtoURLRoundTripsTheBody() throws {
+        let body = "\n\n\n----------\nDebug log: https://mc.a8c.com/encrypted-logs.php?uuid=ABC-123\n"
+        let url = try XCTUnwrap(SupportConfig(type: .chatbotSupport).mailtoURL(body: body))
+        let encodedBody = try XCTUnwrap(url.absoluteString.components(separatedBy: "&body=").last)
+
+        XCTAssertTrue(url.absoluteString.hasPrefix("mailto:chatbot-support@pocketcasts.com?"))
+        XCTAssertEqual(encodedBody.removingPercentEncoding, body.replacingOccurrences(of: "\n", with: "\r\n"))
+    }
+
     func testBodyTagsChatbotAndSurveyRequests() {
         XCTAssertTrue(SupportConfig(type: .chatbotSupport).body(optOut: true).contains("chatbot_support"))
         XCTAssertTrue(SupportConfig(type: .satisfactionSurvey).body(optOut: true).contains("satisfaction_survey"))
