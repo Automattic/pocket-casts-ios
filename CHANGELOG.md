@@ -6,6 +6,7 @@
 - Show a single Cancel button instead of Share and Search while searching a transcript, and keep it above the keyboard on iPad [#5536](https://github.com/Automattic/pocket-casts-ios/pull/5536)
 - Fix the empty Starred and Files screens using a lighter background than the other Profile screens in dark mode [#5532](https://github.com/Automattic/pocket-casts-ios/pull/5532)
 - Fix VoiceOver not announcing which region is selected in Discover's Select Content Region list [#5537](https://github.com/Automattic/pocket-casts-ios/pull/5537)
+- Add an option to hide played podcasts from the Podcasts tab, in the "…" menu [#5543](https://github.com/Automattic/pocket-casts-ios/pull/5543)
 
 8.24
 -----

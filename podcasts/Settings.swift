@@ -75,6 +75,23 @@ class Settings: NSObject {
         }
     }
 
+    // MARK: - Played Podcasts
+
+    private static let hidePlayedPodcastsKey = "HidePlayedPodcasts"
+    static var hidePlayedPodcasts: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: Settings.hidePlayedPodcastsKey)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Settings.hidePlayedPodcastsKey)
+        }
+    }
+
+    /// The podcasts to leave out of the Podcasts tab and folders, based on `hidePlayedPodcasts`.
+    static func hiddenPodcastUuids() -> Set<String> {
+        hidePlayedPodcasts ? DataManager.shared.playedPodcastUuids() : []
+    }
+
     // MARK: - Up Next Auto Download
 
     private static let autoDownloadUpNext = "SJAutoDownloadUpNext"

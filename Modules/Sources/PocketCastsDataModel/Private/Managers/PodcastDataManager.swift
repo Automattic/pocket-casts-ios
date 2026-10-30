@@ -319,6 +319,37 @@ class PodcastDataManager {
         return counts
     }
 
+    func playedPodcastUuids(dbQueue: GRDBQueue) -> Set<String> {
+        var uuids = Set<String>()
+        dbQueue.read { db in
+            do {
+                let query = """
+                SELECT p.uuid as uuid FROM \(DataManager.podcastTableName) p
+                WHERE p.subscribed = 1
+                AND EXISTS (
+                    SELECT 1 FROM \(DataManager.episodeTableName) e
+                    WHERE e.podcast_id = p.id AND e.playingStatus = \(PlayingStatus.completed.rawValue)
+                )
+                AND NOT EXISTS (
+                    SELECT 1 FROM \(DataManager.episodeTableName) e
+                    WHERE e.podcast_id = p.id AND e.archived = 0 AND e.playingStatus IN (\(PlayingStatus.notPlayed.rawValue), \(PlayingStatus.inProgress.rawValue))
+                )
+                """
+                let rs = try db.executeQuery(query, values: nil)
+
+                while rs.next() {
+                    guard let uuid = rs.string(forColumn: "uuid") else { continue }
+
+                    uuids.insert(uuid)
+                }
+            } catch {
+                FileLog.shared.addMessage("PodcastDataManager.playedPodcastUuids error: \(error)")
+            }
+        }
+
+        return uuids
+    }
+
     // MARK: - Updates
 
     func save(podcast: Podcast, dbQueue: GRDBQueue) {

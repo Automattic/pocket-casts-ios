@@ -128,16 +128,22 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
     // MARK: - Re-ordering
 
     func saveSortOrder() {
-        for (index, listItem) in gridItems.enumerated() {
-            if let podcast = listItem.podcast {
+        let orderedItems = HomeGridDataHelper.merge(
+            reorderedVisibleItems: gridItems.compactMap(\.gridItem),
+            into: HomeGridDataHelper.gridItems(orderedBy: Settings.homeFolderSortOrder),
+            id: \.id
+        )
+
+        for (index, item) in orderedItems.enumerated() {
+            if let podcast = item.podcast {
                 podcast.sortOrder = Int32(index)
-            } else if let folder = listItem.folder {
+            } else if let folder = item.folder {
                 folder.sortOrder = Int32(index)
             }
         }
 
-        let allPodcasts = gridItems.compactMap(\.podcast)
-        let allFolders = gridItems.compactMap(\.folder)
+        let allPodcasts = orderedItems.compactMap(\.podcast)
+        let allFolders = orderedItems.compactMap(\.folder)
 
         DataManager.shared.saveSortOrders(podcasts: allPodcasts)
         DataManager.shared.saveSortOrders(folders: allFolders, syncModified: TimeFormatter.currentUTCTimeInMillis())

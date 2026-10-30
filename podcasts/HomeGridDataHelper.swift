@@ -13,8 +13,8 @@ class HomeGridDataHelper {
     }
 
     #if !os(watchOS)
-        class func gridListItems(orderedBy: LibrarySort, badgeType: BadgeType) -> [HomeGridListItem] {
-            let allPodcasts: [Podcast]
+        class func gridListItems(orderedBy: LibrarySort, badgeType: BadgeType, hiddenPodcastUuids: Set<String> = []) -> [HomeGridListItem] {
+            var allPodcasts: [Podcast]
             switch orderedBy {
             case .episodeDateNewestToOldest:
                 allPodcasts = PodcastManager.shared.allPodcastsSorted(in: .episodeDateNewestToOldest)
@@ -22,6 +22,10 @@ class HomeGridDataHelper {
                 allPodcasts = PodcastManager.shared.allPodcastsSorted(in: .recentlyPlayed)
             default:
                 allPodcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
+            }
+
+            if !hiddenPodcastUuids.isEmpty {
+                allPodcasts.removeAll { hiddenPodcastUuids.contains($0.uuid) }
             }
 
             let gridItems: [HomeGridListItem] = gridItems(orderedBy: orderedBy, sortedPodcasts: allPodcasts).map { HomeGridListItem(gridItem: $0, badgeType: badgeType, theme: Theme.shared.activeTheme) }
@@ -84,6 +88,20 @@ class HomeGridDataHelper {
         }
 
         return gridItems(orderedBy: orderedBy, sortedPodcasts: allPodcasts)
+    }
+
+    /// Puts the reordered visible items back into `allItems`, keeping hidden items in their current slots.
+    class func merge<Item, ID: Hashable>(reorderedVisibleItems: [Item], into allItems: [Item], id: (Item) -> ID) -> [Item] {
+        let visibleIds = Set(reorderedVisibleItems.map(id))
+        var remainingVisibleItems = reorderedVisibleItems.makeIterator()
+        var merged = allItems.map { item in
+            guard visibleIds.contains(id(item)), let visibleItem = remainingVisibleItems.next() else { return item }
+            return visibleItem
+        }
+        while let visibleItem = remainingVisibleItems.next() {
+            merged.append(visibleItem)
+        }
+        return merged
     }
 
     private class func gridItems(orderedBy: LibrarySort, sortedPodcasts: [Podcast]) -> [HomeGridItem] {

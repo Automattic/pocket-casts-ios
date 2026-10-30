@@ -33,7 +33,7 @@ class OptionsPickerRootController: UIViewController, UISheetPresentationControll
         stackView.arrangedSubviews.count > 1 ? 12 : 0
     }
 
-    func setup(title: String?, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle, colors: Colors? = nil) {
+    func setup(title: String?, description: String? = nil, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle, colors: Colors? = nil) {
         let colors = colors ?? Colors(theme: themeOverride ?? Theme.shared.activeTheme)
 
         view.clipsToBounds = true
@@ -79,6 +79,10 @@ class OptionsPickerRootController: UIViewController, UISheetPresentationControll
 
         if let title {
             addTitle(title, titleColor: colors.title)
+        }
+
+        if let description {
+            addDescription(description)
         }
 
         // make actions a bit smaller on tiny phones
@@ -230,6 +234,28 @@ class OptionsPickerRootController: UIViewController, UISheetPresentationControll
             label.bottomAnchor.constraint(equalTo: containerView.layoutMarginsGuide.bottomAnchor),
         ])
         label.setContentHuggingPriority(.defaultLow, for: .vertical)
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
+    }
+
+    private func addDescription(_ description: String) {
+        let containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addArrangedSubview(containerView)
+
+        let label = UILabel()
+        label.font = UIFont.font(ofSize: 14, scalingWith: .subheadline)
+        label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 0
+        label.text = description
+        label.textColor = ThemeColor.primaryText02(for: themeOverride)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubview(label)
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: layoutHorizontalMargin),
+            label.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -layoutHorizontalMargin),
+            label.topAnchor.constraint(equalTo: containerView.topAnchor),
+            label.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8)
+        ])
         label.setContentCompressionResistancePriority(.required, for: .vertical)
     }
 
