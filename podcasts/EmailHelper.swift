@@ -38,9 +38,9 @@ class EmailHelper: NSObject {
                         // and link them in the body instead.
                         // Wait for the uploads before opening the email app, which sends this app to the background,
                         // and keep running if the user leaves while they're still in progress.
-                        let backgroundTask = UIApplication.shared.beginBackgroundTask(withName: "Support log upload")
+                        let backgroundTask = SupportBackgroundTask(name: "Support log upload")
                         let logReferences = optOut ? [] : await config.uploadedLogReferences()
-                        UIApplication.shared.endBackgroundTask(backgroundTask)
+                        backgroundTask.end()
                         loadingAlert.hideAlert(false) {
                             Self.openMailApp(source, config: config, body: config.body(optOut: optOut, logReferences: logReferences))
                         }
@@ -92,6 +92,27 @@ class EmailHelper: NSObject {
             sheetController.prefersGrabberVisible = true
         }
         source.present(host, animated: true)
+    }
+}
+
+/// A background task that ends itself when iOS runs out of background time, so the app is suspended rather than killed.
+@MainActor
+private final class SupportBackgroundTask {
+    private var identifier = UIBackgroundTaskIdentifier.invalid
+
+    init(name: String) {
+        identifier = UIApplication.shared.beginBackgroundTask(withName: name) { [weak self] in
+            MainActor.assumeIsolated {
+                FileLog.shared.addMessage("EmailHelper: background time ran out before the log uploads finished")
+                self?.end()
+            }
+        }
+    }
+
+    func end() {
+        guard identifier != .invalid else { return }
+        UIApplication.shared.endBackgroundTask(identifier)
+        identifier = .invalid
     }
 }
 
