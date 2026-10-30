@@ -13,11 +13,51 @@ struct EventLoggingDataProvider: EventLoggingDataSource {
     }
 }
 
+/// Lets a caller wait for a queued log upload to finish, keyed by the log's UUID.
+final class LogUploadWaiters: @unchecked Sendable {
+    static let shared = LogUploadWaiters()
+
+    private let lock = NSLock()
+    private var waiters: [String: CheckedContinuation<Bool, Never>] = [:]
+    /// Results that arrived before anyone started waiting for them.
+    private var results: [String: Bool] = [:]
+
+    /// Returns `true` once the upload finishes, or `false` if it fails or doesn't finish within `timeout`.
+    func wait(for uuid: String, timeout: TimeInterval) async -> Bool {
+        await withCheckedContinuation { continuation in
+            lock.lock()
+            if let result = results.removeValue(forKey: uuid) {
+                lock.unlock()
+                continuation.resume(returning: result)
+                return
+            }
+            waiters[uuid] = continuation
+            lock.unlock()
+
+            DispatchQueue.global().asyncAfter(deadline: .now() + timeout) { [weak self] in
+                self?.resume(uuid, with: false)
+            }
+        }
+    }
+
+    func uploadFinished(_ uuid: String, succeeded: Bool) {
+        lock.lock()
+        if waiters[uuid] == nil {
+            results[uuid] = succeeded
+        }
+        lock.unlock()
+        resume(uuid, with: succeeded)
+    }
+
+    private func resume(_ uuid: String, with result: Bool) {
+        lock.lock()
+        let continuation = waiters.removeValue(forKey: uuid)
+        lock.unlock()
+        continuation?.resume(returning: result)
+    }
+}
+
 extension FileLog: @retroactive EventLoggingDelegate {
-    static let genericErrorMessage = "No log file uploaded: Error generating logs"
-
-    static let noWearableLogsAvailable = "No wearable logs were available"
-
     fileprivate func queueFileUpload(_ filePath: String) throws -> String {
         let logFilePath = URL(fileURLWithPath: filePath)
         let dataProvider = EventLoggingDataProvider(logUploadFile: logFilePath)
@@ -34,12 +74,27 @@ extension FileLog: @retroactive EventLoggingDelegate {
         return logFile.uuid
     }
 
-    public func encryptedLogUUID() async -> String {
+    /// Queues the file for encrypted upload and waits for it to finish. Returns the log's UUID, or `nil` if it
+    /// couldn't be queued, the upload failed, or it didn't finish within `timeout`.
+    func uploadLog(atPath filePath: String, timeout: TimeInterval) async -> String? {
+        guard let uuid = try? queueFileUpload(filePath) else {
+            return nil
+        }
+
+        guard await LogUploadWaiters.shared.wait(for: uuid, timeout: timeout) else {
+            addMessage("FileLog: log \(uuid) didn't finish uploading within \(Int(timeout))s")
+            return nil
+        }
+        return uuid
+    }
+
+    /// Uploads the app's debug log and waits for it to finish, as `uploadLog(atPath:timeout:)`.
+    func uploadDebugLog(timeout: TimeInterval) async -> String? {
         do {
-            return try queueFileUpload(try await logFileForUpload())
+            return await uploadLog(atPath: try await logFileForUpload(), timeout: timeout)
         } catch {
             addMessage("FileLog: failed to generate the log for upload: \(error)")
-            return FileLog.genericErrorMessage
+            return nil
         }
     }
 
@@ -65,19 +120,6 @@ extension FileLog: @retroactive EventLoggingDelegate {
         await WatchManager.shared.requestLogFile()
     }
 
-    public func encryptedWatchLogUUID() async -> String {
-        do {
-            guard let filePath = try await watchLogFileForUpload() else {
-                return Self.noWearableLogsAvailable
-            }
-
-            return try queueFileUpload(filePath)
-        } catch {
-            addMessage("FileLog: failed to generate the watch log for upload: \(error)")
-            return FileLog.genericErrorMessage
-        }
-    }
-
     // MARK: - EventLoggingDelegate
 
     public var shouldUploadLogFiles: Bool {
@@ -86,12 +128,14 @@ extension FileLog: @retroactive EventLoggingDelegate {
 
     public func didFinishUploadingLog(_ log: LogFile) {
         addMessage("FileLog: uploaded log \(log.uuid)")
+        LogUploadWaiters.shared.uploadFinished(log.uuid, succeeded: true)
         let filePath = log.url.absoluteString
         try? FileManager.default.removeItem(atPath: filePath)
     }
 
     public func uploadFailed(_ log: LogFile) {
         addMessage("FileLog: failed to upload log \(log.uuid)")
+        LogUploadWaiters.shared.uploadFinished(log.uuid, succeeded: false)
         let filePath = log.url.absoluteString
         try? FileManager.default.removeItem(atPath: filePath)
     }
