@@ -10,6 +10,7 @@
 - Fix the Create Folder NAME and COLOR captions overlapping the title and the Save Folder button being cut off at the largest text sizes; both steps now scroll [#5540](https://github.com/Automattic/pocket-casts-ios/pull/5540)
 - Fix VoiceOver reaching the player's tabs, Up Next and chapter controls hidden behind an open transcript [#5538](https://github.com/Automattic/pocket-casts-ios/pull/5538)
 - Fix VoiceOver not announcing which region is selected in Discover's Select Content Region list [#5537](https://github.com/Automattic/pocket-casts-ios/pull/5537)
+- Fix the login screen ignoring the largest text sizes and the Google logo touching its label; the screen now scrolls at accessibility text sizes [#5547](https://github.com/Automattic/pocket-casts-ios/pull/5547)
 
 8.24
 -----

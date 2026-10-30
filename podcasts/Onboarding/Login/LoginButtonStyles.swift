@@ -15,6 +15,7 @@ struct SocialButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .applyButtonFont(maxContentSizeCategory: maxContentSizeCategory)
+            .padding(.horizontal, 30)
             .frame(maxWidth: .infinity)
             .padding()
 
