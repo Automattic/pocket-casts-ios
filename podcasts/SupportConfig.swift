@@ -87,6 +87,12 @@ struct SupportConfig {
         return "\n\n\n----------\n\(L10n.supportEmailDetailsPrompt)\n\n\(details)"
     }
 
+    /// The whole email as text to paste into any email app: address, subject, then the body without its leading blank lines.
+    func copyableEmail(body: String) -> String {
+        let trimmedBody = String(body.drop(while: \.isNewline))
+        return "To: \(recipient)\nSubject: \(subject)\n\n\(trimmedBody)"
+    }
+
     /// A `mailto:` link for an email that can't carry attachments.
     func mailtoURL(body: String) -> URL? {
         // RFC 6068: line breaks must be CRLF, and everything outside the unreserved set is percent-encoded.

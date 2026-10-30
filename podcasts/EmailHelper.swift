@@ -64,7 +64,7 @@ class EmailHelper: NSObject {
     @MainActor
     private static func openMailApp(_ source: UIViewController, config: SupportConfig, body: String) {
         guard let url = config.mailtoURL(body: body) else {
-            showNoMailAppAlert(source, config: config)
+            showNoMailAppAlert(source, config: config, body: body)
             return
         }
 
@@ -72,15 +72,21 @@ class EmailHelper: NSObject {
         UIApplication.shared.open(url) { opened in
             guard !opened else { return }
             FileLog.shared.addMessage("EmailHelper: no email app could open the support email")
-            showNoMailAppAlert(source, config: config)
+            showNoMailAppAlert(source, config: config, body: body)
         }
     }
 
+    /// Offers to copy the email, so its device details and log links can still reach support from any email app.
     @MainActor
-    private static func showNoMailAppAlert(_ source: UIViewController, config: SupportConfig) {
+    private static func showNoMailAppAlert(_ source: UIViewController, config: SupportConfig, body: String) {
         let alert = UIAlertController(title: L10n.supportNoEmailAppTitle, message: L10n.supportNoEmailAppMessage(config.recipient), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: L10n.supportCopyEmail, style: .default) { _ in
+            UIPasteboard.general.string = config.copyableEmail(body: body)
+            Toast.show(L10n.supportEmailCopied)
+        })
         alert.addAction(UIAlertAction(title: L10n.supportCopyEmailAddress, style: .default) { _ in
             UIPasteboard.general.string = config.recipient
+            Toast.show(L10n.supportEmailAddressCopied)
         })
         alert.addAction(UIAlertAction(title: L10n.supportOK, style: .cancel))
         source.present(alert, animated: true)
