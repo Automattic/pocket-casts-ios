@@ -87,6 +87,19 @@ struct SupportConfig {
         return "\n\n\n----------\n\(L10n.supportEmailDetailsPrompt)\n\n\(details)"
     }
 
+    /// A `mailto:` link for an email that can't carry attachments.
+    func mailtoURL(body: String) -> URL? {
+        // RFC 6068: line breaks must be CRLF, and everything outside the unreserved set is percent-encoded.
+        // URLComponents leaves `?`, `=` and `/` alone in query values, which cuts the body short in Gmail.
+        let unreserved = CharacterSet(charactersIn: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~")
+        func encode(_ value: String) -> String {
+            value.addingPercentEncoding(withAllowedCharacters: unreserved) ?? ""
+        }
+
+        let crlfBody = body.replacingOccurrences(of: "\r\n", with: "\n").replacingOccurrences(of: "\n", with: "\r\n")
+        return URL(string: "mailto:\(recipient)?subject=\(encode(subject))&body=\(encode(crlfBody))")
+    }
+
     /// The files attached to the email: the app's debug log headed by the device details and followed podcasts, and the Apple Watch log when there is one.
     func attachments() async -> [Attachment] {
         let debugLog = """
