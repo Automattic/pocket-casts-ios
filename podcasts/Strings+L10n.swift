@@ -37,20 +37,20 @@ extension L10n {
 
     /* Message of the alert shown when no email app can open the support email. The parameter is the support email address. */
     static func supportNoEmailAppMessage(_ address: String) -> String {
-        "Please email us at \(address) from any email app. Copy Email copies the address, subject and your device details, including links to your logs."
+        "Please email us at \(address) from any email app. Copy the address into the To field, then copy the email into your message. It includes your device details and links to your logs."
     }
 
     /* Button that copies the whole support email: address, subject and body. */
     static let supportCopyEmail = "Copy Email"
 
-    /* Toast shown after the whole support email is copied. */
-    static let supportEmailCopied = "Email copied"
+    /* Button title after the whole support email is copied. */
+    static let supportEmailCopied = "Email Copied"
 
     /* Button that copies the support email address. */
     static let supportCopyEmailAddress = "Copy Email Address"
 
-    /* Toast shown after the support email address is copied. */
-    static let supportEmailAddressCopied = "Email address copied"
+    /* Button title after the support email address is copied. */
+    static let supportEmailAddressCopied = "Email Address Copied"
 
     /// When localizing  this text should be transitioned to use `L10n.ok`
     static let supportOK = "Ok"

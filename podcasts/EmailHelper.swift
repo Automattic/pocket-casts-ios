@@ -1,5 +1,6 @@
 import MessageUI
 import PocketCastsUtils
+import SwiftUI
 import UIKit
 import UniformTypeIdentifiers
 
@@ -64,7 +65,7 @@ class EmailHelper: NSObject {
     @MainActor
     private static func openMailApp(_ source: UIViewController, config: SupportConfig, body: String) {
         guard let url = config.mailtoURL(body: body) else {
-            showNoMailAppAlert(source, config: config, body: body)
+            showNoMailAppSheet(source, config: config, body: body)
             return
         }
 
@@ -72,24 +73,74 @@ class EmailHelper: NSObject {
         UIApplication.shared.open(url) { opened in
             guard !opened else { return }
             FileLog.shared.addMessage("EmailHelper: no email app could open the support email")
-            showNoMailAppAlert(source, config: config, body: body)
+            showNoMailAppSheet(source, config: config, body: body)
         }
     }
 
-    /// Offers to copy the email, so its device details and log links can still reach support from any email app.
+    /// Offers to copy the address and the email, so the device details and log links can still reach support from any email app.
+    /// A sheet rather than an alert, because an alert closes after the first copy and there are two things to copy.
     @MainActor
-    private static func showNoMailAppAlert(_ source: UIViewController, config: SupportConfig, body: String) {
-        let alert = UIAlertController(title: L10n.supportNoEmailAppTitle, message: L10n.supportNoEmailAppMessage(config.recipient), preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: L10n.supportCopyEmail, style: .default) { _ in
-            UIPasteboard.general.string = config.copyableEmail(body: body)
-            Toast.show(L10n.supportEmailCopied)
-        })
-        alert.addAction(UIAlertAction(title: L10n.supportCopyEmailAddress, style: .default) { _ in
-            UIPasteboard.general.string = config.recipient
-            Toast.show(L10n.supportEmailAddressCopied)
-        })
-        alert.addAction(UIAlertAction(title: L10n.supportOK, style: .cancel))
-        source.present(alert, animated: true)
+    private static func showNoMailAppSheet(_ source: UIViewController, config: SupportConfig, body: String) {
+        let sheet = NoEmailAppSheet(address: config.recipient, email: config.copyableEmail(body: body)) {
+            source.dismiss(animated: true)
+        }
+        let host = ThemedHostingController(rootView: sheet, background: \.primaryUi01)
+        if let sheetController = host.sheetPresentationController {
+            sheetController.detents = [.custom { _ in 400 }, .large()]
+            sheetController.prefersGrabberVisible = true
+        }
+        source.present(host, animated: true)
+    }
+}
+
+private struct NoEmailAppSheet: View {
+    private enum Item {
+        case address
+        case email
+    }
+
+    @EnvironmentObject var theme: Theme
+
+    let address: String
+    let email: String
+    let onDone: () -> Void
+
+    @State private var copied: Set<Item> = []
+
+    var body: some View {
+        VStack(spacing: 12) {
+            Text(L10n.supportNoEmailAppTitle)
+                .font(.system(size: 23.0, weight: .bold))
+                .foregroundColor(theme.primaryText01)
+            Text(L10n.supportNoEmailAppMessage(address))
+                .font(.system(size: 15.0))
+                .multilineTextAlignment(.center)
+                .foregroundColor(theme.primaryText02)
+                .padding(.bottom, 12.0)
+            copyButton(.address, title: L10n.supportCopyEmailAddress, copiedTitle: L10n.supportEmailAddressCopied, value: address)
+            copyButton(.email, title: L10n.supportCopyEmail, copiedTitle: L10n.supportEmailCopied, value: email)
+            Button(L10n.done, action: onDone)
+                .buttonStyle(BasicButtonStyle(textColor: theme.primaryText01, backgroundColor: theme.primaryUi01, borderColor: theme.primaryUi05))
+        }
+        .padding(.horizontal, 20.0)
+        .padding(.top, 32.0)
+        .frame(maxHeight: .infinity, alignment: .top)
+        .background(theme.primaryUi01)
+    }
+
+    private func copyButton(_ item: Item, title: String, copiedTitle: String, value: String) -> some View {
+        Button {
+            UIPasteboard.general.string = value
+            copied.insert(item)
+            UIAccessibility.post(notification: .announcement, argument: copiedTitle)
+        } label: {
+            if copied.contains(item) {
+                Label(copiedTitle, systemImage: "checkmark")
+            } else {
+                Text(title)
+            }
+        }
+        .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive02, backgroundColor: theme.primaryInteractive01))
     }
 }
 
