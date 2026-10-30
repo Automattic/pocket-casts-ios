@@ -2133,6 +2133,18 @@
 /* Title for the options to configure badge display options. */
 "podcasts_badges" = "Badges";
 
+/* Title for the option to show or hide podcasts the user has fully listened to on the Podcasts tab. */
+"podcasts_played_podcasts" = "Played Podcasts";
+
+/* Explains the Played Podcasts option, shown below its title. */
+"podcasts_played_podcasts_description" = "Hides podcasts you've fully listened to. They reappear when a new episode arrives.";
+
+/* Option to show podcasts the user has fully listened to on the Podcasts tab. */
+"podcasts_played_podcasts_show" = "Show";
+
+/* Option to hide podcasts the user has fully listened to on the Podcasts tab. */
+"podcasts_played_podcasts_hide" = "Hide";
+
 /* Prompt to enter the mode for reordering the podcasts grid. */
 "podcasts_edit" = "Edit Podcasts";
 

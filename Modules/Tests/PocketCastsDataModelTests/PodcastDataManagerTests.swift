@@ -212,6 +212,34 @@ final class PodcastDataManagerTests: DataManagerTestCase {
         }
     }
 
+    // MARK: - playedPodcastUuids Tests
+
+    func testPlayedPodcastUuids() throws {
+        try runWithDataManager { dataManager in
+            let completed = PlayingStatus.completed.rawValue
+            let notPlayed = PlayingStatus.notPlayed.rawValue
+            let inProgress = PlayingStatus.inProgress.rawValue
+
+            let played = self.createPodcast(episodes: [(completed, false)], dataManager: dataManager)
+            let archivedUnplayed = self.createPodcast(episodes: [(completed, false), (notPlayed, true)], dataManager: dataManager)
+            _ = self.createPodcast(episodes: [(completed, false), (inProgress, false)], dataManager: dataManager)
+            _ = self.createPodcast(episodes: [(notPlayed, false)], dataManager: dataManager)
+            _ = self.createPodcast(episodes: [(notPlayed, true)], dataManager: dataManager)
+            _ = self.createPodcast(episodes: [], dataManager: dataManager)
+            _ = self.createPodcast(subscribed: 0, episodes: [(completed, false)], dataManager: dataManager)
+
+            XCTAssertEqual(dataManager.playedPodcastUuids(), [played.uuid, archivedUnplayed.uuid])
+        }
+    }
+
+    private func createPodcast(subscribed: Int32 = 1, episodes: [(playingStatus: Int32, archived: Bool)], dataManager: DataManager) -> Podcast {
+        let podcast = createTestPodcast(subscribed: subscribed, dataManager: dataManager)
+        for episode in episodes {
+            createTestEpisode(podcast: podcast, playingStatus: episode.playingStatus, archived: episode.archived, dataManager: dataManager)
+        }
+        return podcast
+    }
+
     // MARK: - delete Tests
 
     func testDeleteRemovesPodcast() throws {

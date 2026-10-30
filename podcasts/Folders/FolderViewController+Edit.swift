@@ -65,11 +65,17 @@ extension FolderViewController {
     // MARK: Save
 
     func saveSortOrder() {
-        for (index, podcast) in podcasts.enumerated() {
+        let orderedPodcasts = HomeGridDataHelper.merge(
+            reorderedVisibleItems: podcasts,
+            into: DataManager.shared.allPodcastsInFolder(folder: folder),
+            id: \.uuid
+        )
+
+        for (index, podcast) in orderedPodcasts.enumerated() {
             podcast.sortOrder = Int32(index)
         }
 
-        DataManager.shared.saveSortOrders(podcasts: podcasts)
+        DataManager.shared.saveSortOrders(podcasts: orderedPodcasts)
 
         folder.syncModified = TimeFormatter.currentUTCTimeInMillis()
         folder.sortType = Int32(LibrarySort.Old.custom.rawValue)

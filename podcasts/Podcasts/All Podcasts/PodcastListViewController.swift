@@ -384,9 +384,10 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
             guard let strongSelf = self else { return }
 
             let oldData = strongSelf.gridItems
-            var newData = HomeGridDataHelper.gridListItems(orderedBy: Settings.homeFolderSortOrder, badgeType: Settings.podcastBadgeType)
+            let hiddenPodcastUuids = Settings.hiddenPodcastUuids()
+            var newData = HomeGridDataHelper.gridListItems(orderedBy: Settings.homeFolderSortOrder, badgeType: Settings.podcastBadgeType, hiddenPodcastUuids: hiddenPodcastUuids)
 
-            if newData.isEmpty {
+            if newData.isEmpty, hiddenPodcastUuids.isEmpty {
                 newData = [HomeGridListItem.empty]
             }
 
@@ -454,6 +455,10 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         }
         badgesAction.submenu = { [weak self] in self?.makeBadgeOptionsPicker() }
         optionsPicker.addAction(action: badgesAction)
+
+        let playedPodcastsAction = OptionAction(label: L10n.podcastsPlayedPodcasts, secondaryLabel: playedPodcastsLabel(hide: Settings.hidePlayedPodcasts), icon: "eye") {}
+        playedPodcastsAction.submenu = { [weak self] in self?.makePlayedPodcastsOptionsPicker() }
+        optionsPicker.addAction(action: playedPodcastsAction)
 
         let shareAction = OptionAction(label: L10n.podcastsShare, icon: "podcast-share") {
             let shareController = SharePodcastsViewController()
@@ -527,6 +532,24 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         options.addAction(action: unplayedCountAction)
 
         return options
+    }
+
+    private func makePlayedPodcastsOptionsPicker() -> OptionsPicker {
+        let options = OptionsPicker(title: L10n.podcastsPlayedPodcasts.localizedUppercase, description: L10n.podcastsPlayedPodcastsDescription)
+
+        for hide in [false, true] {
+            let action = OptionAction(label: playedPodcastsLabel(hide: hide), selected: Settings.hidePlayedPodcasts == hide) { [weak self] in
+                Settings.hidePlayedPodcasts = hide
+                self?.refreshGridItems()
+            }
+            options.addAction(action: action)
+        }
+
+        return options
+    }
+
+    private func playedPodcastsLabel(hide: Bool) -> String {
+        hide ? L10n.podcastsPlayedPodcastsHide : L10n.podcastsPlayedPodcastsShow
     }
 
     override func handleThemeChanged() {

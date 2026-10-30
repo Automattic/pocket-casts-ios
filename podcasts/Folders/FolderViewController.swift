@@ -12,6 +12,7 @@ class FolderViewController: PCViewController {
 
     var folder: Folder
     var podcasts: [Podcast] = []
+    private var hasHiddenPodcasts = false
 
     let gridHelper = GridHelper()
 
@@ -233,7 +234,10 @@ class FolderViewController: PCViewController {
 
     // TODO: change this to be diff based and see if we can use the new iOS diffable stuff
     private func reloadPodcasts() {
-        podcasts = DataManager.shared.allPodcastsInFolder(folder: folder)
+        let allPodcasts = DataManager.shared.allPodcastsInFolder(folder: folder)
+        let hiddenPodcastUuids = Settings.hiddenPodcastUuids()
+        podcasts = allPodcasts.filter { !hiddenPodcastUuids.contains($0.uuid) }
+        hasHiddenPodcasts = podcasts.count != allPodcasts.count
 
         let badgeType = Settings.podcastBadgeType
         // load the required badge information if the supplied badge type needs it
@@ -260,7 +264,7 @@ class FolderViewController: PCViewController {
     override func updateContentUnavailableConfiguration(using state: UIContentUnavailableConfigurationState) {
         var config: UIContentConfiguration?
 
-        if podcasts.isEmpty {
+        if podcasts.isEmpty, !hasHiddenPodcasts {
             let title = L10n.folderEmptyTitle
             let message = L10n.folderEmptyDescription
             config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("folder-empty") }, actions: [
