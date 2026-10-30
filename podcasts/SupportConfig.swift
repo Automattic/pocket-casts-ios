@@ -107,7 +107,13 @@ struct SupportConfig {
     }
 
     /// The files attached to the email: the app's debug log headed by the device details and followed podcasts, and the Apple Watch log when there is one.
-    func attachments() async -> [Attachment] {
+    /// A user who opted out of sharing debug information gets only the basic device details, as with the in-app form before.
+    func attachments(optOut: Bool) async -> [Attachment] {
+        guard !optOut else {
+            let details = deviceDetails(optOut: true) + "\nLogs not included: the user opted out of sharing debug information.\n"
+            return [Attachment(fileName: "debug.txt", data: Data(details.utf8))]
+        }
+
         let debugLog = """
         \(deviceDetails(optOut: false))
         Podcasts:

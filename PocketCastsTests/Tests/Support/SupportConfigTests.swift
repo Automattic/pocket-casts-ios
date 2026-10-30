@@ -91,8 +91,21 @@ final class SupportConfigTests: XCTestCase {
         XCTAssertTrue(SupportConfig(type: .satisfactionSurvey).body(optOut: true).contains("satisfaction_survey"))
     }
 
+    func testOptedOutUsersAttachOnlyBasicDeviceDetails() async throws {
+        let attachments = await SupportConfig(type: .support).attachments(optOut: true)
+
+        XCTAssertEqual(attachments.map(\.fileName), ["debug.txt"])
+        let contents = try XCTUnwrap(String(data: attachments[0].data, encoding: .utf8))
+        XCTAssertTrue(contents.hasPrefix("App Version: \(Settings.appVersion())"))
+        XCTAssertTrue(contents.contains("Logs not included: the user opted out of sharing debug information."))
+        XCTAssertFalse(contents.contains("Sync Email:"))
+        XCTAssertFalse(contents.contains("App ID:"))
+        XCTAssertFalse(contents.contains("Podcasts:"))
+        XCTAssertFalse(contents.contains("Debug Log:"))
+    }
+
     func testAttachmentsIncludeTheDebugLog() async {
-        let attachments = await SupportConfig(type: .support).attachments()
+        let attachments = await SupportConfig(type: .support).attachments(optOut: false)
         let debugLog = attachments.first { $0.fileName == "debug.txt" }
 
         XCTAssertNotNil(debugLog)
