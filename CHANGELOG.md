@@ -10,6 +10,7 @@
 - Fix the Create Folder NAME and COLOR captions overlapping the title and the Save Folder button being cut off at the largest text sizes; both steps now scroll [#5540](https://github.com/Automattic/pocket-casts-ios/pull/5540)
 - Fix VoiceOver reaching the player's tabs, Up Next and chapter controls hidden behind an open transcript [#5538](https://github.com/Automattic/pocket-casts-ios/pull/5538)
 - Fix VoiceOver not announcing which region is selected in Discover's Select Content Region list [#5537](https://github.com/Automattic/pocket-casts-ios/pull/5537)
+- Fix the Profile header splitting the email address mid-word at accessibility text sizes on iPad; the header now stacks [#5544](https://github.com/Automattic/pocket-casts-ios/pull/5544)
 
 8.24
 -----
