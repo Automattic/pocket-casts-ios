@@ -22,6 +22,7 @@ struct SyncSigninView: View {
 
     @EnvironmentObject var theme: Theme
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.sizeCategory) private var sizeCategory
     @FocusState private var focusedField: Field?
 
     enum Field { case email, password }
@@ -47,6 +48,7 @@ struct SyncSigninView: View {
                 divider()
 
                 SocialLoginButtons(coordinator: coordinator)
+                    .multilineTextAlignment(buttonTextAlignment)
 
                 // Add bottom padding to ensure content doesn't get cut off
                 Color.clear.frame(height: 50)
@@ -70,6 +72,10 @@ struct SyncSigninView: View {
 
     private var promptColor: Color {
         theme.primaryField03
+    }
+
+    private var buttonTextAlignment: TextAlignment {
+        sizeCategory.isAccessibilityCategory ? .center : .leading
     }
 
     @ViewBuilder private func email() -> some View {
@@ -141,6 +147,7 @@ struct SyncSigninView: View {
         } label: {
             ZStack {
                 Text(L10n.signInContinueWithEmail)
+                    .multilineTextAlignment(buttonTextAlignment)
                     .opacity(model.isSigningIn ? 0 : 1)
                 if model.isSigningIn {
                     ProgressView().controlSize(.regular)
@@ -149,7 +156,7 @@ struct SyncSigninView: View {
             .frame(maxWidth: .infinity)
         }
         .padding(.vertical, 16)
-        .buttonStyle(RoundedButtonStyle(theme: theme, isEnabled: model.isValid && !model.isSigningIn, maxContentSizeCategory: .accessibilityMedium))
+        .buttonStyle(RoundedButtonStyle(theme: theme, isEnabled: model.isValid && !model.isSigningIn))
     }
 
     @ViewBuilder func divider() -> some View {

@@ -57,6 +57,39 @@ private struct LoginLandingContent: View {
     }
 
     var body: some View {
+        if sizeCategory.isAccessibilityCategory {
+            accessibilityLayout
+        } else {
+            defaultLayout
+        }
+    }
+
+    private var labels: some View {
+        VStack(spacing: 16) {
+            LoginLabel(title.preventWidows(), for: .title)
+            LoginLabel(subtitle.preventWidows(), for: .subtitle)
+        }
+    }
+
+    private var accessibilityLayout: some View {
+        let backgroundColor = AppTheme.color(for: .primaryUi01, theme: theme)
+
+        return ScrollView {
+            VStack(spacing: 32) {
+                labels
+                LoginButtons(coordinator: coordinator, shouldShowLogin: !coordinator.isOnboarding)
+            }
+            .multilineTextAlignment(.center)
+            .padding(Config.padding)
+        }
+        .scrollBounceBehavior(.basedOnSize)
+        .background(backgroundColor.ignoresSafeArea())
+        .toolbarBackground(backgroundColor, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
+    }
+
+    @ViewBuilder
+    private var defaultLayout: some View {
         let backgroundColor = AppTheme.color(for: .primaryUi01, theme: theme)
         let headerHeight = loginHeaderHeight - headerHeightOffset
 
@@ -64,12 +97,9 @@ private struct LoginLandingContent: View {
             GeometryReader { viewSizeProxy in
                 // Title and Subtitle
                 VStack(spacing: 0) {
-                    VStack(spacing: 16) {
-                        LoginLabel(title.preventWidows(), for: .title)
-                        LoginLabel(subtitle.preventWidows(), for: .subtitle)
-                    }
-                    .padding(.horizontal, Config.padding)
-                    .padding(.top, coordinator.isOnboarding ? Config.topPadding : headerHeightOffset)
+                    labels
+                        .padding(.horizontal, Config.padding)
+                        .padding(.top, coordinator.isOnboarding ? Config.topPadding : headerHeightOffset)
 
                     LoginHeader(models: calculatedModels, topPadding: coordinator.isOnboarding ? 0 : -Config.padding)
                         .clipped()
@@ -213,9 +243,9 @@ private struct LoginLabel: View {
         func body(content: Content) -> some View {
             switch labelStyle {
             case .title:
-                return content.font(size: smallHeight ? 24 : 28, style: .title, weight: .bold, maxSizeCategory: .extraExtraLarge)
+                return content.font(size: smallHeight ? 24 : 28, style: .title, weight: .bold)
             case .subtitle:
-                return content.font(size: smallHeight ? 16 : 17, style: .body, weight: .regular, maxSizeCategory: .extraExtraLarge)
+                return content.font(size: smallHeight ? 16 : 17, style: .body, weight: .regular)
             }
         }
     }
@@ -319,12 +349,12 @@ private struct LoginButtons: View {
 
             Button(L10n.loginLandingSignUpWithEmail) {
                 coordinator.signUpTapped()
-            }.buttonStyle(RoundedButtonStyle(theme: theme, maxContentSizeCategory: .accessibilityMedium))
+            }.buttonStyle(RoundedButtonStyle(theme: theme))
 
             if shouldShowLogin {
                 Button(L10n.accountLogin) {
                     coordinator.loginTapped()
-                }.buttonStyle(SimpleTextButtonStyle(theme: theme, maxContentSizeCategory: .accessibilityMedium))
+                }.buttonStyle(SimpleTextButtonStyle(theme: theme))
             }
         }
     }
@@ -340,11 +370,11 @@ struct SocialLoginButtons: View {
             case .apple:
                 Button(L10n.socialSignInContinueWithApple) {
                     coordinator.signIn(with: provider)
-                }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconAppleImageName(theme: theme), maxContentSizeCategory: .accessibilityMedium))
+                }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconAppleImageName(theme: theme)))
             case .google:
                 Button(L10n.socialSignInContinueWithGoogle) {
                     coordinator.signIn(with: provider)
-                }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconGoogleImageName(), maxContentSizeCategory: .accessibilityMedium))
+                }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconGoogleImageName()))
             }
         }
     }
