@@ -455,20 +455,22 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         badgesAction.submenu = { [weak self] in self?.makeBadgeOptionsPicker() }
         optionsPicker.addAction(action: badgesAction)
 
-        let shareAction = OptionAction(label: L10n.podcastsShare, icon: "podcast-share") {
-            let shareController = SharePodcastsViewController()
-            shareController.delegate = self
-            let navController = SJUIUtils.navController(for: shareController)
-            self.present(navController, animated: true, completion: nil)
-            Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "share"])
-        }
-        optionsPicker.addAction(action: shareAction)
+        if gridItems.contains(where: { !$0.isEmpty }) {
+            let shareAction = OptionAction(label: L10n.podcastsShare, icon: "podcast-share") {
+                let shareController = SharePodcastsViewController()
+                shareController.delegate = self
+                let navController = SJUIUtils.navController(for: shareController)
+                self.present(navController, animated: true, completion: nil)
+                Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "share"])
+            }
+            optionsPicker.addAction(action: shareAction)
 
-        let editAction = OptionAction(label: L10n.podcastsEdit, icon: "filter_manual_episode_order") { [weak self] in
-            self?.setEditingOrder(true)
-            Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "edit"])
+            let editAction = OptionAction(label: L10n.podcastsEdit, icon: "filter_manual_episode_order") { [weak self] in
+                self?.setEditingOrder(true)
+                Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "edit"])
+            }
+            optionsPicker.addAction(action: editAction)
         }
-        optionsPicker.addAction(action: editAction)
 
         optionsPicker.present(from: self)
 
