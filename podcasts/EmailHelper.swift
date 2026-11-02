@@ -41,12 +41,22 @@ class EmailHelper: NSObject {
                         let backgroundTask = SupportBackgroundTask(name: "Support log upload")
                         let logReferences = optOut ? [] : await config.uploadedLogReferences()
                         backgroundTask.end()
+                        await Self.waitUntilActive()
                         loadingAlert.hideAlert(false) {
                             Self.openMailApp(source, config: config, body: config.body(optOut: optOut, logReferences: logReferences))
                         }
                     }
                 }
             }
+        }
+    }
+
+    /// Returns once the app is in the foreground, which is immediately unless the user left while the logs uploaded.
+    @MainActor
+    private static func waitUntilActive() async {
+        guard UIApplication.shared.applicationState != .active else { return }
+        for await _ in NotificationCenter.default.notifications(named: UIApplication.didBecomeActiveNotification) {
+            return
         }
     }
 
