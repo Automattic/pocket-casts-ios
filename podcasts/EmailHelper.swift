@@ -93,15 +93,22 @@ class EmailHelper: NSObject {
     /// A sheet rather than an alert, because an alert closes after the first copy and there are two things to copy.
     @MainActor
     private static func showNoMailAppSheet(_ source: UIViewController, config: SupportConfig, body: String) {
+        weak var host: UIViewController?
         let sheet = NoEmailAppSheet(address: config.recipient, email: config.copyableEmail(body: body)) {
-            source.dismiss(animated: true)
+            host?.dismiss(animated: true)
         }
-        let host = ThemedHostingController(rootView: sheet, background: \.primaryUi01)
-        if let sheetController = host.sheetPresentationController {
+        let controller = ThemedHostingController(rootView: sheet, background: \.primaryUi01)
+        host = controller
+        if let sheetController = controller.sheetPresentationController {
             sheetController.detents = [.custom { _ in 400 }, .large()]
             sheetController.prefersGrabberVisible = true
         }
-        source.present(host, animated: true)
+
+        var presenter = source
+        while let presented = presenter.presentedViewController, !presented.isBeingDismissed {
+            presenter = presented
+        }
+        presenter.present(controller, animated: true)
     }
 }
 
