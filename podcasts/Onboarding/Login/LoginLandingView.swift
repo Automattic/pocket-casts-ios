@@ -243,9 +243,9 @@ private struct LoginLabel: View {
         func body(content: Content) -> some View {
             switch labelStyle {
             case .title:
-                return content.font(size: smallHeight ? 24 : 28, style: .title, weight: .bold)
+                return content.font(size: smallHeight ? 24 : 28, style: .title, weight: .bold, maxSizeCategory: .accessibilityMedium)
             case .subtitle:
-                return content.font(size: smallHeight ? 16 : 17, style: .body, weight: .regular)
+                return content.font(size: smallHeight ? 16 : 17, style: .body, weight: .regular, maxSizeCategory: .accessibilityMedium)
             }
         }
     }
@@ -349,12 +349,12 @@ private struct LoginButtons: View {
 
             Button(L10n.loginLandingSignUpWithEmail) {
                 coordinator.signUpTapped()
-            }.buttonStyle(RoundedButtonStyle(theme: theme))
+            }.buttonStyle(RoundedButtonStyle(theme: theme, maxContentSizeCategory: .accessibilityMedium))
 
             if shouldShowLogin {
                 Button(L10n.accountLogin) {
                     coordinator.loginTapped()
-                }.buttonStyle(SimpleTextButtonStyle(theme: theme))
+                }.buttonStyle(SimpleTextButtonStyle(theme: theme, maxContentSizeCategory: .accessibilityMedium))
             }
         }
     }
@@ -370,11 +370,11 @@ struct SocialLoginButtons: View {
             case .apple:
                 Button(L10n.socialSignInContinueWithApple) {
                     coordinator.signIn(with: provider)
-                }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconAppleImageName(theme: theme)))
+                }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconAppleImageName(theme: theme), maxContentSizeCategory: .accessibilityMedium))
             case .google:
                 Button(L10n.socialSignInContinueWithGoogle) {
                     coordinator.signIn(with: provider)
-                }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconGoogleImageName()))
+                }.buttonStyle(SocialButtonStyle(imageName: AppTheme.socialIconGoogleImageName(), maxContentSizeCategory: .accessibilityMedium))
             }
         }
     }

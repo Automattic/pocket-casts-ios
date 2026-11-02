@@ -156,7 +156,7 @@ struct SyncSigninView: View {
             .frame(maxWidth: .infinity)
         }
         .padding(.vertical, 16)
-        .buttonStyle(RoundedButtonStyle(theme: theme, isEnabled: model.isValid && !model.isSigningIn))
+        .buttonStyle(RoundedButtonStyle(theme: theme, isEnabled: model.isValid && !model.isSigningIn, maxContentSizeCategory: .accessibilityMedium))
     }
 
     @ViewBuilder func divider() -> some View {
