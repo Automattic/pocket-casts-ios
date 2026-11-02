@@ -32,10 +32,10 @@ extension L10n {
     /* Activity message shown while the support email and its logs are prepared. */
     static let supportPreparingEmail = "Preparing email..."
 
-    /* Title of the alert shown when no email app can open the support email. */
+    /* Title of the sheet shown when no email app can open the support email. */
     static let supportNoEmailAppTitle = "No email app found"
 
-    /* Message of the alert shown when no email app can open the support email. The parameter is the support email address. */
+    /* Message of the sheet shown when no email app can open the support email. The parameter is the support email address. */
     static func supportNoEmailAppMessage(_ address: String) -> String {
         "Please email us at \(address) from any email app. Copy the address into the To field, then copy the email into your message. It includes your device details and links to your logs."
     }
