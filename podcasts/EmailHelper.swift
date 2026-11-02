@@ -31,7 +31,7 @@ class EmailHelper: NSObject {
                     if MFMailComposeViewController.canSendMail() && !Self.forceMailtoFallback {
                         let attachments = await config.attachments(optOut: optOut)
                         loadingAlert.hideAlert(false) {
-                            Self.presentMailComposer(source, config: config, attachments: attachments)
+                            Self.presentMailComposer(source, config: config, attachments: attachments, body: config.body(optOut: optOut))
                         }
                     } else {
                         // Without Mail set up, a mailto: link can't carry attachments, so upload the logs
@@ -61,13 +61,14 @@ class EmailHelper: NSObject {
     }
 
     @MainActor
-    private static func presentMailComposer(_ source: UIViewController, config: SupportConfig, attachments: [SupportConfig.Attachment]) {
+    private static func presentMailComposer(_ source: UIViewController, config: SupportConfig, attachments: [SupportConfig.Attachment], body: String) {
         FileLog.shared.addMessage("EmailHelper: opening the mail composer with \(attachments.count) attachments")
 
         let mailVC = MFMailComposeViewController()
         mailVC.mailComposeDelegate = mailComposeDelegate
         mailVC.setToRecipients([config.recipient])
         mailVC.setSubject(config.subject)
+        mailVC.setMessageBody(body, isHTML: false)
         attachments.forEach { attachment in
             mailVC.addAttachmentData(attachment.data, mimeType: UTType.plainText.preferredMIMEType ?? "text/plain", fileName: attachment.fileName)
         }
