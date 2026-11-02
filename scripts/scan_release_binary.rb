@@ -3,13 +3,13 @@
 
 require 'digest'
 require 'open3'
-require 'tmpdir'
+require_relative 'release_binary_archive'
 
 # Detect a Zendesk API token compiled into a release binary.
 #
-# Pocket Casts injects `ApiCredentials.zendeskAPIKey` at build time and emits
-# it as the cstring immediately before `zendeskUrl`. Mach-O pads that pair to
-# a 16-byte alignment, so the gap is wider than a single NUL.
+# `ApiCredentials.zendeskAPIKey` is injected at build time and emitted as the
+# cstring immediately before `zendeskUrl`. Mach-O pads that pair to a 16-byte
+# alignment, so the gap is wider than a single NUL.
 module ReleaseBinaryScan
   HOST = %r{https?://[A-Za-z0-9.-]+\.zendesk\.com\b}i
   EMAIL_TOKEN = %r{/token:([A-Za-z0-9]{20,80})}
@@ -34,13 +34,15 @@ module ReleaseBinaryScan
 
   def scan_path(path)
     hits = []
-    each_binary(path) { |binary| hits.concat(scan_table(strings_of(binary))) }
+    ReleaseBinaryArchive.each_binary(path) do |binary|
+      hits.concat(scan_table(strings_of(binary)))
+    end
     hits.uniq { |item| [item[:rule], item[:digest]] }
   end
 
   def strings_of(path)
-    stdout, status = Open3.capture2('/usr/bin/strings', '-a', '-n', '8', '-t', 'd', path.to_s)
-    return [] unless status.success?
+    stdout, _stderr, status = Open3.capture3('/usr/bin/strings', '-a', '-n', '8', '-t', 'd', path.to_s)
+    raise "strings failed for #{path}" unless status.success?
 
     stdout.each_line.filter_map { |line| parse_strings_line(line) }
   end
@@ -78,7 +80,7 @@ module ReleaseBinaryScan
 
   def adjacent?(previous_offset, previous_text, offset)
     gap = offset - (previous_offset + previous_text.bytesize)
-    gap >= 1 && gap <= 16
+    gap.between?(1, 16)
   end
 
   def hit(rule, offset, value)
@@ -109,44 +111,6 @@ module ReleaseBinaryScan
       freq = count / length
       -freq * Math.log2(freq)
     end
-  end
-
-  def each_binary(path)
-    return yield path unless archive?(path)
-
-    Dir.mktmpdir('release-binary-scan') do |dir|
-      extract(path, dir)
-      binaries_under(dir).each { |binary| yield binary }
-    end
-  end
-
-  def archive?(path)
-    path.end_with?('.ipa', '.zip')
-  end
-
-  def binaries_under(root)
-    Dir.glob(File.join(root, '**', '*')).select { |candidate| binary?(candidate) }
-  end
-
-  def extract(archive, dest)
-    list_archive(archive).each { |relative| refuse_slip(dest, relative) }
-    _stdout, status = Open3.capture2('/usr/bin/unzip', '-q', archive, '-d', dest)
-    raise "unzip failed for #{archive}" unless status.success?
-  end
-
-  def list_archive(archive)
-    stdout, status = Open3.capture2('/usr/bin/unzip', '-Z1', archive)
-    raise "unzip failed to list #{archive}" unless status.success?
-
-    stdout.each_line.map(&:strip).reject(&:empty?)
-  end
-
-  def refuse_slip(dest, relative)
-    root = File.expand_path(dest)
-    target = File.expand_path(relative, root)
-    return if target == root || target.start_with?("#{root}#{File::SEPARATOR}")
-
-    raise "refusing to extract #{relative}"
   end
 end
 

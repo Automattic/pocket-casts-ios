@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
+require 'open3'
 require 'tmpdir'
 require_relative 'scan_release_binary'
 
 TOKEN = 'ZdTestTokenNotReal0123456789abcdEF'
 HOST = 'https://acme.zendesk.com'
 
+# Unit tests for the release-binary Zendesk token scan.
 class ReleaseBinaryScanTest < Minitest::Test
   def test_rejects_identifiers_and_hex
     refute ReleaseBinaryScan.token_shaped?('loggingEncryptionKey')
@@ -17,7 +19,8 @@ class ReleaseBinaryScanTest < Minitest::Test
   def test_alignment_gap_counts_as_packed
     packed = [[100, TOKEN], [100 + TOKEN.bytesize + 8, HOST]]
     hits = ReleaseBinaryScan.scan_table(packed)
-    assert_equal ['zendesk-token-before-host'], hits.map { |hit| hit[:rule] }
+    rules = hits.map { |hit| hit[:rule] }
+    assert_equal ['zendesk-token-before-host'], rules
     refute_includes hits.first[:redacted], TOKEN
 
     far = [[100, TOKEN], [100 + TOKEN.bytesize + 17, HOST]]
@@ -26,7 +29,8 @@ class ReleaseBinaryScanTest < Minitest::Test
 
   def test_email_token_literal
     hits = ReleaseBinaryScan.scan_table([[0, "user@example.com/token:#{TOKEN}"]])
-    assert_equal ['zendesk-email-token'], hits.map { |hit| hit[:rule] }
+    rules = hits.map { |hit| hit[:rule] }
+    assert_equal ['zendesk-email-token'], rules
   end
 
   def test_skips_debug_symbol_bundles
@@ -35,13 +39,33 @@ class ReleaseBinaryScanTest < Minitest::Test
   end
 
   def test_strings_sees_an_aligned_token
-    blob = ("\x00" * 32) + TOKEN + ("\x00" * 8) + HOST + "\x00"
-    blob += "\x00" * (64 * 1024)
+    padding = "\x00" * (64 * 1024)
+    blob = "#{"\x00" * 32}#{TOKEN}#{"\x00" * 8}#{HOST}\x00#{padding}"
     Dir.mktmpdir do |dir|
       path = File.join(dir, 'App')
       File.binwrite(path, blob)
       hits = ReleaseBinaryScan.scan_path(path)
-      assert_equal ['zendesk-token-before-host'], hits.map { |hit| hit[:rule] }
+      rules = hits.map { |hit| hit[:rule] }
+      assert_equal ['zendesk-token-before-host'], rules
+    end
+  end
+
+  def test_strings_failure_is_an_error
+    Dir.mktmpdir do |dir|
+      error = assert_raises(RuntimeError) { ReleaseBinaryScan.strings_of(dir) }
+      assert_match(/strings failed/, error.message)
+    end
+  end
+
+  def test_archive_without_a_binary_fails
+    Dir.mktmpdir do |dir|
+      note = File.join(dir, 'readme.txt')
+      File.write(note, 'hello')
+      archive = File.join(dir, 'App.ipa')
+      _out, status = Open3.capture2('/usr/bin/zip', '-q', '-j', archive, note)
+      assert status.success?, 'zip failed'
+      error = assert_raises(RuntimeError) { ReleaseBinaryScan.scan_path(archive) }
+      assert_match(/no binaries/, error.message)
     end
   end
 end
