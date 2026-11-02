@@ -1,5 +1,6 @@
 8.25
 -----
+- Fix the Recent searches header breaking mid-word at the largest text sizes: Clear All now moves below the title [#5554](https://github.com/Automattic/pocket-casts-ios/pull/5554)
 - Fix the Account header's "Thanks for your support!" and "Pocket Casts Champion" labels staying side by side in narrow columns at accessibility text sizes; they now stack [#5553](https://github.com/Automattic/pocket-casts-ios/pull/5553)
 - Fix settings toggle and button labels in right-to-left languages: they now follow the leading edge, and "Refresh All Podcast Artwork" is no longer cut off [#5546](https://github.com/Automattic/pocket-casts-ios/pull/5546)
 - Fix the share sheet truncating its subtitle and card text at the largest text sizes, and add the missing padding below its buttons on iPad [#5545](https://github.com/Automattic/pocket-casts-ios/pull/5545)
