@@ -1,12 +1,19 @@
 8.25
 -----
+- Fix settings toggle and button labels in right-to-left languages: they now follow the leading edge, and "Refresh All Podcast Artwork" is no longer cut off [#5546](https://github.com/Automattic/pocket-casts-ios/pull/5546)
+- Fix the share sheet truncating its subtitle and card text at the largest text sizes, and add the missing padding below its buttons on iPad [#5545](https://github.com/Automattic/pocket-casts-ios/pull/5545)
+- Fix the mini player's progress bar and times being mirrored in right-to-left languages while the full player's are not, and show the remaining time in the mini player on iPhone [#5539](https://github.com/Automattic/pocket-casts-ios/pull/5539)
 - Fix the podcast page saying "All 1 episodes" were archived, and showing the archived message for podcasts with no episodes [#5533](https://github.com/Automattic/pocket-casts-ios/pull/5533)
 - Fix the Select a Category sheet reopening when clearing a category picked from All Categories in Discover [#5535](https://github.com/Automattic/pocket-casts-ios/pull/5535)
 - Improve VoiceOver labels: Recent searches remove buttons name the search they remove, onboarding Follow buttons include the podcast name, and played episode rows say "Played" [#5534](https://github.com/Automattic/pocket-casts-ios/pull/5534)
 - Show a single Cancel button instead of Share and Search while searching a transcript, and keep it above the keyboard on iPad [#5536](https://github.com/Automattic/pocket-casts-ios/pull/5536)
 - Fix the empty Starred and Files screens using a lighter background than the other Profile screens in dark mode [#5532](https://github.com/Automattic/pocket-casts-ios/pull/5532)
+- Hide Share Podcasts and Edit Podcasts from the Podcasts tab's options menu when nothing is followed [#5541](https://github.com/Automattic/pocket-casts-ios/pull/5541)
+- Fix the Create Folder NAME and COLOR captions overlapping the title and the Save Folder button being cut off at the largest text sizes; both steps now scroll [#5540](https://github.com/Automattic/pocket-casts-ios/pull/5540)
+- Fix VoiceOver reaching the player's tabs, Up Next and chapter controls hidden behind an open transcript [#5538](https://github.com/Automattic/pocket-casts-ios/pull/5538)
 - Fix VoiceOver not announcing which region is selected in Discover's Select Content Region list [#5537](https://github.com/Automattic/pocket-casts-ios/pull/5537)
 - Add an option to hide played podcasts from the Podcasts tab, in the "…" menu [#5543](https://github.com/Automattic/pocket-casts-ios/pull/5543)
+- Fix the Profile header splitting the email address mid-word at accessibility text sizes on iPad; the header now stacks [#5544](https://github.com/Automattic/pocket-casts-ios/pull/5544)
 
 8.24
 -----

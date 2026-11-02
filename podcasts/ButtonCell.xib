@@ -16,8 +16,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cmm-bn-D5q" userLabel="Main Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                        <rect key="frame" x="16" y="0.0" width="312" height="64"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cmm-bn-D5q" userLabel="Main Label" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
+                        <rect key="frame" x="16" y="0.0" width="288" height="64"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="64" id="NY9-5M-CxF"/>
                         </constraints>
@@ -28,7 +28,7 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="cmm-bn-D5q" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="ahh-V2-AjA"/>
-                    <constraint firstAttribute="trailing" secondItem="cmm-bn-D5q" secondAttribute="trailingMargin" id="hJN-fD-DqN"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="cmm-bn-D5q" secondAttribute="trailing" id="hJN-fD-DqN"/>
                     <constraint firstItem="cmm-bn-D5q" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="tD3-xe-Qc1"/>
                     <constraint firstAttribute="bottom" secondItem="cmm-bn-D5q" secondAttribute="bottom" id="xaI-zP-wdE"/>
                 </constraints>

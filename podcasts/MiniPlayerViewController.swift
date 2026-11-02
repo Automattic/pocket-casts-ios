@@ -73,6 +73,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private var titleVibrancy: UIVisualEffectView?
     private var timeLeftVibrancy: UIVisualEffectView?
     private var largeRow: UIStackView?
+    private var largeTimeRow: UIStackView?
     private var largeInfoStack: UIStackView?
     private var subtitleLabel: UILabel?
     private var elapsedLabel: UILabel?
@@ -215,6 +216,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         bottomRow.axis = .horizontal
         bottomRow.alignment = .center
         bottomRow.spacing = 6
+        bottomRow.semanticContentAttribute = .playback
 
         progressView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         progressView.setContentHuggingPriority(.defaultLow, for: .horizontal)
@@ -322,14 +324,14 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             view.setNeedsUpdateConstraints()
         }
 
-        guard !isLargeLayoutApplied, let timeLeftHost = timeLeftHostingController?.view else {
+        guard !isLargeLayoutApplied, let timeLeftHost = timeLeftHostingController?.view, let glassButtonStack else {
             return
         }
 
-        let timeLeftMaxX = timeLeftHost.convert(timeLeftHost.bounds, to: view).maxX
-        let buttonSkipMinX = skipBackBtn.convert(skipBackBtn.bounds, to: view).minX
+        let timeLeftFrame = timeLeftHost.convert(timeLeftHost.bounds, to: view)
+        let buttonsFrame = glassButtonStack.convert(glassButtonStack.bounds, to: view).insetBy(dx: 12, dy: 0)
 
-        timeLeftHost.alpha = timeLeftMaxX > buttonSkipMinX + 12 ? 0 : 1
+        timeLeftHost.alpha = timeLeftFrame.intersects(buttonsFrame) ? 0 : 1
     }
 
     /// Builds the views that only the large screen layout shows. The views both layouts
@@ -364,18 +366,25 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             wrapper.setContentCompressionResistancePriority(.required, for: .horizontal)
         }
 
+        let timeRow = UIStackView(arrangedSubviews: [elapsedVibrancy, remainingVibrancy])
+        timeRow.axis = .horizontal
+        timeRow.alignment = .center
+        timeRow.spacing = 8
+        timeRow.semanticContentAttribute = .playback
+        largeTimeRow = timeRow
+
         let transcript = makeTrailingButton(image: UIImage(named: "transcript")?.withRenderingMode(.alwaysTemplate), label: L10n.transcript, action: #selector(transcriptTapped))
         let bookmark = makeTrailingButton(image: Self.bookmarkGlyph(), label: L10n.addBookmark, action: #selector(bookmarkTapped))
         transcriptButton = transcript
 
         // The artwork, the title, the playback buttons and the progress bar are shared with the
         // compact layout and inserted by `applyLayoutVariant`.
-        let row = UIStackView(arrangedSubviews: [infoStack, elapsedVibrancy, remainingVibrancy, transcript, bookmark])
+        let row = UIStackView(arrangedSubviews: [infoStack, timeRow, transcript, bookmark])
         row.translatesAutoresizingMaskIntoConstraints = false
         row.axis = .horizontal
         row.alignment = .center
         row.spacing = 8
-        row.setCustomSpacing(18, after: remainingVibrancy)
+        row.setCustomSpacing(18, after: timeRow)
         row.setCustomSpacing(4, after: transcript)
         largeRow = row
 
@@ -440,7 +449,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     /// Moves the views both layouts share into the compact or the large screen layout.
     @available(iOS 26.0, *)
     private func applyLayoutVariant(isLarge: Bool) {
-        guard let glassButtonStack, let compactTextStack, let compactBottomRow, let largeRow, let largeInfoStack,
+        guard let glassButtonStack, let compactTextStack, let compactBottomRow, let largeRow, let largeTimeRow, let largeInfoStack,
               let titleVibrancy, let timeLeftVibrancy, let glassProgressView else { return }
         let isInstalled = largeRow.superview != nil || compactTextStack.superview != nil
         guard isLarge != isLargeLayoutApplied || !isInstalled else { return }
@@ -465,7 +474,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             largeInfoStack.insertArrangedSubview(titleVibrancy, at: 0)
             largeRow.insertArrangedSubview(podcastArtwork, at: 0)
             largeRow.insertArrangedSubview(glassButtonStack, at: 2)
-            largeRow.insertArrangedSubview(glassProgressView, at: 4)
+            largeTimeRow.insertArrangedSubview(glassProgressView, at: 1)
             largeRow.setCustomSpacing(10, after: podcastArtwork)
             checkTranscriptAvailability()
             largeRow.setCustomSpacing(12, after: largeInfoStack)
