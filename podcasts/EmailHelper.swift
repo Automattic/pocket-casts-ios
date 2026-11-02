@@ -19,34 +19,29 @@ class EmailHelper: NSObject {
     }
 
     func presentSupportDialog(_ source: UIViewController, type: SupportRequestType) {
-        let config = SupportConfig(type: type)
-        let loadingAlert = ShiftyLoadingAlert(title: L10n.supportPreparingEmail)
-
         Task { @MainActor in
-            loadingAlert.showAlert(source, hasProgress: false) {
-                Task { @MainActor in
-                    // Users who opted out of sharing debug information on the old in-app form send only basic device details.
-                    let optOut = UserDefaults.standard.debugOptedOut
+            let config = SupportConfig(type: type)
+            let loadingAlert = ShiftyLoadingAlert(title: L10n.supportPreparingEmail)
+            await loadingAlert.show(on: source, hasProgress: false)
 
-                    if MFMailComposeViewController.canSendMail() && !Self.forceMailtoFallback {
-                        let attachments = await config.attachments(optOut: optOut)
-                        loadingAlert.hideAlert(false) {
-                            Self.presentMailComposer(source, config: config, attachments: attachments, body: config.body(optOut: optOut))
-                        }
-                    } else {
-                        // Without Mail set up, a mailto: link can't carry attachments, so upload the logs
-                        // and put their IDs in the body instead.
-                        // Wait for the uploads before opening the email app, which sends this app to the background,
-                        // and keep running if the user leaves while they're still in progress.
-                        let backgroundTask = SupportBackgroundTask(name: "Support log upload")
-                        let logReferences = optOut ? [] : await config.uploadedLogReferences()
-                        backgroundTask.end()
-                        await Self.waitUntilActive()
-                        loadingAlert.hideAlert(false) {
-                            Self.openMailApp(source, config: config, body: config.body(optOut: optOut, logReferences: logReferences))
-                        }
-                    }
-                }
+            // Users who opted out of sharing debug information on the old in-app form send only basic device details.
+            let optOut = UserDefaults.standard.debugOptedOut
+
+            if MFMailComposeViewController.canSendMail() && !Self.forceMailtoFallback {
+                let attachments = await config.attachments(optOut: optOut)
+                await loadingAlert.hide(animated: false)
+                Self.presentMailComposer(source, config: config, attachments: attachments, body: config.body(optOut: optOut))
+            } else {
+                // Without Mail set up, a mailto: link can't carry attachments, so upload the logs
+                // and put their IDs in the body instead.
+                // Wait for the uploads before opening the email app, which sends this app to the background,
+                // and keep running if the user leaves while they're still in progress.
+                let backgroundTask = SupportBackgroundTask(name: "Support log upload")
+                let logReferences = optOut ? [] : await config.uploadedLogReferences()
+                backgroundTask.end()
+                await Self.waitUntilActive()
+                await loadingAlert.hide(animated: false)
+                Self.openMailApp(source, config: config, body: config.body(optOut: optOut, logReferences: logReferences))
             }
         }
     }
