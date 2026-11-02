@@ -157,15 +157,13 @@ extension FileLog: @retroactive EventLoggingDelegate {
     public func didFinishUploadingLog(_ log: LogFile) {
         addMessage("FileLog: uploaded log \(log.uuid)")
         LogUploadWaiters.shared.uploadFinished(log.uuid, succeeded: true)
-        let filePath = log.url.absoluteString
-        try? FileManager.default.removeItem(atPath: filePath)
+        try? FileManager.default.removeItem(at: log.url)
     }
 
     public func uploadFailed(_ log: LogFile) {
         addMessage("FileLog: failed to upload log \(log.uuid)")
         LogUploadWaiters.shared.uploadFinished(log.uuid, succeeded: false)
-        let filePath = log.url.absoluteString
-        try? FileManager.default.removeItem(atPath: filePath)
+        try? FileManager.default.removeItem(at: log.url)
     }
 
     public func logError(_ error: Error, userInfo: [String: Any]?) {
