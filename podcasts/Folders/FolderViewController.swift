@@ -72,8 +72,8 @@ class FolderViewController: PCViewController {
         addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(reloadFolder))
         addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(reloadFolder))
         addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(reloadFolder))
-        addCustomObserver(ServerNotifications.podcastsRefreshed, selector: #selector(reloadFolder))
-        addCustomObserver(ServerNotifications.syncCompleted, selector: #selector(reloadFolder))
+        addCustomObserver(ServerNotifications.podcastsRefreshed, selector: #selector(reloadFolderFromBackgroundNotification))
+        addCustomObserver(ServerNotifications.syncCompleted, selector: #selector(reloadFolderFromBackgroundNotification))
         addCustomObserver(Constants.Notifications.miniPlayerDidAppear, selector: #selector(miniPlayerStatusDidChange))
         addCustomObserver(Constants.Notifications.miniPlayerDidDisappear, selector: #selector(miniPlayerStatusDidChange))
 
@@ -120,6 +120,12 @@ class FolderViewController: PCViewController {
         reloadPodcasts()
 
         updateNavTintColor()
+    }
+
+    @objc private func reloadFolderFromBackgroundNotification() {
+        DispatchQueue.main.async { [weak self] in
+            self?.reloadFolder()
+        }
     }
 
     @objc private func folderOptionsTapped(_ sender: UIBarButtonItem) {
