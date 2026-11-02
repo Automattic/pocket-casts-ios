@@ -1,120 +1,17 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/buildkite/pipeline-schema/main/schema.json
 ---
 
-# Variables used in this pipeline are defined in `shared-pipeline-vars`, which is `source`'d before calling `buidkite-agent pipeline upload`
+# Validation pipeline. Build the App Store IPA and scan it.
+# There is no TestFlight, GitHub release, prototype, or tvOS upload step.
 
 env:
   IMAGE_ID: $IMAGE_ID
 
 steps:
-  - label: Build and Test
-    command: .buildkite/commands/build.sh
+  - label: "Scan release binary"
+    command: .buildkite/commands/validate-release-binary-scan.sh
     agents:
       queue: mac
-    plugins:
-      - $CI_TOOLKIT
-      - ${TEST_COLLECTOR}:
-          files: fastlane/test_output/report.junit
-          format: junit
-          missing-error: 0
-          api-token-env-name: BUILDKITE_ANALYTICS_TOKEN
-
-  - group: "tvOS App Store"
-    steps:
-      - label: "Build tvOS (App Store Connect)"
-        key: build_tvos_app_store
-        command: .buildkite/commands/build-tvos-app-store.sh
-        agents:
-          queue: mac
-        plugins: [$CI_TOOLKIT]
-        artifact_paths:
-          - artifacts/*.ipa
-          - artifacts/*.app.dSYM.zip
-
-      - input: "Upload tvOS to TestFlight"
-        prompt: "Upload the tvOS build to TestFlight?"
-        key: upload_tvos_testflight_input
-
-      - label: "Upload tvOS to TestFlight"
-        key: upload_tvos_testflight
-        depends_on:
-          - build_tvos_app_store
-          - upload_tvos_testflight_input
-        command: .buildkite/commands/upload-tvos-app-store.sh
-        agents:
-          queue: mac
-        plugins: [$CI_TOOLKIT]
-
-  - group: "Linters"
-    steps:
-      - label: ":danger: PR Check with Danger"
-        command: danger
-        key: danger
-        if: "build.pull_request.id != null"
-        retry:
-          manual:
-            permit_on_passed: true
-        agents:
-          queue: "linter"
-
-      - label: ":swift: SwiftLint"
-        command: swiftlint
-        notify:
-          - github_commit_status:
-              context: "SwiftLint"
-        agents:
-          queue: "linter"
-
-      # Guards that the theme generator keeps working in Xcode build phases,
-      # which run with an empty environment and possibly only system Ruby.
-      - label: ":ruby: Theme Generator under System Ruby"
-        command: env -i /usr/bin/ruby scripts/themes/generate_themes.rb scripts/themes/theme.csv
-        agents:
-          queue: mac
-
-      - label: ":fastlane: fastlane Helper Tests"
-        if: ${RUN_FASTLANE_TESTS:-false}
-        command: ruby fastlane/test/helpers_test.rb
-        agents:
-          queue: default
-        plugins:
-          - docker#v5.13.0:
-              image: "$DOCKER_RUBY_IMAGE"
-              propagate-environment: true
-              mount-buildkite-agent: true
-
-      - label: ":sleuth_or_spy: Lint Localized Strings Format"
-        command: |
-          if .buildkite/commands/should-skip-job.sh --job-type localization; then
-            exit 0
-          fi
-
-          lint_localized_strings_format
-        agents:
-          queue: mac
-        plugins: [$CI_TOOLKIT]
-
-  - input: Deploy Prototype Build
-    prompt: Share a Prototype Build via Firebase App Distribution?
-    key: prototype_triggered
-
-  - group: Prototype Build
-    depends_on: prototype_triggered
-    steps:
-      - label: Prototype Build - Build
-        key: build_prototype
-        command: .buildkite/commands/prototype-build.sh
-        agents:
-          queue: mac
-        plugins: [$CI_TOOLKIT]
-        # The folder name is are configured in Fastlane
-        artifact_paths:
-          - artifacts/*.ipa
-          - artifacts/*.app.dSYM.zip
-
-      - label: Prototype Build - Upload
-        depends_on: build_prototype
-        command: .buildkite/commands/prototype-upload.sh
-        agents:
-          queue: mac
-        plugins: [$CI_TOOLKIT]
+    plugins: [$CI_TOOLKIT]
+    artifact_paths:
+      - artifacts/release-binary-scan.txt
