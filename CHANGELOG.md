@@ -1,8 +1,10 @@
 8.25
 -----
 - Fix the Recent searches header breaking mid-word at the largest text sizes: Clear All now moves below the title [#5554](https://github.com/Automattic/pocket-casts-ios/pull/5554)
+- Fix the Account header's "Thanks for your support!" and "Pocket Casts Champion" labels staying side by side in narrow columns at accessibility text sizes; they now stack [#5553](https://github.com/Automattic/pocket-casts-ios/pull/5553)
 - Fix settings toggle and button labels in right-to-left languages: they now follow the leading edge, and "Refresh All Podcast Artwork" is no longer cut off [#5546](https://github.com/Automattic/pocket-casts-ios/pull/5546)
 - Fix the share sheet truncating its subtitle and card text at the largest text sizes, and add the missing padding below its buttons on iPad [#5545](https://github.com/Automattic/pocket-casts-ios/pull/5545)
+- Fix the date on the Up Next now-playing card breaking mid-word at the largest text sizes; the artwork now sits above the text [#5556](https://github.com/Automattic/pocket-casts-ios/pull/5556)
 - Fix the mini player's progress bar and times being mirrored in right-to-left languages while the full player's are not, and show the remaining time in the mini player on iPhone [#5539](https://github.com/Automattic/pocket-casts-ios/pull/5539)
 - Fix the podcast page saying "All 1 episodes" were archived, and showing the archived message for podcasts with no episodes [#5533](https://github.com/Automattic/pocket-casts-ios/pull/5533)
 - Fix the Select a Category sheet reopening when clearing a category picked from All Categories in Discover [#5535](https://github.com/Automattic/pocket-casts-ios/pull/5535)
@@ -17,6 +19,7 @@
 
 8.24
 -----
+- Fix Contact Support failing to send: it now opens an email with your logs attached [#5557](https://github.com/Automattic/pocket-casts-ios/pull/5557)
 - Fix the Sleep Timer countdown being hidden under the logo in the Dynamic Island when another Live Activity is showing [#5523](https://github.com/Automattic/pocket-casts-ios/pull/5523)
 - Fix the top line of a generated transcript opened from Episode Details being cut in half under the banner while scrolling [#5522](https://github.com/Automattic/pocket-casts-ios/pull/5522)
 - Fix long Discover section titles such as "British Podcast Awards Winners 2026" being cut off at one line; they now wrap to two [#5461](https://github.com/Automattic/pocket-casts-ios/pull/5461)

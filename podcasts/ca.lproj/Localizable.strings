@@ -2533,8 +2533,6 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <string>Pocket Casts Plus</string>
     <key>pocket_casts_plus_short</key>
     <string>Plus</string>
-    <key>pocket_casts_welcome_newsletter_title</key>
-    <string>Rep el butlletí</string>
     <key>podcast_access_ended</key>
     <string>Accés acabat: %1$@</string>
     <key>podcast_access_ends</key>
@@ -3262,8 +3260,6 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Obre els enllaços al navegador</string>
     <key>settings_general_play_back_actions</key>
     <string>Altres accions de reproducció</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Afegeix una opció d'estrella a la pantalla de bloqueig del teu telèfon.</string>
     <key>settings_general_player_header</key>
     <string>REPRODUCTOR</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3414,8 +3410,6 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Proveïdors d'allotjament més comuns de pòdcasts</string>
     <key>settings_status_host_description</key>
     <string>Els autors de pòdcast allotgen fitxers d'episodi en diversos proveïdors d'allotjament no gestionats per Pocket Casts.</string>
-    <key>settings_status_host_failure_message</key>
-    <string>La causa més comuna és que tens un bloquejador d'anuncis configurat al teu telèfon o xarxa. Has de desbloquejar aquest domini per a baixar pòdcasts. Tingues en compte que Pocket Casts no allotja ni tria on s'allotgen els pòdcasts, això depèn de l'autor del programa i està fora del nostre control.</string>
     <key>settings_status_internet</key>
     <string>Internet</string>
     <key>settings_status_internet_description</key>
@@ -3428,8 +3422,6 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Aquest servei s'empra per a cercar episodis nous.</string>
     <key>settings_status_run</key>
     <string>Executa ara</string>
-    <key>settings_status_service_ad_blocker_help_singular</key>
-    <string>La causa més comuna és que tens un bloquejador d'anuncis configurat al teu telèfon o xarxa. Has de desbloquejar el domini %1$@</string>
     <key>settings_storage</key>
     <string>Emmagatzematge i ús de dades</string>
     <key>settings_storage_data_warning</key>
@@ -3440,8 +3432,6 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>DADES MÒBILS</string>
     <key>settings_storage_usage</key>
     <string>ÚS</string>
-    <key>settings_storage_usage_footer</key>
-    <string>Pot diferir de l'emmagatzematge que es mostra a la Configuració de l'iPhone. iOS gestiona les dades en memòria cau automàticament i les allibera quan cal.</string>
     <key>settings_third_party_analytics</key>
     <string>Analítiques de tercers</string>
     <key>settings_title</key>
@@ -3480,8 +3470,6 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Configura el compte</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>Remena per a reiniciar el temporitzador de son</string>
-    <key>shake_to_restart_sleep_timer_description</key>
-    <string>Si està activat, el temporitzador de son es reiniciarà quan moguis el telèfon.</string>
     <key>share</key>
     <string>Comparteix</string>
     <key>share_clip</key>
@@ -4434,22 +4422,8 @@ Sincerament, totes dues són bones decisions. 🙂</string>
     <string>No hi ha res a la cua</string>
     <key>week</key>
     <string>setmana</string>
-    <key>welcome_discover_button</key>
-    <string>Cerca el meu següent pòdcast</string>
-    <key>welcome_discover_description</key>
-    <string>Troba pòdcasts poc coneguts i pòdcasts populars a la nostra pàgina Descobreix, amb seleccions triades a mà.</string>
-    <key>welcome_discover_title</key>
-    <string>Descobreix alguna cosa nova</string>
     <key>welcome_import_button</key>
     <string>Importa pòdcasts</string>
-    <key>welcome_import_description</key>
-    <string>Vens des d'una altra app? Emporta't els teus pòdcasts amb tu.</string>
-    <key>welcome_import_title</key>
-    <string>Importa els teus pòdcasts</string>
-    <key>welcome_new_account_title</key>
-    <string>Us donem la benvinguda. I ara, a escoltar!</string>
-    <key>welcome_plus_title</key>
-    <string>Gràcies. I ara, comença a escoltar contingut!</string>
     <key>whats_new</key>
     <string>Novetats</string>
     <key>whats_new_blog_more_link_text</key>

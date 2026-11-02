@@ -4,6 +4,7 @@ import PocketCastsServer
 
 struct AccountHeaderView: View {
     @EnvironmentObject var theme: Theme
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @ObservedObject var viewModel: AccountHeaderViewModel
 
     @State private var showingChampion = false
@@ -27,16 +28,21 @@ struct AccountHeaderView: View {
                         .font(size: 11, style: .footnote, weight: .semibold)
                 } else {
                     // Subscription details labels
-                    HStack {
+                    let isStacked = dynamicTypeSize.isAccessibilitySize
+                    let layout = isStacked ? AnyLayout(VStackLayout(spacing: 8)) : AnyLayout(HStackLayout())
+                    layout {
                         Text(title)
                             .fixedSize(horizontal: false, vertical: true)
-                        Spacer()
+                        if !isStacked {
+                            Spacer()
+                        }
                         label
                         .onTapGesture {
                             action?()
                         }
                             .fixedSize(horizontal: false, vertical: true)
                     }
+                    .multilineTextAlignment(isStacked ? .center : .leading)
                     .foregroundColor(theme.primaryText01)
                     .font(size: 14, style: .subheadline, weight: .medium)
                     .sheet(isPresented: $showingChampion) {

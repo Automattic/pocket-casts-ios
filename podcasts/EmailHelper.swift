@@ -1,22 +1,189 @@
-import PocketCastsDataModel
-import PocketCastsServer
+import MessageUI
 import PocketCastsUtils
 import SwiftUI
 import UIKit
+import UniformTypeIdentifiers
 
+/// Opens an email to support with the device details and logs filled in, the same way Android does.
 class EmailHelper: NSObject {
-    func presentSupportDialog(_ source: UIViewController, type: ZDType) {
-        DispatchQueue.main.async {
-            let config = SupportConfig(type: type)
-            let viewModel = PCMessageSupportViewModel(config: config)
-            let supportView = MessageSupportView(viewModel: viewModel) {
-                source.dismiss(animated: true, completion: nil)
-            }
-            .environmentObject(Theme.shared)
+    /// Dismisses the mail composer. Held statically because callers don't keep the helper around.
+    private static let mailComposeDelegate = MailComposeDelegate()
 
-            let hostingController = PCHostingController(rootView: supportView)
-            hostingController.isModalInPresentation = true
-            source.present(hostingController, animated: true, completion: nil)
+    /// Debug builds launched with `-SupportForceMailtoFallback YES` take the path for devices without Mail set up.
+    private static var forceMailtoFallback: Bool {
+        #if DEBUG
+            UserDefaults.standard.bool(forKey: "SupportForceMailtoFallback")
+        #else
+            false
+        #endif
+    }
+
+    func presentSupportDialog(_ source: UIViewController, type: SupportRequestType) {
+        Task { @MainActor in
+            let config = SupportConfig(type: type)
+            let loadingAlert = ShiftyLoadingAlert(title: L10n.supportPreparingEmail)
+            await loadingAlert.show(on: source, hasProgress: false)
+
+            // Users who opted out of sharing debug information on the old in-app form send only basic device details.
+            let optOut = UserDefaults.standard.debugOptedOut
+
+            if MFMailComposeViewController.canSendMail() && !Self.forceMailtoFallback {
+                let attachments = await config.attachments(optOut: optOut)
+                await loadingAlert.hide(animated: false)
+                Self.presentMailComposer(source, config: config, attachments: attachments, body: config.body(optOut: optOut))
+            } else {
+                // Without Mail set up, a mailto: link can't carry attachments, so upload the logs
+                // and put their IDs in the body instead.
+                // Wait for the uploads before opening the email app, which sends this app to the background,
+                // and keep running if the user leaves while they're still in progress.
+                let backgroundTask = SupportBackgroundTask(name: "Support log upload")
+                let logReferences = optOut ? [] : await config.uploadedLogReferences()
+                backgroundTask.end()
+                await Self.waitUntilActive()
+                await loadingAlert.hide(animated: false)
+                Self.openMailApp(source, config: config, body: config.body(optOut: optOut, logReferences: logReferences))
+            }
         }
+    }
+
+    /// Returns once the app is in the foreground, which is immediately unless the user left while the logs uploaded.
+    @MainActor
+    private static func waitUntilActive() async {
+        guard UIApplication.shared.applicationState != .active else { return }
+        for await _ in NotificationCenter.default.notifications(named: UIApplication.didBecomeActiveNotification) {
+            return
+        }
+    }
+
+    @MainActor
+    private static func presentMailComposer(_ source: UIViewController, config: SupportConfig, attachments: [SupportConfig.Attachment], body: String) {
+        FileLog.shared.addMessage("EmailHelper: opening the mail composer with \(attachments.count) attachments")
+
+        let mailVC = MFMailComposeViewController()
+        mailVC.mailComposeDelegate = mailComposeDelegate
+        mailVC.setToRecipients([config.recipient])
+        mailVC.setSubject(config.subject)
+        mailVC.setMessageBody(body, isHTML: false)
+        attachments.forEach { attachment in
+            mailVC.addAttachmentData(attachment.data, mimeType: UTType.plainText.preferredMIMEType ?? "text/plain", fileName: attachment.fileName)
+        }
+        source.present(mailVC, animated: true)
+    }
+
+    @MainActor
+    private static func openMailApp(_ source: UIViewController, config: SupportConfig, body: String) {
+        guard let url = config.mailtoURL(body: body) else {
+            showNoMailAppSheet(source, config: config, body: body)
+            return
+        }
+
+        FileLog.shared.addMessage("EmailHelper: Mail isn't set up, opening the default email app")
+        UIApplication.shared.open(url) { opened in
+            guard !opened else { return }
+            FileLog.shared.addMessage("EmailHelper: no email app could open the support email")
+            showNoMailAppSheet(source, config: config, body: body)
+        }
+    }
+
+    /// Offers to copy the address and the email, so the device details and log IDs can still reach support from any email app.
+    /// A sheet rather than an alert, because an alert closes after the first copy and there are two things to copy.
+    @MainActor
+    private static func showNoMailAppSheet(_ source: UIViewController, config: SupportConfig, body: String) {
+        weak var host: UIViewController?
+        let sheet = NoEmailAppSheet(address: config.recipient, email: config.copyableEmail(body: body)) {
+            host?.dismiss(animated: true)
+        }
+        let controller = ThemedHostingController(rootView: sheet, background: \.primaryUi01)
+        host = controller
+        if let sheetController = controller.sheetPresentationController {
+            sheetController.detents = [.medium(), .large()]
+            sheetController.prefersGrabberVisible = true
+        }
+
+        var presenter = source
+        while let presented = presenter.presentedViewController, !presented.isBeingDismissed {
+            presenter = presented
+        }
+        presenter.present(controller, animated: true)
+    }
+}
+
+/// A background task that ends itself when iOS runs out of background time, so the app is suspended rather than killed.
+@MainActor
+private final class SupportBackgroundTask {
+    private var identifier = UIBackgroundTaskIdentifier.invalid
+
+    init(name: String) {
+        identifier = UIApplication.shared.beginBackgroundTask(withName: name) { [weak self] in
+            MainActor.assumeIsolated {
+                FileLog.shared.addMessage("EmailHelper: background time ran out before the log uploads finished")
+                self?.end()
+            }
+        }
+    }
+
+    func end() {
+        guard identifier != .invalid else { return }
+        UIApplication.shared.endBackgroundTask(identifier)
+        identifier = .invalid
+    }
+}
+
+private struct NoEmailAppSheet: View {
+    private enum Item {
+        case address
+        case email
+    }
+
+    @EnvironmentObject var theme: Theme
+
+    let address: String
+    let email: String
+    let onDone: () -> Void
+
+    @State private var copied: Set<Item> = []
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 12) {
+                Text(L10n.supportNoEmailAppTitle)
+                    .font(.title2.bold())
+                    .foregroundColor(theme.primaryText01)
+                Text(L10n.supportNoEmailAppMessage(address))
+                    .font(.subheadline)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(theme.primaryText02)
+                    .padding(.bottom, 12.0)
+                copyButton(.address, title: L10n.supportCopyEmailAddress, copiedTitle: L10n.supportEmailAddressCopied, value: address)
+                copyButton(.email, title: L10n.supportCopyEmail, copiedTitle: L10n.supportEmailCopied, value: email)
+                Button(L10n.done, action: onDone)
+                    .buttonStyle(BasicButtonStyle(textColor: theme.primaryText01, backgroundColor: theme.primaryUi01, borderColor: theme.primaryUi05))
+            }
+            .padding(.horizontal, 20.0)
+            .padding(.vertical, 32.0)
+        }
+        .background(theme.primaryUi01)
+    }
+
+    private func copyButton(_ item: Item, title: String, copiedTitle: String, value: String) -> some View {
+        Button {
+            UIPasteboard.general.string = value
+            copied.insert(item)
+            UIAccessibility.post(notification: .announcement, argument: copiedTitle)
+        } label: {
+            if copied.contains(item) {
+                Label(copiedTitle, systemImage: "checkmark")
+            } else {
+                Text(title)
+            }
+        }
+        .buttonStyle(BasicButtonStyle(textColor: theme.primaryInteractive02, backgroundColor: theme.primaryInteractive01))
+    }
+}
+
+private class MailComposeDelegate: NSObject, MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        FileLog.shared.addMessage("EmailHelper: mail composer finished with result \(result.rawValue)\(error.map { ", error: \($0)" } ?? "")")
+        controller.dismiss(animated: true)
     }
 }

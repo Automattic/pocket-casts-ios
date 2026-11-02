@@ -2539,8 +2539,6 @@ Prova a modificare le regole o salva questa playlist per episodi futuri che potr
     <string>Pocket Casts Plus</string>
     <key>pocket_casts_plus_short</key>
     <string>Plus</string>
-    <key>pocket_casts_welcome_newsletter_title</key>
-    <string>Ottieni la Newsletter</string>
     <key>podcast_access_ended</key>
     <string>L'accesso è terminato: %1$@</string>
     <key>podcast_access_ends</key>
@@ -3269,8 +3267,6 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Apri i link nel browser</string>
     <key>settings_general_play_back_actions</key>
     <string>Azioni di riproduzione aggiuntive</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Aggiunge un'opzione stella alla schermata di blocco del telefono.</string>
     <key>settings_general_player_header</key>
     <string>LETTORE</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3421,8 +3417,6 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Fornitori di hosting di podcast comuni</string>
     <key>settings_status_host_description</key>
     <string>Gli autori di podcast ospitano i file degli episodi su vari fornitori del servizio di hosting non gestiti da Pocket Casts.</string>
-    <key>settings_status_host_failure_message</key>
-    <string>La causa più comune è legata al fatto che hai una funzionalità di blocco degli annunci configurata sul telefono o sulla rete. Dovrai sbloccare questo dominio per scaricare i podcast. Pocket Casts non ospita o sceglie il luogo in cui sono ospitati i podcast, questo dipende dall'autore dello show ed è fuori dal nostro controllo.</string>
     <key>settings_status_internet</key>
     <string>Internet</string>
     <key>settings_status_internet_description</key>
@@ -3435,8 +3429,6 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Il servizio usato per trovare nuovi episodi.</string>
     <key>settings_status_run</key>
     <string>Verifica</string>
-    <key>settings_status_service_ad_blocker_help_singular</key>
-    <string>La causa più comune è legata al fatto che hai una funzionalità di blocco degli annunci configurata sul telefono o sulla rete. Dovrai sbloccare il dominio %1$@</string>
     <key>settings_storage</key>
     <string>Archiviazione e utilizzo dei dati</string>
     <key>settings_storage_data_warning</key>
@@ -3447,8 +3439,6 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>DATI DISPOSITIVI MOBILI</string>
     <key>settings_storage_usage</key>
     <string>UTILIZZO</string>
-    <key>settings_storage_usage_footer</key>
-    <string>Questo dato potrebbe differire dallo spazio di archiviazione indicato nelle Impostazioni del tuo iPhone. iOS gestisce automaticamente i dati memorizzati nella cache e li libera quando necessario.</string>
     <key>settings_third_party_analytics</key>
     <string>Analisi di terze parti</string>
     <key>settings_title</key>
@@ -3487,8 +3477,6 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Configura account</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>Scuoti per riavviare l'autospegnimento</string>
-    <key>shake_to_restart_sleep_timer_description</key>
-    <string>Quando è attivato, l'autospegnimento si riavvia quando scuoti il telefono.</string>
     <key>share</key>
     <string>Condividi</string>
     <key>share_clip</key>
@@ -4442,22 +4430,8 @@ In ogni caso, avrai fatto la scelta giusta. 🙂</string>
     <string>Nessun elemento in Successivo</string>
     <key>week</key>
     <string>settimana</string>
-    <key>welcome_discover_button</key>
-    <string>Trova il mio prossimo podcast</string>
-    <key>welcome_discover_description</key>
-    <string>Trova podcast nascosti e di tendenza nella nostra pagina Discover selezionata.</string>
-    <key>welcome_discover_title</key>
-    <string>Scopri qualcosa di nuovo</string>
     <key>welcome_import_button</key>
     <string>Importa podcast</string>
-    <key>welcome_import_description</key>
-    <string>Sono provenienti da un'altra app? Porta i tuoi podcast con te.</string>
-    <key>welcome_import_title</key>
-    <string>Importa i tuoi podcast</string>
-    <key>welcome_new_account_title</key>
-    <string>Benvenuto, ora mettiamoci all'ascolto!</string>
-    <key>welcome_plus_title</key>
-    <string>Grazie, ora mettiamoci all'ascolto!</string>
     <key>whats_new</key>
     <string>Novità</string>
     <key>whats_new_blog_more_link_text</key>
