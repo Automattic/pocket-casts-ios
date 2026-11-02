@@ -1,5 +1,6 @@
 8.25
 -----
+- Fix the share sheet truncating its subtitle and card text at the largest text sizes, and add the missing padding below its buttons on iPad [#5545](https://github.com/Automattic/pocket-casts-ios/pull/5545)
 - Fix the mini player's progress bar and times being mirrored in right-to-left languages while the full player's are not, and show the remaining time in the mini player on iPhone [#5539](https://github.com/Automattic/pocket-casts-ios/pull/5539)
 - Fix the podcast page saying "All 1 episodes" were archived, and showing the archived message for podcasts with no episodes [#5533](https://github.com/Automattic/pocket-casts-ios/pull/5533)
 - Fix the Select a Category sheet reopening when clearing a category picked from All Categories in Discover [#5535](https://github.com/Automattic/pocket-casts-ios/pull/5535)
