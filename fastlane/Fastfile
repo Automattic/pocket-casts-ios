@@ -741,9 +741,11 @@ platform :ios do
   # @param path [String] Path to an `.ipa` or `.xcarchive.zip`.
   #
   lane :scan_release_binary do |path: APP_STORE_CONNECT_BUILD_IPA_PATH|
-    UI.user_error!("No release binary at #{path}") unless File.exist?(path)
+    # The lane runs with `fastlane/` as the working directory.
+    binary = File.expand_path(path, PROJECT_ROOT_FOLDER)
+    UI.user_error!("No release binary at #{binary}") unless File.exist?(binary)
 
-    sh('ruby', File.join(PROJECT_ROOT_FOLDER, 'scripts/scan_release_binary.rb'), path)
+    sh('ruby', File.join(PROJECT_ROOT_FOLDER, 'scripts/scan_release_binary.rb'), binary)
   end
 
   # Builds the tvOS app binary for distribution to App Store Connect
