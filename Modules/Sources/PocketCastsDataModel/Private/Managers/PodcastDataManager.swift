@@ -328,11 +328,11 @@ class PodcastDataManager {
                 WHERE p.subscribed = 1
                 AND EXISTS (
                     SELECT 1 FROM \(DataManager.episodeTableName) e
-                    WHERE e.podcast_id = p.id AND e.playingStatus = \(PlayingStatus.completed.rawValue)
+                    WHERE e.podcast_id = p.id AND +e.playingStatus = \(PlayingStatus.completed.rawValue)
                 )
                 AND NOT EXISTS (
                     SELECT 1 FROM \(DataManager.episodeTableName) e
-                    WHERE e.podcast_id = p.id AND e.archived = 0 AND e.playingStatus IN (\(PlayingStatus.notPlayed.rawValue), \(PlayingStatus.inProgress.rawValue))
+                    WHERE e.podcast_id = p.id AND +e.archived = 0 AND +e.playingStatus IN (\(PlayingStatus.notPlayed.rawValue), \(PlayingStatus.inProgress.rawValue))
                 )
                 """
                 let rs = try db.executeQuery(query, values: nil)
