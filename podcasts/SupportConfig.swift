@@ -132,7 +132,7 @@ struct SupportConfig {
     }
 
     /// Uploads the logs as encrypted logs, waiting for each upload to finish, and returns a line for each one:
-    /// a link support can open, or a note that it couldn't be uploaded.
+    /// the log's ID for support to look up, or a note that it couldn't be uploaded.
     /// Both logs upload at once, and each gets `logUploadTimeout` from the moment it's queued, so a slow
     /// log generation or watch request doesn't eat into the other upload's time.
     func uploadedLogReferences() async -> [String] {
@@ -167,7 +167,7 @@ struct SupportConfig {
         guard let uuid else {
             return "\(name): couldn't be uploaded"
         }
-        return "\(name): https://mc.a8c.com/encrypted-logs.php?uuid=\(uuid)"
+        return "\(name): \(uuid)"
     }
 
     private var allPodcasts: String {

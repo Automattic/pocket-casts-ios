@@ -41,17 +41,17 @@ final class SupportConfigTests: XCTestCase {
         XCTAssertTrue(body.contains("Debug Log: ABC-123\nWatch Log: DEF-456\n"))
     }
 
-    func testUploadedLogsLinkToTheEncryptedLogsTool() {
-        XCTAssertEqual(SupportConfig.logReference("Debug log", uuid: "ABC-123"), "Debug log: https://mc.a8c.com/encrypted-logs.php?uuid=ABC-123")
+    func testUploadedLogsAreReferencedByID() {
+        XCTAssertEqual(SupportConfig.logReference("Debug log", uuid: "ABC-123"), "Debug log: ABC-123")
     }
 
     func testLogsThatFailedToUploadSaySo() {
         XCTAssertEqual(SupportConfig.logReference("Watch log", uuid: nil), "Watch log: couldn't be uploaded")
     }
 
-    func testMailtoURLKeepsTheLogLinkInTheBody() throws {
+    func testMailtoURLEncodesReservedCharactersInTheBody() throws {
         let config = SupportConfig(type: .support)
-        let body = "Hi\n\nDebug log: https://mc.a8c.com/encrypted-logs.php?uuid=ABC-123&x=1"
+        let body = "Hi\n\nDebug log: ABC-123?uuid=ABC-123&x=1"
 
         let url = try XCTUnwrap(config.mailtoURL(body: body))
 
@@ -59,7 +59,7 @@ final class SupportConfigTests: XCTestCase {
         XCTAssertTrue(url.absoluteString.hasPrefix("mailto:support@pocketcasts.com?subject="))
         XCTAssertEqual(url.absoluteString.components(separatedBy: "?").count, 2)
         XCTAssertEqual(url.absoluteString.components(separatedBy: "&").count, 2)
-        XCTAssertTrue(url.absoluteString.contains("encrypted-logs.php%3Fuuid%3DABC-123%26x%3D1"))
+        XCTAssertTrue(url.absoluteString.contains("ABC-123%3Fuuid%3DABC-123%26x%3D1"))
     }
 
     func testMailtoURLUsesCRLFLineBreaks() throws {
@@ -69,7 +69,7 @@ final class SupportConfigTests: XCTestCase {
     }
 
     func testMailtoURLRoundTripsTheBody() throws {
-        let body = "\n\n\n----------\nDebug log: https://mc.a8c.com/encrypted-logs.php?uuid=ABC-123\n"
+        let body = "\n\n\n----------\nDebug log: ABC-123\n"
         let url = try XCTUnwrap(SupportConfig(type: .chatbotSupport).mailtoURL(body: body))
         let encodedBody = try XCTUnwrap(url.absoluteString.components(separatedBy: "&body=").last)
 
@@ -79,11 +79,11 @@ final class SupportConfigTests: XCTestCase {
 
     func testCopyableEmailHasTheAddressSubjectAndBody() {
         let config = SupportConfig(type: .support)
-        let body = "\n\n\n----------\nDebug log: https://mc.a8c.com/encrypted-logs.php?uuid=ABC-123\n"
+        let body = "\n\n\n----------\nDebug log: ABC-123\n"
 
         let email = config.copyableEmail(body: body)
 
-        XCTAssertEqual(email, "To: support@pocketcasts.com\nSubject: \(config.subject)\n\n----------\nDebug log: https://mc.a8c.com/encrypted-logs.php?uuid=ABC-123\n")
+        XCTAssertEqual(email, "To: support@pocketcasts.com\nSubject: \(config.subject)\n\n----------\nDebug log: ABC-123\n")
     }
 
     func testBodyTagsChatbotAndSurveyRequests() {

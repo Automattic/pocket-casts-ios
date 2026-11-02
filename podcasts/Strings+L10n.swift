@@ -37,7 +37,7 @@ extension L10n {
 
     /* Message of the sheet shown when no email app can open the support email. The parameter is the support email address. */
     static func supportNoEmailAppMessage(_ address: String) -> String {
-        "Please email us at \(address) from any email app. Copy the address into the To field, then copy the email into your message. It includes your device details and links to your logs."
+        "Please email us at \(address) from any email app. Copy the address into the To field, then copy the email into your message. It includes your device details and the IDs of your logs."
     }
 
     /* Button that copies the whole support email: address, subject and body. */

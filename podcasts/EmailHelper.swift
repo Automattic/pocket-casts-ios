@@ -35,7 +35,7 @@ class EmailHelper: NSObject {
                         }
                     } else {
                         // Without Mail set up, a mailto: link can't carry attachments, so upload the logs
-                        // and link them in the body instead.
+                        // and put their IDs in the body instead.
                         // Wait for the uploads before opening the email app, which sends this app to the background,
                         // and keep running if the user leaves while they're still in progress.
                         let backgroundTask = SupportBackgroundTask(name: "Support log upload")
@@ -90,7 +90,7 @@ class EmailHelper: NSObject {
         }
     }
 
-    /// Offers to copy the address and the email, so the device details and log links can still reach support from any email app.
+    /// Offers to copy the address and the email, so the device details and log IDs can still reach support from any email app.
     /// A sheet rather than an alert, because an alert closes after the first copy and there are two things to copy.
     @MainActor
     private static func showNoMailAppSheet(_ source: UIViewController, config: SupportConfig, body: String) {
