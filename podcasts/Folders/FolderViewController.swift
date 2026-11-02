@@ -1,4 +1,5 @@
 import PocketCastsDataModel
+import PocketCastsServer
 import PocketCastsUtils
 import UIKit
 import SwiftUI
@@ -68,6 +69,11 @@ class FolderViewController: PCViewController {
 
         addCustomObserver(Constants.Notifications.podcastUpdated, selector: #selector(reloadFolder))
         addCustomObserver(Constants.Notifications.folderChanged, selector: #selector(reloadFolder))
+        addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(reloadFolder))
+        addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(reloadFolder))
+        addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(reloadFolder))
+        addCustomObserver(ServerNotifications.podcastsRefreshed, selector: #selector(reloadFolder))
+        addCustomObserver(ServerNotifications.syncCompleted, selector: #selector(reloadFolder))
         addCustomObserver(Constants.Notifications.miniPlayerDidAppear, selector: #selector(miniPlayerStatusDidChange))
         addCustomObserver(Constants.Notifications.miniPlayerDidDisappear, selector: #selector(miniPlayerStatusDidChange))
 
