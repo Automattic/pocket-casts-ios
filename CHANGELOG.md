@@ -6,6 +6,7 @@
 - Fix the share sheet truncating its subtitle and card text at the largest text sizes, and add the missing padding below its buttons on iPad [#5545](https://github.com/Automattic/pocket-casts-ios/pull/5545)
 - Fix the date on the Up Next now-playing card breaking mid-word at the largest text sizes; the artwork now sits above the text [#5556](https://github.com/Automattic/pocket-casts-ios/pull/5556)
 - Fix the mini player's progress bar and times being mirrored in right-to-left languages while the full player's are not, and show the remaining time in the mini player on iPhone [#5539](https://github.com/Automattic/pocket-casts-ios/pull/5539)
+- Fix the Discover carousels starting at the left in right-to-left languages: they now start at the right edge like Networks [#5560](https://github.com/Automattic/pocket-casts-ios/pull/5560)
 - Fix the podcast page saying "All 1 episodes" were archived, and showing the archived message for podcasts with no episodes [#5533](https://github.com/Automattic/pocket-casts-ios/pull/5533)
 - Fix the Select a Category sheet reopening when clearing a category picked from All Categories in Discover [#5535](https://github.com/Automattic/pocket-casts-ios/pull/5535)
 - Improve VoiceOver labels: Recent searches remove buttons name the search they remove, onboarding Follow buttons include the podcast name, and played episode rows say "Played" [#5534](https://github.com/Automattic/pocket-casts-ios/pull/5534)
