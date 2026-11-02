@@ -98,10 +98,10 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     }
 
     private func updateInsets() {
-        let leadingInset = cellSpacing + horizontalInsets.left
-        collectionView.contentOffset.x -= leadingInset - collectionView.contentInset.left
-        collectionView.contentInset.left = leadingInset
-        collectionView.contentInset.right = horizontalInsets.right
+        let leadingInset = cellSpacing + leadingHorizontalInset
+        let offsetX = collectionView.leadingAlignedOffsetX(collectionView.contentOffset.x) - (leadingInset - collectionView.leadingContentInset)
+        collectionView.setContentInsets(leading: leadingInset, trailing: trailingHorizontalInset)
+        collectionView.contentOffset.x = collectionView.leadingAlignedOffsetX(offsetX)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -221,6 +221,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
                     strongSelf.podcastHeaderView?.bottomText = podcastCollection?.title
                     strongSelf.divider.isHidden = false
                     strongSelf.collectionView.reloadData()
+                    strongSelf.collectionView.scrollToLeadingEdge()
                 }
             })
         default:
@@ -233,6 +234,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
                 DispatchQueue.main.async {
                     strongSelf.divider.isHidden = false
                     strongSelf.collectionView.reloadData()
+                    strongSelf.collectionView.scrollToLeadingEdge()
                 }
             })
         }
