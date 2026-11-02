@@ -1,8 +1,6 @@
 import SwiftUI
 
 struct ModalView<Content: View>: View {
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-
     @ViewBuilder public var content: () -> Content
     var dismissAction: () -> Void
 
@@ -16,6 +14,6 @@ struct ModalView<Content: View>: View {
             ModalCloseButton(background: Color.gray.opacity(0.2), foreground: Color.white.opacity(0.5), action: dismissAction)
             content()
         }
-        .padding(horizontalSizeClass == .regular ? .vertical : .top, 20)
+        .padding(.top, 20)
     }
 }
