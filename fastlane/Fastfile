@@ -734,6 +734,18 @@ platform :ios do
     zip(path: APP_STORE_CONNECT_XCARCHIVE_PATH, output_path: APP_STORE_CONNECT_XCARCHIVE_ZIP_PATH)
   end
 
+  # Fail the release build when the binary scan reports a hit.
+  #
+  # @param path [String] Path to an `.ipa` or `.xcarchive.zip`.
+  #
+  lane :scan_release_binary do |path: APP_STORE_CONNECT_BUILD_IPA_PATH|
+    # The lane runs with `fastlane/` as the working directory.
+    binary = File.expand_path(path, PROJECT_ROOT_FOLDER)
+    UI.user_error!("No release binary at #{binary}") unless File.exist?(binary)
+
+    sh('ruby', File.join(PROJECT_ROOT_FOLDER, 'scripts/scan_release_binary.rb'), binary)
+  end
+
   # Builds the tvOS app binary for distribution to App Store Connect
   #
   # Once the app binary is built by this lane, you might want to call:
