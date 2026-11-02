@@ -4,6 +4,7 @@
 
 8.24
 -----
+- Fix Contact Support failing to send: it now opens an email with your logs attached [#5557](https://github.com/Automattic/pocket-casts-ios/pull/5557)
 - Fix the Sleep Timer countdown being hidden under the logo in the Dynamic Island when another Live Activity is showing [#5523](https://github.com/Automattic/pocket-casts-ios/pull/5523)
 - Fix the top line of a generated transcript opened from Episode Details being cut in half under the banner while scrolling [#5522](https://github.com/Automattic/pocket-casts-ios/pull/5522)
 - Fix long Discover section titles such as "British Podcast Awards Winners 2026" being cut off at one line; they now wrap to two [#5461](https://github.com/Automattic/pocket-casts-ios/pull/5461)
