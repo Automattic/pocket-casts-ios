@@ -100,7 +100,7 @@ class EmailHelper: NSObject {
         let controller = ThemedHostingController(rootView: sheet, background: \.primaryUi01)
         host = controller
         if let sheetController = controller.sheetPresentationController {
-            sheetController.detents = [.custom { _ in 400 }, .large()]
+            sheetController.detents = [.medium(), .large()]
             sheetController.prefersGrabberVisible = true
         }
 
@@ -148,23 +148,24 @@ private struct NoEmailAppSheet: View {
     @State private var copied: Set<Item> = []
 
     var body: some View {
-        VStack(spacing: 12) {
-            Text(L10n.supportNoEmailAppTitle)
-                .font(.system(size: 23.0, weight: .bold))
-                .foregroundColor(theme.primaryText01)
-            Text(L10n.supportNoEmailAppMessage(address))
-                .font(.system(size: 15.0))
-                .multilineTextAlignment(.center)
-                .foregroundColor(theme.primaryText02)
-                .padding(.bottom, 12.0)
-            copyButton(.address, title: L10n.supportCopyEmailAddress, copiedTitle: L10n.supportEmailAddressCopied, value: address)
-            copyButton(.email, title: L10n.supportCopyEmail, copiedTitle: L10n.supportEmailCopied, value: email)
-            Button(L10n.done, action: onDone)
-                .buttonStyle(BasicButtonStyle(textColor: theme.primaryText01, backgroundColor: theme.primaryUi01, borderColor: theme.primaryUi05))
+        ScrollView {
+            VStack(spacing: 12) {
+                Text(L10n.supportNoEmailAppTitle)
+                    .font(.title2.bold())
+                    .foregroundColor(theme.primaryText01)
+                Text(L10n.supportNoEmailAppMessage(address))
+                    .font(.subheadline)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(theme.primaryText02)
+                    .padding(.bottom, 12.0)
+                copyButton(.address, title: L10n.supportCopyEmailAddress, copiedTitle: L10n.supportEmailAddressCopied, value: address)
+                copyButton(.email, title: L10n.supportCopyEmail, copiedTitle: L10n.supportEmailCopied, value: email)
+                Button(L10n.done, action: onDone)
+                    .buttonStyle(BasicButtonStyle(textColor: theme.primaryText01, backgroundColor: theme.primaryUi01, borderColor: theme.primaryUi05))
+            }
+            .padding(.horizontal, 20.0)
+            .padding(.vertical, 32.0)
         }
-        .padding(.horizontal, 20.0)
-        .padding(.top, 32.0)
-        .frame(maxHeight: .infinity, alignment: .top)
         .background(theme.primaryUi01)
     }
 
