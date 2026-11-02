@@ -172,7 +172,7 @@ class FolderViewController: PCViewController {
         let model = FolderModel(saveOnChange: true)
         model.name = folder.name
         model.colorInt = Int(folder.color)
-        model.selectedPodcastUuids = podcasts.map(\.uuid)
+        model.selectedPodcastUuids = DataManager.shared.allPodcastsInFolder(folder: folder).map(\.uuid)
         model.folderUuid = folder.uuid
         let editFoldersView = EditFolderPodcastsView(model: model) { [weak self] in
             self?.dismiss(animated: true)
