@@ -5,6 +5,8 @@ struct UpgradeAccountView: View {
 
     @Environment(\.dismiss) var dismiss
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     @EnvironmentObject var theme: Theme
 
     @ObservedObject var model: UpgradeAccountViewModel
@@ -23,18 +25,27 @@ struct UpgradeAccountView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            header
-                .padding(.horizontal, 24)
-            scrollableContent
-                .overlay(alignment: .top) {
-                    gradient(height: Constants.gradientHeight, up: true)
+        ScrollViewReader { proxy in
+            VStack(alignment: .leading, spacing: 0) {
+                header
+                    .padding(.horizontal, 24)
+                scrollableContent(proxy: proxy)
+                    .overlay(alignment: .top) {
+                        gradient(height: Constants.gradientHeight, up: true)
+                    }
+                    .overlay(alignment: .bottom) {
+                        gradient(height: Constants.gradientHeight, up: false)
+                    }
+                if showsPinnedDetailsButton {
+                    detailsButton(text: detailsButtonText, proxy: proxy)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 24)
+                        .padding(.top, 8)
+                        .padding(.bottom, 16)
                 }
-                .overlay(alignment: .bottom) {
-                    gradient(height: Constants.gradientHeight, up: false)
-                }
-            UpgradeProductsView(model: model)
-                .padding(.horizontal, 16)
+                UpgradeProductsView(model: model)
+                    .padding(.horizontal, 16)
+            }
         }
         .padding(.top, 16)
         .background(theme.primaryUi01)
@@ -43,6 +54,18 @@ struct UpgradeAccountView: View {
                 flash.toggle()
             }
         }
+    }
+
+    private var showsDetailsButton: Bool {
+        model.style == .generic && model.isFreeTrialAvailable && FeatureFlag.newOnboardingUpgradeTrialTimeline.enabled
+    }
+
+    private var showsPinnedDetailsButton: Bool {
+        showsDetailsButton && !dynamicTypeSize.isAccessibilitySize
+    }
+
+    private var detailsButtonText: String {
+        model.shouldShowVariation ? L10n.subscriptionPlanFeaturesInfoLink : L10n.subscriptionPlanFreeTrialInfoLink
     }
 
     var header: some View {
@@ -91,10 +114,10 @@ struct UpgradeAccountView: View {
                         } else {
                             UpgradeFeaturesView(features: model.features)
                         }
-                        if model.isFreeTrialAvailable, FeatureFlag.newOnboardingUpgradeTrialTimeline.enabled {
-                            detailsButton(text: model.shouldShowVariation ? L10n.subscriptionPlanFeaturesInfoLink : L10n.subscriptionPlanFreeTrialInfoLink, proxy: proxy)
-                            .padding(.bottom, 32)
-                            .padding(.top, 16)
+                        if showsDetailsButton, !showsPinnedDetailsButton {
+                            detailsButton(text: detailsButtonText, proxy: proxy)
+                                .padding(.bottom, 32)
+                                .padding(.top, 16)
                         }
                     }
                 case .contextual:
@@ -119,6 +142,7 @@ struct UpgradeAccountView: View {
             Text(text)
                 .font(size: 15, style: .subheadline, weight: .medium)
                 .foregroundColor(theme.primaryInteractive01)
+                .multilineTextAlignment(.leading)
         }
     }
 
@@ -136,38 +160,36 @@ struct UpgradeAccountView: View {
         }
     }
 
-    var scrollableContent: some View {
+    func scrollableContent(proxy: ScrollViewProxy) -> some View {
         GeometryReader() { sizeProxy in
-            ScrollViewReader { proxy in
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 0) {
-                        pageOne(proxy: proxy)
-                            .frame(minHeight: model.style == .generic ? nil : sizeProxy.size.height - (Constants.gradientHeight * 2))
-                        if expand, model.isFreeTrialAvailable || model.style == .contextual {
-                            VStack {
-                                Spacer().frame(height: 16)
-                                pageTwo
-                                    .id(ScrollPosition.secondPage)
-                                Spacer()
-                            }
-                            .frame(minHeight: sizeProxy.size.height - (Constants.gradientHeight * 2))
-                        } else {
-                            Spacer()
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    pageOne(proxy: proxy)
+                        .frame(minHeight: model.style == .generic ? nil : sizeProxy.size.height - (Constants.gradientHeight * 2))
+                    if expand, model.isFreeTrialAvailable || model.style == .contextual {
+                        VStack {
+                            Spacer().frame(height: 16)
+                            pageTwo
                                 .id(ScrollPosition.secondPage)
-                                .frame(height: 8)
+                            Spacer()
                         }
+                        .frame(minHeight: sizeProxy.size.height - (Constants.gradientHeight * 2))
+                    } else {
+                        Spacer()
+                            .id(ScrollPosition.secondPage)
+                            .frame(height: 8)
                     }
-                    .padding(.vertical, Constants.gradientHeight - 8)
-                    .padding(.horizontal, 24)
                 }
-                .scrollIndicators(.visible)
-                .scrollIndicatorsFlash(trigger: flash)
-                .onChange(of: model.selectedProduct) { _, _ in
-                    if !model.isFreeTrialAvailable {
-                        withAnimation {
-                            expand = false
-                            proxy.scrollTo(ScrollPosition.firstPage)
-                        }
+                .padding(.vertical, Constants.gradientHeight - 8)
+                .padding(.horizontal, 24)
+            }
+            .scrollIndicators(.visible)
+            .scrollIndicatorsFlash(trigger: flash)
+            .onChange(of: model.selectedProduct) { _, _ in
+                if !model.isFreeTrialAvailable {
+                    withAnimation {
+                        expand = false
+                        proxy.scrollTo(ScrollPosition.firstPage)
                     }
                 }
             }
