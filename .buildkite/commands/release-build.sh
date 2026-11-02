@@ -27,3 +27,9 @@ case "$RELEASE_PLATFORM" in
     exit 1
     ;;
 esac
+
+echo "--- :lock: Scanning the release binary"
+case "$RELEASE_PLATFORM" in
+  ios) bundle exec fastlane scan_release_binary "path:artifacts/pocket-casts.ipa" ;;
+  tvos) bundle exec fastlane scan_release_binary "path:artifacts/pocket-casts-tvos.ipa" ;;
+esac
