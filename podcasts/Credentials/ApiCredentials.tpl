@@ -2,18 +2,6 @@
 ///
 struct ApiCredentials {
 
-    /// Zendesk App ID
-    ///
-    static let zendeskAPIKey = "%{zendesk_api_key}"
-
-    /// Zendesk URL
-    ///
-    static let zendeskUrl = "%{zendesk_url}"
-
-    /// Zendesk New URL
-    ///
-    static let zendeskNewUrl = "%{zendesk_new_url}"
-
     /// WordPress.com Secret
     ///
     static let dotcomSecret = "%{dotcom_secret}"
