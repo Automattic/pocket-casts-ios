@@ -132,7 +132,8 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
             "badge_type": Settings.podcastBadgeType,
             "layout": Settings.libraryType,
             "number_of_podcasts": homeGridDataHelper.numberOfPodcasts,
-            "number_of_folders": homeGridDataHelper.numberOfFolders
+            "number_of_folders": homeGridDataHelper.numberOfFolders,
+            "hide_played_podcasts": FeatureFlag.hidePlayedPodcasts.enabled && Settings.hidePlayedPodcasts
         ])
 
         showRecentlyPlayedSortingTipIfNeeded()
@@ -456,9 +457,13 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         badgesAction.submenu = { [weak self] in self?.makeBadgeOptionsPicker() }
         optionsPicker.addAction(action: badgesAction)
 
-        let playedPodcastsAction = OptionAction(label: L10n.podcastsPlayedPodcasts, secondaryLabel: playedPodcastsLabel(hide: Settings.hidePlayedPodcasts), icon: "eye") {}
-        playedPodcastsAction.submenu = { [weak self] in self?.makePlayedPodcastsOptionsPicker() }
-        optionsPicker.addAction(action: playedPodcastsAction)
+        if FeatureFlag.hidePlayedPodcasts.enabled {
+            let playedPodcastsAction = OptionAction(label: L10n.podcastsPlayedPodcasts, secondaryLabel: playedPodcastsLabel(hide: Settings.hidePlayedPodcasts), icon: "eye") {
+                Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "played_podcasts"])
+            }
+            playedPodcastsAction.submenu = { [weak self] in self?.makePlayedPodcastsOptionsPicker() }
+            optionsPicker.addAction(action: playedPodcastsAction)
+        }
 
         if gridItems.contains(where: { !$0.isEmpty }) {
             let shareAction = OptionAction(label: L10n.podcastsShare, icon: "podcast-share") {
@@ -543,6 +548,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
             let action = OptionAction(label: playedPodcastsLabel(hide: hide), selected: Settings.hidePlayedPodcasts == hide) { [weak self] in
                 Settings.hidePlayedPodcasts = hide
                 self?.refreshGridItems()
+                Analytics.track(.podcastsListPlayedPodcastsChanged, properties: ["hide": hide])
             }
             options.addAction(action: action)
         }

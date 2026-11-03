@@ -89,7 +89,7 @@ class Settings: NSObject {
 
     /// The podcasts to leave out of the Podcasts tab and folders, based on `hidePlayedPodcasts`.
     static func hiddenPodcastUuids() -> Set<String> {
-        hidePlayedPodcasts ? DataManager.shared.playedPodcastUuids() : []
+        FeatureFlag.hidePlayedPodcasts.enabled && hidePlayedPodcasts ? DataManager.shared.playedPodcastUuids() : []
     }
 
     // MARK: - Up Next Auto Download

@@ -69,11 +69,13 @@ class FolderViewController: PCViewController {
 
         addCustomObserver(Constants.Notifications.podcastUpdated, selector: #selector(reloadFolder))
         addCustomObserver(Constants.Notifications.folderChanged, selector: #selector(reloadFolder))
-        addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(reloadFolder))
-        addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(reloadFolder))
-        addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(reloadFolder))
-        addCustomObserver(ServerNotifications.podcastsRefreshed, selector: #selector(reloadFolderFromBackgroundNotification))
-        addCustomObserver(ServerNotifications.syncCompleted, selector: #selector(reloadFolderFromBackgroundNotification))
+        if FeatureFlag.hidePlayedPodcasts.enabled {
+            addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(reloadFolder))
+            addCustomObserver(Constants.Notifications.episodeArchiveStatusChanged, selector: #selector(reloadFolder))
+            addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(reloadFolder))
+            addCustomObserver(ServerNotifications.podcastsRefreshed, selector: #selector(reloadFolderFromBackgroundNotification))
+            addCustomObserver(ServerNotifications.syncCompleted, selector: #selector(reloadFolderFromBackgroundNotification))
+        }
         addCustomObserver(Constants.Notifications.miniPlayerDidAppear, selector: #selector(miniPlayerStatusDidChange))
         addCustomObserver(Constants.Notifications.miniPlayerDidDisappear, selector: #selector(miniPlayerStatusDidChange))
 

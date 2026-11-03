@@ -263,6 +263,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show the synced transcript timing debug overlay at the bottom of the transcript (debug builds only)
     case transcriptDebugOverlay
 
+    /// Show the Played Podcasts option in the Podcasts tab, which hides podcasts with nothing left to listen to
+    case hidePlayedPodcasts
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -446,6 +449,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .largeScreenNowPlaying:
             true
         case .transcriptDebugOverlay:
+            false
+        case .hidePlayedPodcasts:
             false
         }
     }
