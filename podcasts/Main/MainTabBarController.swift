@@ -1104,6 +1104,7 @@ private extension MainTabBarController {
         if isFirstAppearance {
             showWhatsNewIfNeeded()
             showEndOfYearPromptIfNeeded()
+            showPlayback2026SheetIfNeeded()
         }
 
         showInitialOnboardingIfNeeded()
@@ -1118,6 +1119,12 @@ private extension MainTabBarController {
         guard !isShowingWhatsNew, AnnouncementFlow.current == .none else { return }
 
         endOfYear.showPromptBasedOnState(in: self)
+    }
+
+    func showPlayback2026SheetIfNeeded() {
+        guard !isShowingWhatsNew, AnnouncementFlow.current == .none else { return }
+
+        Playback2026.showSheetIfNeeded(in: self)
     }
 
     func showWhatsNewIfNeeded() {
