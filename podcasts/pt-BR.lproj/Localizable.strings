@@ -2539,8 +2539,6 @@ Tente ajustá-las ou salve esta playlist para futuros episódios correspondentes
     <string>Pocket Casts Plus</string>
     <key>pocket_casts_plus_short</key>
     <string>Plus</string>
-    <key>pocket_casts_welcome_newsletter_title</key>
-    <string>Receba a newsletter</string>
     <key>podcast_access_ended</key>
     <string>O acesso terminou em: %1$@</string>
     <key>podcast_access_ends</key>
@@ -3269,8 +3267,6 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Abrir links no navegador</string>
     <key>settings_general_play_back_actions</key>
     <string>Mais ações de reprodução</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Adiciona a opção de classificar por estrelas à tela de bloqueio do seu celular.</string>
     <key>settings_general_player_header</key>
     <string>REPRODUTOR</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3421,8 +3417,6 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Hosts comuns de podcast</string>
     <key>settings_status_host_description</key>
     <string>Os autores de podcasts hospedam os arquivos de episódios em diversos servidores de hospedagem que não são gerenciados pelo Pocket Casts.</string>
-    <key>settings_status_host_failure_message</key>
-    <string>A causa mais comum é ter um bloqueador de anúncios configurado no seu telefone ou na sua rede. Você precisa desbloquear este domínio para fazer download dos podcasts. O Pocket Casts não hospeda nem escolhe onde os podcasts são hospedados. Isso cabe ao autor do programa e está fora da nossa alçada.</string>
     <key>settings_status_internet</key>
     <string>Internet</string>
     <key>settings_status_internet_description</key>
@@ -3435,8 +3429,6 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>O serviço usado para encontrar novos episódios.</string>
     <key>settings_status_run</key>
     <string>Executar agora</string>
-    <key>settings_status_service_ad_blocker_help_singular</key>
-    <string>A causa mais comum é ter um bloqueador de anúncios configurado no seu telefone ou na sua rede. Você precisa desbloquear o domínio %1$@</string>
     <key>settings_storage</key>
     <string>Uso de dados e armazenamento</string>
     <key>settings_storage_data_warning</key>
@@ -3447,8 +3439,6 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>DADOS MÓVEIS</string>
     <key>settings_storage_usage</key>
     <string>USO</string>
-    <key>settings_storage_usage_footer</key>
-    <string>Pode ser diferente do armazenamento mostrado nos Ajustes do iPhone. O iOS gerencia dados armazenados em cache automaticamente e os libera quando necessário.</string>
     <key>settings_third_party_analytics</key>
     <string>Análises de terceiros</string>
     <key>settings_title</key>
@@ -3487,8 +3477,6 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Configurar conta</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>Balançar para reiniciar o temporizador</string>
-    <key>shake_to_restart_sleep_timer_description</key>
-    <string>Se ativado, o temporizador será reiniciado quando você balançar seu celular.</string>
     <key>share</key>
     <string>Compartilhar</string>
     <key>share_clip</key>
@@ -4442,22 +4430,8 @@ As duas opções são boas. 🙂</string>
     <string>Nada na fila de Próximos</string>
     <key>week</key>
     <string>semana</string>
-    <key>welcome_discover_button</key>
-    <string>Encontrar meu próximo podcast</string>
-    <key>welcome_discover_description</key>
-    <string>Veja nossa curadoria de podcasts que estão em alta ou que passaram despercebidos na página Explorar.</string>
-    <key>welcome_discover_title</key>
-    <string>Descubra algo novo</string>
     <key>welcome_import_button</key>
     <string>Importar podcasts</string>
-    <key>welcome_import_description</key>
-    <string>Vindo de outro aplicativo? Leve seus podcasts com você.</string>
-    <key>welcome_import_title</key>
-    <string>Importe seus podcasts</string>
-    <key>welcome_new_account_title</key>
-    <string>Desejamos as boas-vindas, agora solta o som!</string>
-    <key>welcome_plus_title</key>
-    <string>Agradecemos, agora solta o som!</string>
     <key>whats_new</key>
     <string>Novidades</string>
     <key>whats_new_blog_more_link_text</key>

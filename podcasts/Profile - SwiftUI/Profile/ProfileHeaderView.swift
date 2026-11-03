@@ -23,7 +23,7 @@ struct ProfileHeaderView: View {
     }
 
     private func isShowingVertically(width: CGFloat) -> Bool {
-        sizeClass == .compact || width < 720
+        sizeClass == .compact || width < 720 || dynamicTypeSize.isAccessibilitySize
     }
 
     var body: some View {

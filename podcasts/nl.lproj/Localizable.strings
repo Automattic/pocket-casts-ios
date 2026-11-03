@@ -37,6 +37,8 @@
     <string>Negeren</string>
     <key>accessibility_episode_playback</key>
     <string>Aflevering afspelen</string>
+    <key>accessibility_follow_podcast</key>
+    <string>%1$@ volgen</string>
     <key>accessibility_hide_filter_details</key>
     <string>Tik om filtergegevens te verbergen</string>
     <key>accessibility_hint_player_navigate_to_podcast_label</key>
@@ -752,6 +754,8 @@ Je kunt op elk moment de verbinding met Instellingen verbreken.</string>
     <string>Tv en film</string>
     <key>discover_change_region</key>
     <string>Regio wijzigen, huidige %1$@</string>
+    <key>discover_clear_category</key>
+    <string>Categorie wissen</string>
     <key>discover_episode_fail_to_load</key>
     <string>De aflevering kan niet worden geladen</string>
     <key>discover_featured</key>
@@ -1341,6 +1345,8 @@ waar je naar hebt geluisterd was
     <string>Map aanmaken</string>
     <key>folder_create_new</key>
     <string>Nieuwe map aanmaken</string>
+    <key>folder_create_skip</key>
+    <string>Overslaan</string>
     <key>folder_delete</key>
     <string>Map verwijderen</string>
     <key>folder_delete_prompt_msg</key>
@@ -1960,6 +1966,10 @@ UPDATES</string>
     <string>Speel afleveringen op willekeurige volgorde af met Pocket Casts Plus en meer</string>
     <key>paywall_dynamic_headline_watch</key>
     <string>Luister vanaf je horloge met Pocket Casts Plus, en meer</string>
+    <key>pcasts_import_message</key>
+    <string>Hiermee worden je podcasts en instellingen vervangen door de inhoud van dit bestand en wordt Pocket Casts gesloten.</string>
+    <key>pcasts_import_title</key>
+    <string>Podcasts en instellingen importeren</string>
     <key>phone</key>
     <string>Telefoon</string>
     <key>play</key>
@@ -2257,6 +2267,10 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>Podcasts doorbladeren</string>
     <key>playlist_manual_create_error_message</key>
     <string>Er is iets fout gegaan bij het aanmaken van je afspeellijst.</string>
+    <key>playlist_manual_empty_state_subtitle</key>
+    <string>Kies afleveringen uit de podcasts die je volgt. Of veeg naar links bij elke aflevering om het toe te voegen terwijl je gaat.</string>
+    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
+    <string>Zoek een podcast die je leuk vindt en veeg vervolgens naar links bij elke aflevering om deze toe te voegen.</string>
     <key>playlist_manual_empty_state_title</key>
     <string>Begin met het bouwen van je playlist</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
@@ -2281,6 +2295,8 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>Huidige Hierna vervangen?</string>
     <key>playlist_play_all_sheet_button_title</key>
     <string>Vervangen en afspelen</string>
+    <key>playlist_play_all_sheet_description</key>
+    <string>Als je dit afspeelt, wordt je huidige Hierna vervangen. Bewaar het als een afspeellijst om dit te behouden.</string>
     <key>playlist_play_all_sheet_title</key>
     <string>Je Hierna vervangen?</string>
     <key>playlist_play_all_sheet_toggle</key>
@@ -2517,8 +2533,6 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>Pocket Casts Plus</string>
     <key>pocket_casts_plus_short</key>
     <string>Plus</string>
-    <key>pocket_casts_welcome_newsletter_title</key>
-    <string>Meld je aan voor de nieuwsbrief</string>
     <key>podcast_access_ended</key>
     <string>Toegang beëindigd: %1$@</string>
     <key>podcast_access_ends</key>
@@ -3245,8 +3259,6 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Links openen in browser</string>
     <key>settings_general_play_back_actions</key>
     <string>Extra afspeelacties</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Voegt aan het vergrendelscherm van je telefoon een optie voor afleveringen als favoriet markeren toe.</string>
     <key>settings_general_player_header</key>
     <string>SPELER</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3397,8 +3409,6 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Veelgebruikte Podcast-hosts</string>
     <key>settings_status_host_description</key>
     <string>Schrijvers van podcasts hosten afleveringbestanden in verschillende providers die niet worden beheerd door Pocket Casts.</string>
-    <key>settings_status_host_failure_message</key>
-    <string>De meestvoorkomende oorzaak is dat je een adblocker hebt geconfigureerd op je telefoon of netwerk. Je moet dit domein deblokkeren om podcasts te downloaden. Pocket Casts host niet of kiest niet waar podcasts worden gehost, dat is aan de schrijver van de show en hier hebben we geen invloed op.</string>
     <key>settings_status_internet</key>
     <string>Internet</string>
     <key>settings_status_internet_description</key>
@@ -3411,8 +3421,6 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>De service die wordt gebruikt om nieuwe afleveringen te vinden.</string>
     <key>settings_status_run</key>
     <string>Nu uitvoeren</string>
-    <key>settings_status_service_ad_blocker_help_singular</key>
-    <string>De meestvoorkomende oorzaak is dat je een adblocker hebt geconfigureerd op je telefoon of netwerk. Je moet het domein %1$@ deblokkeren </string>
     <key>settings_storage</key>
     <string>Gebruik van opslag en data</string>
     <key>settings_storage_data_warning</key>
@@ -3423,8 +3431,6 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>MOBIELE DATA</string>
     <key>settings_storage_usage</key>
     <string>Gebruik</string>
-    <key>settings_storage_usage_footer</key>
-    <string>Dit kan verschillen van de opslag die wordt weergegeven in je iPhone-instellingen. iOS beheert gecachete gegevens automatisch en maakt deze vrij wanneer dat nodig is.</string>
     <key>settings_third_party_analytics</key>
     <string>Analyses van derden</string>
     <key>settings_title</key>
@@ -3463,8 +3469,6 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Account instellen</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>Schudden om slaaptimer te opnieuw op te starten</string>
-    <key>shake_to_restart_sleep_timer_description</key>
-    <string>Indien ingeschakeld, wordt de slaaptimer opnieuw opgestart als je met je telefoon schudt.</string>
     <key>share</key>
     <string>Delen</string>
     <key>share_clip</key>
@@ -4264,6 +4268,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Speel eenvoudig een willekeurige aflevering af zonder de volgorde van je wachtrij te veranderen.</string>
     <key>up_next_shuffle_announcement_title</key>
     <string>Maak kennis met shuffle</string>
+    <key>up_next_shuffle_button</key>
+    <string>Shuffle</string>
     <key>up_next_shuffle_toast_message</key>
     <string>Shuffle staat aan. De afleveringen worden in willekeurige volgorde afgespeeld.</string>
     <key>up_next_sort_duration_tooltip_body</key>
@@ -4416,22 +4422,8 @@ Je kunt geen verkeerde keuze maken. 🙂</string>
     <string>Niets in Hierna</string>
     <key>week</key>
     <string>week</string>
-    <key>welcome_discover_button</key>
-    <string>Vind mijn volgende podcast</string>
-    <key>welcome_discover_description</key>
-    <string>Vind geheime en trending podcasts in onze handmatig samengestelde Ontdekkingspagina.</string>
-    <key>welcome_discover_title</key>
-    <string>Ontdek iets nieuws</string>
     <key>welcome_import_button</key>
     <string>Podcasts importeren</string>
-    <key>welcome_import_description</key>
-    <string>Afkomstig van een andere app? Neem je podcasts overal mee naartoe.</string>
-    <key>welcome_import_title</key>
-    <string>Importeer je podcasts</string>
-    <key>welcome_new_account_title</key>
-    <string>Welkom, laten we je aan het luisteren zetten!</string>
-    <key>welcome_plus_title</key>
-    <string>Bedankt, laten we je aan het luisteren zetten!</string>
     <key>whats_new</key>
     <string>Wat is nieuw</string>
     <key>whats_new_blog_more_link_text</key>
