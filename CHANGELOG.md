@@ -4,6 +4,7 @@
 - Fix settings toggle and button labels in right-to-left languages: they now follow the leading edge, and "Refresh All Podcast Artwork" is no longer cut off [#5546](https://github.com/Automattic/pocket-casts-ios/pull/5546)
 - Fix the mini player's progress bar and times being mirrored in right-to-left languages while the full player's are not, and show the remaining time in the mini player on iPhone [#5539](https://github.com/Automattic/pocket-casts-ios/pull/5539)
 - Fix the podcast page saying "All 1 episodes" were archived, and showing the archived message for podcasts with no episodes [#5533](https://github.com/Automattic/pocket-casts-ios/pull/5533)
+- Fix signing out turning off "Use iOS Light/Dark Mode" and switching the app to Default Light on a dark-mode device [#5566](https://github.com/Automattic/pocket-casts-ios/pull/5566)
 - Fix the Select a Category sheet reopening when clearing a category picked from All Categories in Discover [#5535](https://github.com/Automattic/pocket-casts-ios/pull/5535)
 - Improve VoiceOver labels: Recent searches remove buttons name the search they remove, onboarding Follow buttons include the podcast name, and played episode rows say "Played" [#5534](https://github.com/Automattic/pocket-casts-ios/pull/5534)
 - Show a single Cancel button instead of Share and Search while searching a transcript, and keep it above the keyboard on iPad [#5536](https://github.com/Automattic/pocket-casts-ios/pull/5536)
