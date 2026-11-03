@@ -13,7 +13,7 @@ class FolderViewController: PCViewController {
 
     var folder: Folder
     var podcasts: [Podcast] = []
-    private var hasHiddenPodcasts = false
+    var playedPodcastUuids: Set<String> = []
 
     let gridHelper = GridHelper()
 
@@ -184,7 +184,7 @@ class FolderViewController: PCViewController {
         let model = FolderModel(saveOnChange: true)
         model.name = folder.name
         model.colorInt = Int(folder.color)
-        model.selectedPodcastUuids = DataManager.shared.allPodcastsInFolder(folder: folder).map(\.uuid)
+        model.selectedPodcastUuids = podcasts.map(\.uuid)
         model.folderUuid = folder.uuid
         let editFoldersView = EditFolderPodcastsView(model: model) { [weak self] in
             self?.dismiss(animated: true)
@@ -246,10 +246,8 @@ class FolderViewController: PCViewController {
 
     // TODO: change this to be diff based and see if we can use the new iOS diffable stuff
     private func reloadPodcasts() {
-        let allPodcasts = DataManager.shared.allPodcastsInFolder(folder: folder)
-        let hiddenPodcastUuids = Settings.hiddenPodcastUuids()
-        podcasts = allPodcasts.filter { !hiddenPodcastUuids.contains($0.uuid) }
-        hasHiddenPodcasts = podcasts.count != allPodcasts.count
+        podcasts = DataManager.shared.allPodcastsInFolder(folder: folder)
+        playedPodcastUuids = Settings.hiddenPodcastUuids()
 
         let badgeType = Settings.podcastBadgeType
         // load the required badge information if the supplied badge type needs it
@@ -276,7 +274,7 @@ class FolderViewController: PCViewController {
     override func updateContentUnavailableConfiguration(using state: UIContentUnavailableConfigurationState) {
         var config: UIContentConfiguration?
 
-        if podcasts.isEmpty, !hasHiddenPodcasts {
+        if podcasts.isEmpty {
             let title = L10n.folderEmptyTitle
             let message = L10n.folderEmptyDescription
             config = ContentUnavailableConfiguration.emptyState(title: title, message: message, icon: { Image("folder-empty") }, actions: [
