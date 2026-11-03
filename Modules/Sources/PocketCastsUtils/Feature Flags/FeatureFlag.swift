@@ -263,6 +263,10 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show the synced transcript timing debug overlay at the bottom of the transcript (debug builds only)
     case transcriptDebugOverlay
 
+    /// Enable Playback 2026 (the yearly listening recap). Also the remote kill switch: turning it off in
+    /// Remote Config (`playback2026`) hides every entry point and exits a running flow
+    case playback2026
+
     /// Show the Played Podcasts option in the Podcasts tab, which hides podcasts with nothing left to listen to
     case hidePlayedPodcasts
 
@@ -450,6 +454,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .transcriptDebugOverlay:
             false
+        case .playback2026:
+            BuildEnvironment.current == .debug
         case .hidePlayedPodcasts:
             false
         }
