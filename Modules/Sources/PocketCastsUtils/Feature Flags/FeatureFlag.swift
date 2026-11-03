@@ -452,7 +452,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .transcriptDebugOverlay:
             false
         case .playback2026:
-            BuildEnvironment.current != .appStore
+            BuildEnvironment.current == .debug
         }
     }
 
