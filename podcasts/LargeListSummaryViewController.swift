@@ -20,6 +20,8 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
 
     private var lastLayedOutWidth = 0 as CGFloat
     private var lastLayedOutInsets = UIEdgeInsets.zero
+    private var lastLayedOutPageStride = 0 as CGFloat
+    private var lastLayedOutBoundsWidth = 0 as CGFloat
 
     private var relatedPodcastID: String? {
         didSet {
@@ -90,18 +92,27 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         if lastLayedOutWidth != view.bounds.width || lastLayedOutInsets != horizontalInsets {
             lastLayedOutWidth = view.bounds.width
             lastLayedOutInsets = horizontalInsets
+            let page = currentPageIndex
             largeListCollectionViewHeight.constant = cellWidth + cellExtraHeight
             collectionView.collectionViewLayout.invalidateLayout()
             collectionView.layoutIfNeeded()
-            updateInsets()
+            updateInsets(restoringPage: page)
         }
     }
 
-    private func updateInsets() {
+    private var currentPageIndex: Int {
+        guard lastLayedOutPageStride > 0 else { return 0 }
+        let x = collectionView.contentOffset.x
+        let offsetX = collectionView.isRightToLeft ? collectionView.contentSize.width - lastLayedOutBoundsWidth - x : x
+        return max(Int(round((offsetX + collectionView.leadingContentInset) / lastLayedOutPageStride)), 0)
+    }
+
+    private func updateInsets(restoringPage page: Int) {
         let leadingInset = cellSpacing + leadingHorizontalInset
-        let offsetX = collectionView.leadingAlignedOffsetX(collectionView.contentOffset.x) - (leadingInset - collectionView.leadingContentInset)
         collectionView.setContentInsets(leading: leadingInset, trailing: trailingHorizontalInset)
-        collectionView.contentOffset.x = collectionView.leadingAlignedOffsetX(offsetX)
+        lastLayedOutPageStride = pageStride
+        lastLayedOutBoundsWidth = collectionView.bounds.width
+        collectionView.contentOffset.x = collectionView.leadingAlignedOffsetX(CGFloat(page) * pageStride - leadingInset)
     }
 
     override func viewWillAppear(_ animated: Bool) {
