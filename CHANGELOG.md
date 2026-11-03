@@ -11,7 +11,7 @@
 - Hide Share Podcasts and Edit Podcasts from the Podcasts tab's options menu when nothing is followed [#5541](https://github.com/Automattic/pocket-casts-ios/pull/5541)
 - Fix VoiceOver reaching the player's tabs, Up Next and chapter controls hidden behind an open transcript [#5538](https://github.com/Automattic/pocket-casts-ios/pull/5538)
 - Fix VoiceOver not announcing which region is selected in Discover's Select Content Region list [#5537](https://github.com/Automattic/pocket-casts-ios/pull/5537)
-- Fix a crash when VoiceOver or another accessibility service reads the player's progress slider while the playback time is negative or unknown
+- Fix a crash when VoiceOver or another accessibility service reads the player's progress slider while the playback time is negative or unknown [#5561](https://github.com/Automattic/pocket-casts-ios/pull/5561)
 
 8.24
 -----
