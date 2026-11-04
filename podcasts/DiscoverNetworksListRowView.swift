@@ -51,23 +51,36 @@ struct DiscoverNetworksListRowView: View {
 
     var header: some View {
         HStack(alignment: .center) {
-            Text(model.title)
-                .foregroundStyle(theme.primaryText01)
-                .font(size: 22, style: .title, weight: .bold)
-                .lineLimit(2)
-            Spacer()
             if model.showsShowAll {
                 Button {
                     model.showAll()
                 } label: {
-                    Text(L10n.discoverShowAll.localizedUppercase)
-                        .foregroundStyle(theme.primaryInteractive01)
-                        .font(size: 13, style: .title, weight: .bold)
-                        .kerning(0.6)
+                    HStack(spacing: 0) {
+                        title
+                        Image("chevron-small-right")
+                            .renderingMode(.template)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 32, height: 32)
+                            .foregroundStyle(theme.primaryIcon03)
+                            // Nudges the glyph to look optically centered against the text's cap height/line height.
+                            .offset(y: 2)
+                    }
                 }
+                .buttonStyle(.plain)
+            } else {
+                title
             }
+            Spacer()
         }
         .padding(16)
+    }
+
+    private var title: some View {
+        Text(model.title)
+            .foregroundStyle(theme.primaryText01)
+            .font(size: 22, style: .title, weight: .bold)
+            .lineLimit(2)
     }
 }
 
