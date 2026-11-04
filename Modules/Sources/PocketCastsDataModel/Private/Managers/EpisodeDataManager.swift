@@ -420,6 +420,27 @@ class EpisodeDataManager {
         }
     }
 
+    func fillMissingDetails(from episodes: [Episode], dbQueue: GRDBQueue) {
+        guard !episodes.isEmpty else { return }
+
+        dbQueue.write { db in
+            for episode in episodes {
+                let values = [
+                    DBUtils.replaceNilWithNull(value: episode.episodeDescription),
+                    DBUtils.replaceNilWithNull(value: episode.detailedDescription),
+                    DBUtils.replaceNilWithNull(value: episode.fileType),
+                    episode.sizeInBytes,
+                    episode.duration,
+                    DBUtils.replaceNilWithNull(value: episode.episodeType),
+                    episode.seasonNumber,
+                    episode.episodeNumber,
+                    episode.uuid
+                ] as [Any]
+                try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET episodeDescription = ?, detailedDescription = ?, fileType = ?, sizeInBytes = ?, duration = CASE WHEN duration > 0 THEN duration ELSE ? END, episodeType = ?, seasonNumber = ?, episodeNumber = ? WHERE uuid = ? AND fileType IS NULL AND detailedDescription IS NULL", values: values)
+            }
+        }
+    }
+
     func bulkSetStarred(starred: Bool, episodes: [Episode], updateSyncFlag: Bool, dbQueue: GRDBQueue) {
         if episodes.isEmpty { return }
 
