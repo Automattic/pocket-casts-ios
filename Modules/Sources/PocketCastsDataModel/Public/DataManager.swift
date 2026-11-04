@@ -362,6 +362,11 @@ public class DataManager {
         podcastManager.unfinishedCounts(dbQueue: dbQueue)
     }
 
+    /// Subscribed podcasts with at least one completed episode and no unarchived unplayed or in-progress episodes.
+    public func playedPodcastUuids() -> Set<String> {
+        podcastManager.playedPodcastUuids(dbQueue: dbQueue)
+    }
+
     public func markAllPodcastsSynced() {
         podcastManager.markAllSynced(dbQueue: dbQueue)
     }

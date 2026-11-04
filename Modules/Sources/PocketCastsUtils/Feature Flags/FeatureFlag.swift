@@ -267,6 +267,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Remote Config (`playback2026`) hides every entry point and exits a running flow
     case playback2026
 
+    /// Show the Played Podcasts option in the Podcasts tab, which hides podcasts with nothing left to listen to
+    case hidePlayedPodcasts
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -453,6 +456,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .playback2026:
             BuildEnvironment.current == .debug
+        case .hidePlayedPodcasts:
+            false
         }
     }
 

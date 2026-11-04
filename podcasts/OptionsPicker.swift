@@ -2,19 +2,21 @@ import UIKit
 
 class OptionsPicker {
     private var title: String?
+    private var description: String?
     private var optionsController: OptionsPickerRootController?
 
     private var noActionCallback: (() -> Void)?
 
-    init(title: String? = nil, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01, colors: OptionsPickerRootController.Colors? = nil) {
+    init(title: String? = nil, description: String? = nil, themeOverride: Theme.ThemeType? = nil, iconTintStyle: ThemeStyle = .primaryIcon01, colors: OptionsPickerRootController.Colors? = nil) {
         self.title = title
+        self.description = description
         setup(themeOverride: themeOverride, iconTintStyle: iconTintStyle, colors: colors)
     }
 
     private func setup(themeOverride: Theme.ThemeType?, iconTintStyle: ThemeStyle = .primaryIcon01, colors: OptionsPickerRootController.Colors? = nil) {
         optionsController = OptionsPickerRootController()
         optionsController?.delegate = self
-        optionsController?.setup(title: title, themeOverride: themeOverride, iconTintStyle: iconTintStyle, colors: colors)
+        optionsController?.setup(title: title, description: description, themeOverride: themeOverride, iconTintStyle: iconTintStyle, colors: colors)
     }
 
     func addAction(action: OptionAction) {
