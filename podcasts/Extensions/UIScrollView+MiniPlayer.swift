@@ -22,10 +22,21 @@ extension UIScrollView {
 
         let existingInset = contentInset
         let multiSelectFooterOffset: CGFloat = multiSelectEnabled ? 80 : 0
-        let miniPlayerOffset: CGFloat = ignoreMiniPlayer ? 0 : Constants.effectiveMiniPlayerOffset
+        let miniPlayerOffset: CGFloat = ignoreMiniPlayer || isInSettingsSheet ? 0 : Constants.effectiveMiniPlayerOffset
         contentInset = UIEdgeInsets(top: existingInset.top, left: existingInset.left, bottom: miniPlayerOffset + multiSelectFooterOffset, right: existingInset.right)
 
         let existingScrollIndicatorInset = verticalScrollIndicatorInsets
         verticalScrollIndicatorInsets = UIEdgeInsets(top: existingScrollIndicatorInset.top, left: existingScrollIndicatorInset.left, bottom: miniPlayerOffset + multiSelectFooterOffset, right: existingScrollIndicatorInset.right)
+    }
+
+    private var isInSettingsSheet: Bool {
+        var responder: UIResponder? = self
+        while let current = responder {
+            if let viewController = current as? UIViewController {
+                return sequence(first: viewController, next: \.parent).contains { $0 is SettingsSplitViewController }
+            }
+            responder = current.next
+        }
+        return false
     }
 }

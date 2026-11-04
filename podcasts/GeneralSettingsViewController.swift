@@ -9,6 +9,7 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
     private let disclosureCellId = "DisclosureCell"
 
     var scrollToRow: TableRow?
+    var tracksShownEvent = true
 
     let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
@@ -51,7 +52,9 @@ class GeneralSettingsViewController: PCViewController, UITableViewDelegate, UITa
 
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: settingsTable)
 
-        Analytics.track(.settingsGeneralShown)
+        if tracksShownEvent {
+            Analytics.track(.settingsGeneralShown)
+        }
 
         if let scrollToRow {
             self.scrollToRow(scrollToRow)
