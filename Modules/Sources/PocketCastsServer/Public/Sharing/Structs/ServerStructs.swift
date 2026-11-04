@@ -104,6 +104,23 @@ public struct PodcastRefreshResponse: Decodable {
 
         return failed
     }
+
+    /// Combines the responses to a refresh sent in batches: the first failure if any batch failed, otherwise all of their updates.
+    static func merged(_ responses: [PodcastRefreshResponse]) -> PodcastRefreshResponse {
+        if responses.count == 1, let response = responses.first {
+            return response
+        }
+        if let failure = responses.first(where: { !$0.success() }) {
+            return failure
+        }
+
+        var merged = PodcastRefreshResponse()
+        merged.status = "ok"
+        merged.result = RefreshResult(podcastUpdates: responses.reduce(into: [:]) { updates, response in
+            updates.merge(response.result?.podcastUpdates ?? [:]) { existing, _ in existing }
+        })
+        return merged
+    }
 }
 
 public struct RefreshResult: Decodable {

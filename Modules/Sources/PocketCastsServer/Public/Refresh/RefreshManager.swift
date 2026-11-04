@@ -107,14 +107,14 @@ public class RefreshManager {
 
         // The request captures each podcast's latest episode, so build it before the sync adds any
         let lastEpisodes = pendingLastEpisodes()
-        let request = MainServerHandler.shared.makeRefreshRequest(podcasts: podcasts, lastEpisodeOverrides: lastEpisodes)
+        let requests = MainServerHandler.shared.makeRefreshRequests(podcasts: podcasts, lastEpisodeOverrides: lastEpisodes)
         let lastEpisodesBeforeSync = Dictionary(podcasts.map { ($0.uuid, lastEpisodes[$0.uuid] ?? $0.latestEpisodeUuid ?? "") }, uniquingKeysWith: { first, _ in first })
         let podcastsRefreshedFromPending = podcasts.filter { $0.forceRefreshEpisodeFrom == nil }.map(\.uuid)
 
         let sync = SyncOperation()
         refreshQueue.addOperation(sync)
 
-        MainServerHandler.shared.refresh(request: request) { [weak self] refreshResponse in
+        MainServerHandler.shared.refresh(requests: requests) { [weak self] refreshResponse in
             guard let self else { return }
 
             if refreshResponse?.success() == true {

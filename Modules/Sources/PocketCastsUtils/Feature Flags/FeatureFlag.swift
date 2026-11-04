@@ -273,6 +273,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Sync Up Next, episodes, history and settings while the podcast refresh runs, instead of after it
     case syncBeforeRefresh
 
+    /// Check followed podcasts for new episodes with several smaller requests sent at the same time
+    case refreshPodcastsInBatches
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -463,6 +466,8 @@ public enum FeatureFlag: String, CaseIterable {
             false
         case .syncBeforeRefresh:
             true
+        case .refreshPodcastsInBatches:
+            BuildEnvironment.current == .debug
         }
     }
 
