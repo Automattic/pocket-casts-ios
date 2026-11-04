@@ -273,6 +273,10 @@ public enum FeatureFlag: String, CaseIterable {
     /// Sync Up Next, episodes, history and settings while the podcast refresh runs, instead of after it
     case syncBeforeRefresh
 
+    /// Join a refresh of all podcasts that's already running instead of starting another, and run Up Next syncs
+    /// on their own queue
+    case joinRunningRefresh
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -462,6 +466,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .hidePlayedPodcasts:
             false
         case .syncBeforeRefresh:
+            true
+        case .joinRunningRefresh:
             true
         }
     }
