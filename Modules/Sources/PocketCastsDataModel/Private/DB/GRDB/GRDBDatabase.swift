@@ -42,23 +42,6 @@ class GRDBDatabase: PCDatabase {
     func insert(into: String, columns: [String], values: [Any?]) throws {
         try database.insert(into: into, columns: columns, values: values)
     }
-
-    func lastErrorCode() -> Int32 {
-        database.lastErrorCode.rawValue
-    }
-
-    func lastErrorMessage() -> String {
-        database.lastErrorMessage ?? ""
-    }
-
-    func rollback() -> Bool {
-        do {
-            try database.rollback()
-            return true
-        } catch {
-            return false
-        }
-    }
 }
 
 // MARK: - GRDB Helpers
