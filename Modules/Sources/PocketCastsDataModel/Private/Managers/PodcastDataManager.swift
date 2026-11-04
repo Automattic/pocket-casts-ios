@@ -21,9 +21,7 @@ class PodcastDataManager {
 
     // MARK: - Queries
 
-    func allPodcasts(includeUnsubscribed: Bool, reloadFromDatabase: Bool, dbQueue: GRDBQueue) -> [Podcast] {
-        if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
-
+    func allPodcasts(includeUnsubscribed: Bool, dbQueue: GRDBQueue) -> [Podcast] {
         var allPodcasts = [Podcast]()
         cachedPodcasts.withLock { cachedPodcasts in
             for podcast in cachedPodcasts.values {
@@ -35,9 +33,7 @@ class PodcastDataManager {
         return allPodcasts
     }
 
-    func allPodcastsOrderedByAddedDate(reloadFromDatabase: Bool, dbQueue: GRDBQueue) -> [Podcast] {
-        if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
-
+    func allPodcastsOrderedByAddedDate(dbQueue: GRDBQueue) -> [Podcast] {
         var allPodcasts = [Podcast]()
         cachedPodcasts.withLock { cachedPodcasts in
             for podcast in cachedPodcasts.values {
@@ -52,9 +48,7 @@ class PodcastDataManager {
         })
     }
 
-    func allPodcastsOrderedByTitle(reloadFromDatabase: Bool, dbQueue: GRDBQueue) -> [Podcast] {
-        if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
-
+    func allPodcastsOrderedByTitle(dbQueue: GRDBQueue) -> [Podcast] {
         var allPodcasts = [Podcast]()
         cachedPodcasts.withLock { cachedPodcasts in
             for podcast in cachedPodcasts.values {
@@ -69,9 +63,7 @@ class PodcastDataManager {
         })
     }
 
-    func allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: Bool, inFolderUuid: String? = nil, dbQueue: GRDBQueue) -> [Podcast] {
-        if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
-
+    func allPodcastsOrderedByNewestEpisodes(inFolderUuid: String? = nil, dbQueue: GRDBQueue) -> [Podcast] {
         var allPodcasts = [Podcast]()
         dbQueue.read { db in
             do {
@@ -96,9 +88,7 @@ class PodcastDataManager {
         return allPodcasts
     }
 
-    func allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: Bool, inFolderUuid: String? = nil, dbQueue: GRDBQueue) -> [Podcast] {
-        if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
-
+    func allPodcastsOrderedByLastPlayedEpisodes(inFolderUuid: String? = nil, dbQueue: GRDBQueue) -> [Podcast] {
         var allPodcasts = [Podcast]()
         dbQueue.read { db in
             do {
@@ -175,12 +165,12 @@ class PodcastDataManager {
 
         // newest episode release date is a special case we handle at the database level
         if sortOrder == .episodeDateNewestToOldest {
-            return allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: false, inFolderUuid: folder.uuid, dbQueue: dbQueue)
+            return allPodcastsOrderedByNewestEpisodes(inFolderUuid: folder.uuid, dbQueue: dbQueue)
         }
 
         // newest episode release date is a special case we handle at the database level
         if sortOrder == .recentlyPlayed {
-            return allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: false, inFolderUuid: folder.uuid, dbQueue: dbQueue)
+            return allPodcastsOrderedByLastPlayedEpisodes(inFolderUuid: folder.uuid, dbQueue: dbQueue)
         }
 
         // the other 3 cases we do in memory

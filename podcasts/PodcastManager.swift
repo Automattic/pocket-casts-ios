@@ -63,17 +63,17 @@ class PodcastManager: NSObject {
         }
     #endif
 
-    func allPodcastsSorted(in sortOrder: LibrarySort, reloadFromDatabase: Bool = false) -> [Podcast] {
+    func allPodcastsSorted(in sortOrder: LibrarySort) -> [Podcast] {
         if sortOrder == .titleAtoZ {
-            return dataManager.allPodcastsOrderedByTitle(reloadFromDatabase: reloadFromDatabase)
+            return dataManager.allPodcastsOrderedByTitle()
         } else if sortOrder == .episodeDateNewestToOldest {
-            return dataManager.allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: reloadFromDatabase)
+            return dataManager.allPodcastsOrderedByNewestEpisodes()
         } else if sortOrder == .dateAddedNewestToOldest {
-            return dataManager.allPodcastsOrderedByAddedDate(reloadFromDatabase: reloadFromDatabase)
+            return dataManager.allPodcastsOrderedByAddedDate()
         } else if sortOrder == .recentlyPlayed {
-            return dataManager.allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: reloadFromDatabase)
+            return dataManager.allPodcastsOrderedByLastPlayedEpisodes()
         } else {
-            return dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: reloadFromDatabase)
+            return dataManager.allPodcasts(includeUnsubscribed: false)
         }
     }
 

@@ -311,28 +311,28 @@ public class DataManager {
 
     // MARK: - Podcasts
 
-    public func allPodcasts(includeUnsubscribed: Bool, reloadFromDatabase: Bool = false) -> [Podcast] {
-        podcastManager.allPodcasts(includeUnsubscribed: includeUnsubscribed, reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
+    public func allPodcasts(includeUnsubscribed: Bool) -> [Podcast] {
+        podcastManager.allPodcasts(includeUnsubscribed: includeUnsubscribed, dbQueue: dbQueue)
     }
 
     public func searchPodcasts(term: String) -> [Podcast] {
         podcastManager.searchPodcasts(term: term, dbQueue: dbQueue)
     }
 
-    public func allPodcastsOrderedByTitle(reloadFromDatabase: Bool = false) -> [Podcast] {
-        podcastManager.allPodcastsOrderedByTitle(reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
+    public func allPodcastsOrderedByTitle() -> [Podcast] {
+        podcastManager.allPodcastsOrderedByTitle(dbQueue: dbQueue)
     }
 
-    public func allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: Bool = false) -> [Podcast] {
-        podcastManager.allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
+    public func allPodcastsOrderedByNewestEpisodes() -> [Podcast] {
+        podcastManager.allPodcastsOrderedByNewestEpisodes(dbQueue: dbQueue)
     }
 
-    public func allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: Bool = false) -> [Podcast] {
-        podcastManager.allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
+    public func allPodcastsOrderedByLastPlayedEpisodes() -> [Podcast] {
+        podcastManager.allPodcastsOrderedByLastPlayedEpisodes(dbQueue: dbQueue)
     }
 
-    public func allPodcastsOrderedByAddedDate(reloadFromDatabase: Bool = false) -> [Podcast] {
-        podcastManager.allPodcastsOrderedByAddedDate(reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
+    public func allPodcastsOrderedByAddedDate() -> [Podcast] {
+        podcastManager.allPodcastsOrderedByAddedDate(dbQueue: dbQueue)
     }
 
     public func findPodcast(uuid: String, includeUnsubscribed: Bool = false) -> Podcast? {
