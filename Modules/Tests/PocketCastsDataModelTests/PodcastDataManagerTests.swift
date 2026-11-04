@@ -253,6 +253,19 @@ final class PodcastDataManagerTests: DataManagerTestCase {
         }
     }
 
+    func testDeleteKeepsTheOtherCachedPodcasts() throws {
+        try runWithDataManager { dataManager in
+            let deleted = self.createTestPodcast(uuid: "deleted", title: "Deleted", dataManager: dataManager)
+            _ = self.createTestPodcast(uuid: "other", title: "Other", dataManager: dataManager)
+
+            dataManager.delete(podcast: deleted)
+
+            XCTAssertNil(dataManager.findPodcast(uuid: "deleted", includeUnsubscribed: true))
+            XCTAssertEqual(dataManager.findPodcast(uuid: "other")?.title, "Other")
+            XCTAssertEqual(dataManager.allPodcasts(includeUnsubscribed: true).count, 1)
+        }
+    }
+
     // MARK: - markAllPodcastsSynced Tests
 
     func testMarkAllPodcastsSyncedMarksAllAsSynced() throws {

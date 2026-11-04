@@ -409,7 +409,7 @@ class PodcastDataManager {
 
     func delete(podcast: Podcast, dbQueue: GRDBQueue) {
         DataHelper.run(query: "DELETE FROM \(DataManager.podcastTableName) WHERE uuid = ?", values: [podcast.uuid], methodName: "PodcastDataManager.delete", onQueue: dbQueue)
-        cachePodcasts(dbQueue: dbQueue)
+        cachePodcast(uuid: podcast.uuid, dbQueue: dbQueue)
     }
 
     func markAllSynced(dbQueue: GRDBQueue) {
