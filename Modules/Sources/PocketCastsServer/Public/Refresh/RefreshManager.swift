@@ -108,7 +108,8 @@ public class RefreshManager {
         // The request captures each podcast's latest episode, so build it before the sync adds any
         let lastEpisodes = pendingLastEpisodes()
         let request = MainServerHandler.shared.makeRefreshRequest(podcasts: podcasts, lastEpisodeOverrides: lastEpisodes)
-        let requestedLastEpisodes = Dictionary(podcasts.map { ($0.uuid, lastEpisodes[$0.uuid] ?? $0.forceRefreshEpisodeFrom ?? $0.latestEpisodeUuid ?? "") }, uniquingKeysWith: { first, _ in first })
+        let lastEpisodesBeforeSync = Dictionary(podcasts.map { ($0.uuid, lastEpisodes[$0.uuid] ?? $0.latestEpisodeUuid ?? "") }, uniquingKeysWith: { first, _ in first })
+        let podcastsRefreshedFromPending = podcasts.filter { $0.forceRefreshEpisodeFrom == nil }.map(\.uuid)
 
         let sync = SyncOperation()
         refreshQueue.addOperation(sync)
@@ -117,10 +118,10 @@ public class RefreshManager {
             guard let self else { return }
 
             if refreshResponse?.success() == true {
-                self.removePendingLastEpisodes(for: Array(requestedLastEpisodes.keys))
+                self.removePendingLastEpisodes(for: podcastsRefreshedFromPending)
             } else {
                 // The sync may have added episodes newer than the ones this refresh was meant to fetch
-                self.addPendingLastEpisodes(requestedLastEpisodes)
+                self.addPendingLastEpisodes(lastEpisodesBeforeSync)
             }
             self.processPodcastRefreshResponse(refreshResponse, previousSync: sync, completion: completion)
         }
