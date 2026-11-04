@@ -9,8 +9,18 @@ enum Playback2026 {
 
     // MARK: - Entry points
 
+    static let year = 2026
+
     static func start(from viewController: UIViewController) {
-        // TODO: Present the Playback 2026 story flow
+        guard isAvailable else { return }
+
+        do {
+            let payload = Playback2026Payload.make(year: year)
+            let playbackViewController = try Playback2026ViewController(payload: payload)
+            viewController.present(playbackViewController, animated: true)
+        } catch {
+            FileLog.shared.addMessage("Playback 2026: failed to start: \(error)")
+        }
     }
 
     // MARK: - Podcasts sheet

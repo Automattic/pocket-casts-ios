@@ -21,6 +21,7 @@ public class DataManager {
     private let userEpisodeManager = UserEpisodeDataManager()
     private let folderManager = FolderDataManager()
     private lazy var endOfYearManager = EndOfYearDataManager()
+    private lazy var playbackStatsManager = PlaybackStatsDataManager()
     private lazy var upNextHistoryManager = UpNextHistoryManager()
     private lazy var folderHistoryManager = FolderHistoryManager()
 
@@ -1283,6 +1284,18 @@ public extension DataManager {
 
     func reconcileOrphanedEpisode(survivorId: Int64, realPodcastId: Int64, idsToDelete: [Int64]) {
         episodeManager.reconcileOrphanedEpisode(survivorId: survivorId, realPodcastId: realPodcastId, idsToDelete: idsToDelete, dbQueue: dbQueue)
+    }
+}
+
+// MARK: - Playback stats
+
+public extension DataManager {
+    func playbackPodcastStats(in year: Int) -> [PlaybackPodcastStats] {
+        playbackStatsManager.podcastStats(in: year, dbQueue: dbQueue)
+    }
+
+    func playbackMonthlySeconds(in year: Int) -> [Double] {
+        playbackStatsManager.monthlySeconds(in: year, dbQueue: dbQueue)
     }
 }
 
