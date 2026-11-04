@@ -270,6 +270,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show the Played Podcasts option in the Podcasts tab, which hides podcasts with nothing left to listen to
     case hidePlayedPodcasts
 
+    /// Cancel the background refresh and complete its task when its time runs out
+    case completeExpiredBackgroundRefresh
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -458,6 +461,8 @@ public enum FeatureFlag: String, CaseIterable {
             BuildEnvironment.current == .debug
         case .hidePlayedPodcasts:
             false
+        case .completeExpiredBackgroundRefresh:
+            true
         }
     }
 
