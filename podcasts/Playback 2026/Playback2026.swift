@@ -1,4 +1,5 @@
 import UIKit
+import PocketCastsServer
 import PocketCastsUtils
 
 enum Playback2026 {
@@ -11,15 +12,42 @@ enum Playback2026 {
 
     static let year = 2026
 
-    static func start(from viewController: UIViewController) {
-        guard isAvailable else { return }
+    private static var isStarting = false
 
-        do {
-            let payload = Playback2026Payload.make(year: year)
-            let playbackViewController = try Playback2026ViewController(payload: payload)
-            viewController.present(playbackViewController, animated: true)
-        } catch {
-            FileLog.shared.addMessage("Playback 2026: failed to start: \(error)")
+    static func start(from viewController: UIViewController) {
+        guard isAvailable, !isStarting else { return }
+        isStarting = true
+
+        Task { @MainActor [weak viewController] in
+            defer { isStarting = false }
+
+            let payload = await Task.detached(priority: .userInitiated) {
+                syncListeningHistoryIfNeeded()
+                return Playback2026Payload.make(year: year)
+            }.value
+
+            guard let viewController else { return }
+
+            do {
+                let playbackViewController = try Playback2026ViewController(payload: payload)
+                viewController.present(playbackViewController, animated: true)
+            } catch {
+                FileLog.shared.addMessage("Playback 2026: failed to start: \(error)")
+            }
+        }
+    }
+
+    nonisolated private static func syncListeningHistoryIfNeeded() {
+        guard SyncManager.isUserLoggedIn() else { return }
+
+        let hasSubscription = SubscriptionHelper.hasActiveSubscription()
+        guard !Settings.hasSyncedEpisodesForPlayback(year: year) || Settings.hasSyncedEpisodesForPlaybackAsPlusUser(year: year) != hasSubscription else { return }
+
+        if YearListeningHistory.sync(year) {
+            Settings.setHasSyncedEpisodesForPlayback(true, year: year)
+            Settings.setHasSyncedEpisodesForPlaybackAsPlusUser(hasSubscription, year: year)
+        } else {
+            FileLog.shared.addMessage("Playback 2026: listening history sync failed, using local data")
         }
     }
 
