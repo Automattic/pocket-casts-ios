@@ -162,7 +162,17 @@ class RefreshOperation: Operation, @unchecked Sendable {
             receivedEpisodes.append((podcast, episodes))
         }
 
-        let savedUuids = Set(DataManager.shared.insertEpisodesIfMissing(receivedEpisodes.flatMap(\.episodes)).map(\.uuid))
+        let savedUuids: Set<String>
+        if FeatureFlag.insertRefreshedEpisodesInOneTransaction.enabled {
+            savedUuids = Set(DataManager.shared.insertEpisodesIfMissing(receivedEpisodes.flatMap(\.episodes)).map(\.uuid))
+        } else {
+            savedUuids = saveEpisodesOneByOne(receivedEpisodes)
+        }
+        if isCancelled {
+            cleanupAfterCancel()
+
+            return .cancelled
+        }
 
         var metadataRequestsQueued = 0
         for (podcast, receivedPodcastEpisodes) in receivedEpisodes {
@@ -207,6 +217,22 @@ class RefreshOperation: Operation, @unchecked Sendable {
 
     private func cleanupAfterCancel() {
         apiQueue.cancelAllOperations()
+    }
+
+    /// Saves each podcast's new episodes separately, looking up every episode first.
+    /// - Returns: The UUIDs of the episodes it saved.
+    private func saveEpisodesOneByOne(_ receivedEpisodes: [(podcast: Podcast, episodes: [Episode])]) -> Set<String> {
+        var savedUuids = Set<String>()
+        for (_, episodes) in receivedEpisodes {
+            if isCancelled {
+                break
+            }
+
+            let newEpisodes = episodes.filter { DataManager.shared.findEpisode(uuid: $0.uuid) == nil }
+            DataManager.shared.bulkSave(episodes: newEpisodes)
+            savedUuids.formUnion(newEpisodes.map(\.uuid))
+        }
+        return savedUuids
     }
 
     private func processAutoAddUpNextCandidates() {
