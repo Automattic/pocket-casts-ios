@@ -144,6 +144,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         observeWhatsNewFeed()
 
         observersForEndOfYearStats()
+        observersForPlayback2026()
         addBookmarkCreatedToastHandler()
         addBookmarkEnrichmentHandler()
         if FeatureFlag.displayErrorsOnPlayer.enabled {
@@ -1104,6 +1105,7 @@ private extension MainTabBarController {
         if isFirstAppearance {
             showWhatsNewIfNeeded()
             showEndOfYearPromptIfNeeded()
+            showPlayback2026SheetIfNeeded()
         }
 
         showInitialOnboardingIfNeeded()
@@ -1118,6 +1120,23 @@ private extension MainTabBarController {
         guard !isShowingWhatsNew, AnnouncementFlow.current == .none else { return }
 
         endOfYear.showPromptBasedOnState(in: self)
+    }
+
+    func showPlayback2026SheetIfNeeded() {
+        guard !isShowingWhatsNew, AnnouncementFlow.current == .none, !isInitialOnboardingPending else { return }
+
+        Playback2026.showSheetIfNeeded(in: self)
+    }
+
+    private var isInitialOnboardingPending: Bool {
+        let hasCompletedInitialOnboarding = Settings.shouldShowInitialOnboardingFlow == false && Settings.hasSeenInitialOnboardingBefore
+        return !SyncManager.isUserLoggedIn() && !hasCompletedInitialOnboarding
+    }
+
+    func observersForPlayback2026() {
+        NotificationCenter.default.addObserver(forName: .onboardingFlowDidDismiss, object: nil, queue: .main) { [weak self] _ in
+            self?.showPlayback2026SheetIfNeeded()
+        }
     }
 
     func showWhatsNewIfNeeded() {

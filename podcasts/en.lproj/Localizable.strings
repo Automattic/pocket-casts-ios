@@ -6080,6 +6080,18 @@
 /// Label of the Playback 2025 call to action buton
 "playback_2025_view_year" = "View My Playback 2025";
 
+/// Title of the Playback 2026 banner in the Profile tab
+"playback_2026_banner_title" = "Playback 2026 is here!";
+
+/// Description of the Playback 2026 banner in the Profile tab
+"playback_2026_banner_description" = "Discover your listening stats, which kind of listener you are, and more.";
+
+/// Description in the Playback 2026 announcement sheet
+"playback_2026_sheet_description" = "What you listened to. The podcasts you loved. And what sets you apart as a listener. Your year in Pocket Casts is here.";
+
+/// Label of the call to action button in the Playback 2026 announcement sheet
+"playback_2026_sheet_button" = "View My Playback 2026";
+
 /// Label of the Playback 2025 call to action buton
 "playback_2025_intro_message" = "Your year in podcasts, wrapped and ready to relive";
 
