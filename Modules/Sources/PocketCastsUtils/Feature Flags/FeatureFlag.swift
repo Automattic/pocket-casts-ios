@@ -270,7 +270,7 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show the Played Podcasts option in the Podcasts tab, which hides podcasts with nothing left to listen to
     case hidePlayedPodcasts
 
-    /// Reload only the saved podcast into the podcast cache, instead of every podcast
+    /// Update the podcast cache from the rows each write changes, instead of reloading every podcast after each write
     case reloadOnlySavedPodcast
 
     public var enabled: Bool {

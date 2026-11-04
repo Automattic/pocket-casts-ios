@@ -1019,6 +1019,50 @@ final class PodcastDataManagerTests: DataManagerTestCase {
         }
     }
 
+    func testCacheFollowsPodcastWritesMadeOutsideTheDataManager() throws {
+        try runWithDataManager { dataManager in
+            _ = self.createTestPodcast(uuid: "external", title: "Before", dataManager: dataManager)
+
+            try dataManager.dbQueue.dbPool.write { db in
+                try db.execute(sql: "UPDATE SJPodcast SET title = 'After' WHERE uuid = 'external'")
+            }
+
+            XCTAssertEqual(dataManager.findPodcast(uuid: "external")?.title, "After")
+        }
+    }
+
+    func testCacheIgnoresRolledBackPodcastWrites() throws {
+        struct Rollback: Error {}
+
+        try runWithDataManager { dataManager in
+            _ = self.createTestPodcast(uuid: "rolled-back", title: "Before", dataManager: dataManager)
+
+            XCTAssertThrowsError(try dataManager.dbQueue.dbPool.write { db in
+                try db.execute(sql: "UPDATE SJPodcast SET title = 'After' WHERE uuid = 'rolled-back'")
+                throw Rollback()
+            })
+
+            XCTAssertEqual(dataManager.findPodcast(uuid: "rolled-back")?.title, "Before")
+        }
+    }
+
+    func testCacheFollowsWritesWithTheCacheObserverOff() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.reloadOnlySavedPodcast, withValue: false)
+        defer { try? FeatureFlagOverrideStore().override(FeatureFlag.reloadOnlySavedPodcast, withValue: true) }
+
+        try runWithDataManager { dataManager in
+            let saved = self.createTestPodcast(uuid: "saved", title: "Saved", dataManager: dataManager)
+            let deleted = self.createTestPodcast(uuid: "deleted", title: "Deleted", dataManager: dataManager)
+
+            saved.title = "Saved Again"
+            dataManager.save(podcast: saved)
+            dataManager.delete(podcast: deleted)
+
+            XCTAssertEqual(dataManager.findPodcast(uuid: "saved")?.title, "Saved Again")
+            XCTAssertNil(dataManager.findPodcast(uuid: "deleted", includeUnsubscribed: true))
+        }
+    }
+
     func testSaveGeneratesIdIfZero() throws {
         try runWithDataManager { dataManager in
             let podcast = Podcast()
