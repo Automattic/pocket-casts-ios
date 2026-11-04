@@ -76,6 +76,33 @@ class PlaybackStatsDataManager {
 
         return months
     }
+
+    /// Distinct episodes listened to in the year, and how many of them were finished.
+    func episodesStartedAndCompleted(in year: Int, dbQueue: GRDBQueue) -> (started: Int, completed: Int) {
+        var started = 0
+        var completed = 0
+
+        dbQueue.read { db in
+            do {
+                let query = """
+                            SELECT COUNT(DISTINCT uuid) as started,
+                                COUNT(DISTINCT CASE WHEN playingStatus = 3 OR playedUpTo >= 0.9 * duration THEN uuid END) as completed
+                            FROM \(DataManager.episodeTableName)
+                            WHERE \(listenedEpisodes(year: year))
+                            """
+                let resultSet = try db.executeQuery(query, values: nil)
+
+                if resultSet.next() {
+                    started = Int(resultSet.int(forColumn: "started"))
+                    completed = Int(resultSet.int(forColumn: "completed"))
+                }
+            } catch {
+                FileLog.shared.addMessage("PlaybackStatsDataManager.episodesStartedAndCompleted error: \(error)")
+            }
+        }
+
+        return (started, completed)
+    }
 }
 
 public struct PlaybackPodcastStats {

@@ -25,7 +25,7 @@ enum Playback2026Payload {
         }
 
         let previousYearSeconds = dataManager.yearOverYearListeningTime(in: year).totalPlayedTimeLastYear
-        let started = dataManager.episodesStartedAndCompleted(in: year)
+        let started = dataManager.playbackEpisodesStartedAndCompleted(in: year)
 
         return PlaybackPayload(
             year: year,

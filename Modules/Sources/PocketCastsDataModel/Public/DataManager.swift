@@ -1297,6 +1297,10 @@ public extension DataManager {
     func playbackMonthlySeconds(in year: Int) -> [Double] {
         playbackStatsManager.monthlySeconds(in: year, dbQueue: dbQueue)
     }
+
+    func playbackEpisodesStartedAndCompleted(in year: Int) -> (started: Int, completed: Int) {
+        playbackStatsManager.episodesStartedAndCompleted(in: year, dbQueue: dbQueue)
+    }
 }
 
 // MARK: - End of Year stats
