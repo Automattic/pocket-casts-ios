@@ -633,7 +633,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             navController.dismiss(animated: false)
         }
 
-        navController.popViewController(animated: false)
+        navController.popToRootViewController(animated: false)
         let settingViewController = SettingsViewController()
         navController.pushViewController(settingViewController, animated: row == nil)
 
