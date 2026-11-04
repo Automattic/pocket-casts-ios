@@ -29,7 +29,6 @@ enum Playback2026Payload {
 
         return PlaybackPayload(
             year: year,
-            locale: Locale.current.identifier(.bcp47),
             podcasts: podcasts,
             monthlySeconds: dataManager.playbackMonthlySeconds(in: year),
             previousYearSeconds: previousYearSeconds > 0 ? previousYearSeconds : nil,
