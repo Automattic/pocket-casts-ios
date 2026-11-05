@@ -1348,6 +1348,59 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
         }
     }
 
+    func testBulkSaveAssignsIdsToNewEpisodesAndUpdatesExistingEpisodes() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let existingEpisode = self.createTestEpisode(uuid: "existing", podcast: podcast, title: "Original", dataManager: dataManager)
+            let existingId = existingEpisode.id
+            existingEpisode.title = "Updated"
+
+            let newEpisodes = (0..<3).map { index in
+                let episode = Episode()
+                episode.uuid = "new-\(index)"
+                episode.podcastUuid = podcast.uuid
+                episode.podcast_id = podcast.id
+                episode.title = "New \(index)"
+                episode.addedDate = Date()
+                return episode
+            }
+
+            dataManager.bulkSave(episodes: [existingEpisode] + newEpisodes)
+
+            let foundExisting = dataManager.findEpisode(uuid: "existing")
+            XCTAssertEqual(existingEpisode.id, existingId, "Existing episode should keep its ID")
+            XCTAssertEqual(foundExisting?.id, existingId, "Existing episode should be updated in place")
+            XCTAssertEqual(foundExisting?.title, "Updated", "Existing episode should be updated")
+
+            XCTAssertFalse(newEpisodes.contains { $0.id == 0 }, "New episodes should get an ID")
+            XCTAssertEqual(Set(newEpisodes.map(\.id)).count, newEpisodes.count, "New episodes should get distinct IDs")
+            for episode in newEpisodes {
+                let found = dataManager.findEpisode(uuid: episode.uuid)
+                XCTAssertEqual(found?.id, episode.id, "New episode should be saved with its ID")
+                XCTAssertEqual(found?.title, episode.title, "New episode should be saved")
+            }
+
+            XCTAssertEqual(dataManager.allEpisodes(forPodcastId: podcast.id).count, 4, "Existing episode should not be duplicated")
+        }
+    }
+
+    func testBulkSaveInsertsEpisodeWithAnIdThatIsNotInTheDatabase() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+
+            let episode = Episode()
+            episode.id = 42
+            episode.uuid = "preset-id"
+            episode.podcastUuid = podcast.uuid
+            episode.podcast_id = podcast.id
+            episode.addedDate = Date()
+
+            dataManager.bulkSave(episodes: [episode])
+
+            XCTAssertEqual(dataManager.findEpisode(uuid: "preset-id")?.id, 42, "Episode should be saved with its ID")
+        }
+    }
+
     // MARK: - Helper method override for additional properties
 
     @discardableResult
