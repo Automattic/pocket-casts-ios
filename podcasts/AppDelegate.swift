@@ -164,9 +164,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // give the network a few seconds to come up before refreshing, also only refresh if the last refresh was more than 5 minutes ago
         let lastUpdateTime = ServerSettings.lastRefreshEndTime()
         if DateUtil.hasEnoughTimePassed(since: lastUpdateTime, time: AppDelegate.minTimeBetweenRefreshes) {
-            Timer.scheduledTimer(withTimeInterval: AppDelegate.initialRefreshDelay, repeats: false, block: { _ in
-                RefreshManager.shared.refreshPodcasts()
-            })
+            if FeatureFlag.refreshOnOpenWithoutDelay.enabled {
+                NetworkUtils.shared.whenConnected(timeout: AppDelegate.initialRefreshDelay) {
+                    RefreshManager.shared.refreshPodcasts()
+                }
+            } else {
+                Timer.scheduledTimer(withTimeInterval: AppDelegate.initialRefreshDelay, repeats: false, block: { _ in
+                    RefreshManager.shared.refreshPodcasts()
+                })
+            }
         } else {
             DispatchQueue.global(qos: .userInitiated).async {
                 PodcastManager.shared.checkForPendingAndAutoDownloads()
