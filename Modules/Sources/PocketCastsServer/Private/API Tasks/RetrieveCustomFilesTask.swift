@@ -55,6 +55,10 @@ class RetrieveCustomFilesTask: ApiBaseTask, @unchecked Sendable {
         }
     }
 
+    override func apiTokenAcquisitionFailed() {
+        NotificationCenter.default.post(name: ServerNotifications.userEpisodesRefreshFailed, object: nil)
+    }
+
     private func processServerEpisodes(episodes: [UserEpisode]) {
         // the code below isn't thread safe, because it queries the database then does a save with potentially old user episode info (potentially causing an INSERT where an UPDATE is required instead)
         // to work around this we lock it so that this method can only be run by one thread at once

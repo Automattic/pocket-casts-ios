@@ -54,6 +54,10 @@ class RetrieveStarredTask: ApiBaseTask, @unchecked Sendable {
         }
     }
 
+    override func apiTokenAcquisitionFailed() {
+        completion?(nil)
+    }
+
     private func processEpisode(_ protoEpisode: Api_StarredEpisode) {
         // take the easy case first, do we have this episode locally?
         if convertLocalEpisode(protoEpisode: protoEpisode) {
