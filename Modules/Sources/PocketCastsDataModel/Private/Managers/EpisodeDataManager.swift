@@ -392,18 +392,9 @@ class EpisodeDataManager {
     }
 
     func save(episode: Episode, dbQueue: GRDBQueue) {
-        let isNew = episode.id == 0
-        if isNew {
-            episode.id = DBUtils.generateUniqueId()
-        }
-
         do {
             try dbQueue.dbPool.write { db in
-                if isNew {
-                    try episode.insert(db)
-                } else {
-                    try episode.save(db)
-                }
+                try insertOrSave(episode, in: db)
             }
         } catch {
             FileLog.shared.addMessage("EpisodeDataManager.save Episode error: \(error)")
@@ -414,16 +405,20 @@ class EpisodeDataManager {
         do {
             try dbQueue.dbPool.write { db in
                 for episode in episodes {
-                    if episode.id == 0 {
-                        episode.id = DBUtils.generateUniqueId()
-                        try episode.insert(db)
-                    } else {
-                        try episode.save(db)
-                    }
+                    try insertOrSave(episode, in: db)
                 }
             }
         } catch {
             FileLog.shared.addMessage("EpisodeDataManager.bulkSave error: \(error)")
+        }
+    }
+
+    private func insertOrSave(_ episode: Episode, in db: Database) throws {
+        if episode.id == 0 {
+            episode.id = DBUtils.generateUniqueId()
+            try episode.insert(db)
+        } else {
+            try episode.save(db)
         }
     }
 

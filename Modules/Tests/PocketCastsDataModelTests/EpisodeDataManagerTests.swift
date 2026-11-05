@@ -1401,6 +1401,42 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
         }
     }
 
+    func testSaveAndBulkSaveInsertNewEpisodesWithoutAnUpdate() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let existingEpisode = self.createTestEpisode(uuid: "existing", podcast: podcast, dataManager: dataManager)
+            existingEpisode.title = "Updated"
+
+            func newEpisode(uuid: String) -> Episode {
+                let episode = Episode()
+                episode.uuid = uuid
+                episode.podcastUuid = podcast.uuid
+                episode.podcast_id = podcast.id
+                episode.addedDate = Date()
+                return episode
+            }
+
+            var statements = [String]()
+            try dataManager.dbQueue.dbPool.writeWithoutTransaction { db in
+                db.trace { event in
+                    if case let .statement(statement) = event {
+                        statements.append(statement.sql)
+                    }
+                }
+            }
+
+            dataManager.save(episode: newEpisode(uuid: "new-single"))
+            dataManager.bulkSave(episodes: [existingEpisode, newEpisode(uuid: "new-bulk-0"), newEpisode(uuid: "new-bulk-1")])
+
+            let inserts = statements.filter { $0.hasPrefix("INSERT INTO \"\(DataManager.episodeTableName)\"") }
+            let updates = statements.filter { $0.hasPrefix("UPDATE \"\(DataManager.episodeTableName)\"") }
+            XCTAssertEqual(inserts.count, 3, "Each new episode should be inserted once")
+            XCTAssertEqual(updates.count, 1, "Only the existing episode should be updated")
+            XCTAssertEqual(dataManager.findEpisode(uuid: "existing")?.title, "Updated")
+            XCTAssertNotNil(dataManager.findEpisode(uuid: "new-single"))
+        }
+    }
+
     // MARK: - Helper method override for additional properties
 
     @discardableResult
