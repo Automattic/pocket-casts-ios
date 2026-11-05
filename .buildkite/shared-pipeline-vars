@@ -14,7 +14,8 @@ fi
 XCODE_VERSION=$(sed -E 's/^~> ?//' "$XCODE_VERSION_FILE")
 RUBY_VERSION="$(cat .ruby-version)"
 
-CI_TOOLKIT_PLUGIN_VERSION="6.3.0"
+# TEMPORARY: testing Automattic/a8c-ci-toolkit-buildkite-plugin#241. Revert before merging.
+CI_TOOLKIT_PLUGIN_VERSION="4eba6815dd4d059eb757c4622034b8ffa43b6215"
 
 TEST_COLLECTOR_PLUGIN_VERSION="1.11.0"
 
