@@ -54,15 +54,20 @@ class SyncTask: ApiBaseTask, @unchecked Sendable {
         return request
     }
 
+    /// Whether the next sync is a full sync, which imports every podcast from the server
+    static func isFullSyncPending(defaults: UserDefaults = .standard) -> Bool {
+        defaults.string(forKey: ServerConstants.UserDefaults.lastModifiedServerDate)?.isEmpty ?? true
+    }
+
     private func performSync(token: String) {
-        if let lastServerModified = UserDefaults.standard.string(forKey: ServerConstants.UserDefaults.lastModifiedServerDate), !lastServerModified.isEmpty {
+        if Self.isFullSyncPending() {
+            performFullSync(token: token)
+        } else {
             if ServerSettings.homeGridNeedsRefresh() {
                 performHomeGridRefresh()
             }
 
             performIncrementalSync(token: token)
-        } else {
-            performFullSync(token: token)
         }
     }
 

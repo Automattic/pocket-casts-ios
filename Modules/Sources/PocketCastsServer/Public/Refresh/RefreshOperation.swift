@@ -61,9 +61,16 @@ class RefreshOperation: Operation, @unchecked Sendable {
                 let syncStartDate = Date()
 
                 if SubscriptionHelper.hasActiveSubscription() { addTimedOperation(RetrieveCustomFilesTask()) }
-                addTimedOperation(UpNextSyncTask())
                 let syncTask = SyncTask()
-                addTimedOperation(syncTask)
+                let upNextAndSyncTasks = Self.upNextAndSyncTasks(
+                    upNextSyncTask: UpNextSyncTask(),
+                    syncTask: syncTask,
+                    isFullSyncPending: SyncTask.isFullSyncPending(),
+                    isUpNextEmpty: DataManager.shared.playlistEpisodeCount() == 0
+                )
+                for task in upNextAndSyncTasks {
+                    addTimedOperation(task)
+                }
 
                 addTimedOperation(SyncHistoryTask())
 
@@ -113,6 +120,14 @@ class RefreshOperation: Operation, @unchecked Sendable {
     private func addTimedOperation(_ task: ApiBaseTask) {
         task.logsDuration = true
         apiQueue.addOperation(task)
+    }
+
+    /// `UpNextSyncTask` and `SyncTask`, in the order they run
+    static func upNextAndSyncTasks(upNextSyncTask: UpNextSyncTask, syncTask: SyncTask, isFullSyncPending: Bool, isUpNextEmpty: Bool) -> [ApiBaseTask] {
+        if FeatureFlag.syncUpNextAfterFullSync.enabled, isFullSyncPending, isUpNextEmpty {
+            return [syncTask, upNextSyncTask]
+        }
+        return [upNextSyncTask, syncTask]
     }
 
     func performRefresh() -> UpdateStatus {
