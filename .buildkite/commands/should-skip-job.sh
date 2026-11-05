@@ -15,8 +15,10 @@ if [[ "${POCKET_CASTS_CI_FULL_BUILD:-}" == 1 || "${BUILDKITE_SOURCE:-}" != webho
   exit 1
 fi
 
+# Scope documentation skips so bundled Markdown and text fixtures still run jobs.
 SKIP_PATTERNS=(
-  '*/README.md' '!(*/*).md' '.gitignore' 'fastlane/metadata/*' 'fastlane/metadata-tvos/*'
+  '*/README.md' '!(*/*).md' 'docs/*' '.github/*.md' '.agents/*.md' '.claude/*.md'
+  '.gitignore' 'fastlane/metadata/*' 'fastlane/metadata-tvos/*' 'fastlane/AppStoreStrings*.po'
 )
 REQUIRED_PATTERNS=()
 case "$job" in
