@@ -1,5 +1,6 @@
 8.25
 -----
+- Save new episodes faster in a large library, such as when you follow a podcast or sign in [#5597](https://github.com/Automattic/pocket-casts-ios/pull/5597)
 - Fix tapping Done after Edit Podcasts switching Sort By to Drag and Drop when no podcast was reordered [#5563](https://github.com/Automattic/pocket-casts-ios/pull/5563)
 - Save new episodes faster when signing in and checking for new episodes [#5582](https://github.com/Automattic/pocket-casts-ios/pull/5582)
 - Check for new episodes 1 second after opening the app instead of 2 [#5583](https://github.com/Automattic/pocket-casts-ios/pull/5583)
