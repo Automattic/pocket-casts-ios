@@ -273,9 +273,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Update the podcast cache from the rows each write changes, instead of reloading every podcast after each write
     case reloadOnlySavedPodcast
 
-    /// Start the refresh on open 1 second after the app becomes active, as on Android, instead of 2 seconds
-    case shorterRefreshOnOpenDelay
-
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -465,8 +462,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .hidePlayedPodcasts:
             false
         case .reloadOnlySavedPodcast:
-            true
-        case .shorterRefreshOnOpenDelay:
             true
         }
     }
