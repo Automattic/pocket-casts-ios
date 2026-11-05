@@ -11,7 +11,7 @@ import PocketCastsUtils
 import Sentry
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    private static let initialRefreshDelay = 2.seconds
+    private static let initialRefreshDelay = 1.second
     private static let minTimeBetweenRefreshes = 5.minutes
 
     private let shortcutManager = ShortcutManager()

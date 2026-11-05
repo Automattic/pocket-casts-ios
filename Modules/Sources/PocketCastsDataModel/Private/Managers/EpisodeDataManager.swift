@@ -1021,7 +1021,7 @@ class EpisodeDataManager {
         var saved = false
         dbQueue.write { db in
             do {
-                try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ? AND \(modifiedFieldName) = 0", values: [value, episodeUuid])
+                try db.executeUpdate(Self.saveFieldIfNotModifiedQuery(fieldName: fieldName, modifiedFieldName: modifiedFieldName), values: [value, episodeUuid])
                 saved = (db.changes > 0)
             } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.saveFieldIfNotModified error: \(error)")
@@ -1029,6 +1029,10 @@ class EpisodeDataManager {
         }
 
         return saved
+    }
+
+    static func saveFieldIfNotModifiedQuery(fieldName: String, modifiedFieldName: String) -> String {
+        "UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ? AND +\(modifiedFieldName) = 0"
     }
 
     private func saveFieldIfNotModified(fieldName: String, modifiedFieldName: String, value: Any, remoteModified: Int64, episodeUuid: String, dbQueue: GRDBQueue) -> Bool {
