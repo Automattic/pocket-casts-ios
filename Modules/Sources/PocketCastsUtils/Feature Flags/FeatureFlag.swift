@@ -273,6 +273,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Update the podcast cache from the rows each write changes, instead of reloading every podcast after each write
     case reloadOnlySavedPodcast
 
+    /// On a first sign-in, sync Up Next after the full sync imports the podcasts, instead of downloading each Up Next podcast first
+    case syncUpNextAfterFullSync
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -462,6 +465,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .hidePlayedPodcasts:
             false
         case .reloadOnlySavedPodcast:
+            true
+        case .syncUpNextAfterFullSync:
             true
         }
     }
