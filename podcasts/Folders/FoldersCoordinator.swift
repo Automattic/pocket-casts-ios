@@ -43,7 +43,7 @@ class FoldersCoordinator: NSObject {
 
     func startFolderCreationFlow(from vc: UIViewController) {
         if FeatureFlag.suggestedFolders.enabled,
-           dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false).count > Constants.minimumNumberOfPodcasts,
+           dataManager.allPodcasts(includeUnsubscribed: false).count > Constants.minimumNumberOfPodcasts,
            suggestedFoldersModel.loadingState == .loaded,
            didPodcastsChanged() {
             suggestedFolderCreationFlow(from: vc, source: .podcastsList)
@@ -56,7 +56,7 @@ class FoldersCoordinator: NSObject {
 
     func showSuggestedFolders(from vc: UIViewController, source: AnalyticsSource = .notifications) {
         guard FeatureFlag.suggestedFolders.enabled,
-              dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false).count > Constants.minimumNumberOfPodcasts else {
+              dataManager.allPodcasts(includeUnsubscribed: false).count > Constants.minimumNumberOfPodcasts else {
             return
         }
         suggestedFolderCreationFlow(from: vc, source: source)
@@ -69,7 +69,7 @@ class FoldersCoordinator: NSObject {
               DateUtil.hasEnoughTimePassed(since: startingTime, time: Constants.intervalAfterStartup),
               Settings.suggestedFoldersUpsellCount < Constants.maxUpsellDisplays,
               DateUtil.hasEnoughTimePassed(since: Settings.suggestedFoldersLastUpsellDate, time: Constants.intervalBetweenUpsell),
-              dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: false).count > Constants.minimumNumberOfPodcasts,
+              dataManager.allPodcasts(includeUnsubscribed: false).count > Constants.minimumNumberOfPodcasts,
               suggestedFoldersModel.loadingState == .loaded
         else {
             return

@@ -21,6 +21,7 @@ public class DataManager {
     private let userEpisodeManager = UserEpisodeDataManager()
     private let folderManager = FolderDataManager()
     private lazy var endOfYearManager = EndOfYearDataManager()
+    private lazy var playbackStatsManager = PlaybackStatsDataManager()
     private lazy var upNextHistoryManager = UpNextHistoryManager()
     private lazy var folderHistoryManager = FolderHistoryManager()
 
@@ -310,28 +311,28 @@ public class DataManager {
 
     // MARK: - Podcasts
 
-    public func allPodcasts(includeUnsubscribed: Bool, reloadFromDatabase: Bool = false) -> [Podcast] {
-        podcastManager.allPodcasts(includeUnsubscribed: includeUnsubscribed, reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
+    public func allPodcasts(includeUnsubscribed: Bool) -> [Podcast] {
+        podcastManager.allPodcasts(includeUnsubscribed: includeUnsubscribed, dbQueue: dbQueue)
     }
 
     public func searchPodcasts(term: String) -> [Podcast] {
         podcastManager.searchPodcasts(term: term, dbQueue: dbQueue)
     }
 
-    public func allPodcastsOrderedByTitle(reloadFromDatabase: Bool = false) -> [Podcast] {
-        podcastManager.allPodcastsOrderedByTitle(reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
+    public func allPodcastsOrderedByTitle() -> [Podcast] {
+        podcastManager.allPodcastsOrderedByTitle(dbQueue: dbQueue)
     }
 
-    public func allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: Bool = false) -> [Podcast] {
-        podcastManager.allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
+    public func allPodcastsOrderedByNewestEpisodes() -> [Podcast] {
+        podcastManager.allPodcastsOrderedByNewestEpisodes(dbQueue: dbQueue)
     }
 
-    public func allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: Bool = false) -> [Podcast] {
-        podcastManager.allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
+    public func allPodcastsOrderedByLastPlayedEpisodes() -> [Podcast] {
+        podcastManager.allPodcastsOrderedByLastPlayedEpisodes(dbQueue: dbQueue)
     }
 
-    public func allPodcastsOrderedByAddedDate(reloadFromDatabase: Bool = false) -> [Podcast] {
-        podcastManager.allPodcastsOrderedByAddedDate(reloadFromDatabase: reloadFromDatabase, dbQueue: dbQueue)
+    public func allPodcastsOrderedByAddedDate() -> [Podcast] {
+        podcastManager.allPodcastsOrderedByAddedDate(dbQueue: dbQueue)
     }
 
     public func findPodcast(uuid: String, includeUnsubscribed: Bool = false) -> Podcast? {
@@ -360,6 +361,11 @@ public class DataManager {
 
     public func podcastUnfinishedCounts() -> [String: Int32] {
         podcastManager.unfinishedCounts(dbQueue: dbQueue)
+    }
+
+    /// Subscribed podcasts with at least one completed episode and no unarchived unplayed or in-progress episodes.
+    public func playedPodcastUuids() -> Set<String> {
+        podcastManager.playedPodcastUuids(dbQueue: dbQueue)
     }
 
     public func markAllPodcastsSynced() {
@@ -1278,6 +1284,22 @@ public extension DataManager {
 
     func reconcileOrphanedEpisode(survivorId: Int64, realPodcastId: Int64, idsToDelete: [Int64]) {
         episodeManager.reconcileOrphanedEpisode(survivorId: survivorId, realPodcastId: realPodcastId, idsToDelete: idsToDelete, dbQueue: dbQueue)
+    }
+}
+
+// MARK: - Playback stats
+
+public extension DataManager {
+    func playbackPodcastStats(in year: Int) -> [PlaybackPodcastStats] {
+        playbackStatsManager.podcastStats(in: year, dbQueue: dbQueue)
+    }
+
+    func playbackMonthlySeconds(in year: Int) -> [Double] {
+        playbackStatsManager.monthlySeconds(in: year, dbQueue: dbQueue)
+    }
+
+    func playbackEpisodesStartedAndCompleted(in year: Int) -> (started: Int, completed: Int) {
+        playbackStatsManager.episodesStartedAndCompleted(in: year, dbQueue: dbQueue)
     }
 }
 

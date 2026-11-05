@@ -392,13 +392,9 @@ class EpisodeDataManager {
     }
 
     func save(episode: Episode, dbQueue: GRDBQueue) {
-        if episode.id == 0 {
-            episode.id = DBUtils.generateUniqueId()
-        }
-
         do {
             try dbQueue.dbPool.write { db in
-                try episode.save(db)
+                try insertOrSave(episode, in: db)
             }
         } catch {
             FileLog.shared.addMessage("EpisodeDataManager.save Episode error: \(error)")
@@ -409,14 +405,20 @@ class EpisodeDataManager {
         do {
             try dbQueue.dbPool.write { db in
                 for episode in episodes {
-                    if episode.id == 0 {
-                        episode.id = DBUtils.generateUniqueId()
-                    }
-                    try episode.save(db)
+                    try insertOrSave(episode, in: db)
                 }
             }
         } catch {
             FileLog.shared.addMessage("EpisodeDataManager.bulkSave error: \(error)")
+        }
+    }
+
+    private func insertOrSave(_ episode: Episode, in db: Database) throws {
+        if episode.id == 0 {
+            episode.id = DBUtils.generateUniqueId()
+            try episode.insert(db)
+        } else {
+            try episode.save(db)
         }
     }
 
@@ -1014,7 +1016,7 @@ class EpisodeDataManager {
         var saved = false
         dbQueue.write { db in
             do {
-                try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ? AND \(modifiedFieldName) = 0", values: [value, episodeUuid])
+                try db.executeUpdate(Self.saveFieldIfNotModifiedQuery(fieldName: fieldName, modifiedFieldName: modifiedFieldName), values: [value, episodeUuid])
                 saved = (db.changes > 0)
             } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.saveFieldIfNotModified error: \(error)")
@@ -1022,6 +1024,10 @@ class EpisodeDataManager {
         }
 
         return saved
+    }
+
+    static func saveFieldIfNotModifiedQuery(fieldName: String, modifiedFieldName: String) -> String {
+        "UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ? AND +\(modifiedFieldName) = 0"
     }
 
     private func saveFieldIfNotModified(fieldName: String, modifiedFieldName: String, value: Any, remoteModified: Int64, episodeUuid: String, dbQueue: GRDBQueue) -> Bool {

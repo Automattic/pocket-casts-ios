@@ -1,6 +1,5 @@
 import Foundation
 
-#if DEBUG
 public extension WhatsNewCatalog {
     /// A catalog shaped like the published contract, for previews and manual testing.
     ///
@@ -274,4 +273,3 @@ private extension WhatsNewMessage {
         content = message.content
     }
 }
-#endif

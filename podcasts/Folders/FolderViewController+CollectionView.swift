@@ -33,13 +33,14 @@ extension FolderViewController: UICollectionViewDelegate, UICollectionViewDataSo
 
         let libraryType = Settings.libraryType
         let badgeType = Settings.podcastBadgeType
+        let isPlayed = playedPodcastUuids.contains(podcast.uuid)
 
         if libraryType == .list {
             let castCell = cell as! PodcastListCell
-            castCell.populateFrom(podcast, badgeType: badgeType)
+            castCell.populateFrom(podcast, badgeType: badgeType, isPlayed: isPlayed)
         } else {
             let castCell = cell as! PodcastGridCell
-            castCell.populateFrom(podcast: podcast, badgeType: badgeType, libraryType: libraryType)
+            castCell.populateFrom(podcast: podcast, badgeType: badgeType, libraryType: libraryType, isPlayed: isPlayed)
         }
 
         // Keep the reorder-edit treatment in sync so reused/recycled cells stay correct.

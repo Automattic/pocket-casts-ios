@@ -41,6 +41,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
     var gridLayout: LibraryType = Settings.libraryType
 
     var isEditingOrder = false
+    var hasReorderedItems = false
     var savedRightBarButtonItem: UIBarButtonItem?
 
     private var lastWillLayoutWidth: CGFloat = 0
@@ -132,7 +133,8 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
             "badge_type": Settings.podcastBadgeType,
             "layout": Settings.libraryType,
             "number_of_podcasts": homeGridDataHelper.numberOfPodcasts,
-            "number_of_folders": homeGridDataHelper.numberOfFolders
+            "number_of_folders": homeGridDataHelper.numberOfFolders,
+            "hide_played_podcasts": FeatureFlag.hidePlayedPodcasts.enabled && Settings.hidePlayedPodcasts
         ])
 
         showRecentlyPlayedSortingTipIfNeeded()
@@ -384,9 +386,10 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
             guard let strongSelf = self else { return }
 
             let oldData = strongSelf.gridItems
-            var newData = HomeGridDataHelper.gridListItems(orderedBy: Settings.homeFolderSortOrder, badgeType: Settings.podcastBadgeType)
+            let hiddenPodcastUuids = Settings.hiddenPodcastUuids()
+            var newData = HomeGridDataHelper.gridListItems(orderedBy: Settings.homeFolderSortOrder, badgeType: Settings.podcastBadgeType, hiddenPodcastUuids: hiddenPodcastUuids)
 
-            if newData.isEmpty {
+            if newData.isEmpty, hiddenPodcastUuids.isEmpty {
                 newData = [HomeGridListItem.empty]
             }
 
@@ -454,6 +457,14 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         }
         badgesAction.submenu = { [weak self] in self?.makeBadgeOptionsPicker() }
         optionsPicker.addAction(action: badgesAction)
+
+        if FeatureFlag.hidePlayedPodcasts.enabled {
+            let playedPodcastsAction = OptionAction(label: L10n.podcastsPlayedPodcasts, secondaryLabel: playedPodcastsLabel(hide: Settings.hidePlayedPodcasts), icon: "eye") {
+                Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "played_podcasts"])
+            }
+            playedPodcastsAction.submenu = { [weak self] in self?.makePlayedPodcastsOptionsPicker() }
+            optionsPicker.addAction(action: playedPodcastsAction)
+        }
 
         if gridItems.contains(where: { !$0.isEmpty }) {
             let shareAction = OptionAction(label: L10n.podcastsShare, icon: "podcast-share") {
@@ -529,6 +540,25 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         options.addAction(action: unplayedCountAction)
 
         return options
+    }
+
+    private func makePlayedPodcastsOptionsPicker() -> OptionsPicker {
+        let options = OptionsPicker(title: L10n.podcastsPlayedPodcasts.localizedUppercase, description: L10n.podcastsPlayedPodcastsDescription)
+
+        for hide in [false, true] {
+            let action = OptionAction(label: playedPodcastsLabel(hide: hide), selected: Settings.hidePlayedPodcasts == hide) { [weak self] in
+                Settings.hidePlayedPodcasts = hide
+                self?.refreshGridItems()
+                Analytics.track(.podcastsListPlayedPodcastsChanged, properties: ["hide": hide])
+            }
+            options.addAction(action: action)
+        }
+
+        return options
+    }
+
+    private func playedPodcastsLabel(hide: Bool) -> String {
+        hide ? L10n.podcastsPlayedPodcastsHide : L10n.podcastsPlayedPodcastsShow
     }
 
     override func handleThemeChanged() {
