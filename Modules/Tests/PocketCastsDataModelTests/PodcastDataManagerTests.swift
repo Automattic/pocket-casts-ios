@@ -212,6 +212,34 @@ final class PodcastDataManagerTests: DataManagerTestCase {
         }
     }
 
+    // MARK: - playedPodcastUuids Tests
+
+    func testPlayedPodcastUuids() throws {
+        try runWithDataManager { dataManager in
+            let completed = PlayingStatus.completed.rawValue
+            let notPlayed = PlayingStatus.notPlayed.rawValue
+            let inProgress = PlayingStatus.inProgress.rawValue
+
+            let played = self.createPodcast(episodes: [(completed, false)], dataManager: dataManager)
+            let archivedUnplayed = self.createPodcast(episodes: [(completed, false), (notPlayed, true)], dataManager: dataManager)
+            _ = self.createPodcast(episodes: [(completed, false), (inProgress, false)], dataManager: dataManager)
+            _ = self.createPodcast(episodes: [(notPlayed, false)], dataManager: dataManager)
+            _ = self.createPodcast(episodes: [(notPlayed, true)], dataManager: dataManager)
+            _ = self.createPodcast(episodes: [], dataManager: dataManager)
+            _ = self.createPodcast(subscribed: 0, episodes: [(completed, false)], dataManager: dataManager)
+
+            XCTAssertEqual(dataManager.playedPodcastUuids(), [played.uuid, archivedUnplayed.uuid])
+        }
+    }
+
+    private func createPodcast(subscribed: Int32 = 1, episodes: [(playingStatus: Int32, archived: Bool)], dataManager: DataManager) -> Podcast {
+        let podcast = createTestPodcast(subscribed: subscribed, dataManager: dataManager)
+        for episode in episodes {
+            createTestEpisode(podcast: podcast, playingStatus: episode.playingStatus, archived: episode.archived, dataManager: dataManager)
+        }
+        return podcast
+    }
+
     // MARK: - delete Tests
 
     func testDeleteRemovesPodcast() throws {
@@ -222,6 +250,19 @@ final class PodcastDataManagerTests: DataManagerTestCase {
 
             let found = dataManager.findPodcast(uuid: podcast.uuid, includeUnsubscribed: true)
             XCTAssertNil(found, "Should delete podcast")
+        }
+    }
+
+    func testDeleteKeepsTheOtherCachedPodcasts() throws {
+        try runWithDataManager { dataManager in
+            let deleted = self.createTestPodcast(uuid: "deleted", title: "Deleted", dataManager: dataManager)
+            _ = self.createTestPodcast(uuid: "other", title: "Other", dataManager: dataManager)
+
+            dataManager.delete(podcast: deleted)
+
+            XCTAssertNil(dataManager.findPodcast(uuid: "deleted", includeUnsubscribed: true))
+            XCTAssertEqual(dataManager.findPodcast(uuid: "other")?.title, "Other")
+            XCTAssertEqual(dataManager.allPodcasts(includeUnsubscribed: true).count, 1)
         }
     }
 
@@ -949,6 +990,76 @@ final class PodcastDataManagerTests: DataManagerTestCase {
             XCTAssertEqual(found?.showArchived, true, "showArchived should be updated")
             XCTAssertEqual(found?.episodeGrouping, PodcastGrouping.season.rawValue, "episodeGrouping should be updated")
             XCTAssertEqual(found?.syncStatus, SyncStatus.synced.rawValue, "syncStatus should be updated")
+        }
+    }
+
+    func testSaveKeepsTheOtherCachedPodcasts() throws {
+        try runWithDataManager { dataManager in
+            let saved = self.createTestPodcast(uuid: "saved", title: "Saved", dataManager: dataManager)
+            _ = self.createTestPodcast(uuid: "other", title: "Other", dataManager: dataManager)
+
+            saved.title = "Saved Again"
+            dataManager.save(podcast: saved)
+
+            XCTAssertEqual(dataManager.findPodcast(uuid: "saved")?.title, "Saved Again")
+            XCTAssertEqual(dataManager.findPodcast(uuid: "other")?.title, "Other")
+            XCTAssertEqual(dataManager.allPodcasts(includeUnsubscribed: true).count, 2)
+        }
+    }
+
+    func testSaveCachesTheSavedValuesNotTheCallersObject() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(uuid: "copy-test-uuid", title: "Saved Title", dataManager: dataManager)
+
+            podcast.title = "Unsaved Title"
+
+            let found = dataManager.findPodcast(uuid: "copy-test-uuid")
+            XCTAssertEqual(found?.title, "Saved Title")
+            XCTAssertFalse(found === podcast)
+        }
+    }
+
+    func testCacheFollowsPodcastWritesMadeOutsideTheDataManager() throws {
+        try runWithDataManager { dataManager in
+            _ = self.createTestPodcast(uuid: "external", title: "Before", dataManager: dataManager)
+
+            try dataManager.dbQueue.dbPool.write { db in
+                try db.execute(sql: "UPDATE SJPodcast SET title = 'After' WHERE uuid = 'external'")
+            }
+
+            XCTAssertEqual(dataManager.findPodcast(uuid: "external")?.title, "After")
+        }
+    }
+
+    func testCacheIgnoresRolledBackPodcastWrites() throws {
+        struct Rollback: Error {}
+
+        try runWithDataManager { dataManager in
+            _ = self.createTestPodcast(uuid: "rolled-back", title: "Before", dataManager: dataManager)
+
+            XCTAssertThrowsError(try dataManager.dbQueue.dbPool.write { db in
+                try db.execute(sql: "UPDATE SJPodcast SET title = 'After' WHERE uuid = 'rolled-back'")
+                throw Rollback()
+            })
+
+            XCTAssertEqual(dataManager.findPodcast(uuid: "rolled-back")?.title, "Before")
+        }
+    }
+
+    func testCacheFollowsWritesWithTheCacheObserverOff() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.reloadOnlySavedPodcast, withValue: false)
+        defer { try? FeatureFlagOverrideStore().override(FeatureFlag.reloadOnlySavedPodcast, withValue: true) }
+
+        try runWithDataManager { dataManager in
+            let saved = self.createTestPodcast(uuid: "saved", title: "Saved", dataManager: dataManager)
+            let deleted = self.createTestPodcast(uuid: "deleted", title: "Deleted", dataManager: dataManager)
+
+            saved.title = "Saved Again"
+            dataManager.save(podcast: saved)
+            dataManager.delete(podcast: deleted)
+
+            XCTAssertEqual(dataManager.findPodcast(uuid: "saved")?.title, "Saved Again")
+            XCTAssertNil(dataManager.findPodcast(uuid: "deleted", includeUnsubscribed: true))
         }
     }
 

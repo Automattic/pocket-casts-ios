@@ -84,6 +84,7 @@ public enum AnalyticsEvent: String {
     case podcastsListSortOrderChanged
     case podcastsListLayoutChanged
     case podcastsListBadgesChanged
+    case podcastsListPlayedPodcastsChanged
     case podcastsListDiscoverButtonTapped
     case podcastsListNotificationsTapped
 

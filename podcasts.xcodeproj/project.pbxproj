@@ -2908,6 +2908,7 @@
 		3F584D252F567EA6005A3593 /* Watch Communication */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Watch Communication"; sourceTree = "<group>"; };
 		3F584D262F567EE1005A3593 /* Lists */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (FF603BAA2FAB4F7100EB3AD5 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Lists; sourceTree = "<group>"; };
 		3F584DED2F56811B005A3593 /* End of Year */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "End of Year"; sourceTree = "<group>"; };
+		3F584E3E2F568131005A3594 /* Playback 2026 */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Playback 2026"; sourceTree = "<group>"; };
 		3F584E3E2F568131005A3593 /* Whats New */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Whats New"; sourceTree = "<group>"; };
 		3F584E492F568154005A3593 /* Theme */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Theme; sourceTree = "<group>"; };
 		3F584E4D2F5682BA005A3593 /* Google Cast */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Google Cast"; sourceTree = "<group>"; };
@@ -3485,6 +3486,7 @@
 				871975870906424F8C3C70B0 /* Modules */,
 				3F584DED2F56811B005A3593 /* End of Year */,
 				3F584E3E2F568131005A3593 /* Whats New */,
+				3F584E3E2F568131005A3594 /* Playback 2026 */,
 			);
 			name = Modules;
 			sourceTree = "<group>";
@@ -5712,6 +5714,7 @@
 				3F584D262F567EE1005A3593 /* Lists */,
 				3F584DED2F56811B005A3593 /* End of Year */,
 				3F584E3E2F568131005A3593 /* Whats New */,
+				3F584E3E2F568131005A3594 /* Playback 2026 */,
 				3F584E492F568154005A3593 /* Theme */,
 				3F584E4D2F5682BA005A3593 /* Google Cast */,
 				3F584E4F2F568314005A3593 /* CarPlay */,

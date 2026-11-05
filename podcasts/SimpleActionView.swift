@@ -75,6 +75,7 @@ class SimpleActionView: UIView {
 
         if let image {
             let imageView = UIImageView(image: image)
+            imageView.contentMode = .scaleAspectFit
             imageView.translatesAutoresizingMaskIntoConstraints = false
             addSubview(imageView)
 
