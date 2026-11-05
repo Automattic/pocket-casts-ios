@@ -12,7 +12,7 @@ enum LogSource: String, CaseIterable {
 class LogsViewModel: NSObject, ObservableObject, MFMailComposeViewControllerDelegate {
     @Published var logs = ""
     @Published var selectedSource: LogSource = .iOS
-    var presenter: UIViewController?
+    weak var presenter: UIViewController?
 
     init(presenter: UIViewController? = nil) {
         self.presenter = presenter
