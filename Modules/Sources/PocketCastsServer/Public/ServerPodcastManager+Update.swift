@@ -33,7 +33,7 @@ extension ServerPodcastManager {
         }
     }
 
-    private func update(podcast: Podcast, podcastInfo: [String: Any], lastModified: String?, addMissingEpisodes: Bool) {
+    func update(podcast: Podcast, podcastInfo: [String: Any], lastModified: String?, addMissingEpisodes: Bool) {
         guard let podcastJson = podcastInfo["podcast"] as? [String: Any], let episodesJson = podcastJson["episodes"] as? [[String: Any]] else { return }
 
         podcast.lastUpdatedAt = lastModified
@@ -96,11 +96,13 @@ extension ServerPodcastManager {
 
         var latestAvailableEpisodeUuid: String?
 
+        var episodesToSave = [String: Episode]()
+
         for episodeJson in episodesJson {
             guard let uuid = episodeJson["uuid"] as? String, let publishedStr = episodeJson["published"] as? String, let episodeDate = ISO8601DateParser.date(from: publishedStr) else { continue }
 
             // for existing episodes, update the fields we want to pick up when they change
-            if let existingEpisode = DataManager.shared.findEpisode(uuid: uuid) {
+            if let existingEpisode = episodesToSave[uuid] ?? DataManager.shared.findEpisode(uuid: uuid) {
                 var episodeChanged = false
                 if let title = episodeJson["title"] as? String, existingEpisode.title != title {
                     existingEpisode.title = title
@@ -139,7 +141,7 @@ extension ServerPodcastManager {
                 }
 
                 if episodeChanged {
-                    DataManager.shared.save(episode: existingEpisode)
+                    episodesToSave[uuid] = existingEpisode
                 }
 
                 if latestEpisodeWasMissing == true {
@@ -206,7 +208,11 @@ extension ServerPodcastManager {
 
             episode.hlsUrl = Episode.hlsUrl(fromEpisodeJson: episodeJson)
 
-            DataManager.shared.save(episode: episode)
+            episodesToSave[uuid] = episode
+        }
+
+        if !episodesToSave.isEmpty {
+            DataManager.shared.bulkSave(episodes: Array(episodesToSave.values))
         }
 
         if !podcast.isSubscribed() {
