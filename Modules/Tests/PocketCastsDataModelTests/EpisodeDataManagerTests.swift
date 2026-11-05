@@ -252,6 +252,76 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
         }
     }
 
+    // MARK: - New episode ID Tests
+
+    func testNewEpisodesGetIdsAfterTheLargestId() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let existing = self.makeEpisode(podcast: podcast)
+            existing.id = 5_000_000_000_000_000_000
+            dataManager.save(episode: existing)
+
+            let episodes = (0..<3).map { _ in self.makeEpisode(podcast: podcast) }
+            dataManager.bulkSave(episodes: episodes)
+            let single = self.makeEpisode(podcast: podcast)
+            dataManager.save(episode: single)
+
+            XCTAssertEqual((episodes + [single]).map(\.id), [
+                5_000_000_000_000_000_001,
+                5_000_000_000_000_000_002,
+                5_000_000_000_000_000_003,
+                5_000_000_000_000_000_004
+            ])
+            for episode in episodes + [single] {
+                XCTAssertEqual(dataManager.findEpisode(uuid: episode.uuid)?.id, episode.id)
+            }
+        }
+    }
+
+    func testNewEpisodeDoesNotReuseTheIdOfADeletedEpisode() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let deleted = self.makeEpisode(podcast: podcast)
+            dataManager.save(episode: deleted)
+            dataManager.delete(episodeUuid: deleted.uuid)
+
+            let new = self.makeEpisode(podcast: podcast)
+            dataManager.save(episode: new)
+
+            XCTAssertGreaterThan(new.id, deleted.id)
+            XCTAssertEqual(dataManager.findEpisode(uuid: new.uuid)?.id, new.id)
+        }
+    }
+
+    func testNewEpisodeIsSavedWhenTheLargestIdIsTaken() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let existing = self.makeEpisode(podcast: podcast)
+            existing.id = Int64.max
+            dataManager.save(episode: existing)
+
+            let new = self.makeEpisode(podcast: podcast)
+            dataManager.save(episode: new)
+
+            XCTAssertNotEqual(new.id, 0)
+            XCTAssertNotEqual(new.id, Int64.max)
+            XCTAssertEqual(dataManager.findEpisode(uuid: new.uuid)?.id, new.id)
+            XCTAssertEqual(dataManager.findEpisode(uuid: existing.uuid)?.id, Int64.max)
+        }
+    }
+
+    private func makeEpisode(podcast: Podcast) -> Episode {
+        let episode = Episode()
+        episode.uuid = UUID().uuidString
+        episode.podcastUuid = podcast.uuid
+        episode.podcast_id = podcast.id
+        episode.addedDate = Date()
+        episode.publishedDate = Date()
+        episode.playingStatus = PlayingStatus.notPlayed.rawValue
+        episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
+        return episode
+    }
+
     // MARK: - delete Tests
 
     func testDeleteRemovesEpisode() throws {

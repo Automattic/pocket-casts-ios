@@ -415,11 +415,23 @@ class EpisodeDataManager {
 
     private func insertOrSave(_ episode: Episode, in db: Database) throws {
         if episode.id == 0 {
-            episode.id = DBUtils.generateUniqueId()
+            episode.id = try newEpisodeId(in: db)
             try episode.insert(db)
         } else {
             try episode.save(db)
         }
+    }
+
+    private var lastNewEpisodeId: Int64 = 0
+
+    private func newEpisodeId(in db: Database) throws -> Int64 {
+        let maxId = try Int64.fetchOne(db, sql: "SELECT MAX(id) FROM \(DataManager.episodeTableName)") ?? 0
+        let lastId = max(maxId, lastNewEpisodeId)
+        guard lastId < Int64.max else {
+            return DBUtils.generateUniqueId()
+        }
+        lastNewEpisodeId = lastId + 1
+        return lastNewEpisodeId
     }
 
     func bulkSetStarred(starred: Bool, episodes: [Episode], updateSyncFlag: Bool, dbQueue: GRDBQueue) {
