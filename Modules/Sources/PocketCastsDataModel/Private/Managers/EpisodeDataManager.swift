@@ -1025,7 +1025,9 @@ class EpisodeDataManager {
     }
 
     static func saveFieldIfNotModifiedQuery(fieldName: String, modifiedFieldName: String) -> String {
-        "UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ? AND +\(modifiedFieldName) = 0"
+        // Almost every episode has `<field>Modified = 0`, but without the hint SQLite looks the episode up with
+        // that column's index and reads the whole table for each change the sync applies, instead of using `uuid`
+        "UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ? AND \(IndexHint.skipIndex(modifiedFieldName)) = 0"
     }
 
     private func saveFieldIfNotModified(fieldName: String, modifiedFieldName: String, value: Any, remoteModified: Int64, episodeUuid: String, dbQueue: GRDBQueue) -> Bool {
