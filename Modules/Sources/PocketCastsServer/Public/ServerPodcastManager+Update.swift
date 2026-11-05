@@ -213,7 +213,7 @@ extension ServerPodcastManager {
         }
 
         if !newEpisodes.isEmpty {
-            DataManager.shared.bulkSave(episodes: Array(newEpisodes.values))
+            DataManager.shared.insertMissing(episodes: Array(newEpisodes.values))
         }
 
         if !podcast.isSubscribed() {

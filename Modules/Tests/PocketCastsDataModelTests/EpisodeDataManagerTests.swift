@@ -1473,6 +1473,64 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
         }
     }
 
+    func testInsertMissingSkipsEpisodesThatAlreadyExist() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+
+            func newEpisode(uuid: String, title: String) -> Episode {
+                let episode = Episode()
+                episode.uuid = uuid
+                episode.podcastUuid = podcast.uuid
+                episode.podcast_id = podcast.id
+                episode.title = title
+                episode.addedDate = Date()
+                return episode
+            }
+
+            let missing = newEpisode(uuid: "missing", title: "Missing")
+            let insertedMeanwhile = newEpisode(uuid: "inserted-meanwhile", title: "From the update")
+            let duplicate = newEpisode(uuid: "missing", title: "Duplicate")
+            self.createTestEpisode(uuid: "inserted-meanwhile", podcast: podcast, title: "From sync", dataManager: dataManager)
+
+            dataManager.insertMissing(episodes: [missing, insertedMeanwhile, duplicate])
+
+            let episodes = dataManager.allEpisodes(forPodcastId: podcast.id)
+            XCTAssertEqual(episodes.map(\.uuid).sorted(), ["inserted-meanwhile", "missing"], "Each uuid should be saved once")
+            XCTAssertEqual(dataManager.findEpisode(uuid: "inserted-meanwhile")?.title, "From sync", "An episode that already exists should be left as it is")
+            XCTAssertEqual(dataManager.findEpisode(uuid: "missing")?.id, missing.id, "The missing episode should be saved with its ID")
+            XCTAssertEqual(insertedMeanwhile.id, 0, "A skipped episode should not get an ID")
+            XCTAssertEqual(duplicate.id, 0, "A skipped episode should not get an ID")
+        }
+    }
+
+    func testInsertMissingSavesTheOtherEpisodesWhenOneInsertFails() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+
+            try dataManager.dbQueue.dbPool.write { db in
+                try db.execute(sql: """
+                CREATE TRIGGER failInsert BEFORE INSERT ON \(DataManager.episodeTableName)
+                WHEN NEW.uuid = 'failing'
+                BEGIN SELECT RAISE(ABORT, 'Insert failed'); END
+                """)
+            }
+
+            let episodes = ["before", "failing", "after"].map { uuid in
+                let episode = Episode()
+                episode.uuid = uuid
+                episode.podcastUuid = podcast.uuid
+                episode.podcast_id = podcast.id
+                episode.addedDate = Date()
+                return episode
+            }
+
+            dataManager.insertMissing(episodes: episodes)
+
+            XCTAssertEqual(dataManager.allEpisodes(forPodcastId: podcast.id).map(\.uuid).sorted(), ["after", "before"], "Only the failing episode should be missing")
+            XCTAssertEqual(episodes[1].id, 0, "The episode that failed to insert should not keep an ID")
+        }
+    }
+
     // MARK: - Helper method override for additional properties
 
     @discardableResult
