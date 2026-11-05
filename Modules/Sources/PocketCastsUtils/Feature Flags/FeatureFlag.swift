@@ -270,8 +270,8 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show the Played Podcasts option in the Podcasts tab, which hides podcasts with nothing left to listen to
     case hidePlayedPodcasts
 
-    /// Start the refresh on open as soon as the network is connected, instead of always waiting 2 seconds
-    case refreshOnOpenWithoutDelay
+    /// Start the refresh on open 1 second after the app becomes active, as on Android, instead of 2 seconds
+    case shorterRefreshOnOpenDelay
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -461,7 +461,7 @@ public enum FeatureFlag: String, CaseIterable {
             BuildEnvironment.current == .debug
         case .hidePlayedPodcasts:
             false
-        case .refreshOnOpenWithoutDelay:
+        case .shorterRefreshOnOpenDelay:
             true
         }
     }
