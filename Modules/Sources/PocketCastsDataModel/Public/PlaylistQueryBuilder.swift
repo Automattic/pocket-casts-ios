@@ -388,6 +388,12 @@ public class PlaylistQueryBuilder {
 
         let whereTail = trimmedValues.isEmpty ? "" : " \(trimmedValues)"
 
+        // When the unplayed term can't use the playingStatus index (see `unplayedTerm(column:)`) and no other term
+        // can use an index, SQLite reads the episodes in the uuid index's order to get the PARTITION BY order for
+        // free, but then looks up every row in the table one by one. Without that index, it reads the table in
+        // order and sorts the matches instead, which is faster.
+        let partitionColumn = IndexHint.skipIndex("f.uuid")
+
         return """
         WITH filtered AS (
           SELECT episode.uuid,
@@ -404,7 +410,7 @@ public class PlaylistQueryBuilder {
           FROM (
             SELECT f.uuid,
                    ROW_NUMBER() OVER (
-                     PARTITION BY f.uuid
+                     PARTITION BY \(partitionColumn)
                      ORDER BY
                        CASE WHEN f.episodeStatus = 1 THEN 0 ELSE 1 END,
                        f.id ASC
@@ -713,7 +719,7 @@ public class PlaylistQueryBuilder {
         if !(playlist.filterUnplayed && playlist.filterPartiallyPlayed && playlist.filterFinished), playlist.filterUnplayed || playlist.filterPartiallyPlayed || playlist.filterFinished {
             queryString += "("
             if playlist.filterUnplayed {
-                queryString += "episode.playingStatus = \(PlayingStatus.notPlayed.rawValue) "
+                queryString += "\(unplayedTerm(column: "episode.playingStatus")) "
             }
             if playlist.filterPartiallyPlayed {
                 if playlist.filterUnplayed { queryString += "OR " }
@@ -729,6 +735,13 @@ public class PlaylistQueryBuilder {
             queryString += ") "
             haveStartedWhere = true
         }
+    }
+
+    /// Almost every episode is unplayed, but without the hint SQLite looks episodes up with the playingStatus index
+    /// and reads most of the table, instead of using a selective term such as the `publishedDate` range. The in-progress
+    /// term keeps the index: few episodes are in progress, so the index finds them fast.
+    private static func unplayedTerm(column: String) -> String {
+        "\(IndexHint.skipIndex(column)) = \(PlayingStatus.notPlayed.rawValue)"
     }
 
     private static func buildDownloadStatusQuery(
@@ -874,7 +887,7 @@ public class PlaylistQueryBuilder {
         if !(filter.filterUnplayed && filter.filterPartiallyPlayed && filter.filterFinished), filter.filterUnplayed || filter.filterPartiallyPlayed || filter.filterFinished {
             queryString += "("
             if filter.filterUnplayed {
-                queryString += "playingStatus = \(PlayingStatus.notPlayed.rawValue) "
+                queryString += "\(unplayedTerm(column: "playingStatus")) "
             }
             if filter.filterPartiallyPlayed {
                 if filter.filterUnplayed { queryString += "OR " }

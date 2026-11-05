@@ -528,9 +528,11 @@ class EpisodeManager: NSObject {
     }
 
     private class func allDownloadEpisodesWithStatus(_ playbackStatus: PlayingStatus, includeStarred: Bool) -> [Episode] {
-        var query = "episodeStatus == \(DownloadStatus.downloaded.rawValue) AND playingStatus == \(playbackStatus.rawValue)"
+        // Unplayed and unstarred episodes are almost all of the library, but without the hints SQLite looks episodes
+        // up with the playingStatus or keepEpisode index and reads most of the table, instead of the few downloaded ones
+        var query = "episodeStatus == \(DownloadStatus.downloaded.rawValue) AND \(IndexHint.skipIndex("playingStatus")) == \(playbackStatus.rawValue)"
         if !includeStarred {
-            query += " AND keepEpisode == 0"
+            query += " AND \(IndexHint.skipIndex("keepEpisode")) == 0"
         }
 
         return DataManager.shared.findEpisodesWhere(customWhere: query, arguments: nil)

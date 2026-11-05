@@ -1,9 +1,20 @@
 import XCTest
 import GRDB
 @testable import PocketCastsDataModel
+import PocketCastsUtils
 
 /// Checks the updates the sync makes for each changed episode: they look the episode up by its UUID and skip episodes with unsynced local changes.
 final class EpisodeSaveIfNotModifiedTests: DataManagerTestCase {
+
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+        try FeatureFlagOverrideStore().override(FeatureFlag.episodeQueryIndexHints, withValue: true)
+    }
+
+    override func tearDown() {
+        FeatureFlagOverrideStore().resetOverrides()
+        super.tearDown()
+    }
 
     func testQueriesUseTheUuidIndex() throws {
         let fields = [

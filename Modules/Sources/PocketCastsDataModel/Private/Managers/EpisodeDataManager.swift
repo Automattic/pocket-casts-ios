@@ -140,13 +140,17 @@ class EpisodeDataManager {
 
     func findEpisodes(with term: String, podcastUUID: String, dbQueue: GRDBQueue) -> [Episode] {
         let escapedSearch = term.escapeLike(escapeChar: "\\")
-        let query = """
+        return findEpisodesWhere(customWhere: Self.findEpisodesWithTermWhereClause(), arguments: [escapedSearch, podcastUUID], dbQueue: dbQueue)
+    }
+
+    static func findEpisodesWithTermWhereClause() -> String {
+        // Almost every episode has `wasDeleted = 0`, but without the hint SQLite looks episodes up with that
+        // column's index and reads the whole table for each search, instead of using `podcastUuid`
+        """
         (UPPER(title) LIKE '%' || UPPER(?) || '%'  ESCAPE '\\' AND
-        podcastUuid = ? AND wasDeleted = 0)
+        podcastUuid = ? AND \(IndexHint.skipIndex("wasDeleted")) = 0)
         ORDER BY publishedDate DESC, addedDate DESC
         """
-
-        return findEpisodesWhere(customWhere: query, arguments: [escapedSearch, podcastUUID], dbQueue: dbQueue)
     }
 
     func findPlaylistEpisodesWhere(query: String, arguments: [Any]?, dbQueue: GRDBQueue) -> [Episode] {
@@ -1025,7 +1029,9 @@ class EpisodeDataManager {
     }
 
     static func saveFieldIfNotModifiedQuery(fieldName: String, modifiedFieldName: String) -> String {
-        "UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ? AND +\(modifiedFieldName) = 0"
+        // Almost every episode has `<field>Modified = 0`, but without the hint SQLite looks the episode up with
+        // that column's index and reads the whole table for each change the sync applies, instead of using `uuid`
+        "UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ? AND \(IndexHint.skipIndex(modifiedFieldName)) = 0"
     }
 
     private func saveFieldIfNotModified(fieldName: String, modifiedFieldName: String, value: Any, remoteModified: Int64, episodeUuid: String, dbQueue: GRDBQueue) -> Bool {
