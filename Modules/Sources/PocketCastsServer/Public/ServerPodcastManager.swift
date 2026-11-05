@@ -10,7 +10,14 @@ public class ServerPodcastManager: NSObject {
         return formatter
     }()
 
-    lazy var subscribeQueue: OperationQueue = {
+    let subscribeQueue: OperationQueue = {
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 1
+
+        return queue
+    }()
+
+    private let episodeParsingQueue: OperationQueue = {
         let queue = OperationQueue()
         queue.maxConcurrentOperationCount = 1
 
@@ -83,13 +90,37 @@ public class ServerPodcastManager: NSObject {
     }
 
     public func addFromJson(podcastUuid: String, lastModified: String?, podcastInfo: [String: Any], subscribe: Bool, autoDownloads: Int, completion: ((Bool) -> Void)?) {
+        guard FeatureFlag.parseEpisodesBeforeInsertQueue.enabled,
+              let podcastJson = podcastInfo["podcast"] as? [String: Any],
+              let uuid = podcastJson["uuid"] as? String,
+              DataManager.shared.findPodcast(uuid: uuid, includeUnsubscribed: true) == nil else {
+            addOnSubscribeQueue(podcastInfo: podcastInfo, parsedEpisodes: nil, subscribe: subscribe, autoDownloads: autoDownloads, lastModified: lastModified, completion: completion)
+            return
+        }
+
+        episodeParsingQueue.addOperation { [weak self] in
+            let episodes = ServerPodcastManager.episodes(fromPodcastJson: podcastJson, podcastUuid: uuid)
+            self?.addOnSubscribeQueue(podcastInfo: podcastInfo, parsedEpisodes: episodes, subscribe: subscribe, autoDownloads: autoDownloads, lastModified: lastModified, completion: completion)
+        }
+    }
+
+    private func addOnSubscribeQueue(podcastInfo: [String: Any], parsedEpisodes: [Episode]?, subscribe: Bool, autoDownloads: Int, lastModified: String?, completion: ((Bool) -> Void)?) {
         subscribeQueue.addOperation { [weak self] in
             guard let strongSelf = self else { return }
 
-            let added = strongSelf.addPodcast(podcastInfo: podcastInfo, subscribe: subscribe, autoDownloads: autoDownloads, lastModified: lastModified)
+            let added = strongSelf.addPodcast(podcastInfo: podcastInfo, subscribe: subscribe, autoDownloads: autoDownloads, lastModified: lastModified, parsedEpisodes: parsedEpisodes)
             if subscribe, added { ServerConfig.shared.syncDelegate?.subscribedToPodcast() } // addFromUuid and addFromiTunesId end up here, so just need this one analytic
             completion?(added)
         }
+    }
+
+    /// The episodes in a podcast's JSON, or `nil` when it has no list of episodes. Their `podcast_id` is set once
+    /// the podcast is saved.
+    private static func episodes(fromPodcastJson podcastJson: [String: Any], podcastUuid: String) -> [Episode]? {
+        guard let episodesJson = podcastJson["episodes"] as? [[String: Any]] else { return nil }
+
+        let isoFormatter = ISO8601DateFormatter()
+        return episodesJson.map { Episode.from(episodeJson: $0, podcastId: 0, podcastUuid: podcastUuid, isoFormatter: isoFormatter) }
     }
 
     public func addPodcastFromUpNextItem(_ upNextItem: UpNextItem, completion: ((Bool) -> Void)?) {
@@ -200,7 +231,7 @@ public class ServerPodcastManager: NSObject {
         DataManager.shared.save(episode: episode)
     }
 
-    private func addPodcast(podcastInfo: [String: Any], subscribe: Bool, autoDownloads: Int = 0, lastModified: String?) -> Bool {
+    private func addPodcast(podcastInfo: [String: Any], subscribe: Bool, autoDownloads: Int = 0, lastModified: String?, parsedEpisodes: [Episode]? = nil) -> Bool {
         guard let podcastJson = podcastInfo["podcast"] as? [String: Any], let podcastUuid = podcastJson["uuid"] as? String else { return false }
 
         // check if we already have this podcast, and if we do treat it differently
@@ -225,18 +256,27 @@ public class ServerPodcastManager: NSObject {
 
         podcast.sortOrder = highestSortOrderForHomeGrid() + 1
 
-        // we don't accept podcasts with no episodes
-        guard let episodesJson = podcastJson["episodes"] as? [[String: Any]] else { return false }
+        if let parsedEpisodes {
+            DataManager.shared.save(podcast: podcast)
 
-        // save the podcast so that it gets and ID
-        DataManager.shared.save(podcast: podcast)
+            for episode in parsedEpisodes {
+                episode.podcast_id = podcast.id
+            }
+            DataManager.shared.bulkSave(episodes: parsedEpisodes)
+        } else {
+            // we don't accept podcasts with no episodes
+            guard let episodesJson = podcastJson["episodes"] as? [[String: Any]] else { return false }
 
-        var episodes = [Episode]()
-        for episodeJson in episodesJson {
-            let episode = Episode.from(episodeJson: episodeJson, podcastId: podcast.id, podcastUuid: podcast.uuid, isoFormatter: isoFormatter)
-            episodes.append(episode)
+            // save the podcast so that it gets and ID
+            DataManager.shared.save(podcast: podcast)
+
+            var episodes = [Episode]()
+            for episodeJson in episodesJson {
+                let episode = Episode.from(episodeJson: episodeJson, podcastId: podcast.id, podcastUuid: podcast.uuid, isoFormatter: isoFormatter)
+                episodes.append(episode)
+            }
+            DataManager.shared.bulkSave(episodes: episodes)
         }
-        DataManager.shared.bulkSave(episodes: episodes)
 
         updateLatestEpisodeInfo(podcast: podcast, setDefaults: subscribe, autoDownloadLimit: autoDownloads)
 
