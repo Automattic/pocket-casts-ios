@@ -1,3 +1,4 @@
+// CI skip probe: tvOS-only change. Close this validation PR without merging.
 import SwiftUI
 
 struct RootView: View {
