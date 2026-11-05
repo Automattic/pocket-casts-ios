@@ -13,6 +13,13 @@ class SyncTask: ApiBaseTask, @unchecked Sendable {
         return queue
     }()
 
+    let episodeStateQueue: OperationQueue = {
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 1
+
+        return queue
+    }()
+
     var totalToImport = 0
     var upToPodcast = 0
 

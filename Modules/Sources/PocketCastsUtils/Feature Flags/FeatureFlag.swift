@@ -273,8 +273,8 @@ public enum FeatureFlag: String, CaseIterable {
     /// Update the podcast cache from the rows each write changes, instead of reloading every podcast after each write
     case reloadOnlySavedPodcast
 
-    /// Fetch and save each podcast's episode state on the full sync's import threads, instead of on the queue
-    /// that adds podcasts one at a time
+    /// Fetch each podcast's episode state before the full sync adds the podcast, instead of on the queue that
+    /// adds podcasts one at a time
     case fullSyncEpisodeStateOffInsertQueue
 
     public var enabled: Bool {

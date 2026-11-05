@@ -10,8 +10,9 @@ import XCTest
 /// through the same queues as in the app. They need the app's keychain for the sync token.
 final class FullSyncPodcastImportTests: XCTestCase {
     private let lastSyncAt = "2026-11-05T10:00:00Z"
-    private let featureFlagMock = FeatureFlagMock()
+    private var originalSyncToken: String?
     private var originalDataManager: DataManager!
+    private var directory: URL!
     private var databasePath: String!
     private var dataManager: DataManager!
     private var podcastUuid: String!
@@ -19,10 +20,13 @@ final class FullSyncPodcastImportTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
 
+        originalSyncToken = ServerSettings.syncingV2Token
         ServerSettings.syncingV2Token = "token"
 
+        directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        databasePath = directory.appendingPathComponent("podcasts.sqlite").path
         originalDataManager = DataManager.shared
-        databasePath = NSTemporaryDirectory().appending("\(UUID().uuidString).sqlite")
         dataManager = DataManager(dbQueue: GRDBQueue(dbPool: try DatabasePool(path: databasePath)))
         DataManager.shared = dataManager
 
@@ -31,70 +35,164 @@ final class FullSyncPodcastImportTests: XCTestCase {
         URLProtocol.registerClass(FullSyncURLProtocol.self)
     }
 
-    override func tearDown() {
+    override func tearDownWithError() throws {
         URLProtocol.unregisterClass(FullSyncURLProtocol.self)
-        KeychainHelper.removeKey(ServerConstants.Values.syncingV2TokenKey)
-        featureFlagMock.reset()
+        ServerSettings.syncingV2Token = originalSyncToken
         DataManager.shared = originalDataManager
-        super.tearDown()
+        dataManager = nil
+        try FileManager.default.removeItem(at: directory)
+        try super.tearDownWithError()
     }
 
-    func testSavesTheSyncInfoWhenTheEpisodeStateIsRetrievedOnTheImportThread() throws {
-        featureFlagMock.set(.fullSyncEpisodeStateOffInsertQueue, value: true)
+    // MARK: - Episode state retrieved before adding the podcast
 
-        try processPodcastAndCheckTheSyncInfo()
+    func testSavesTheSyncInfoWhenTheEpisodeStateIsRetrievedBeforeAdding() throws {
+        processPodcast(retrievesEpisodeStateBeforeAdding: true)
+
+        try checkTheSyncInfo()
+        XCTAssertEqual(FullSyncURLProtocol.episodeStateRequestCount, 1)
     }
+
+    func testWaitsForTheEpisodeStateWhenItArrivesAfterThePodcast() throws {
+        FullSyncURLProtocol.episodeStateDelay = 0.5
+
+        processPodcast(retrievesEpisodeStateBeforeAdding: true)
+
+        try checkTheSyncInfo()
+    }
+
+    func testRetriesTheEpisodeStateRequestOnce() throws {
+        FullSyncURLProtocol.episodeStateStatusCodes = [500, 200]
+
+        processPodcast(retrievesEpisodeStateBeforeAdding: true)
+
+        try checkTheSyncInfo()
+        XCTAssertEqual(FullSyncURLProtocol.episodeStateRequestCount, 2)
+    }
+
+    func testSavesThePodcastWhenTheEpisodeStateCannotBeRetrievedBeforeAdding() throws {
+        FullSyncURLProtocol.episodeStateStatusCodes = [500, 500]
+
+        processPodcast(retrievesEpisodeStateBeforeAdding: true)
+
+        try checkTheSyncInfoWithoutTheEpisodeState()
+        XCTAssertEqual(FullSyncURLProtocol.episodeStateRequestCount, 2)
+    }
+
+    func testSavesEverythingAfterTheImportThreadStopsWaitingWhenTheEpisodeStateIsRetrievedBeforeAdding() throws {
+        try processPodcastPastTheTimeoutAndCheckTheSyncInfo(retrievesEpisodeStateBeforeAdding: true)
+    }
+
+    func testRetrievesNoEpisodeStateWhenThePodcastCannotBeLoaded() throws {
+        FullSyncURLProtocol.podcastStatusCode = 404
+
+        processPodcast(retrievesEpisodeStateBeforeAdding: true)
+
+        XCTAssertNil(try savedPodcast())
+        XCTAssertEqual(FullSyncURLProtocol.episodeStateRequestCount, 0)
+    }
+
+    // MARK: - Episode state retrieved on the insert queue
 
     func testSavesTheSyncInfoWhenTheEpisodeStateIsRetrievedOnTheInsertQueue() throws {
-        featureFlagMock.set(.fullSyncEpisodeStateOffInsertQueue, value: false)
+        processPodcast(retrievesEpisodeStateBeforeAdding: false)
 
-        try processPodcastAndCheckTheSyncInfo()
+        try checkTheSyncInfo()
+        XCTAssertEqual(FullSyncURLProtocol.episodeStateRequestCount, 1)
+    }
+
+    func testSavesThePodcastWhenTheEpisodeStateCannotBeRetrievedOnTheInsertQueue() throws {
+        FullSyncURLProtocol.episodeStateStatusCodes = [500]
+
+        processPodcast(retrievesEpisodeStateBeforeAdding: false)
+
+        try checkTheSyncInfoWithoutTheEpisodeState()
+        XCTAssertEqual(FullSyncURLProtocol.episodeStateRequestCount, 1)
+    }
+
+    func testSavesEverythingAfterTheImportThreadStopsWaitingWhenTheEpisodeStateIsRetrievedOnTheInsertQueue() throws {
+        try processPodcastPastTheTimeoutAndCheckTheSyncInfo(retrievesEpisodeStateBeforeAdding: false)
     }
 
     func testSavesNothingWhenThePodcastCannotBeAdded() throws {
-        featureFlagMock.set(.fullSyncEpisodeStateOffInsertQueue, value: true)
         FullSyncURLProtocol.podcastStatusCode = 404
 
-        processPodcast()
+        processPodcast(retrievesEpisodeStateBeforeAdding: false)
 
         XCTAssertNil(try savedPodcast())
-        XCTAssertNil(dataManager.findEpisode(uuid: "\(podcastUuid!)-1"))
+        XCTAssertEqual(FullSyncURLProtocol.episodeStateRequestCount, 0)
     }
 
     // MARK: - Helpers
 
-    private func processPodcastAndCheckTheSyncInfo() throws {
-        processPodcast()
+    private func processPodcastPastTheTimeoutAndCheckTheSyncInfo(retrievesEpisodeStateBeforeAdding: Bool) throws {
+        FullSyncURLProtocol.episodeStateDelay = 1
 
-        let podcast = try XCTUnwrap(savedPodcast())
-        XCTAssertEqual(podcast.startFrom, 30)
-        XCTAssertEqual(podcast.skipLast, 15)
-        XCTAssertEqual(podcast.sortOrder, 7)
-        XCTAssertEqual(podcast.syncStatus, SyncStatus.synced.rawValue)
-        XCTAssertEqual(podcast.fullSyncLastSyncAt, lastSyncAt)
+        processPodcast(retrievesEpisodeStateBeforeAdding: retrievesEpisodeStateBeforeAdding, timeout: .milliseconds(200))
 
-        let played = try XCTUnwrap(dataManager.findEpisode(uuid: "\(podcastUuid!)-1"))
+        XCTAssertNotEqual(try savedPodcast()?.fullSyncLastSyncAt, lastSyncAt)
+
+        let played = XCTNSPredicateExpectation(predicate: NSPredicate { [unowned self] _, _ in
+            (try? savedEpisode(number: 1))?.playingStatus == PlayingStatus.completed.rawValue
+        }, object: nil)
+        wait(for: [played], timeout: 10)
+
+        try checkTheSyncInfo()
+    }
+
+    private func checkTheSyncInfo() throws {
+        let podcast = try checkThePodcastSyncInfo()
+
+        let played = try XCTUnwrap(savedEpisode(number: 1))
         XCTAssertEqual(played.podcast_id, podcast.id)
         XCTAssertEqual(played.playingStatus, PlayingStatus.completed.rawValue)
         XCTAssertEqual(played.playedUpTo, 540)
         XCTAssertTrue(played.archived)
         XCTAssertTrue(played.keepEpisode)
 
-        let unplayed = try XCTUnwrap(dataManager.findEpisode(uuid: "\(podcastUuid!)-2"))
+        let unplayed = try XCTUnwrap(savedEpisode(number: 2))
         XCTAssertEqual(unplayed.playingStatus, PlayingStatus.notPlayed.rawValue)
         XCTAssertFalse(unplayed.archived)
+    }
 
-        XCTAssertEqual(FullSyncURLProtocol.episodeStateRequestCount, 1)
+    private func checkTheSyncInfoWithoutTheEpisodeState() throws {
+        try checkThePodcastSyncInfo()
+
+        for number in 1...2 {
+            let episode = try XCTUnwrap(savedEpisode(number: number))
+            XCTAssertEqual(episode.playingStatus, PlayingStatus.notPlayed.rawValue)
+            XCTAssertFalse(episode.archived)
+            XCTAssertFalse(episode.keepEpisode)
+        }
+    }
+
+    @discardableResult
+    private func checkThePodcastSyncInfo() throws -> Podcast {
+        let podcast = try XCTUnwrap(savedPodcast())
+        XCTAssertEqual(podcast.startFrom, 30)
+        XCTAssertEqual(podcast.skipLast, 15)
+        XCTAssertEqual(podcast.sortOrder, 7)
+        XCTAssertEqual(podcast.syncStatus, SyncStatus.synced.rawValue)
+        XCTAssertEqual(podcast.fullSyncLastSyncAt, lastSyncAt)
+        return podcast
     }
 
     /// The podcast as saved in the database. `dataManager` caches podcasts, and the sync changes the cached
     /// copy before it saves it.
     private func savedPodcast() throws -> Podcast? {
-        try DataManager(dbQueue: GRDBQueue(dbPool: DatabasePool(path: databasePath))).findPodcast(uuid: podcastUuid)
+        try savedDataManager().findPodcast(uuid: podcastUuid)
+    }
+
+    private func savedEpisode(number: Int) throws -> Episode? {
+        try savedDataManager().findEpisode(uuid: "\(podcastUuid!)-\(number)")
+    }
+
+    private func savedDataManager() throws -> DataManager {
+        DataManager(dbQueue: GRDBQueue(dbPool: try DatabasePool(path: databasePath)))
     }
 
     /// Runs off the main thread, like the full sync's import queue does.
-    private func processPodcast() {
+    private func processPodcast(retrievesEpisodeStateBeforeAdding: Bool, timeout: DispatchTimeInterval = .seconds(30)) {
         var podcast = PodcastSyncInfo()
         podcast.uuid = podcastUuid
         podcast.autoStartFrom = 30
@@ -105,18 +203,21 @@ final class FullSyncPodcastImportTests: XCTestCase {
         let syncTask = SyncTask(dataManager: dataManager)
         let lastSyncAt = lastSyncAt
         DispatchQueue.global().async {
-            syncTask.processPodcast(podcast, lastSyncAt: lastSyncAt)
+            syncTask.processPodcast(podcast, lastSyncAt: lastSyncAt, retrievesEpisodeStateBeforeAdding: retrievesEpisodeStateBeforeAdding, timeout: timeout)
             processed.fulfill()
         }
         wait(for: [processed], timeout: 60)
     }
 }
 
-/// Answers the podcast request with two episodes, and the episode state request with the first one played,
-/// archived and starred. Everything else gets a 404.
+/// Answers the test podcast's request with two episodes, and its episode state request with the first one
+/// played, archived and starred. Leaves every other request alone.
 private final class FullSyncURLProtocol: URLProtocol {
     nonisolated(unsafe) static var podcastUuid = ""
     nonisolated(unsafe) static var podcastStatusCode = 200
+    /// The status codes of the episode state responses, in order. The rest get 200.
+    nonisolated(unsafe) static var episodeStateStatusCodes: [Int] = []
+    nonisolated(unsafe) static var episodeStateDelay: TimeInterval = 0
     private static let lock = NSLock()
     nonisolated(unsafe) private static var requestCount = 0
 
@@ -127,11 +228,15 @@ private final class FullSyncURLProtocol: URLProtocol {
     static func reset(podcastUuid: String) {
         self.podcastUuid = podcastUuid
         podcastStatusCode = 200
+        episodeStateStatusCodes = []
+        episodeStateDelay = 0
         lock.withLock { requestCount = 0 }
     }
 
     override class func canInit(with request: URLRequest) -> Bool {
-        true
+        guard let url = request.url else { return false }
+
+        return isPodcastRequest(url) || isEpisodeStateRequest(url)
     }
 
     override class func canonicalRequest(for request: URLRequest) -> URLRequest {
@@ -141,27 +246,55 @@ private final class FullSyncURLProtocol: URLProtocol {
     override func startLoading() {
         guard let url = request.url else { return }
 
-        let statusCode: Int
-        let data: Data
-        if url.path.hasSuffix("mobile/podcast/full/\(Self.podcastUuid)") {
-            statusCode = Self.podcastStatusCode
-            data = Self.podcastJson()
-        } else if url.path.hasSuffix("user/podcast/episodes") {
-            Self.lock.withLock { Self.requestCount += 1 }
-            statusCode = 200
-            data = Self.episodeState()
+        if Self.isPodcastRequest(url) {
+            respond(statusCode: Self.podcastStatusCode, data: Self.podcastJson())
+        } else if Self.requestedUuid(request) == Self.podcastUuid {
+            let statusCode = Self.lock.withLock {
+                Self.requestCount += 1
+                return Self.episodeStateStatusCodes.isEmpty ? 200 : Self.episodeStateStatusCodes.removeFirst()
+            }
+            Thread.sleep(forTimeInterval: Self.episodeStateDelay)
+            respond(statusCode: statusCode, data: statusCode == 200 ? Self.episodeState() : Data())
         } else {
-            statusCode = 404
-            data = Data()
+            respond(statusCode: 404, data: Data())
         }
+    }
 
-        let response = HTTPURLResponse(url: url, statusCode: statusCode, httpVersion: nil, headerFields: nil)!
+    override func stopLoading() {}
+
+    private func respond(statusCode: Int, data: Data) {
+        guard let url = request.url, let response = HTTPURLResponse(url: url, statusCode: statusCode, httpVersion: nil, headerFields: nil) else { return }
+
         client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
         client?.urlProtocol(self, didLoad: data)
         client?.urlProtocolDidFinishLoading(self)
     }
 
-    override func stopLoading() {}
+    private static func isPodcastRequest(_ url: URL) -> Bool {
+        url.path.hasSuffix("mobile/podcast/full/\(podcastUuid)")
+    }
+
+    private static func isEpisodeStateRequest(_ url: URL) -> Bool {
+        url.host == URL(string: ServerConstants.Urls.api())?.host && url.path.hasSuffix("user/podcast/episodes")
+    }
+
+    /// URLSession hands the body to URL protocols as a stream.
+    private static func requestedUuid(_ request: URLRequest) -> String? {
+        guard let stream = request.httpBodyStream else { return nil }
+
+        stream.open()
+        defer { stream.close() }
+
+        var body = Data()
+        var buffer = [UInt8](repeating: 0, count: 1024)
+        while stream.hasBytesAvailable {
+            let count = stream.read(&buffer, maxLength: buffer.count)
+            guard count > 0 else { break }
+            body.append(buffer, count: count)
+        }
+
+        return try? Api_UuidRequest(serializedBytes: body).uuid
+    }
 
     private static func podcastJson() -> Data {
         let episodes: [[String: Any]] = (1...2).map { number in
