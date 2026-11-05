@@ -598,6 +598,64 @@ final class UserEpisodeDataManagerTests: DataManagerTestCase {
         }
     }
 
+    func testSaveAndBulkSaveInsertNewUserEpisodesWithoutAnUpdate() throws {
+        try runWithDataManager { dataManager in
+            let existingEpisode = self.createTestUserEpisode(uuid: "existing", title: "Original", dataManager: dataManager)
+            let existingId = existingEpisode.id
+            existingEpisode.title = "Updated"
+
+            let newEpisodes = ["new-single", "new-bulk-0", "new-bulk-1"].map { uuid in
+                let episode = UserEpisode()
+                episode.uuid = uuid
+                episode.addedDate = Date()
+                return episode
+            }
+
+            var statements = [String]()
+            try dataManager.dbQueue.dbPool.writeWithoutTransaction { db in
+                db.trace { event in
+                    if case let .statement(statement) = event {
+                        statements.append(statement.sql)
+                    }
+                }
+            }
+
+            dataManager.save(episode: newEpisodes[0])
+            dataManager.save(episode: existingEpisode)
+            dataManager.bulkSave(episodes: [existingEpisode, newEpisodes[1], newEpisodes[2]])
+
+            let inserts = statements.filter { $0.hasPrefix("INSERT INTO \"\(DataManager.userEpisodeTableName)\"") }
+            let updates = statements.filter { $0.hasPrefix("UPDATE \"\(DataManager.userEpisodeTableName)\"") }
+            XCTAssertEqual(inserts.count, 3, "Each new episode should be inserted once")
+            XCTAssertEqual(updates.count, 2, "Only the existing episode should be updated")
+
+            for episode in newEpisodes {
+                XCTAssertNotEqual(episode.id, 0, "New episode should get an ID")
+                XCTAssertEqual(dataManager.findUserEpisode(uuid: episode.uuid)?.id, episode.id, "New episode should be saved with its ID")
+            }
+            XCTAssertEqual(dataManager.findUserEpisode(uuid: "existing")?.id, existingId, "Existing episode should be updated in place")
+            XCTAssertEqual(dataManager.findUserEpisode(uuid: "existing")?.title, "Updated")
+        }
+    }
+
+    func testSaveAndBulkSaveInsertUserEpisodesWithAnIdThatIsNotInTheDatabase() throws {
+        try runWithDataManager { dataManager in
+            let (single, bulk) = (UserEpisode(), UserEpisode())
+            single.id = 42
+            single.uuid = "preset-id-single"
+            single.addedDate = Date()
+            bulk.id = 43
+            bulk.uuid = "preset-id-bulk"
+            bulk.addedDate = Date()
+
+            dataManager.save(episode: single)
+            dataManager.bulkSave(episodes: [bulk])
+
+            XCTAssertEqual(dataManager.findUserEpisode(uuid: "preset-id-single")?.id, 42, "Episode should be saved with its ID")
+            XCTAssertEqual(dataManager.findUserEpisode(uuid: "preset-id-bulk")?.id, 43, "Episode should be saved with its ID")
+        }
+    }
+
     // MARK: - bulkMarkAsPlayed Tests
 
     func testBulkMarkAsPlayedMarksUserEpisodesAsPlayed() throws {

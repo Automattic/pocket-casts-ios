@@ -360,13 +360,14 @@ class PodcastDataManager {
     // MARK: - Updates
 
     func save(podcast: Podcast, dbQueue: GRDBQueue) {
-        if podcast.id == 0 {
-            podcast.id = DBUtils.generateUniqueId()
-        }
-
         do {
             try dbQueue.dbPool.write { db in
-                try podcast.save(db)
+                if podcast.id == 0 {
+                    podcast.id = DBUtils.generateUniqueId()
+                    try podcast.insert(db)
+                } else {
+                    try podcast.save(db)
+                }
             }
         } catch {
             FileLog.shared.addMessage("PodcastDataManager.save error: \(error)")

@@ -1081,6 +1081,53 @@ final class PodcastDataManagerTests: DataManagerTestCase {
         }
     }
 
+    func testSaveInsertsNewPodcastWithoutAnUpdate() throws {
+        try runWithDataManager { dataManager in
+            let existingPodcast = self.createTestPodcast(uuid: "existing", title: "Original", dataManager: dataManager)
+            let existingId = existingPodcast.id
+            existingPodcast.title = "Updated"
+
+            let newPodcast = Podcast()
+            newPodcast.uuid = "new"
+            newPodcast.addedDate = Date()
+
+            var statements = [String]()
+            try dataManager.dbQueue.dbPool.writeWithoutTransaction { db in
+                db.trace { event in
+                    if case let .statement(statement) = event {
+                        statements.append(statement.sql)
+                    }
+                }
+            }
+
+            dataManager.save(podcast: newPodcast)
+            dataManager.save(podcast: existingPodcast)
+
+            let inserts = statements.filter { $0.hasPrefix("INSERT INTO \"\(DataManager.podcastTableName)\"") }
+            let updates = statements.filter { $0.hasPrefix("UPDATE \"\(DataManager.podcastTableName)\"") }
+            XCTAssertEqual(inserts.count, 1, "The new podcast should be inserted once")
+            XCTAssertEqual(updates.count, 1, "Only the existing podcast should be updated")
+
+            XCTAssertNotEqual(newPodcast.id, 0, "New podcast should get an ID")
+            XCTAssertEqual(dataManager.findPodcast(uuid: "new")?.id, newPodcast.id, "New podcast should be saved with its ID")
+            XCTAssertEqual(dataManager.findPodcast(uuid: "existing")?.id, existingId, "Existing podcast should be updated in place")
+            XCTAssertEqual(dataManager.findPodcast(uuid: "existing")?.title, "Updated")
+        }
+    }
+
+    func testSaveInsertsPodcastWithAnIdThatIsNotInTheDatabase() throws {
+        try runWithDataManager { dataManager in
+            let podcast = Podcast()
+            podcast.id = 42
+            podcast.uuid = "preset-id"
+            podcast.addedDate = Date()
+
+            dataManager.save(podcast: podcast)
+
+            XCTAssertEqual(dataManager.findPodcast(uuid: "preset-id")?.id, 42, "Podcast should be saved with its ID")
+        }
+    }
+
     func testSavePreservesOptionalFields() throws {
         try runWithDataManager { dataManager in
             let podcast = Podcast()

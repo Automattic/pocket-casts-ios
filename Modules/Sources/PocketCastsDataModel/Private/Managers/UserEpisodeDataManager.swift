@@ -173,13 +173,14 @@ class UserEpisodeDataManager {
     // MARK: - Updates
 
     func save(episode: UserEpisode, dbQueue: GRDBQueue) {
-        if episode.id == 0 {
-            episode.id = DBUtils.generateUniqueId()
-        }
-
         do {
             try dbQueue.dbPool.write { db in
-                try episode.save(db)
+                if episode.id == 0 {
+                    episode.id = DBUtils.generateUniqueId()
+                    try episode.insert(db)
+                } else {
+                    try episode.save(db)
+                }
             }
         } catch {
             FileLog.shared.addMessage("UserEpisodeDataManager.save error: \(error)")
@@ -309,9 +310,10 @@ class UserEpisodeDataManager {
                 for episode in episodes {
                     if episode.id == 0 {
                         episode.id = DBUtils.generateUniqueId()
+                        try episode.insert(db)
+                    } else {
+                        try episode.save(db)
                     }
-
-                    try episode.save(db)
                 }
             }
         } catch {

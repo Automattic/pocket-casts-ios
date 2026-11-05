@@ -453,6 +453,51 @@ final class PlaylistDataManagerTests: DataManagerTestCase {
         }
     }
 
+    func testSaveInsertsNewPlaylistWithoutAnUpdate() throws {
+        try runWithDataManager { dataManager in
+            let existingPlaylist = self.createTestPlaylist(uuid: "existing", name: "Original", dataManager: dataManager)
+            let existingId = existingPlaylist.id
+            existingPlaylist.playlistName = "Updated"
+
+            let newPlaylist = EpisodeFilter()
+            newPlaylist.uuid = "new"
+
+            var statements = [String]()
+            try dataManager.dbQueue.dbPool.writeWithoutTransaction { db in
+                db.trace { event in
+                    if case let .statement(statement) = event {
+                        statements.append(statement.sql)
+                    }
+                }
+            }
+
+            dataManager.save(playlist: newPlaylist)
+            dataManager.save(playlist: existingPlaylist)
+
+            let inserts = statements.filter { $0.hasPrefix("INSERT INTO \"\(DataManager.playlistsTableName)\"") }
+            let updates = statements.filter { $0.hasPrefix("UPDATE \"\(DataManager.playlistsTableName)\"") }
+            XCTAssertEqual(inserts.count, 1, "The new playlist should be inserted once")
+            XCTAssertEqual(updates.count, 1, "Only the existing playlist should be updated")
+
+            XCTAssertNotEqual(newPlaylist.id, 0, "New playlist should get an ID")
+            XCTAssertEqual(dataManager.findPlaylist(uuid: "new")?.id, newPlaylist.id, "New playlist should be saved with its ID")
+            XCTAssertEqual(dataManager.findPlaylist(uuid: "existing")?.id, existingId, "Existing playlist should be updated in place")
+            XCTAssertEqual(dataManager.findPlaylist(uuid: "existing")?.playlistName, "Updated")
+        }
+    }
+
+    func testSaveInsertsPlaylistWithAnIdThatIsNotInTheDatabase() throws {
+        try runWithDataManager { dataManager in
+            let playlist = EpisodeFilter()
+            playlist.id = 42
+            playlist.uuid = "preset-id"
+
+            dataManager.save(playlist: playlist)
+
+            XCTAssertEqual(dataManager.findPlaylist(uuid: "preset-id")?.id, 42, "Playlist should be saved with its ID")
+        }
+    }
+
     func testSaveUpdatesPlaylistUpdateDate() throws {
         try runWithDataManager { dataManager in
             let playlist = EpisodeFilter()

@@ -246,14 +246,16 @@ class PlaylistDataManager {
     }
 
     func save(playlist: EpisodeFilter, dbQueue: GRDBQueue) {
-        if playlist.id == 0 {
-            playlist.id = DBUtils.generateUniqueId()
-        }
         playlist.playlistUpdateDate = .now
 
         do {
             try dbQueue.dbPool.write { db in
-                try playlist.save(db)
+                if playlist.id == 0 {
+                    playlist.id = DBUtils.generateUniqueId()
+                    try playlist.insert(db)
+                } else {
+                    try playlist.save(db)
+                }
             }
         } catch {
             FileLog.shared.addMessage("PlaylistDataManager.save error: \(error)")
