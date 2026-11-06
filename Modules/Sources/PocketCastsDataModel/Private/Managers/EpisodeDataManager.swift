@@ -154,7 +154,12 @@ class EpisodeDataManager {
     }
 
     func unsyncedEpisodes(limit: Int, dbQueue: GRDBQueue) -> [Episode] {
-        loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE playingStatusModified > 0 OR playedUpToModified > 0 OR durationModified > 0 OR keepEpisodeModified > 0 OR archivedModified > 0 ORDER BY publishedDate DESC, addedDate DESC LIMIT \(limit)", values: nil, dbQueue: dbQueue)
+        loadMultiple(query: Self.unsyncedEpisodesQuery(limit: limit), values: nil, dbQueue: dbQueue)
+    }
+
+    static func unsyncedEpisodesQuery(limit: Int) -> String {
+        let unsyncedIds = "SELECT id FROM \(DataManager.episodeTableName) WHERE playingStatusModified > 0 OR playedUpToModified > 0 OR durationModified > 0 OR keepEpisodeModified > 0 OR archivedModified > 0"
+        return "SELECT * FROM \(DataManager.episodeTableName) WHERE id IN (\(unsyncedIds)) ORDER BY publishedDate DESC, addedDate DESC LIMIT \(limit)"
     }
 
     func allEpisodes(forPodcastId id: Int64, dbQueue: GRDBQueue) -> [Episode] {
