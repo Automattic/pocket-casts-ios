@@ -1,5 +1,6 @@
 8.25
 -----
+- Fix the episode details screen showing the podcast cover when episode artwork is enabled and available [#5430](https://github.com/Automattic/pocket-casts-ios/pull/5430)
 - Sort podcasts and folders by name faster, especially in libraries with Chinese titles [#5601](https://github.com/Automattic/pocket-casts-ios/pull/5601)
 - Fix tapping Done after Edit Podcasts switching Sort By to Drag and Drop when no podcast was reordered [#5563](https://github.com/Automattic/pocket-casts-ios/pull/5563)
 - Save new episodes faster when signing in and checking for new episodes [#5582](https://github.com/Automattic/pocket-casts-ios/pull/5582)
