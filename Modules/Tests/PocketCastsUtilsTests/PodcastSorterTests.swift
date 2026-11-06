@@ -10,6 +10,9 @@ class PodcastSorterTests: XCTestCase {
             ["The A title", "B title"],
             ["A title", "The B title"],
             ["The A title", "The B title"],
+            ["THE A title", "B title"],
+            // Keeps "The" when it isn't a separate word
+            ["B title", "Theater"],
             // case-insensitive
             ["a title", "B TITLE"],
             ["A TITLE", "b title"],
@@ -26,7 +29,8 @@ class PodcastSorterTests: XCTestCase {
             ["昂 áng title", "B title"],
             ["昂 áng title", "奥 ào title"],
             ["奥 ào title", "备 bèi title"],
-            ["B title", "备 bèi title"]
+            ["B title", "备 bèi title"],
+            ["The 奥 ào title", "备 bèi title"]
         ]
 
         tests.forEach {
