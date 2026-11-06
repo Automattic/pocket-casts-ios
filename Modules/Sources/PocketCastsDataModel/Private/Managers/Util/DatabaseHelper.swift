@@ -949,5 +949,26 @@ class DatabaseHelper {
                 return
             }
         }
+
+        if schemaVersion < 78 {
+            do {
+                try db.executeUpdate("DROP INDEX IF EXISTS episode_was_deleted;", values: nil)
+                try db.executeUpdate("DROP INDEX IF EXISTS episode_playingStatus;", values: nil)
+                try db.executeUpdate("DROP INDEX IF EXISTS episode_keepEpisode;", values: nil)
+                try db.executeUpdate("DROP INDEX IF EXISTS ep_down_date;", values: nil)
+                try db.executeUpdate("DROP INDEX IF EXISTS episode_download_task_id;", values: nil)
+                try db.executeUpdate("DROP INDEX IF EXISTS episode_added_date;", values: nil)
+                try db.executeUpdate("DROP INDEX IF EXISTS episode_playing_status_modified;", values: nil)
+                try db.executeUpdate("DROP INDEX IF EXISTS episode_played_opto_modified;", values: nil)
+                try db.executeUpdate("DROP INDEX IF EXISTS episode_duration_modified;", values: nil)
+                try db.executeUpdate("DROP INDEX IF EXISTS episode_keep_episode_modified;", values: nil)
+                try db.executeUpdate("DROP INDEX IF EXISTS episode_archived_modified;", values: nil)
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_non_null_download_task_id ON SJEpisode (downloadTaskId) WHERE downloadTaskId IS NOT NULL;", values: nil)
+                schemaVersion = 78
+            } catch {
+                failedAt(78)
+                return
+            }
+        }
     }
 }
