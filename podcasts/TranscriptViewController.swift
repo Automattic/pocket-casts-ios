@@ -64,6 +64,8 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     private var transcriptManager: TranscriptManager?
 
+    private var isAddedToPlayer = false
+
     #if DEBUG
     private var debugOverlay: FingerprintDebugOverlay?
     private var debugTimer: Timer?
@@ -130,7 +132,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     private func startHighlightDisplayLink() {
         guard FeatureFlag.syncedTranscripts.enabled else { return }
         stopHighlightDisplayLink()
-        let link = CADisplayLink(target: self, selector: #selector(highlightTick))
+        let target = DisplayLinkTarget { [weak self] in
+            self?.updateTranscriptPosition()
+        }
+        let link = CADisplayLink(target: target, selector: #selector(DisplayLinkTarget.tick))
         link.add(to: .main, forMode: .common)
         link.isPaused = !playbackManager.isPlayingEpisode
         highlightDisplayLink = link
@@ -156,10 +161,6 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     /// post a state change).
     @objc private func updateHighlightDisplayLinkPauseState() {
         highlightDisplayLink?.isPaused = !playbackManager.isPlayingEpisode
-    }
-
-    @objc private func highlightTick() {
-        updateTranscriptPosition()
     }
 
     func didDisappear() {
@@ -609,6 +610,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     override func willBeAddedToPlayer() {
+        isAddedToPlayer = true
         updateColors()
         loadTranscript()
         addObservers()
@@ -627,6 +629,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
     }
 
     override func willBeRemovedFromPlayer() {
+        isAddedToPlayer = false
         removeAllCustomObservers()
         stopHighlightDisplayLink()
         if FeatureFlag.syncedTranscripts.enabled {
@@ -779,6 +782,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 let hasGeneratedTranscripts = FeatureFlag.generatedTranscripts.enabled && transcriptManager.hasGeneratedTranscripts
                 let isDisplayingGenerated = transcriptManager.isDisplayingGeneratedTranscript
                 await MainActor.run {
+                    guard self.isAddedToPlayer else { return }
                     self.setHasGeneratedTranscripts(hasGeneratedTranscripts)
                     if isDisplayingGenerated {
                         let isCurrentEpisode = PlaybackManager.shared.isCurrentEpisode(uuid: episodeUUID)
@@ -811,6 +815,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
                 }
                 await show(transcript: transcript, resetPosition: shouldResetPosition)
             } catch {
+                guard await isAddedToPlayer else { return }
                 await stopSyncedTranscripts()
                 await track(.transcriptError, properties: ["error_code": (error as NSError).code])
                 await show(error: error)
@@ -1493,6 +1498,18 @@ extension TranscriptViewController: TranscriptSearchAccessoryViewDelegate {
         updateNumberOfResults()
         refreshText()
         transcriptView.scrollToRange(.init(location: searchIndicesResult[currentSearchIndex], length: searchTerm?.count ?? 0))
+    }
+}
+
+private final class DisplayLinkTarget: NSObject {
+    private let onTick: () -> Void
+
+    init(onTick: @escaping () -> Void) {
+        self.onTick = onTick
+    }
+
+    @objc func tick() {
+        onTick()
     }
 }
 

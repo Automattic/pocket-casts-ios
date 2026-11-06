@@ -506,6 +506,11 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         nowPlayingItem.view.accessibilityElements = nil
     }
 
+    func tearDownTranscript() {
+        guard nowPlayingItem.displayTranscript else { return }
+        transcriptsItem.willBeRemovedFromPlayer()
+    }
+
     private func configureTranscriptView() {
         transcriptContainerView.bottomAnchor.constraint(equalTo: nowPlayingItem.bottomControlsStackView.topAnchor).isActive = true
         coverWithTranscriptBackground()
