@@ -29,12 +29,16 @@
     <string>Cancel·la la selecció múltiple</string>
     <key>accessibility_close_dialog</key>
     <string>Tanca la finestra</string>
+    <key>accessibility_close_player</key>
+    <string>Tanca el reproductor</string>
     <key>accessibility_deselect_episode</key>
     <string>Anul·la selecció de l'episodi</string>
     <key>accessibility_disabled</key>
     <string>Desactivat</string>
     <key>accessibility_dismiss</key>
     <string>Descarta</string>
+    <key>accessibility_episode_actions</key>
+    <string>Accions de l'episodi</string>
     <key>accessibility_episode_playback</key>
     <string>Reproducció de l'episodi</string>
     <key>accessibility_follow_podcast</key>
@@ -47,6 +51,10 @@
     <string>Fes doble clic per a destacar l'episodi</string>
     <key>accessibility_hint_unstar</key>
     <string>Fes doble clic per a eliminar l'episodi de destacats</string>
+    <key>accessibility_mini_player</key>
+    <string>Reproductor</string>
+    <key>accessibility_mini_player_hint</key>
+    <string>Toca per obrir el reproductor a pantalla completa</string>
     <key>accessibility_more_actions</key>
     <string>Més accions</string>
     <key>accessibility_patron_only</key>
@@ -65,6 +73,8 @@
     <string>Imatge de la llista de reproducció</string>
     <key>accessibility_plus_only</key>
     <string>Bloquejat, és una funció Plus</string>
+    <key>accessibility_podcast_artwork</key>
+    <string>Imatge del pòdcast</string>
     <key>accessibility_profile_settings</key>
     <string>Configuració de Pocket Casts</string>
     <key>accessibility_select_episode</key>
@@ -77,6 +87,8 @@
     <string>Ordre i opcions</string>
     <key>accessibility_unfollow_podcast</key>
     <string>Deixa de seguir %1$@</string>
+    <key>accessibility_up_next_list</key>
+    <string>Llista de «Tot seguit»</string>
     <key>account</key>
     <string>Compte</string>
     <key>account_change_email</key>
@@ -341,8 +353,12 @@ Descarrega l'app per a una experiència completa!</string>
     <string>Marcador</string>
     <key>bookmark_delete_warning_body</key>
     <string>Estàs segur que vols eliminar aquests marcadors? Aquesta acció no es pot desfer!</string>
+    <key>bookmark_delete_warning_body_singular</key>
+    <string>Segur que vols esborrar aquest marcador? No es pot desfer.</string>
     <key>bookmark_delete_warning_title</key>
     <string>Vols esborrar els marcadors?</string>
+    <key>bookmark_delete_warning_title_singular</key>
+    <string>Vols esborrar el marcador?</string>
     <key>bookmark_details_title</key>
     <string>Marcador</string>
     <key>bookmark_edit_transcript_subtitle</key>
@@ -694,6 +710,8 @@ Pots desconnectar-te en qualsevol moment des d'Ajustos.</string>
     <string>El temporitzador de son s'ha reiniciat perquè s'ha remenat el dispositiu</string>
     <key>discover</key>
     <string>Descobreix</string>
+    <key>discover_all_categories</key>
+    <string>Totes les categories</string>
     <key>discover_all_episodes</key>
     <string>Tots els episodis</string>
     <key>discover_all_podcasts</key>
@@ -870,6 +888,8 @@ Pots desconnectar-te en qualsevol moment des d'Ajustos.</string>
     <string>Ha fallat la cerca</string>
     <key>discover_search_failed_msg</key>
     <string>Comprova la teva connexió a Internet.</string>
+    <key>discover_select_a_category</key>
+    <string>Selecciona una categoria</string>
     <key>discover_select_region</key>
     <string>Selecciona la regió del contingut</string>
     <key>discover_show_all</key>
@@ -3260,6 +3280,8 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Obre els enllaços al navegador</string>
     <key>settings_general_play_back_actions</key>
     <string>Altres accions de reproducció</string>
+    <key>settings_general_play_back_actions_subtitle_device</key>
+    <string>Afegeix una opció d'estrella a la pantalla de bloqueig.</string>
     <key>settings_general_player_header</key>
     <string>REPRODUCTOR</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3410,6 +3432,8 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Proveïdors d'allotjament més comuns de pòdcasts</string>
     <key>settings_status_host_description</key>
     <string>Els autors de pòdcast allotgen fitxers d'episodi en diversos proveïdors d'allotjament no gestionats per Pocket Casts.</string>
+    <key>settings_status_host_failure_message_device</key>
+    <string>La causa més comuna és que tens un bloquejador d'anuncis configurat al dispositiu o a la xarxa. Has de desbloquejar aquest domini per a baixar pòdcasts. Tingues en compte que Pocket Casts no allotja ni tria on s'allotgen els pòdcasts, això depèn de l'autor del programa i està fora del nostre control.</string>
     <key>settings_status_internet</key>
     <string>Internet</string>
     <key>settings_status_internet_description</key>
@@ -3422,6 +3446,8 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Aquest servei s'empra per a cercar episodis nous.</string>
     <key>settings_status_run</key>
     <string>Executa ara</string>
+    <key>settings_status_service_ad_blocker_help_singular_device</key>
+    <string>La causa més comuna és que tens un bloquejador d'anuncis configurat al dispositiu o a la xarxa. Has de desbloquejar el domini %1$@.</string>
     <key>settings_storage</key>
     <string>Emmagatzematge i ús de dades</string>
     <key>settings_storage_data_warning</key>
@@ -3432,6 +3458,8 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>DADES MÒBILS</string>
     <key>settings_storage_usage</key>
     <string>ÚS</string>
+    <key>settings_storage_usage_footer_device</key>
+    <string>Això pot ser diferent de l'emmagatzematge que es mostra a la configuració del teu %1$@. El dispositiu gestiona automàticament les dades de la memòria cau i les allibera quan cal.</string>
     <key>settings_third_party_analytics</key>
     <string>Analítiques de tercers</string>
     <key>settings_title</key>
@@ -3470,6 +3498,8 @@ Aquí tens una invitació de  %1$@ per a Pocket Casts Plus, el meu reproductor d
     <string>Configura el compte</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>Remena per a reiniciar el temporitzador de son</string>
+    <key>shake_to_restart_sleep_timer_description_device</key>
+    <string>Si està activat, el temporitzador de son es reiniciarà quan sacsegis el dispositiu.</string>
     <key>share</key>
     <string>Comparteix</string>
     <key>share_clip</key>

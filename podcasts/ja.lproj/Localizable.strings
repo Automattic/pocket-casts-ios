@@ -29,12 +29,16 @@
     <string>複数選択をキャンセル</string>
     <key>accessibility_close_dialog</key>
     <string>ダイアログを閉じる</string>
+    <key>accessibility_close_player</key>
+    <string>プレーヤーを閉じる</string>
     <key>accessibility_deselect_episode</key>
     <string>エピソードの選択を解除</string>
     <key>accessibility_disabled</key>
     <string>無効</string>
     <key>accessibility_dismiss</key>
     <string>非表示</string>
+    <key>accessibility_episode_actions</key>
+    <string>エピソードアクション</string>
     <key>accessibility_episode_playback</key>
     <string>エピソードの再生</string>
     <key>accessibility_follow_podcast</key>
@@ -47,6 +51,10 @@
     <string>ダブルタップしてエピソードに星を付ける</string>
     <key>accessibility_hint_unstar</key>
     <string>ダブルタップしてエピソードから星を削除</string>
+    <key>accessibility_mini_player</key>
+    <string>プレーヤー</string>
+    <key>accessibility_mini_player_hint</key>
+    <string>タップしてプレーヤーをフルサイズで開く</string>
     <key>accessibility_more_actions</key>
     <string>その他の操作</string>
     <key>accessibility_patron_only</key>
@@ -65,6 +73,8 @@
     <string>プレイリスト画像</string>
     <key>accessibility_plus_only</key>
     <string>ロック済み、Plus 機能</string>
+    <key>accessibility_podcast_artwork</key>
+    <string>ポッドキャストのアートワーク</string>
     <key>accessibility_profile_settings</key>
     <string>Pocket Casts の設定</string>
     <key>accessibility_select_episode</key>
@@ -77,6 +87,8 @@
     <string>並び替えとオプション</string>
     <key>accessibility_unfollow_podcast</key>
     <string>%1$@ のフォローを解除</string>
+    <key>accessibility_up_next_list</key>
+    <string>次のエピソード一覧</string>
     <key>account</key>
     <string>アカウント</string>
     <key>account_change_email</key>
@@ -341,7 +353,11 @@
     <string>ブックマーク</string>
     <key>bookmark_delete_warning_body</key>
     <string>これらのブックマークを削除してもよろしいですか。元に戻すことはできません。</string>
+    <key>bookmark_delete_warning_body_singular</key>
+    <string>このブックマークを削除してもよいですか。元に戻すことはできません。</string>
     <key>bookmark_delete_warning_title</key>
+    <string>ブックマークを削除しますか ?</string>
+    <key>bookmark_delete_warning_title_singular</key>
     <string>ブックマークを削除しますか ?</string>
     <key>bookmark_details_title</key>
     <string>ブックマーク</string>
@@ -694,6 +710,8 @@ Pocket Casts Plus</string>
     <string>端末がシェイクされたためスリープタイマーが再開しました</string>
     <key>discover</key>
     <string>ディスカバー</string>
+    <key>discover_all_categories</key>
+    <string>カテゴリー一覧</string>
     <key>discover_all_episodes</key>
     <string>すべてのエピソード</string>
     <key>discover_all_podcasts</key>
@@ -870,6 +888,8 @@ Pocket Casts Plus</string>
     <string>検索に失敗</string>
     <key>discover_search_failed_msg</key>
     <string>インターネット接続を確認してください。</string>
+    <key>discover_select_a_category</key>
+    <string>カテゴリーを選択</string>
     <key>discover_select_region</key>
     <string>コンテンツのリージョンを選択</string>
     <key>discover_show_all</key>
@@ -3267,6 +3287,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>ブラウザーでリンクを開く</string>
     <key>settings_general_play_back_actions</key>
     <string>他の再生操作</string>
+    <key>settings_general_play_back_actions_subtitle_device</key>
+    <string>ロック画面に星オプションを追加します。</string>
     <key>settings_general_player_header</key>
     <string>プレーヤー</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3417,6 +3439,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>一般的なポッドキャストホスト</string>
     <key>settings_status_host_description</key>
     <string>ポッドキャストの作成者は、Pocket Casts が管理していないさまざまなホスティングプロバイダーでエピソードファイルをホストします。</string>
+    <key>settings_status_host_failure_message_device</key>
+    <string>最も一般的な原因は、端末かネットワークで広告ブロッカーを設定していることです。 ポッドキャストをダウンロードするにはこのドメインのブロックを解除する必要があります。 Pocket Casts はポッドキャストをホストすることも、ポッドキャストのホスト先を選択することもありません。これらは番組の作成者が判断するものであり、Pocket Casts の管轄外となっています。</string>
     <key>settings_status_internet</key>
     <string>インターネット</string>
     <key>settings_status_internet_description</key>
@@ -3429,6 +3453,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>新しいエピソードを見つけるのに使用するサービス。</string>
     <key>settings_status_run</key>
     <string>今すぐ実行</string>
+    <key>settings_status_service_ad_blocker_help_singular_device</key>
+    <string>最も一般的な原因は、端末かネットワークで広告ブロッカーを設定していることです。 ドメイン %1$@ のブロックを解除する必要があります</string>
     <key>settings_storage</key>
     <string>ストレージとデータ使用量</string>
     <key>settings_storage_data_warning</key>
@@ -3439,6 +3465,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>モバイルデータ</string>
     <key>settings_storage_usage</key>
     <string>使用量</string>
+    <key>settings_storage_usage_footer_device</key>
+    <string>これは、%1$@ の設定に表示されるストレージとは異なる場合があります。 お使いの端末はキャッシュされたデータを自動的に管理し、必要に応じて解放します。</string>
     <key>settings_third_party_analytics</key>
     <string>サードパーティのアナリティクス</string>
     <key>settings_title</key>
@@ -3477,6 +3505,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>アカウントを設定</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>シェイクしてスリープタイマーを再開</string>
+    <key>shake_to_restart_sleep_timer_description_device</key>
+    <string>オンにすると、端末をシェイクした際にスリープタイマーが再開されます。</string>
     <key>share</key>
     <string>共有</string>
     <key>share_clip</key>
