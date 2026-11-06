@@ -29,10 +29,12 @@ class DatabaseHelper {
     }
 
     private class func upgradeIfRequired(schemaVersion: inout Int32, db: PCDatabase) {
-        let failedAt = { (statement: Int) in
+        let startingSchemaVersion = schemaVersion
+        func failedAt(_ statement: Int) {
             let lastErrorCode = db.lastErrorCode()
             let lastErrorMessage = db.lastErrorMessage()
             db.rollback()
+            schemaVersion = startingSchemaVersion
             FileLog.shared.addMessage("Schema update \(statement) failed, code \(lastErrorCode): \(lastErrorMessage)")
         }
 
