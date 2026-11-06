@@ -276,7 +276,7 @@ public enum FeatureFlag: String, CaseIterable {
     /// On a first sign-in, sync Up Next after the full sync imports the podcasts, instead of downloading each Up Next podcast first
     case syncUpNextAfterFullSync
 
-    /// Save the episodes a podcast update finds missing in one transaction, instead of one by one
+    /// Save the episodes a podcast update finds missing in transactions of up to 100, instead of one by one
     case saveMissingEpisodesInOneTransaction
 
     public var enabled: Bool {

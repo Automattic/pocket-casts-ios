@@ -1531,6 +1531,38 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
         }
     }
 
+    func testInsertMissingSavesEveryChunk() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+
+            func newEpisode(uuid: String) -> Episode {
+                let episode = Episode()
+                episode.uuid = uuid
+                episode.podcastUuid = podcast.uuid
+                episode.podcast_id = podcast.id
+                episode.addedDate = Date()
+                return episode
+            }
+
+            // Two and a half chunks, then the first episode again, which lands in the last chunk
+            let chunkSize = EpisodeDataManager.Constants.Limits.insertMissingChunkSize
+            let episodes = (0..<(chunkSize * 2 + chunkSize / 2)).map { newEpisode(uuid: "episode-\($0)") }
+            let duplicate = newEpisode(uuid: "episode-0")
+
+            let commits = EpisodeInsertCommitCounter()
+            dataManager.dbQueue.dbPool.writeWithoutTransaction { db in
+                db.add(transactionObserver: commits)
+            }
+
+            dataManager.insertMissing(episodes: episodes + [duplicate])
+
+            XCTAssertEqual(commits.count, 3, "Each chunk should be saved in its own write")
+            XCTAssertEqual(Set(dataManager.allEpisodes(forPodcastId: podcast.id).map(\.uuid)), Set(episodes.map(\.uuid)), "Every chunk should be saved")
+            XCTAssertEqual(dataManager.allEpisodes(forPodcastId: podcast.id).count, episodes.count, "Each uuid should be saved once")
+            XCTAssertEqual(duplicate.id, 0, "An episode saved by an earlier chunk should be skipped")
+        }
+    }
+
     // MARK: - Helper method override for additional properties
 
     @discardableResult
@@ -1566,5 +1598,31 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
         episode.lastDownloadAttemptDate = lastDownloadAttemptDate
         dataManager.save(episode: episode)
         return episode
+    }
+}
+
+/// Counts the committed transactions that inserted episodes.
+private final class EpisodeInsertCommitCounter: TransactionObserver {
+    private(set) var count = 0
+    private var inserted = false
+
+    func observes(eventsOfKind eventKind: DatabaseEventKind) -> Bool {
+        if case .insert(tableName: let tableName) = eventKind {
+            return tableName.caseInsensitiveCompare(DataManager.episodeTableName) == .orderedSame
+        }
+        return false
+    }
+
+    func databaseDidChange(with event: DatabaseEvent) {
+        inserted = true
+    }
+
+    func databaseDidCommit(_ db: Database) {
+        if inserted { count += 1 }
+        inserted = false
+    }
+
+    func databaseDidRollback(_ db: Database) {
+        inserted = false
     }
 }

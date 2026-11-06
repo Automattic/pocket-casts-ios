@@ -6,6 +6,8 @@ class EpisodeDataManager {
     enum Constants {
         enum Limits {
             static let maxPlaylistItems = 1000
+            /// How many episodes `insertMissing` saves in one write
+            static let insertMissingChunkSize = 100
         }
     }
 
@@ -419,22 +421,25 @@ class EpisodeDataManager {
     }
 
     func insertMissing(episodes: [Episode], dbQueue: GRDBQueue) {
-        do {
-            try dbQueue.dbPool.write { db in
-                let exists = try db.cachedStatement(sql: "SELECT EXISTS(SELECT 1 FROM \(DataManager.episodeTableName) WHERE uuid = ?)")
-                for episode in episodes {
-                    if try Bool.fetchOne(exists, arguments: [episode.uuid]) == true { continue }
-                    do {
-                        episode.id = DBUtils.generateUniqueId()
-                        try episode.insert(db)
-                    } catch {
-                        episode.id = 0
-                        FileLog.shared.addMessage("EpisodeDataManager.insertMissing error for \(episode.uuid): \(error)")
+        // One write per chunk, so other writes wait for one chunk at most instead of the whole list
+        for chunk in episodes.chunked(into: Constants.Limits.insertMissingChunkSize) {
+            do {
+                try dbQueue.dbPool.write { db in
+                    let exists = try db.cachedStatement(sql: "SELECT EXISTS(SELECT 1 FROM \(DataManager.episodeTableName) WHERE uuid = ?)")
+                    for episode in chunk {
+                        if try Bool.fetchOne(exists, arguments: [episode.uuid]) == true { continue }
+                        do {
+                            episode.id = DBUtils.generateUniqueId()
+                            try episode.insert(db)
+                        } catch {
+                            episode.id = 0
+                            FileLog.shared.addMessage("EpisodeDataManager.insertMissing error for \(episode.uuid): \(error)")
+                        }
                     }
                 }
+            } catch {
+                FileLog.shared.addMessage("EpisodeDataManager.insertMissing error: \(error)")
             }
-        } catch {
-            FileLog.shared.addMessage("EpisodeDataManager.insertMissing error: \(error)")
         }
     }
 
