@@ -252,6 +252,42 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
         }
     }
 
+    func testUnsyncedEpisodesReturnsEachEpisodeOnceNewestFirstUpToTheLimit() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let now = Date()
+
+            for (index, uuid) in ["oldest", "middle", "newest"].enumerated() {
+                let episode = Episode()
+                episode.uuid = uuid
+                episode.podcastUuid = podcast.uuid
+                episode.podcast_id = podcast.id
+                episode.addedDate = now
+                episode.publishedDate = now.addingTimeInterval(TimeInterval(index * 60))
+                episode.playingStatusModified = 1
+                episode.playedUpToModified = 1
+                episode.archivedModified = 1
+                dataManager.save(episode: episode)
+            }
+
+            XCTAssertEqual(dataManager.unsyncedEpisodes(limit: 10).map(\.uuid), ["newest", "middle", "oldest"])
+            XCTAssertEqual(dataManager.unsyncedEpisodes(limit: 2).map(\.uuid), ["newest", "middle"])
+        }
+    }
+
+    func testUnsyncedEpisodesQueryReadsTheEpisodeTableOnce() throws {
+        try runWithDataManager { dataManager in
+            let plan = try dataManager.dbQueue.dbPool.read { db in
+                try Row.fetchAll(db, sql: "EXPLAIN QUERY PLAN \(EpisodeDataManager.unsyncedEpisodesQuery(limit: 2000))")
+                    .map { $0["detail"] as String }
+            }
+            let description = plan.joined(separator: "\n")
+
+            XCTAssertEqual(plan.filter { $0.hasPrefix("SCAN") }, ["SCAN \(DataManager.episodeTableName)"], description)
+            XCTAssertFalse(description.contains("episode_pub_date"), description)
+        }
+    }
+
     // MARK: - delete Tests
 
     func testDeleteRemovesEpisode() throws {

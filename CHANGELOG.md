@@ -4,6 +4,7 @@
 - Sort podcasts and folders by name faster, especially in libraries with Chinese titles [#5601](https://github.com/Automattic/pocket-casts-ios/pull/5601)
 - Fix tapping Done after Edit Podcasts switching Sort By to Drag and Drop when no podcast was reordered [#5563](https://github.com/Automattic/pocket-casts-ios/pull/5563)
 - Save new episodes faster when signing in and checking for new episodes [#5582](https://github.com/Automattic/pocket-casts-ios/pull/5582)
+- Send played, starred and archived changes to your other devices faster when syncing a large library [#5591](https://github.com/Automattic/pocket-casts-ios/pull/5591)
 - Check for new episodes 1 second after opening the app instead of 2 [#5583](https://github.com/Automattic/pocket-casts-ios/pull/5583)
 - Apply episodes played, starred or unarchived on other devices faster when syncing a large library [#5581](https://github.com/Automattic/pocket-casts-ios/pull/5581)
 - Make the first sign-in faster for accounts with a long Up Next by syncing Up Next after the podcasts are imported [#5584](https://github.com/Automattic/pocket-casts-ios/pull/5584)
