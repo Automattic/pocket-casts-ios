@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 import Intents
 import PocketCastsDataModel
@@ -7,6 +8,8 @@ import PocketCastsUtils
 class SiriShortcutsManager: CustomObserver {
     static let shared = SiriShortcutsManager()
 
+    private var podcastChangesCancellable: AnyCancellable?
+
     var analyticsSource: AnalyticsSource {
         .siri
     }
@@ -14,8 +17,12 @@ class SiriShortcutsManager: CustomObserver {
     func setup() {
         addDefaultSuggestions()
         publishSubscribedPodcasts()
-        addCustomObserver(Constants.Notifications.podcastAdded, selector: #selector(publishSubscribedPodcasts))
-        addCustomObserver(Constants.Notifications.podcastDeleted, selector: #selector(publishSubscribedPodcasts))
+        podcastChangesCancellable = NotificationCenter.default.publisher(for: Constants.Notifications.podcastAdded)
+            .merge(with: NotificationCenter.default.publisher(for: Constants.Notifications.podcastDeleted))
+            .debounce(for: .seconds(1), scheduler: DispatchQueue(label: "au.com.pocketcasts.SiriShortcutsManager", qos: .utility))
+            .sink { [weak self] _ in
+                self?.publishSubscribedPodcasts()
+            }
     }
 
     func defaultSuggestions() -> [INShortcut] {
@@ -482,7 +489,7 @@ class SiriShortcutsManager: CustomObserver {
         }
     }
 
-    @objc func publishSubscribedPodcasts() {
+    func publishSubscribedPodcasts() {
         guard let sharedDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId) else { return }
         let podcasts = DataManager.shared.allPodcastsOrderedByTitle()
 
