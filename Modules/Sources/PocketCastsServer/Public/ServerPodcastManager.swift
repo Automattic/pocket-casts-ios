@@ -5,11 +5,6 @@ import PocketCastsUtils
 public class ServerPodcastManager: NSObject {
     public static let shared = ServerPodcastManager()
 
-    lazy var isoFormatter: ISO8601DateFormatter = {
-        let formatter = ISO8601DateFormatter()
-        return formatter
-    }()
-
     lazy var subscribeQueue: OperationQueue = {
         let queue = OperationQueue()
         queue.maxConcurrentOperationCount = 1
@@ -221,7 +216,7 @@ public class ServerPodcastManager: NSObject {
             return true
         }
 
-        let podcast = Podcast.from(podcastJson: podcastJson, podcastInfo: podcastInfo, uuid: podcastUuid, subscribe: subscribe, autoDownloads: autoDownloads, lastModified: lastModified, isoFormatter: isoFormatter)
+        let podcast = Podcast.from(podcastJson: podcastJson, podcastInfo: podcastInfo, uuid: podcastUuid, subscribe: subscribe, autoDownloads: autoDownloads, lastModified: lastModified)
 
         podcast.sortOrder = highestSortOrderForHomeGrid() + 1
 
@@ -233,7 +228,7 @@ public class ServerPodcastManager: NSObject {
 
         var episodes = [Episode]()
         for episodeJson in episodesJson {
-            let episode = Episode.from(episodeJson: episodeJson, podcastId: podcast.id, podcastUuid: podcast.uuid, isoFormatter: isoFormatter)
+            let episode = Episode.from(episodeJson: episodeJson, podcastId: podcast.id, podcastUuid: podcast.uuid)
             episodes.append(episode)
         }
         DataManager.shared.bulkSave(episodes: episodes)
@@ -255,7 +250,7 @@ public class ServerPodcastManager: NSObject {
 
         if let episode = DataManager.shared.findEpisode(uuid: uuid) {
             if shouldUpdate {
-                let updatedEpisode = Episode.from(episodeJson: firstEpisode, podcastId: podcast.id, podcastUuid: podcast.uuid, isoFormatter: isoFormatter)
+                let updatedEpisode = Episode.from(episodeJson: firstEpisode, podcastId: podcast.id, podcastUuid: podcast.uuid)
 
                 // Refresh server-driven fields while preserving user state (playback, downloads, etc.)
                 episode.title = updatedEpisode.title
@@ -287,7 +282,7 @@ public class ServerPodcastManager: NSObject {
             return episode
         }
 
-        let episode = Episode.from(episodeJson: firstEpisode, podcastId: podcast.id, podcastUuid: podcast.uuid, isoFormatter: isoFormatter)
+        let episode = Episode.from(episodeJson: firstEpisode, podcastId: podcast.id, podcastUuid: podcast.uuid)
 
         DataManager.shared.save(episode: episode)
 

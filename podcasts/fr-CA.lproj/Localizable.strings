@@ -29,12 +29,16 @@
     <string>Annuler la sélection multiple</string>
     <key>accessibility_close_dialog</key>
     <string>Fermer la boîte</string>
+    <key>accessibility_close_player</key>
+    <string>Fermer le lecteur</string>
     <key>accessibility_deselect_episode</key>
     <string>Désélectionner un épisode</string>
     <key>accessibility_disabled</key>
     <string>Désactivé</string>
     <key>accessibility_dismiss</key>
     <string>Ignorer</string>
+    <key>accessibility_episode_actions</key>
+    <string>Actions sur l’épisode</string>
     <key>accessibility_episode_playback</key>
     <string>Lecture de l’épisode</string>
     <key>accessibility_follow_podcast</key>
@@ -47,6 +51,10 @@
     <string>Appuyer deux fois pour ajouter l’épisode dans les favoris</string>
     <key>accessibility_hint_unstar</key>
     <string>Appuyer deux fois pour retirer l’épisode des favoris</string>
+    <key>accessibility_mini_player</key>
+    <string>Lecteur</string>
+    <key>accessibility_mini_player_hint</key>
+    <string>Appuyer pour ouvrir le lecteur grand format</string>
     <key>accessibility_more_actions</key>
     <string>Plus d’actions</string>
     <key>accessibility_patron_only</key>
@@ -65,6 +73,8 @@
     <string>Image de la liste de lecture</string>
     <key>accessibility_plus_only</key>
     <string>Verrouillé, fonctionnalité Plus</string>
+    <key>accessibility_podcast_artwork</key>
+    <string>Illustration du podcast</string>
     <key>accessibility_profile_settings</key>
     <string>Réglages de Pocket Casts</string>
     <key>accessibility_select_episode</key>
@@ -77,6 +87,8 @@
     <string>Tri et options</string>
     <key>accessibility_unfollow_podcast</key>
     <string>Se désabonner de %1$@</string>
+    <key>accessibility_up_next_list</key>
+    <string>Liste des éléments à venir</string>
     <key>account</key>
     <string>Compte</string>
     <key>account_change_email</key>
@@ -341,8 +353,12 @@ Téléchargez l’application pour vivre pleinement l’expérience !</string>
     <string>Signet</string>
     <key>bookmark_delete_warning_body</key>
     <string>Voulez-vous vraiment supprimer ces signets ? Cette opération est irréversible !</string>
+    <key>bookmark_delete_warning_body_singular</key>
+    <string>Voulez-vous vraiment supprimer ce signet ? Cette opération est irréversible !</string>
     <key>bookmark_delete_warning_title</key>
     <string>Supprimer les signets ?</string>
+    <key>bookmark_delete_warning_title_singular</key>
+    <string>Supprimer le signet ?</string>
     <key>bookmark_details_title</key>
     <string>Signet</string>
     <key>bookmark_edit_transcript_subtitle</key>
@@ -694,6 +710,8 @@ Vous pouvez vous déconnecter à tout moment des réglages.</string>
     <string>La mise en veille a été redémarrée en raison d’une secousse de l’appareil</string>
     <key>discover</key>
     <string>Découvrir</string>
+    <key>discover_all_categories</key>
+    <string>Toutes les catégories</string>
     <key>discover_all_episodes</key>
     <string>Tous les épisodes</string>
     <key>discover_all_podcasts</key>
@@ -870,6 +888,8 @@ Vous pouvez vous déconnecter à tout moment des réglages.</string>
     <string>Échec de la recherche</string>
     <key>discover_search_failed_msg</key>
     <string>Vérifiez votre connexion Internet.</string>
+    <key>discover_select_a_category</key>
+    <string>Sélectionner une catégorie</string>
     <key>discover_select_region</key>
     <string>Sélectionner la région du contenu</string>
     <key>discover_show_all</key>
@@ -3267,6 +3287,8 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Ouvrir les liens dans un navigateur</string>
     <key>settings_general_play_back_actions</key>
     <string>Actions de lecture supplémentaires</string>
+    <key>settings_general_play_back_actions_subtitle_device</key>
+    <string>Ajoute une option étoile sur l’écran de verrouillage.</string>
     <key>settings_general_player_header</key>
     <string>LECTEUR</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3417,6 +3439,8 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Hébergeurs de podcasts courants</string>
     <key>settings_status_host_description</key>
     <string>Les auteurs de podcasts hébergent les fichiers d’épisode chez divers hébergeurs non gérés par Pocket Casts.</string>
+    <key>settings_status_host_failure_message_device</key>
+    <string>La cause la plus courante est qu’un bloqueur de publicités est configuré sur votre appareil ou votre réseau. Vous devrez débloquer ce domaine pour télécharger des podcasts. Veuillez noter que Pocket Casts n’héberge pas ou ne choisit pas où les podcasts sont hébergés. C’est une décision de l’auteur de l’épisode qui est hors de notre contrôle.</string>
     <key>settings_status_internet</key>
     <string>Internet</string>
     <key>settings_status_internet_description</key>
@@ -3429,6 +3453,8 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Le service utilisé pour trouver de nouveaux épisodes.</string>
     <key>settings_status_run</key>
     <string>Exécuter</string>
+    <key>settings_status_service_ad_blocker_help_singular_device</key>
+    <string>La cause la plus courante est qu’un bloqueur de publicités est configuré sur votre appareil ou votre réseau. Vous devrez débloquer le domaine %1$@</string>
     <key>settings_storage</key>
     <string>Stockage et utilisation des données</string>
     <key>settings_storage_data_warning</key>
@@ -3439,6 +3465,8 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>DONNÉES MOBILES</string>
     <key>settings_storage_usage</key>
     <string>UTILISATION</string>
+    <key>settings_storage_usage_footer_device</key>
+    <string>Peut différer de l’espace de stockage indiqué dans vos réglages %1$@. Votre appareil gère automatiquement les données mises en cache et les libère en cas de besoin.</string>
     <key>settings_third_party_analytics</key>
     <string>Statistiques tierces</string>
     <key>settings_title</key>
@@ -3477,6 +3505,8 @@ Voici un passe invité %1$@ pour Pocket Casts Plus, mon lecteur de podcast préf
     <string>Configurer le compte</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>Secouer pour redémarrer la mise en veille</string>
+    <key>shake_to_restart_sleep_timer_description_device</key>
+    <string>Si cette fonction est activée, la mise en veille redémarrera si vous secouez votre appareil.</string>
     <key>share</key>
     <string>Partager</string>
     <key>share_clip</key>

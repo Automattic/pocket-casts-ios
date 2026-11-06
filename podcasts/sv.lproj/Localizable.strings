@@ -29,12 +29,16 @@
     <string>Avbryt flerval</string>
     <key>accessibility_close_dialog</key>
     <string>Stäng dialogruta</string>
+    <key>accessibility_close_player</key>
+    <string>Stäng spelare</string>
     <key>accessibility_deselect_episode</key>
     <string>Avmarkera avsnitt</string>
     <key>accessibility_disabled</key>
     <string>Inaktiverad</string>
     <key>accessibility_dismiss</key>
     <string>Avfärda</string>
+    <key>accessibility_episode_actions</key>
+    <string>Avsnittsåtgärder</string>
     <key>accessibility_episode_playback</key>
     <string>Uppspelning av avsnitt</string>
     <key>accessibility_follow_podcast</key>
@@ -47,6 +51,10 @@
     <string>Dubbeltryck för att stjärnmärka avsnitt</string>
     <key>accessibility_hint_unstar</key>
     <string>Dubbeltryck för att ta bort stjärnmärkning från avsnitt</string>
+    <key>accessibility_mini_player</key>
+    <string>Spelare</string>
+    <key>accessibility_mini_player_hint</key>
+    <string>Tryck för att öppna spelare i full storlek</string>
     <key>accessibility_more_actions</key>
     <string>Fler åtgärder</string>
     <key>accessibility_patron_only</key>
@@ -65,6 +73,8 @@
     <string>Spellistebild</string>
     <key>accessibility_plus_only</key>
     <string>Låst Plus-funktion</string>
+    <key>accessibility_podcast_artwork</key>
+    <string>Podcastomslag</string>
     <key>accessibility_profile_settings</key>
     <string>Pocket Casts-inställningar</string>
     <key>accessibility_select_episode</key>
@@ -77,6 +87,8 @@
     <string>Sortering och Alternativ</string>
     <key>accessibility_unfollow_podcast</key>
     <string>Sluta följa %1$@</string>
+    <key>accessibility_up_next_list</key>
+    <string>Nästa-lista</string>
     <key>account</key>
     <string>Konto</string>
     <key>account_change_email</key>
@@ -341,8 +353,12 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Bokmärk</string>
     <key>bookmark_delete_warning_body</key>
     <string>Är du säker på att du vill ta bort dessa bokmärken? Det finns inget sätt att ångra det!</string>
+    <key>bookmark_delete_warning_body_singular</key>
+    <string>Är du säker på att du vill ta bort det här bokmärket? Det går inte att ångra åtgärden.</string>
     <key>bookmark_delete_warning_title</key>
     <string>Ta bort bokmärken?</string>
+    <key>bookmark_delete_warning_title_singular</key>
+    <string>Ta bort bokmärke?</string>
     <key>bookmark_details_title</key>
     <string>Bokmärk</string>
     <key>bookmark_edit_transcript_subtitle</key>
@@ -694,6 +710,8 @@ Du kan när som helst koppla från Inställningar.</string>
     <string>Vilolägestimern återstartades när enheten skakades</string>
     <key>discover</key>
     <string>Upptäck</string>
+    <key>discover_all_categories</key>
+    <string>Alla kategorier</string>
     <key>discover_all_episodes</key>
     <string>Alla avsnitt</string>
     <key>discover_all_podcasts</key>
@@ -870,6 +888,8 @@ Du kan när som helst koppla från Inställningar.</string>
     <string>Sökningen misslyckades</string>
     <key>discover_search_failed_msg</key>
     <string>Kontrollera din internetanslutning.</string>
+    <key>discover_select_a_category</key>
+    <string>Välj en kategori</string>
     <key>discover_select_region</key>
     <string>Välj innehållsregion</string>
     <key>discover_show_all</key>
@@ -3267,6 +3287,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Öppna länkar i webbläsare</string>
     <key>settings_general_play_back_actions</key>
     <string>Flera uppspelningsåtgärder</string>
+    <key>settings_general_play_back_actions_subtitle_device</key>
+    <string>Lägger till alternativet Stjärnmärkt på din låsskärm.</string>
     <key>settings_general_player_header</key>
     <string>SPELARE</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3417,6 +3439,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Vanliga podcastvärdar</string>
     <key>settings_status_host_description</key>
     <string>Podcastskapare använder olika värdtjänster för sina avsnittsfiler. Dessa hanteras inte av Pocket Casts.</string>
+    <key>settings_status_host_failure_message_device</key>
+    <string>Den vanligaste orsaken är att du har en annonsblockerare konfigurerad på din enhet eller i ditt nätverk. Du måste avblockera den här domänen för att ladda ner podcasts. Observera att Pocket Casts inte är värd för dina podcasts eller väljer vilken värdtjänst som används för dem. Det är upp till showens skapare och ligger utanför vår kontroll.</string>
     <key>settings_status_internet</key>
     <string>Internet</string>
     <key>settings_status_internet_description</key>
@@ -3429,6 +3453,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Tjänsten som används för att hitta nya avsnitt.</string>
     <key>settings_status_run</key>
     <string>Kör nu</string>
+    <key>settings_status_service_ad_blocker_help_singular_device</key>
+    <string>Den vanligaste orsaken är att du har en annonsblockerare konfigurerad på din enhet eller i ditt nätverk. Du måste avblockera domänen %1$@</string>
     <key>settings_storage</key>
     <string>Lagrings- och dataanvändning</string>
     <key>settings_storage_data_warning</key>
@@ -3439,6 +3465,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>MOBILDATA</string>
     <key>settings_storage_usage</key>
     <string>ANVÄNDNING</string>
+    <key>settings_storage_usage_footer_device</key>
+    <string>Detta kan skilja sig från det lagringsutrymme som visas i dina %1$@-inställningar. Din enhet hanterar cachelagrade data automatiskt och frigör utrymme när det behövs.</string>
     <key>settings_third_party_analytics</key>
     <string>Analyser från tredje part</string>
     <key>settings_title</key>
@@ -3477,6 +3505,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Konfigurera konto</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>Skaka för att starta om sömntimern</string>
+    <key>shake_to_restart_sleep_timer_description_device</key>
+    <string>Om det här alternativet är aktiverat kommer sömntimern att starta om när du skakar din enhet.</string>
     <key>share</key>
     <string>Dela</string>
     <key>share_clip</key>

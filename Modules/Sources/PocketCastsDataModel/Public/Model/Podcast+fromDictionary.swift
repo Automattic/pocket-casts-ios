@@ -1,7 +1,8 @@
 import Foundation
+import PocketCastsUtils
 
 extension Podcast {
-    public static func from(podcastJson: [String: Any], podcastInfo: [String: Any], uuid: String, subscribe: Bool, autoDownloads: Int, lastModified: String?, isoFormatter: ISO8601DateFormatter) -> Podcast {
+    public static func from(podcastJson: [String: Any], podcastInfo: [String: Any], uuid: String, subscribe: Bool, autoDownloads: Int, lastModified: String?) -> Podcast {
         let podcast = Podcast()
         podcast.uuid = uuid
         podcast.subscribed = subscribe ? 1 : 0
@@ -40,7 +41,7 @@ extension Podcast {
             }
         }
         if let estimatedNextEpisode = podcastInfo["estimated_next_episode_at"] as? String {
-            podcast.estimatedNextEpisode = isoFormatter.date(from: estimatedNextEpisode)
+            podcast.estimatedNextEpisode = ISO8601DateParser.date(from: estimatedNextEpisode)
         }
         if let frequency = podcastInfo["episode_frequency"] as? String {
             podcast.episodeFrequency = frequency

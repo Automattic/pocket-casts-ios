@@ -29,12 +29,16 @@
     <string>Cancelar selección múltiple</string>
     <key>accessibility_close_dialog</key>
     <string>Cerrar ventana</string>
+    <key>accessibility_close_player</key>
+    <string>Cerrar el reproductor</string>
     <key>accessibility_deselect_episode</key>
     <string>Anular el episodio seleccionado</string>
     <key>accessibility_disabled</key>
     <string>Desactivado</string>
     <key>accessibility_dismiss</key>
     <string>Descartar</string>
+    <key>accessibility_episode_actions</key>
+    <string>Acciones del episodio</string>
     <key>accessibility_episode_playback</key>
     <string>Reproducción del episodio</string>
     <key>accessibility_follow_podcast</key>
@@ -47,6 +51,10 @@
     <string>Haz doble clic para destacar el episodio</string>
     <key>accessibility_hint_unstar</key>
     <string>Haz doble clic para eliminar el destacado del episodio</string>
+    <key>accessibility_mini_player</key>
+    <string>Reproductor</string>
+    <key>accessibility_mini_player_hint</key>
+    <string>Toca para abrir el reproductor a pantalla completa</string>
     <key>accessibility_more_actions</key>
     <string>Más acciones</string>
     <key>accessibility_patron_only</key>
@@ -65,6 +73,8 @@
     <string>Imagen de la playlist</string>
     <key>accessibility_plus_only</key>
     <string>Bloqueada, es una función Plus</string>
+    <key>accessibility_podcast_artwork</key>
+    <string>Carátula del pódcast</string>
     <key>accessibility_profile_settings</key>
     <string>Ajustes de Pocket Casts</string>
     <key>accessibility_select_episode</key>
@@ -77,6 +87,8 @@
     <string>Clasificación y opciones</string>
     <key>accessibility_unfollow_podcast</key>
     <string>Dejar de seguir %1$@</string>
+    <key>accessibility_up_next_list</key>
+    <string>Lista A continuación</string>
     <key>account</key>
     <string>Cuenta</string>
     <key>account_change_email</key>
@@ -341,8 +353,12 @@ Descarga la aplicación para disfrutar de la experiencia completa.</string>
     <string>Marcador</string>
     <key>bookmark_delete_warning_body</key>
     <string>¿Seguro que quieres eliminar estos marcadores? Esta acción no se puede deshacer.</string>
+    <key>bookmark_delete_warning_body_singular</key>
+    <string>¿Seguro que quieres eliminar este marcador? Esta acción no se puede deshacer.</string>
     <key>bookmark_delete_warning_title</key>
     <string>¿Eliminar marcadores?</string>
+    <key>bookmark_delete_warning_title_singular</key>
+    <string>¿Eliminar marcador?</string>
     <key>bookmark_details_title</key>
     <string>Marcador</string>
     <key>bookmark_edit_transcript_subtitle</key>
@@ -694,6 +710,8 @@ Puedes desconectarte en cualquier momento desde Ajustes.</string>
     <string>El temporizador de suspensión se reinició porque se agitó el dispositivo</string>
     <key>discover</key>
     <string>Descubrir</string>
+    <key>discover_all_categories</key>
+    <string>Todas las categorías</string>
     <key>discover_all_episodes</key>
     <string>Todos los episodios</string>
     <key>discover_all_podcasts</key>
@@ -870,6 +888,8 @@ Puedes desconectarte en cualquier momento desde Ajustes.</string>
     <string>Se ha producido un error al buscar</string>
     <key>discover_search_failed_msg</key>
     <string>Comprueba tu conexión a Internet.</string>
+    <key>discover_select_a_category</key>
+    <string>Elegir una categoría</string>
     <key>discover_select_region</key>
     <string>Seleccionar región del contenido</string>
     <key>discover_show_all</key>
@@ -3267,6 +3287,8 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Abrir enlaces en el navegador</string>
     <key>settings_general_play_back_actions</key>
     <string>Otras acciones de la reproducción</string>
+    <key>settings_general_play_back_actions_subtitle_device</key>
+    <string>Añade una opción para destacar en la pantalla de bloqueo.</string>
     <key>settings_general_player_header</key>
     <string>REPRODUCTOR</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3417,6 +3439,8 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Proveedores de alojamiento más frecuentes de pódscast</string>
     <key>settings_status_host_description</key>
     <string>Los autores de los pódcast alojan los archivos de episodios en diferentes proveedores de alojamiento que no están gestionados por Pocket Casts.</string>
+    <key>settings_status_host_failure_message_device</key>
+    <string>La causa más habitual es que tengas configurado un bloqueador de anuncios en tu dispositivo o red. Tendrás que desbloquear este dominio para descargar pódcasts. Ten en cuenta que Pocket Casts no aloja los pódcasts ni decide dónde se alojan. Eso depende del autor del programa y está fuera de nuestro control.</string>
     <key>settings_status_internet</key>
     <string>Internet</string>
     <key>settings_status_internet_description</key>
@@ -3429,6 +3453,8 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Este servicio se usa para buscar episodios nuevos.</string>
     <key>settings_status_run</key>
     <string>Ejecutar ahora</string>
+    <key>settings_status_service_ad_blocker_help_singular_device</key>
+    <string>La causa más habitual es que tengas configurado un bloqueador de anuncios en tu dispositivo o red. Tendrás que desbloquear el dominio %1$@</string>
     <key>settings_storage</key>
     <string>Almacenamiento y uso de datos</string>
     <key>settings_storage_data_warning</key>
@@ -3439,6 +3465,8 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>DATOS MÓVILES</string>
     <key>settings_storage_usage</key>
     <string>USO</string>
+    <key>settings_storage_usage_footer_device</key>
+    <string>Esto puede diferir del almacenamiento que se muestra en los ajustes de %1$@. Tu dispositivo gestiona automáticamente los datos almacenados en caché y libera espacio cuando lo necesita.</string>
     <key>settings_third_party_analytics</key>
     <string>Análisis de terceros</string>
     <key>settings_title</key>
@@ -3477,6 +3505,8 @@ Aquí tienes un pase de invitado de %1$@ para Pocket Casts Plus, mi reproductor 
     <string>Configurar cuenta</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>Agitar para reiniciar el temporizador</string>
+    <key>shake_to_restart_sleep_timer_description_device</key>
+    <string>Si está activado, el temporizador de apagado se reiniciará al agitar el dispositivo.</string>
     <key>share</key>
     <string>Compartir</string>
     <key>share_clip</key>

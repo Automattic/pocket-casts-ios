@@ -29,12 +29,16 @@
     <string>取消多選</string>
     <key>accessibility_close_dialog</key>
     <string>關閉對話方塊</string>
+    <key>accessibility_close_player</key>
+    <string>關閉播放器</string>
     <key>accessibility_deselect_episode</key>
     <string>取消選取本集</string>
     <key>accessibility_disabled</key>
     <string>已停用</string>
     <key>accessibility_dismiss</key>
     <string>忽略</string>
+    <key>accessibility_episode_actions</key>
+    <string>單集動作</string>
     <key>accessibility_episode_playback</key>
     <string>單集播放</string>
     <key>accessibility_follow_podcast</key>
@@ -47,6 +51,10 @@
     <string>點選兩下即可為單集加上星號</string>
     <key>accessibility_hint_unstar</key>
     <string>點選兩下即可移除單集的星號</string>
+    <key>accessibility_mini_player</key>
+    <string>播放器</string>
+    <key>accessibility_mini_player_hint</key>
+    <string>點選以開啟原始尺寸播放器</string>
     <key>accessibility_more_actions</key>
     <string>更多動作</string>
     <key>accessibility_patron_only</key>
@@ -65,6 +73,8 @@
     <string>播放清單圖片</string>
     <key>accessibility_plus_only</key>
     <string>Plus 功能已解鎖</string>
+    <key>accessibility_podcast_artwork</key>
+    <string>Podcast 封面圖片</string>
     <key>accessibility_profile_settings</key>
     <string>Pocket Casts 設定</string>
     <key>accessibility_select_episode</key>
@@ -75,6 +85,8 @@
     <string>點選即可檢視或設定帳號</string>
     <key>accessibility_sort_and_options</key>
     <string>排序與選項</string>
+    <key>accessibility_up_next_list</key>
+    <string>「接下來播放」清單</string>
     <key>account</key>
     <string>帳號</string>
     <key>account_change_email</key>
@@ -339,7 +351,11 @@ Tap the button below to sign into your Pocket Casts account again.</string>
     <string>書籤</string>
     <key>bookmark_delete_warning_body</key>
     <string>你確定要刪除這些書籤嗎？這個動作無法復原！</string>
+    <key>bookmark_delete_warning_body_singular</key>
+    <string>你確定要刪除這個書籤嗎？這個動作無法復原！</string>
     <key>bookmark_delete_warning_title</key>
+    <string>要刪除書籤嗎？</string>
+    <key>bookmark_delete_warning_title_singular</key>
     <string>要刪除書籤嗎？</string>
     <key>bookmark_details_title</key>
     <string>書籤</string>
@@ -692,6 +708,8 @@ Pocket Casts Plus</string>
     <string>由於裝置晃動，故睡眠計時器已重新啟動</string>
     <key>discover</key>
     <string>探索</string>
+    <key>discover_all_categories</key>
+    <string>所有類別</string>
     <key>discover_all_episodes</key>
     <string>所有單集</string>
     <key>discover_all_podcasts</key>
@@ -868,6 +886,8 @@ Pocket Casts Plus</string>
     <string>搜尋失敗</string>
     <key>discover_search_failed_msg</key>
     <string>請檢查你的網際網路連線。</string>
+    <key>discover_select_a_category</key>
+    <string>選取類別</string>
     <key>discover_select_region</key>
     <string>選取內容區域</string>
     <key>discover_show_all</key>
@@ -3265,6 +3285,8 @@ Pocket Casts Plus</string>
     <string>在瀏覽器開啟連結</string>
     <key>settings_general_play_back_actions</key>
     <string>其他播放動作</string>
+    <key>settings_general_play_back_actions_subtitle_device</key>
+    <string>可在鎖定畫面新增星級評分選項。</string>
     <key>settings_general_player_header</key>
     <string>播放器</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3415,6 +3437,8 @@ Pocket Casts Plus</string>
     <string>Podcast 常見託管服務商</string>
     <key>settings_status_host_description</key>
     <string>Podcast 作者會將單集檔案交由各式託管服務商管理，而這些服務商不受 Pocket Casts 管理。</string>
+    <key>settings_status_host_failure_message_device</key>
+    <string>最常見的原因是在裝置或網路上設定了廣告封鎖程式。  你需要解除封鎖此網域才能下載 Podcast。 請注意，Pocket Casts 不提供託管 Podcast 或協助 Podcast 選擇要託管的服務，一切由節目作者決定。</string>
     <key>settings_status_internet</key>
     <string>網際網路</string>
     <key>settings_status_internet_description</key>
@@ -3427,6 +3451,8 @@ Pocket Casts Plus</string>
     <string>該服務用於尋找新單集。</string>
     <key>settings_status_run</key>
     <string>立即執行</string>
+    <key>settings_status_service_ad_blocker_help_singular_device</key>
+    <string>最常見的原因是在裝置或網路上設定了廣告封鎖程式。  請將網域 %1$@ 解除封鎖</string>
     <key>settings_storage</key>
     <string>儲存空間與數據使用</string>
     <key>settings_storage_data_warning</key>
@@ -3437,6 +3463,8 @@ Pocket Casts Plus</string>
     <string>行動數據</string>
     <key>settings_storage_usage</key>
     <string>使用方式</string>
+    <key>settings_storage_usage_footer_device</key>
+    <string>這可能與「%1$@」設定中顯示的儲存空間不同。 你的裝置會自動管理快取資料，並在需要時將空間釋出。</string>
     <key>settings_third_party_analytics</key>
     <string>第三方分析</string>
     <key>settings_title</key>
@@ -3475,6 +3503,8 @@ Pocket Casts Plus</string>
     <string>設定帳號</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>搖動以重新啟動睡眠計時器</string>
+    <key>shake_to_restart_sleep_timer_description_device</key>
+    <string>在睡眠計時器開啟的狀態下，只要你搖動裝置就會將計時器重新啟動。</string>
     <key>share</key>
     <string>分享</string>
     <key>share_clip</key>

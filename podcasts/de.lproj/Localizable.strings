@@ -29,12 +29,16 @@
     <string>Mehrfachauswahl abbrechen</string>
     <key>accessibility_close_dialog</key>
     <string>Dialog schließen</string>
+    <key>accessibility_close_player</key>
+    <string>Player schließen</string>
     <key>accessibility_deselect_episode</key>
     <string>Folge abwählen</string>
     <key>accessibility_disabled</key>
     <string>Deaktiviert</string>
     <key>accessibility_dismiss</key>
     <string>Verwerfen</string>
+    <key>accessibility_episode_actions</key>
+    <string>Aktionen für Folge</string>
     <key>accessibility_episode_playback</key>
     <string>Wiedergabe der Folge</string>
     <key>accessibility_follow_podcast</key>
@@ -47,6 +51,10 @@
     <string>Doppelt tippen, um Folge mit Stern zu markieren</string>
     <key>accessibility_hint_unstar</key>
     <string>Doppelt tippen, um Folge nicht mehr mit Stern zu markieren</string>
+    <key>accessibility_mini_player</key>
+    <string>Player</string>
+    <key>accessibility_mini_player_hint</key>
+    <string>Tippen, um Vollbild-Player zu öffnen</string>
     <key>accessibility_more_actions</key>
     <string>Weitere Aktionen</string>
     <key>accessibility_patron_only</key>
@@ -65,6 +73,8 @@
     <string>Playlist-Bild</string>
     <key>accessibility_plus_only</key>
     <string>Gesperrt, Plus-Feature</string>
+    <key>accessibility_podcast_artwork</key>
+    <string>Podcast-Covers</string>
     <key>accessibility_profile_settings</key>
     <string>Einstellungen für Pocket Casts</string>
     <key>accessibility_select_episode</key>
@@ -77,6 +87,8 @@
     <string>Sortieren und Optionen</string>
     <key>accessibility_unfollow_podcast</key>
     <string>%1$@ nicht mehr folgen</string>
+    <key>accessibility_up_next_list</key>
+    <string>Liste „Als Nächstes“</string>
     <key>account</key>
     <string>Konto</string>
     <key>account_change_email</key>
@@ -341,7 +353,11 @@ Lade die App herunter, um das bestmögliche Erlebnis zu erhalten!</string>
     <string>Lesezeichen</string>
     <key>bookmark_delete_warning_body</key>
     <string>Bist du sicher, dass du diese Lesezeichen löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden!</string>
+    <key>bookmark_delete_warning_body_singular</key>
+    <string>Bist du sicher, dass du dieses Lesezeichen löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden!</string>
     <key>bookmark_delete_warning_title</key>
+    <string>Lesezeichen löschen?</string>
+    <key>bookmark_delete_warning_title_singular</key>
     <string>Lesezeichen löschen?</string>
     <key>bookmark_details_title</key>
     <string>Lesezeichen</string>
@@ -694,6 +710,8 @@ Du kannst die Verbindung jederzeit in den Einstellungen trennen.</string>
     <string>Die Schlummerfunktion wurde durch das Schütteln des Geräts neu gestartet</string>
     <key>discover</key>
     <string>Entdecken</string>
+    <key>discover_all_categories</key>
+    <string>Alle Kategorien</string>
     <key>discover_all_episodes</key>
     <string>Alle Folgen</string>
     <key>discover_all_podcasts</key>
@@ -870,6 +888,8 @@ Du kannst die Verbindung jederzeit in den Einstellungen trennen.</string>
     <string>Suche fehlgeschlagen</string>
     <key>discover_search_failed_msg</key>
     <string>Überprüfe deine Internetverbindung.</string>
+    <key>discover_select_a_category</key>
+    <string>Kategorie auswählen</string>
     <key>discover_select_region</key>
     <string>Region für Inhalte auswählen</string>
     <key>discover_show_all</key>
@@ -3267,6 +3287,8 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Links in Browser öffnen</string>
     <key>settings_general_play_back_actions</key>
     <string>Zusätzliche Wiedergabeaktionen</string>
+    <key>settings_general_play_back_actions_subtitle_device</key>
+    <string>Dadurch wird eine Sterneoption zu deinem Sperrbildschirm hinzugefügt.</string>
     <key>settings_general_player_header</key>
     <string>PLAYER</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3417,6 +3439,8 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Gängige Podcast-Hosts</string>
     <key>settings_status_host_description</key>
     <string>Podcast-Autoren hosten Folgen-Dateien bei verschiedenen Hosting-Anbietern, die nicht von Pocket Casts verwaltet werden.</string>
+    <key>settings_status_host_failure_message_device</key>
+    <string>Die gängigste Ursache ist, dass du auf deinem Gerät oder in deinem Netzwerk einen Werbeblocker eingerichtet hast. Du musst die Blockierung dieser Domain aufheben, um Podcasts herunterladen zu können. Bitte beachte, dass Pocket Casts die Podcasts nicht hostet oder entscheidet, wo sie gehostet werden. Das ist Sache des Autors der Show und wir haben keinen Einfluss darauf.</string>
     <key>settings_status_internet</key>
     <string>Internet</string>
     <key>settings_status_internet_description</key>
@@ -3429,6 +3453,8 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Der Dienst, mit dem neue Folgen gefunden wurden.</string>
     <key>settings_status_run</key>
     <string>Jetzt ausführen</string>
+    <key>settings_status_service_ad_blocker_help_singular_device</key>
+    <string>Die gängigste Ursache ist, dass du auf deinem Gerät oder in deinem Netzwerk einen Werbeblocker eingerichtet hast. Du musst die Blockierung der Domain %1$@ aufheben</string>
     <key>settings_storage</key>
     <string>Speicher und Datennutzung</string>
     <key>settings_storage_data_warning</key>
@@ -3439,6 +3465,8 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>MOBILE DATEN</string>
     <key>settings_storage_usage</key>
     <string>SPEICHERBELEGUNG</string>
+    <key>settings_storage_usage_footer_device</key>
+    <string>Dies kann sich von dem Speicherplatz unterscheiden, der in deinen %1$@-Einstellungen angezeigt wird. Dein Gerät verwaltet zwischengespeicherte Daten automatisch und gibt sie bei Bedarf frei.</string>
     <key>settings_third_party_analytics</key>
     <string>Drittanbieter-Analysen</string>
     <key>settings_title</key>
@@ -3477,6 +3505,8 @@ Hier ist ein Gastpass für %1$@ für Pocket Casts Plus ‒ meinen liebsten Po
     <string>Konto einrichten</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>Schütteln, um Schlummerfunktion neu zu starten</string>
+    <key>shake_to_restart_sleep_timer_description_device</key>
+    <string>Wenn die Schlummerfunktion aktiviert ist, wird sie neu gestartet, wenn du dein Gerät schüttelst.</string>
     <key>share</key>
     <string>Teilen</string>
     <key>share_clip</key>

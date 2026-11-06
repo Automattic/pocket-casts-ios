@@ -1,11 +1,14 @@
 8.25
 -----
 - Fix the episode details screen showing the podcast cover when episode artwork is enabled and available [#5430](https://github.com/Automattic/pocket-casts-ios/pull/5430)
+- Sort podcasts and folders by name faster, especially in libraries with Chinese titles [#5601](https://github.com/Automattic/pocket-casts-ios/pull/5601)
 - Fix tapping Done after Edit Podcasts switching Sort By to Drag and Drop when no podcast was reordered [#5563](https://github.com/Automattic/pocket-casts-ios/pull/5563)
 - Save new episodes faster when signing in and checking for new episodes [#5582](https://github.com/Automattic/pocket-casts-ios/pull/5582)
 - Check for new episodes 1 second after opening the app instead of 2 [#5583](https://github.com/Automattic/pocket-casts-ios/pull/5583)
 - Apply episodes played, starred or unarchived on other devices faster when syncing a large library [#5581](https://github.com/Automattic/pocket-casts-ios/pull/5581)
 - Make the first sign-in faster for accounts with a long Up Next by syncing Up Next after the podcasts are imported [#5584](https://github.com/Automattic/pocket-casts-ios/pull/5584)
+- Keep the app responsive during a first sign-in or import with many podcasts [#5599](https://github.com/Automattic/pocket-casts-ios/pull/5599)
+- Import podcasts faster when signing in, and load podcasts with many episodes faster [#5598](https://github.com/Automattic/pocket-casts-ios/pull/5598)
 - Fix text being cut off, split mid-word or overlapping at the largest text sizes in the Account and Profile headers, the share sheet, the Up Next now-playing card, Create Folder and Recent searches [#5553](https://github.com/Automattic/pocket-casts-ios/pull/5553) [#5545](https://github.com/Automattic/pocket-casts-ios/pull/5545) [#5556](https://github.com/Automattic/pocket-casts-ios/pull/5556) [#5540](https://github.com/Automattic/pocket-casts-ios/pull/5540) [#5544](https://github.com/Automattic/pocket-casts-ios/pull/5544) [#5554](https://github.com/Automattic/pocket-casts-ios/pull/5554)
 - Fix settings toggle and button labels in right-to-left languages: they now follow the leading edge, and "Refresh All Podcast Artwork" is no longer cut off [#5546](https://github.com/Automattic/pocket-casts-ios/pull/5546)
 - Fix the mini player's progress bar and times being mirrored in right-to-left languages while the full player's are not, and show the remaining time in the mini player on iPhone [#5539](https://github.com/Automattic/pocket-casts-ios/pull/5539)
