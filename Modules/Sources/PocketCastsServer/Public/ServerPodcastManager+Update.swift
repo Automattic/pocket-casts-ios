@@ -62,7 +62,7 @@ extension ServerPodcastManager {
             podcast.showType = showType
         }
         if let estimatedNextEpisode = podcastInfo["estimated_next_episode_at"] as? String {
-            podcast.estimatedNextEpisode = isoFormatter.date(from: estimatedNextEpisode)
+            podcast.estimatedNextEpisode = ISO8601DateParser.date(from: estimatedNextEpisode)
         }
         if let frequency = podcastInfo["episode_frequency"] as? String {
             podcast.episodeFrequency = frequency
@@ -97,7 +97,7 @@ extension ServerPodcastManager {
         var latestAvailableEpisodeUuid: String?
 
         for episodeJson in episodesJson {
-            guard let uuid = episodeJson["uuid"] as? String, let publishedStr = episodeJson["published"] as? String, let episodeDate = isoFormatter.date(from: publishedStr) else { continue }
+            guard let uuid = episodeJson["uuid"] as? String, let publishedStr = episodeJson["published"] as? String, let episodeDate = ISO8601DateParser.date(from: publishedStr) else { continue }
 
             // for existing episodes, update the fields we want to pick up when they change
             if let existingEpisode = DataManager.shared.findEpisode(uuid: uuid) {
