@@ -15,10 +15,10 @@ if [[ "${POCKET_CASTS_CI_FULL_BUILD:-}" == 1 || "${BUILDKITE_SOURCE:-}" != webho
   exit 1
 fi
 
-# Scope documentation skips so bundled Markdown and text fixtures still run jobs.
+# Preserve the existing documentation/tooling exclusions for app builds.
 SKIP_PATTERNS=(
-  '*/README.md' '!(*/*).md' 'docs/*' '.github/*.md' '.agents/*.md' '.claude/*.md'
-  '.gitignore' 'fastlane/metadata/*' 'fastlane/metadata-tvos/*' 'fastlane/AppStoreStrings*.po'
+  '*.md' '*.po' '*.pot' '*.txt' '.gitignore' 'config/Version.xcconfig'
+  'fastlane/*' 'Gemfile' 'Gemfile.lock' 'docs/*'
 )
 REQUIRED_PATTERNS=()
 case "$job" in
@@ -28,11 +28,7 @@ case "$job" in
     SKIP_PATTERNS+=('PocketCastsTests/*' 'Modules/Tests/*')
     ;;
   localization)
-    REQUIRED_PATTERNS=(
-      '*.strings' '*.stringsdict' '.buildkite/*' '.xcode-version'
-      'fastlane/Fastfile' 'fastlane/Appfile' 'fastlane/Pluginfile' 'fastlane/*.rb'
-      'Gemfile*' '.ruby-version'
-    )
+    REQUIRED_PATTERNS=('*.strings' '*.stringsdict')
     ;;
   themes)
     # env -i uses only the script, CSV and system Ruby from the selected image.
