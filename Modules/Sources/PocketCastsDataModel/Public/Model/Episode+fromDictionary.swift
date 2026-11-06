@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsUtils
 
 extension Episode {
     /// MIME type we advertise for HLS streams we send elsewhere, e.g. to Google Cast.
@@ -35,7 +36,7 @@ extension Episode {
         return sources?.first?["uri"] as? String
     }
 
-    public static func from(episodeJson: [String: Any], podcastId: Int64, podcastUuid: String, isoFormatter: ISO8601DateFormatter) -> Episode {
+    public static func from(episodeJson: [String: Any], podcastId: Int64, podcastUuid: String) -> Episode {
         let episode = Episode()
         episode.addedDate = Date()
         episode.podcast_id = podcastId
@@ -61,7 +62,7 @@ extension Episode {
             episode.duration = duration
         }
         if let publishedStr = episodeJson["published"] as? String {
-            episode.publishedDate = isoFormatter.date(from: publishedStr)
+            episode.publishedDate = ISO8601DateParser.date(from: publishedStr)
         }
         if let number = episodeJson["number"] as? Int64 {
             episode.episodeNumber = number
