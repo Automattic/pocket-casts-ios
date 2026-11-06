@@ -143,13 +143,12 @@ class RefreshOperation: Operation, @unchecked Sendable {
         // the returned dictionary is indexed by podcast UUID and contains all the new episodes for that podcast
         let podcasts = DataManager.shared.allPodcasts(includeUnsubscribed: false)
         let updatedPodcasts = refreshResult.podcastUpdates
-        var metadataRequestsQueued = 0
+        var receivedEpisodes = [(podcast: Podcast, episodes: [Episode])]()
         for podcast in podcasts {
             guard let podcastEpisodes = updatedPodcasts?[podcast.uuid], !podcastEpisodes.isEmpty else { continue }
 
             let episodes: [Episode] = podcastEpisodes.reversed().compactMap({ episode in
-                guard let episodeUuid = episode.uuid else { return nil }
-                if let _ = DataManager.shared.findEpisode(uuid: episodeUuid) { return nil }
+                guard episode.uuid != nil else { return nil }
 
                 let newEpisode = Episode()
                 newEpisode.podcast_id = podcast.id
@@ -160,9 +159,24 @@ class RefreshOperation: Operation, @unchecked Sendable {
                 newEpisode.populate(fromEpisode: episode)
                 return newEpisode
             })
+            receivedEpisodes.append((podcast, episodes))
+        }
 
-            DataManager.shared.bulkSave(episodes: episodes)
+        let savedUuids: Set<String>
+        if FeatureFlag.insertRefreshedEpisodesInOneTransaction.enabled {
+            savedUuids = Set(DataManager.shared.insertEpisodesIfMissing(receivedEpisodes.flatMap(\.episodes)).map(\.uuid))
+        } else {
+            savedUuids = saveEpisodesOneByOne(receivedEpisodes)
+        }
+        if isCancelled {
+            cleanupAfterCancel()
 
+            return .cancelled
+        }
+
+        var metadataRequestsQueued = 0
+        for (podcast, receivedPodcastEpisodes) in receivedEpisodes {
+            let episodes = receivedPodcastEpisodes.filter { savedUuids.contains($0.uuid) }
             for episode in episodes {
                 if isCancelled {
                     cleanupAfterCancel()
@@ -203,6 +217,22 @@ class RefreshOperation: Operation, @unchecked Sendable {
 
     private func cleanupAfterCancel() {
         apiQueue.cancelAllOperations()
+    }
+
+    /// Saves each podcast's new episodes separately, looking up every episode first.
+    /// - Returns: The UUIDs of the episodes it saved.
+    private func saveEpisodesOneByOne(_ receivedEpisodes: [(podcast: Podcast, episodes: [Episode])]) -> Set<String> {
+        var savedUuids = Set<String>()
+        for (_, episodes) in receivedEpisodes {
+            if isCancelled {
+                break
+            }
+
+            let newEpisodes = episodes.filter { DataManager.shared.findEpisode(uuid: $0.uuid) == nil }
+            DataManager.shared.bulkSave(episodes: newEpisodes)
+            savedUuids.formUnion(newEpisodes.map(\.uuid))
+        }
+        return savedUuids
     }
 
     private func processAutoAddUpNextCandidates() {
