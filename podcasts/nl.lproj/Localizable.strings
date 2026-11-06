@@ -29,12 +29,16 @@
     <string>Multiselect annuleren</string>
     <key>accessibility_close_dialog</key>
     <string>Dialoogvenster sluiten</string>
+    <key>accessibility_close_player</key>
+    <string>Speler sluiten</string>
     <key>accessibility_deselect_episode</key>
     <string>Aflevering deselecteren</string>
     <key>accessibility_disabled</key>
     <string>Uitschakelen</string>
     <key>accessibility_dismiss</key>
     <string>Negeren</string>
+    <key>accessibility_episode_actions</key>
+    <string>Afleveringacties</string>
     <key>accessibility_episode_playback</key>
     <string>Aflevering afspelen</string>
     <key>accessibility_follow_podcast</key>
@@ -47,6 +51,10 @@
     <string>Tik tweemaal om aflevering aan favorieten toe te voegen</string>
     <key>accessibility_hint_unstar</key>
     <string>Tik tweemaal om aflevering uit favorieten te verwijderen</string>
+    <key>accessibility_mini_player</key>
+    <string>Speler</string>
+    <key>accessibility_mini_player_hint</key>
+    <string>Tik om de speler op volledige grootte te openen</string>
     <key>accessibility_more_actions</key>
     <string>Meer acties</string>
     <key>accessibility_patron_only</key>
@@ -65,6 +73,8 @@
     <string>Afbeelding van playlist</string>
     <key>accessibility_plus_only</key>
     <string>Vergrendeld, functie voor Plus</string>
+    <key>accessibility_podcast_artwork</key>
+    <string>Podcast-artwork</string>
     <key>accessibility_profile_settings</key>
     <string>Pocket Casts-instellingen</string>
     <key>accessibility_select_episode</key>
@@ -75,6 +85,8 @@
     <string>Tik om account te bekijken of in te stellen</string>
     <key>accessibility_sort_and_options</key>
     <string>Sorteren en opties</string>
+    <key>accessibility_up_next_list</key>
+    <string>Lijst Hierna</string>
     <key>account</key>
     <string>Account</string>
     <key>account_change_email</key>
@@ -337,8 +349,12 @@ Download de app voor de volledige ervaring!</string>
     <string>Bladwijzer</string>
     <key>bookmark_delete_warning_body</key>
     <string>Weet je zeker dat je deze bladwijzers wilt verwijderen? Dit kan niet ongedaan gemaakt worden!</string>
+    <key>bookmark_delete_warning_body_singular</key>
+    <string>Weet je zeker dat je deze bladwijzer wilt verwijderen? Dit kan niet ongedaan gemaakt worden!</string>
     <key>bookmark_delete_warning_title</key>
     <string>Bladwijzers verwijderen?</string>
+    <key>bookmark_delete_warning_title_singular</key>
+    <string>Bladwijzer verwijderen?</string>
     <key>bookmark_details_title</key>
     <string>Bladwijzer</string>
     <key>bookmark_edit_transcript_subtitle</key>
@@ -690,6 +706,8 @@ Je kunt op elk moment de verbinding met Instellingen verbreken.</string>
     <string>De slaaptimer is opnieuw gestart omdat er met het apparaat is geschud</string>
     <key>discover</key>
     <string>Ontdek</string>
+    <key>discover_all_categories</key>
+    <string>Alle categorieën</string>
     <key>discover_all_episodes</key>
     <string>Alle afleveringen</string>
     <key>discover_all_podcasts</key>
@@ -866,6 +884,8 @@ Je kunt op elk moment de verbinding met Instellingen verbreken.</string>
     <string>Zoekopdracht mislukt</string>
     <key>discover_search_failed_msg</key>
     <string>Controleer je internetverbinding.</string>
+    <key>discover_select_a_category</key>
+    <string>Een categorie selecteren</string>
     <key>discover_select_region</key>
     <string>Selecteer contentregio</string>
     <key>discover_show_all</key>
@@ -3259,6 +3279,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Links openen in browser</string>
     <key>settings_general_play_back_actions</key>
     <string>Extra afspeelacties</string>
+    <key>settings_general_play_back_actions_subtitle_device</key>
+    <string>Voegt aan het vergrendelscherm een optie voor afleveringen als favoriet markeren toe.</string>
     <key>settings_general_player_header</key>
     <string>SPELER</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3409,6 +3431,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Veelgebruikte Podcast-hosts</string>
     <key>settings_status_host_description</key>
     <string>Schrijvers van podcasts hosten afleveringbestanden in verschillende providers die niet worden beheerd door Pocket Casts.</string>
+    <key>settings_status_host_failure_message_device</key>
+    <string>De meestvoorkomende oorzaak is dat je een adblocker hebt geconfigureerd op je apparaat of netwerk. Je moet dit domein deblokkeren om podcasts te downloaden. Pocket Casts host niet of kiest niet waar podcasts worden gehost, dat is aan de schrijver van de show en hier hebben we geen invloed op.</string>
     <key>settings_status_internet</key>
     <string>Internet</string>
     <key>settings_status_internet_description</key>
@@ -3421,6 +3445,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>De service die wordt gebruikt om nieuwe afleveringen te vinden.</string>
     <key>settings_status_run</key>
     <string>Nu uitvoeren</string>
+    <key>settings_status_service_ad_blocker_help_singular_device</key>
+    <string>De meestvoorkomende oorzaak is dat je een adblocker hebt geconfigureerd op je apparaat of netwerk. Je moet het domein %1$@ deblokkeren </string>
     <key>settings_storage</key>
     <string>Gebruik van opslag en data</string>
     <key>settings_storage_data_warning</key>
@@ -3431,6 +3457,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>MOBIELE DATA</string>
     <key>settings_storage_usage</key>
     <string>Gebruik</string>
+    <key>settings_storage_usage_footer_device</key>
+    <string>Dit kan afwijken van de opslagruimte die wordt weergegeven in je %1$@ instellingen. Je apparaat beheert gecachete gegevens automatisch en maakt ze vrij wanneer dat nodig is.</string>
     <key>settings_third_party_analytics</key>
     <string>Analyses van derden</string>
     <key>settings_title</key>
@@ -3469,6 +3497,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Account instellen</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>Schudden om slaaptimer te opnieuw op te starten</string>
+    <key>shake_to_restart_sleep_timer_description_device</key>
+    <string>Indien ingeschakeld, wordt de slaaptimer opnieuw opgestart als je met je apparaat schudt.</string>
     <key>share</key>
     <string>Delen</string>
     <key>share_clip</key>

@@ -29,12 +29,16 @@
     <string>Отменить множественный выбор</string>
     <key>accessibility_close_dialog</key>
     <string>Закрыть окно</string>
+    <key>accessibility_close_player</key>
+    <string>Закрыть плеер</string>
     <key>accessibility_deselect_episode</key>
     <string>Отменить выбор выпуска</string>
     <key>accessibility_disabled</key>
     <string>Отключено</string>
     <key>accessibility_dismiss</key>
     <string>Закрыть</string>
+    <key>accessibility_episode_actions</key>
+    <string>Действия в выпуске</string>
     <key>accessibility_episode_playback</key>
     <string>Воспроизведение выпуска</string>
     <key>accessibility_follow_podcast</key>
@@ -47,6 +51,10 @@
     <string>Дважды нажмите, чтобы включить выпуск в избранное</string>
     <key>accessibility_hint_unstar</key>
     <string>Дважды нажмите, чтобы исключить выпуск из избранного</string>
+    <key>accessibility_mini_player</key>
+    <string>Плеер</string>
+    <key>accessibility_mini_player_hint</key>
+    <string>Нажмите, чтобы открыть плеер в полном размере</string>
     <key>accessibility_more_actions</key>
     <string>Другие действия</string>
     <key>accessibility_patron_only</key>
@@ -65,6 +73,8 @@
     <string>Изображение плейлиста</string>
     <key>accessibility_plus_only</key>
     <string>Заблокировано, функция Plus</string>
+    <key>accessibility_podcast_artwork</key>
+    <string>Тема подкаста</string>
     <key>accessibility_profile_settings</key>
     <string>Настройки Pocket Casts</string>
     <key>accessibility_select_episode</key>
@@ -77,6 +87,8 @@
     <string>Сортировка и опции</string>
     <key>accessibility_unfollow_podcast</key>
     <string>Отписаться от %1$@</string>
+    <key>accessibility_up_next_list</key>
+    <string>Список «В очереди»</string>
     <key>account</key>
     <string>Учётная запись</string>
     <key>account_change_email</key>
@@ -341,8 +353,12 @@
     <string>Закладка</string>
     <key>bookmark_delete_warning_body</key>
     <string>Точно удалить эти закладки? Это действие нельзя отменить.</string>
+    <key>bookmark_delete_warning_body_singular</key>
+    <string>Вы уверены, что хотите удалить эту закладку? Это действие нельзя отменить.</string>
     <key>bookmark_delete_warning_title</key>
     <string>Удалить закладки?</string>
+    <key>bookmark_delete_warning_title_singular</key>
+    <string>Удалить закладку?</string>
     <key>bookmark_details_title</key>
     <string>Закладка</string>
     <key>bookmark_edit_transcript_subtitle</key>
@@ -694,6 +710,8 @@ Pocket Casts Plus</string>
     <string>Таймер сна перезагружен из-за встряхивания устройства</string>
     <key>discover</key>
     <string>Найти</string>
+    <key>discover_all_categories</key>
+    <string>Все рубрики</string>
     <key>discover_all_episodes</key>
     <string>Все выпуски</string>
     <key>discover_all_podcasts</key>
@@ -870,6 +888,8 @@ Pocket Casts Plus</string>
     <string>Не удалось выполнить поиск</string>
     <key>discover_search_failed_msg</key>
     <string>Проверьте подключение к Интернету.</string>
+    <key>discover_select_a_category</key>
+    <string>Выбрать рубрику</string>
     <key>discover_select_region</key>
     <string>Выберите страну/регион</string>
     <key>discover_show_all</key>
@@ -3267,6 +3287,8 @@ Pocket Casts на полную мощность.</string>
     <string>Открыть ссылки в браузере</string>
     <key>settings_general_play_back_actions</key>
     <string>Дополнительные действия при воспроизведении</string>
+    <key>settings_general_play_back_actions_subtitle_device</key>
+    <string>Добавляет на экран блокировки возможность оценки (в звёздах).</string>
     <key>settings_general_player_header</key>
     <string>ПЛЕЕР</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3417,6 +3439,8 @@ Pocket Casts на полную мощность.</string>
     <string>Распространённые хостинги подкастов</string>
     <key>settings_status_host_description</key>
     <string>Авторы подкастов размещают файлы выпусков у различных хостинг-провайдеров, которые не контролируются Pocket Casts.</string>
+    <key>settings_status_host_failure_message_device</key>
+    <string>Чаще всего это связано с тем, что на вашем устройстве или в сети настроен блокировщик рекламы. Для скачивания подкастов вам потребуется разблокировать этот домен. Обратите внимание, что Pocket Casts не размещает подкасты на своих серверах и не выбирает место их размещения. Этим занимаются авторы программ, и мы не можем это контролировать.</string>
     <key>settings_status_internet</key>
     <string>Интернет</string>
     <key>settings_status_internet_description</key>
@@ -3429,6 +3453,8 @@ Pocket Casts на полную мощность.</string>
     <string>Этот сервис используется для поиска новых выпусков.</string>
     <key>settings_status_run</key>
     <string>Запустить сейчас</string>
+    <key>settings_status_service_ad_blocker_help_singular_device</key>
+    <string>Чаще всего это связано с тем, что на вашем устройстве или в сети настроен блокировщик рекламы. Вам потребуется разблокировать домен %1$@</string>
     <key>settings_storage</key>
     <string>Использование хранилища и данных</string>
     <key>settings_storage_data_warning</key>
@@ -3439,6 +3465,8 @@ Pocket Casts на полную мощность.</string>
     <string>МОБИЛЬНЫЕ ДАННЫЕ</string>
     <key>settings_storage_usage</key>
     <string>ИСПОЛЬЗОВАНИЕ ПАМЯТИ</string>
+    <key>settings_storage_usage_footer_device</key>
+    <string>Могут быть отличия от хранилища, отображаемого в настройках %1$@. Ваше устройство автоматически управляет кешированными данными и освобождает место при необходимости.</string>
     <key>settings_third_party_analytics</key>
     <string>Сторонняя аналитика</string>
     <key>settings_title</key>
@@ -3477,6 +3505,8 @@ Pocket Casts на полную мощность.</string>
     <string>Создать учетную запись</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>Встряхнуть телефон, чтобы перезапустить таймер сна</string>
+    <key>shake_to_restart_sleep_timer_description_device</key>
+    <string>В режиме «Включено» таймер сна будет перезапущен, если устройство будет двигаться.</string>
     <key>share</key>
     <string>Поделиться</string>
     <key>share_clip</key>

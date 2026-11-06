@@ -29,12 +29,16 @@
     <string>Annulla la seleziona multipla</string>
     <key>accessibility_close_dialog</key>
     <string>Chiudi la finestra di dialogo</string>
+    <key>accessibility_close_player</key>
+    <string>Chiudi lettore</string>
     <key>accessibility_deselect_episode</key>
     <string>Deseleziona episodio</string>
     <key>accessibility_disabled</key>
     <string>Disabilitato</string>
     <key>accessibility_dismiss</key>
     <string>Chiudi</string>
+    <key>accessibility_episode_actions</key>
+    <string>Azioni dell'episodio</string>
     <key>accessibility_episode_playback</key>
     <string>Riproduzione episodio</string>
     <key>accessibility_follow_podcast</key>
@@ -47,6 +51,10 @@
     <string>Tocca due volte per assegnare una stella all'episodio</string>
     <key>accessibility_hint_unstar</key>
     <string>Tocca due volte per rimuovere la stella dall'episodio</string>
+    <key>accessibility_mini_player</key>
+    <string>Lettore</string>
+    <key>accessibility_mini_player_hint</key>
+    <string>Tocca per aprire il lettore a grandezza naturale</string>
     <key>accessibility_more_actions</key>
     <string>Altre azioni</string>
     <key>accessibility_patron_only</key>
@@ -65,6 +73,8 @@
     <string>Immagine playlist</string>
     <key>accessibility_plus_only</key>
     <string>Bloccato, funzionalità Plus</string>
+    <key>accessibility_podcast_artwork</key>
+    <string>Illustrazione del podcast</string>
     <key>accessibility_profile_settings</key>
     <string>Impostazioni Pocket Casts</string>
     <key>accessibility_select_episode</key>
@@ -77,6 +87,8 @@
     <string>Ordinamento e opzioni</string>
     <key>accessibility_unfollow_podcast</key>
     <string>Smetti di seguire %1$@</string>
+    <key>accessibility_up_next_list</key>
+    <string>Elenco Successivo</string>
     <key>account</key>
     <string>Account</string>
     <key>account_change_email</key>
@@ -341,8 +353,12 @@ Scarica l'app per provare l'esperienza completa!</string>
     <string>Segnalibro</string>
     <key>bookmark_delete_warning_body</key>
     <string>Desideri eliminare questi segnalibri? Non c'è modo di annullare l'azione.</string>
+    <key>bookmark_delete_warning_body_singular</key>
+    <string>Desideri eliminare questo segnalibro? Non è possibile annullare l'azione.</string>
     <key>bookmark_delete_warning_title</key>
     <string>Elimina i segnalibri?</string>
+    <key>bookmark_delete_warning_title_singular</key>
+    <string>Eliminare il segnalibro?</string>
     <key>bookmark_details_title</key>
     <string>Segnalibro</string>
     <key>bookmark_edit_transcript_subtitle</key>
@@ -694,6 +710,8 @@ Puoi disconnetterti in qualsiasi momento da Impostazioni.</string>
     <string>Autospegnimento riavviato a causa di un movimento del dispositivo</string>
     <key>discover</key>
     <string>Scopri</string>
+    <key>discover_all_categories</key>
+    <string>Tutte le categorie</string>
     <key>discover_all_episodes</key>
     <string>Tutti gli episodi</string>
     <key>discover_all_podcasts</key>
@@ -870,6 +888,8 @@ Puoi disconnetterti in qualsiasi momento da Impostazioni.</string>
     <string>Ricerca non riuscita</string>
     <key>discover_search_failed_msg</key>
     <string>Controlla la connessione a Internet.</string>
+    <key>discover_select_a_category</key>
+    <string>Seleziona una categoria</string>
     <key>discover_select_region</key>
     <string>Seleziona la regione dei contenuti</string>
     <key>discover_show_all</key>
@@ -3267,6 +3287,8 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Apri i link nel browser</string>
     <key>settings_general_play_back_actions</key>
     <string>Azioni di riproduzione aggiuntive</string>
+    <key>settings_general_play_back_actions_subtitle_device</key>
+    <string>Aggiunge un'opzione stella alla schermata di blocco.</string>
     <key>settings_general_player_header</key>
     <string>LETTORE</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3417,6 +3439,8 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Fornitori di hosting di podcast comuni</string>
     <key>settings_status_host_description</key>
     <string>Gli autori di podcast ospitano i file degli episodi su vari fornitori del servizio di hosting non gestiti da Pocket Casts.</string>
+    <key>settings_status_host_failure_message_device</key>
+    <string>La causa più comune è legata al fatto che hai una funzionalità di blocco degli annunci configurata sul dispositivo o sulla rete. Dovrai sbloccare questo dominio per scaricare i podcast. Pocket Casts non ospita o sceglie il luogo in cui sono ospitati i podcast, questo dipende dall'autore dello show ed è fuori dal nostro controllo.</string>
     <key>settings_status_internet</key>
     <string>Internet</string>
     <key>settings_status_internet_description</key>
@@ -3429,6 +3453,8 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Il servizio usato per trovare nuovi episodi.</string>
     <key>settings_status_run</key>
     <string>Verifica</string>
+    <key>settings_status_service_ad_blocker_help_singular_device</key>
+    <string>La causa più comune è legata al fatto che hai una funzionalità di blocco degli annunci configurata sul dispositivo o sulla rete. Dovrai sbloccare il dominio %1$@</string>
     <key>settings_storage</key>
     <string>Archiviazione e utilizzo dei dati</string>
     <key>settings_storage_data_warning</key>
@@ -3439,6 +3465,8 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>DATI DISPOSITIVI MOBILI</string>
     <key>settings_storage_usage</key>
     <string>UTILIZZO</string>
+    <key>settings_storage_usage_footer_device</key>
+    <string>Questo potrebbe differire dall'archiviazione mostrata nelle Impostazioni %1$@. Il dispositivo gestisce automaticamente i dati memorizzati nella cache e li libera quando necessario.</string>
     <key>settings_third_party_analytics</key>
     <string>Analisi di terze parti</string>
     <key>settings_title</key>
@@ -3477,6 +3505,8 @@ Questo è un pass per ospiti %1$@ per Pocket Casts Plus, il mio podcast player p
     <string>Configura account</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>Scuoti per riavviare l'autospegnimento</string>
+    <key>shake_to_restart_sleep_timer_description_device</key>
+    <string>Quando è attivato, l'autospegnimento si riavvia quando scuoti il dispositivo.</string>
     <key>share</key>
     <string>Condividi</string>
     <key>share_clip</key>
