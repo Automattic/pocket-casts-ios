@@ -20,6 +20,8 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
 
     private var lastLayedOutWidth = 0 as CGFloat
     private var lastLayedOutInsets = UIEdgeInsets.zero
+    private var lastLayedOutPageStride = 0 as CGFloat
+    private var lastLayedOutBoundsWidth = 0 as CGFloat
 
     private var relatedPodcastID: String? {
         didSet {
@@ -90,18 +92,27 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         if lastLayedOutWidth != view.bounds.width || lastLayedOutInsets != horizontalInsets {
             lastLayedOutWidth = view.bounds.width
             lastLayedOutInsets = horizontalInsets
+            let page = currentPageIndex
             largeListCollectionViewHeight.constant = cellWidth + cellExtraHeight
             collectionView.collectionViewLayout.invalidateLayout()
             collectionView.layoutIfNeeded()
-            updateInsets()
+            updateInsets(restoringPage: page)
         }
     }
 
-    private func updateInsets() {
-        let leadingInset = cellSpacing + horizontalInsets.left
-        collectionView.contentOffset.x -= leadingInset - collectionView.contentInset.left
-        collectionView.contentInset.left = leadingInset
-        collectionView.contentInset.right = horizontalInsets.right
+    private var currentPageIndex: Int {
+        guard lastLayedOutPageStride > 0 else { return 0 }
+        let x = collectionView.contentOffset.x
+        let offsetX = collectionView.isRightToLeft ? collectionView.contentSize.width - lastLayedOutBoundsWidth - x : x
+        return max(Int(round((offsetX + collectionView.leadingContentInset) / lastLayedOutPageStride)), 0)
+    }
+
+    private func updateInsets(restoringPage page: Int) {
+        let leadingInset = cellSpacing + leadingHorizontalInset
+        collectionView.setContentInsets(leading: leadingInset, trailing: trailingHorizontalInset)
+        lastLayedOutPageStride = pageStride
+        lastLayedOutBoundsWidth = collectionView.bounds.width
+        collectionView.contentOffset.x = collectionView.leadingAlignedOffsetX(CGFloat(page) * pageStride - leadingInset)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -221,6 +232,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
                     strongSelf.podcastHeaderView?.bottomText = podcastCollection?.title
                     strongSelf.divider.isHidden = false
                     strongSelf.collectionView.reloadData()
+                    strongSelf.collectionView.scrollToLeadingEdge()
                 }
             })
         default:
@@ -233,6 +245,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
                 DispatchQueue.main.async {
                     strongSelf.divider.isHidden = false
                     strongSelf.collectionView.reloadData()
+                    strongSelf.collectionView.scrollToLeadingEdge()
                 }
             })
         }

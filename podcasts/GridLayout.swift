@@ -161,6 +161,12 @@ class GridLayout: UICollectionViewLayout, GridLayoutDelegate {
         } else {
             contentWidth += itemSpacing * 2
         }
+
+        if collectionView.effectiveUserInterfaceLayoutDirection == .rightToLeft {
+            for attributes in itemAttributesCache {
+                attributes.frame.origin.x = contentWidth - attributes.frame.maxX
+            }
+        }
         sectionedItemGrid = [] // Only used during prepare, free up some memory
     }
 
