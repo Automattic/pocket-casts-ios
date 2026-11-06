@@ -3,44 +3,76 @@ import Foundation
 import XCTest
 
 final class ISO8601DateParserTests: XCTestCase {
-    private let formatter = ISO8601DateFormatter()
+    /// The previous implementation: `ServerPodcastManager.isoFormatter`, a default `ISO8601DateFormatter`.
+    private let previousFormatter = ISO8601DateFormatter()
 
-    func testMatchesFormatterForRandomTimestamps() throws {
+    private func assertSameAsPrevious(_ string: String, file: StaticString = #filePath, line: UInt = #line) {
+        XCTAssertEqual(ISO8601DateParser.date(from: string), previousFormatter.date(from: string), string, file: file, line: line)
+    }
+
+    func testMatchesPreviousImplementationForRandomTimestamps() throws {
         var generator = SplitMix64(seed: 1070)
-        let earliest = try Int64(XCTUnwrap(formatter.date(from: "0001-01-01T00:00:00Z")).timeIntervalSince1970)
-        let latest = try Int64(XCTUnwrap(formatter.date(from: "9999-12-31T23:59:59Z")).timeIntervalSince1970)
+        let earliest = try Int64(XCTUnwrap(previousFormatter.date(from: "0001-01-01T00:00:00Z")).timeIntervalSince1970)
+        let latest = try Int64(XCTUnwrap(previousFormatter.date(from: "9999-12-31T23:59:59Z")).timeIntervalSince1970)
 
-        for _ in 0..<20_000 {
+        for _ in 0..<10_000 {
             let date = Date(timeIntervalSince1970: TimeInterval(Int64.random(in: earliest...latest, using: &generator)))
-            let string = formatter.string(from: date)
+            let string = previousFormatter.string(from: date)
 
             XCTAssertEqual(ISO8601DateParser.date(from: string), date, string)
+            assertSameAsPrevious(string)
+        }
+    }
+
+    func testMatchesPreviousImplementationForRandomFields() {
+        var generator = SplitMix64(seed: 8_601)
+
+        for _ in 0..<10_000 {
+            assertSameAsPrevious(randomDateTime(using: &generator) + "Z")
+        }
+    }
+
+    func testMatchesPreviousImplementationForTimeZoneOffsets() {
+        var generator = SplitMix64(seed: 2_026)
+
+        for _ in 0..<5_000 {
+            let dateTime = randomDateTime(using: &generator)
+            let offset = Int.random(in: -56...56, using: &generator) * 15
+            let sign = offset < 0 ? "-" : "+"
+            let hours = String(format: "%02d", abs(offset) / 60)
+            let minutes = String(format: "%02d", abs(offset) % 60)
+
+            assertSameAsPrevious("\(dateTime)\(sign)\(hours):\(minutes)")
+            assertSameAsPrevious("\(dateTime)\(sign)\(hours)\(minutes)")
         }
     }
 
     func testEdges() {
         let expected: [String: TimeInterval] = [
-            "1970-01-01T00:00:00Z": 0,
-            "1969-12-31T23:59:59Z": -1,
-            "1900-01-01T00:00:00Z": -2_208_988_800,
-            "1583-01-01T00:00:00Z": -12_212_553_600,
+            "0001-01-01T00:00:00Z": -62_135_769_600,
             "1582-10-04T00:00:00Z": -12_219_379_200,
+            "1582-10-15T00:00:00Z": -12_219_292_800,
+            "1583-01-01T00:00:00Z": -12_212_553_600,
+            "1900-01-01T00:00:00Z": -2_208_988_800,
+            "1969-12-31T23:59:59Z": -1,
+            "1970-01-01T00:00:00Z": 0,
             "2000-02-29T12:00:00Z": 951_825_600,
-            "2024-02-29T23:59:59Z": 1_709_251_199,
             "2023-12-31T23:59:59Z": 1_704_067_199,
             "2024-01-01T00:00:00Z": 1_704_067_200,
+            "2024-02-29T23:59:59Z": 1_709_251_199,
             "2024-03-01T00:00:00Z": 1_709_251_200,
             "2038-01-19T03:14:08Z": 2_147_483_648,
             "2100-02-28T23:59:59Z": 4_107_542_399,
             "2100-03-01T00:00:00Z": 4_107_542_400,
             "9999-12-31T23:59:59Z": 253_402_300_799,
             "2024-01-01T00:00:00+10:00": 1_704_031_200,
-            "2024-01-01T00:00:00-05:00": 1_704_085_200
+            "2024-01-01T00:00:00-05:00": 1_704_085_200,
+            "2024-01-01T00:00:00+00:00": 1_704_067_200
         ]
 
         for (string, interval) in expected {
             XCTAssertEqual(ISO8601DateParser.date(from: string), Date(timeIntervalSince1970: interval), string)
-            XCTAssertEqual(ISO8601DateParser.date(from: string), formatter.date(from: string), string)
+            assertSameAsPrevious(string)
         }
     }
 
@@ -78,7 +110,7 @@ final class ISO8601DateParserTests: XCTestCase {
 
         for string in strings {
             XCTAssertNotNil(ISO8601DateParser.date(from: string), string)
-            XCTAssertEqual(ISO8601DateParser.date(from: string), formatter.date(from: string), string)
+            assertSameAsPrevious(string)
         }
     }
 
@@ -96,7 +128,24 @@ final class ISO8601DateParserTests: XCTestCase {
 
         for string in strings {
             XCTAssertNil(ISO8601DateParser.date(from: string), string)
+            XCTAssertNil(previousFormatter.date(from: string), string)
         }
+    }
+
+    private func randomDateTime(using generator: inout SplitMix64) -> String {
+        let year = Int.random(in: 0...9999, using: &generator)
+        let month = Int.random(in: 1...12, using: &generator)
+        let isLeapYear = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)
+        let daysInMonth = month == 2 ? (isLeapYear ? 29 : 28) : ([4, 6, 9, 11].contains(month) ? 30 : 31)
+        return String(
+            format: "%04ld-%02ld-%02ldT%02ld:%02ld:%02ld",
+            year,
+            month,
+            Int.random(in: 1...daysInMonth, using: &generator),
+            Int.random(in: 0...23, using: &generator),
+            Int.random(in: 0...59, using: &generator),
+            Int.random(in: 0...59, using: &generator)
+        )
     }
 }
 
