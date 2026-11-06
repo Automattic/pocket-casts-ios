@@ -27,6 +27,7 @@
 - Fix the Profile header splitting the email address mid-word at accessibility text sizes on iPad; the header now stacks [#5544](https://github.com/Automattic/pocket-casts-ios/pull/5544)
 - Fix a crash when VoiceOver or another accessibility service reads the player's progress slider while the playback time is negative or unknown [#5561](https://github.com/Automattic/pocket-casts-ios/pull/5561)
 - Save new episodes much faster after a refresh in large libraries [#5572](https://github.com/Automattic/pocket-casts-ios/pull/5572)
+- Fix pocketcasts.com podcast links with a trailing slash showing "Unable to load podcast details" instead of the podcast page [#5489](https://github.com/Automattic/pocket-casts-ios/pull/5489)
 
 8.24
 -----
