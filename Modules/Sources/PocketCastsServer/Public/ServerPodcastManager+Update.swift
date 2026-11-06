@@ -33,7 +33,7 @@ extension ServerPodcastManager {
         }
     }
 
-    private func update(podcast: Podcast, podcastInfo: [String: Any], lastModified: String?, addMissingEpisodes: Bool) {
+    func update(podcast: Podcast, podcastInfo: [String: Any], lastModified: String?, addMissingEpisodes: Bool) {
         guard let podcastJson = podcastInfo["podcast"] as? [String: Any], let episodesJson = podcastJson["episodes"] as? [[String: Any]] else { return }
 
         podcast.lastUpdatedAt = lastModified
@@ -96,11 +96,14 @@ extension ServerPodcastManager {
 
         var latestAvailableEpisodeUuid: String?
 
+        var newEpisodes = [String: Episode]()
+
         for episodeJson in episodesJson {
             guard let uuid = episodeJson["uuid"] as? String, let publishedStr = episodeJson["published"] as? String, let episodeDate = ISO8601DateParser.date(from: publishedStr) else { continue }
 
             // for existing episodes, update the fields we want to pick up when they change
-            if let existingEpisode = DataManager.shared.findEpisode(uuid: uuid) {
+            let newEpisode = newEpisodes[uuid]
+            if let existingEpisode = newEpisode ?? DataManager.shared.findEpisode(uuid: uuid) {
                 var episodeChanged = false
                 if let title = episodeJson["title"] as? String, existingEpisode.title != title {
                     existingEpisode.title = title
@@ -138,7 +141,7 @@ extension ServerPodcastManager {
                     episodeChanged = true
                 }
 
-                if episodeChanged {
+                if episodeChanged, newEpisode == nil {
                     DataManager.shared.save(episode: existingEpisode)
                 }
 
@@ -206,7 +209,15 @@ extension ServerPodcastManager {
 
             episode.hlsUrl = Episode.hlsUrl(fromEpisodeJson: episodeJson)
 
-            DataManager.shared.save(episode: episode)
+            if FeatureFlag.saveMissingEpisodesInOneTransaction.enabled {
+                newEpisodes[uuid] = episode
+            } else {
+                DataManager.shared.save(episode: episode)
+            }
+        }
+
+        if !newEpisodes.isEmpty {
+            DataManager.shared.insertMissing(episodes: Array(newEpisodes.values))
         }
 
         if !podcast.isSubscribed() {

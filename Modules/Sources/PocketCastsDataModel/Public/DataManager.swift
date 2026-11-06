@@ -611,6 +611,10 @@ public class DataManager {
         episodeManager.bulkSave(episodes: episodes, dbQueue: dbQueue)
     }
 
+    public func insertMissing(episodes: [Episode]) {
+        episodeManager.insertMissing(episodes: episodes, dbQueue: dbQueue)
+    }
+
     public func bulkSetStarred(starred: Bool, episodes: [Episode], updateSyncStatus: Bool) {
         episodeManager.bulkSetStarred(starred: starred, episodes: episodes, updateSyncFlag: updateSyncStatus, dbQueue: dbQueue)
     }

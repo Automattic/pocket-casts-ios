@@ -276,6 +276,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// On a first sign-in, sync Up Next after the full sync imports the podcasts, instead of downloading each Up Next podcast first
     case syncUpNextAfterFullSync
 
+    /// Save the episodes a podcast update finds missing in transactions of up to 100, instead of one by one
+    case saveMissingEpisodesInOneTransaction
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -467,6 +470,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .reloadOnlySavedPodcast:
             true
         case .syncUpNextAfterFullSync:
+            true
+        case .saveMissingEpisodesInOneTransaction:
             true
         }
     }
