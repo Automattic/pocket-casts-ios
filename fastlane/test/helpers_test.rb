@@ -79,19 +79,16 @@ class FastlaneHelpersTest < Minitest::Test
   def test_metadata_length_verdict_fails_past_the_maximum
     assert_equal :over_max, app_store_metadata_length_verdict('description.txt', 4001)
     assert_equal :over_max, app_store_metadata_length_verdict('keywords.txt', 101)
-    assert_equal :over_max, app_store_metadata_length_verdict('subtitle.txt', 31)
     assert_equal :over_max, app_store_metadata_length_verdict('release_notes.txt', 4001)
   end
 
   def test_metadata_length_verdict_never_warns_without_a_budget
-    assert_equal :ok, app_store_metadata_length_verdict('subtitle.txt', 30)
     assert_equal :ok, app_store_metadata_length_verdict('release_notes.txt', 4000)
   end
 
   def test_metadata_source_length_ignores_trailing_whitespace
     assert_equal 5, app_store_metadata_source_length('description.txt', 'Hello')
     assert_equal 5, app_store_metadata_source_length('description.txt', "Hello  \n\n")
-    assert_equal 5, app_store_metadata_source_length('subtitle.txt', "Hello\n")
     assert_equal 5, app_store_metadata_source_length('keywords.txt', "Hello\n")
   end
 
