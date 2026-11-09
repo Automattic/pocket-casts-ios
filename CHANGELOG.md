@@ -1,5 +1,6 @@
 8.26
 -----
+- Scroll the Podcasts grid and episode lists more smoothly, especially on iPad, with less memory and about half the storage for artwork [#5614](https://github.com/Automattic/pocket-casts-ios/pull/5614)
 
 
 8.25
