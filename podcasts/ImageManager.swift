@@ -223,20 +223,15 @@ class ImageManager {
             return nil
         }
 
-        do {
-            let data = try Data(contentsOf: cache.diskStorage.cacheFileURL(forKey: key))
-            guard let image = UIImage(data: data) else {
-                try? cache.diskStorage.remove(forKey: key)
-                return nil
-            }
-
-            cache.store(image, forKey: key, toDisk: false)
-            return image
-        } catch {
-            FileLog.shared.addMessage("retrieveImageFromCache, exception caught while loading cached image from disk")
+        var image: UIImage?
+        cache.retrieveImage(forKey: key, options: KingfisherManager.shared.defaultOptions + [.loadDiskFileSynchronously], callbackQueue: .untouch) { result in
+            image = try? result.get().image
         }
-
-        return nil
+        if image == nil {
+            FileLog.shared.addMessage("retrieveImageFromCache, removing a cached image that couldn't be loaded from disk")
+            try? cache.diskStorage.remove(forKey: key)
+        }
+        return image
     }
 
     func image(for episode: BaseEpisode, size: PodcastThumbnailSize) async -> UIImage? {

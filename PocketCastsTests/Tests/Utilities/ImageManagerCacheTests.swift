@@ -62,6 +62,19 @@ final class ImageManagerCacheTests: XCTestCase {
         XCTAssertTrue(imageView.image === image)
     }
 
+    func testCachedImageIsDecodedAndKeptInMemory() throws {
+        let uuid = UUID().uuidString
+        let podcastsCache = ImageManager.shared.subscribedPodcastsCache
+        let key = ImageManager.shared.podcastUrl(imageSize: .list, uuid: uuid).cacheKey
+        defer { podcastsCache.removeImage(forKey: key) }
+        try podcastsCache.diskStorage.store(value: XCTUnwrap(makeImage(size: 100).jpegData(compressionQuality: 0.3)), forKey: key)
+
+        let image = try XCTUnwrap(ImageManager.shared.cachedImageFor(podcastUuid: uuid, size: .list))
+
+        XCTAssertNil(image.cgImage?.utType)
+        XCTAssertTrue(podcastsCache.retrieveImageInMemoryCache(forKey: key) === image)
+    }
+
     @discardableResult
     private func retrieve(data: Data, options: KingfisherOptionsInfo) -> UIImage? {
         let done = expectation(description: "retrieved")
