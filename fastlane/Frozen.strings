@@ -23,6 +23,9 @@
 /* Accessibility label for the button on a podcast the user already follows, used in lists where several podcasts each have this button. '%1$@' is a placeholder for the podcast title. */
 "accessibility_unfollow_podcast" = "Unfollow %1$@";
 
+/* Accessibility label for the button that removes an item from the Recent searches list. '%1$@' is a placeholder for the search term, or the podcast or episode title. */
+"accessibility_remove_recent_search" = "Remove %1$@ from recent searches";
+
 /* An accessibility label to direct the user tap to get access to filter details. */
 "accessibility_hide_filter_details" = "Tap to hide filter details";
 
@@ -1948,6 +1951,9 @@
 /* Informational message informing the user that no episodes are being displayed because they're all archived. '%1$@' is a placeholder for the number of episodes. */
 "podcast_archived_msg" = "All %1$@ episodes of this podcast have been archived";
 
+/* Informational message informing the user that no episodes are being displayed because the podcast's only episode is archived. This is the singular version of an accompanying plural format. */
+"podcast_archived_msg_singular" = "The only episode of this podcast has been archived";
+
 /* A common string used throughout the app. Displays the count of selected podcasts. '%1$@' is a placeholder for the number of podcasts, the value will be more than one. */
 "podcast_count_plural_format" = "%1$@ podcasts";
 
@@ -2130,6 +2136,18 @@
 
 /* Title for the options to configure badge display options. */
 "podcasts_badges" = "Badges";
+
+/* Title for the option to show or hide podcasts the user has fully listened to on the Podcasts tab. */
+"podcasts_played_podcasts" = "Played Podcasts";
+
+/* Explains the Played Podcasts option, shown below its title. */
+"podcasts_played_podcasts_description" = "Hides podcasts with nothing left to listen to, where every episode is played or archived. They reappear when a new episode arrives.";
+
+/* Option to show podcasts the user has fully listened to on the Podcasts tab. */
+"podcasts_played_podcasts_show" = "Show";
+
+/* Option to hide podcasts the user has fully listened to on the Podcasts tab. */
+"podcasts_played_podcasts_hide" = "Hide";
 
 /* Prompt to enter the mode for reordering the podcasts grid. */
 "podcasts_edit" = "Edit Podcasts";
@@ -6065,6 +6083,18 @@
 
 /// Label of the Playback 2025 call to action buton
 "playback_2025_view_year" = "View My Playback 2025";
+
+/// Title of the Playback 2026 banner in the Profile tab
+"playback_2026_banner_title" = "Playback 2026 is here!";
+
+/// Description of the Playback 2026 banner in the Profile tab
+"playback_2026_banner_description" = "Discover your listening stats, which kind of listener you are, and more.";
+
+/// Description in the Playback 2026 announcement sheet
+"playback_2026_sheet_description" = "What you listened to. The podcasts you loved. And what sets you apart as a listener. Your year in Pocket Casts is here.";
+
+/// Label of the call to action button in the Playback 2026 announcement sheet
+"playback_2026_sheet_button" = "View My Playback 2026";
 
 /// Label of the Playback 2025 call to action buton
 "playback_2025_intro_message" = "Your year in podcasts, wrapped and ready to relive";
