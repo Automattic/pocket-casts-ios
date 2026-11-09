@@ -166,6 +166,7 @@ struct NetworkArtworkView: View {
             KFImage(url)
                 .placeholder { _ in placeholder }
                 .targetCache(ImageManager.shared.discoverCache)
+                .loadDiskFileSynchronously(false)
                 .fade(duration: 0.25)
                 .resizable()
                 .scaledToFill()

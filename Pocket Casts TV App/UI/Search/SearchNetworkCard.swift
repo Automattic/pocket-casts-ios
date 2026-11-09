@@ -28,6 +28,7 @@ struct SearchNetworkCard: View {
         if let url = network.collectionImageURL {
             KFImage(url)
                 .placeholder { _ in placeholder }
+                .loadDiskFileSynchronously(false)
                 .fade(duration: 0.25)
                 .resizable()
                 .scaledToFill()

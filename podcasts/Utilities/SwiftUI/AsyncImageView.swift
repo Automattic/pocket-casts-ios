@@ -29,6 +29,7 @@ struct AsyncImageView: View {
         let resource = KF.ImageResource(downloadURL: url, cacheKey: cacheKey)
 
         KFImage.resource(resource)
+            .loadDiskFileSynchronously(false)
             .placeholder { _ in
                 if let placeholder {
                     placeholder

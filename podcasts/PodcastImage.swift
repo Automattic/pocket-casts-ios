@@ -16,6 +16,7 @@ struct PodcastImage: View {
 
     var body: some View {
         KFImage(ImageManager.shared.podcastUrl(imageSize: size, uuid: uuid))
+            .loadDiskFileSynchronously(false)
             .placeholder { _ in
                 if let placeholder = ImageManager.shared.placeHolderImage(size) {
                     Image(uiImage: placeholder)

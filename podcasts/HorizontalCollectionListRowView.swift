@@ -92,6 +92,7 @@ struct HorizontalCollectionListRowView: View {
     private var posterCard: some View {
         ZStack(alignment: .bottom) {
             KFImage(model.posterImage)
+                .loadDiskFileSynchronously(false)
                 .placeholder { _ in
                     if let image = ImageManager.shared.placeHolderImage(.grid) {
                         Image(uiImage: image)

@@ -12,6 +12,7 @@ struct PodcastPickerRow: View {
     var body: some View {
         HStack {
             KFImage(ServerHelper.imageUrl(podcastUuid: podcast.uuid, size: 280))
+                .loadDiskFileSynchronously(false)
                 .resizable()
                 .frame(width: 56, height: 56)
                 .aspectRatio(1, contentMode: .fit)

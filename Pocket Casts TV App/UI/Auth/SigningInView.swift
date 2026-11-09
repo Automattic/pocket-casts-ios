@@ -219,6 +219,7 @@ struct SigningInView<ViewModel: SigningInViewModelProtocol>: View {
     /// be revealed once its artwork is ready.
     private func coverImage(for cover: StackedCover) -> some View {
         KFImage(imageURL(for: cover.podcast))
+            .loadDiskFileSynchronously(false)
             .placeholder { _ in
                 if let placeholder = ImageManager.shared.placeHolderImage(.page) {
                     Image(uiImage: placeholder)
