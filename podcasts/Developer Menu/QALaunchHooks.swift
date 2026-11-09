@@ -18,6 +18,8 @@ import PocketCastsServer
 ///   - `clear-up-next`: empty Up Next, including the current episode.
 ///   - `subscribe:<podcast uuid>`: follow a podcast.
 ///   - `sign-out`: sign out and delete local data.
+///   - `network:<fault>`: `offline`, `server-error` or `slow[:<seconds>]` (see `QANetworkFault`), or `off`. The fault
+///     lasts across plain launches until a launch that sets `PC_QA_EMAIL` or `PC_QA_FIXTURES` without naming it again.
 ///
 /// Fixtures that change account data only run when signed out or signed in by these hooks, unless `launch.sh` marks the
 /// simulator as a throwaway one it created (`PC_QA_TRUSTED=1`).
@@ -36,25 +38,29 @@ enum QALaunchHooks {
             Settings.setAnalytics(optOut: true)
             log("analytics off")
         }
+        if let fault = QANetworkFault.saved {
+            if isRequested {
+                QANetworkFault.set(nil)
+                log("network fault off")
+            } else {
+                QANetworkFault.apply(fault)
+                log("network fault: \(fault.argument)")
+            }
+        }
     }
 
     static func runIfRequested() {
         let environment = ProcessInfo.processInfo.environment
-        let email = environment["PC_QA_EMAIL"].flatMap { $0.isEmpty ? nil : $0 }
-        let fixtures = (environment["PC_QA_FIXTURES"] ?? "")
-            .split(separator: ",")
-            .map { $0.trimmingCharacters(in: .whitespaces) }
-            .filter { !$0.isEmpty }
-        guard email != nil || !fixtures.isEmpty else {
+        guard isRequested else {
             return
         }
         Task {
             do {
-                if let email {
+                if let email = requestedEmail {
                     try checkServer(environment["PC_QA_SERVER"])
                     try await signIn(email: email, password: environment["PC_QA_PASSWORD"] ?? "")
                 }
-                for fixture in fixtures {
+                for fixture in requestedFixtures {
                     try await apply(fixture)
                 }
                 log("ready")
@@ -62,6 +68,21 @@ enum QALaunchHooks {
                 log("failed: \(error.localizedDescription)")
             }
         }
+    }
+
+    private static var requestedEmail: String? {
+        ProcessInfo.processInfo.environment["PC_QA_EMAIL"].flatMap { $0.isEmpty ? nil : $0 }
+    }
+
+    private static var requestedFixtures: [String] {
+        (ProcessInfo.processInfo.environment["PC_QA_FIXTURES"] ?? "")
+            .split(separator: ",")
+            .map { $0.trimmingCharacters(in: .whitespaces) }
+            .filter { !$0.isEmpty }
+    }
+
+    private static var isRequested: Bool {
+        requestedEmail != nil || !requestedFixtures.isEmpty
     }
 
     // MARK: Account
@@ -175,6 +196,14 @@ enum QALaunchHooks {
             }
             if wasManaged {
                 await deleteLocalData()
+            }
+        case "network":
+            if argument == "off" {
+                QANetworkFault.set(nil)
+            } else if let fault = argument.flatMap(QANetworkFault.init) {
+                QANetworkFault.set(fault)
+            } else {
+                throw Failure("network needs offline, server-error, slow, slow:<seconds> or off, e.g. network:offline")
             }
         default:
             throw Failure("unknown fixture \(fixture)")
