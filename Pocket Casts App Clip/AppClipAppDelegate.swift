@@ -19,6 +19,7 @@ class AppClipAppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
         application.registerForRemoteNotifications()
 
         configureFirebase()
+        ImageManager.configureKingfisher()
 
         // Setting the notification delegate
         UNUserNotificationCenter.current().delegate = self

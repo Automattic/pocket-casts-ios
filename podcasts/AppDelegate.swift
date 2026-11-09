@@ -42,6 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         TraceManager.shared.setup(handler: traceHandler)
 
         setupSecrets()
+        ImageManager.configureKingfisher()
         addAnalyticsObservers()
         setupAnalytics()
 

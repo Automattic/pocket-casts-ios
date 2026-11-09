@@ -9,14 +9,31 @@ import SJUtils
 class ImageManager {
     static let shared = ImageManager()
 
-    private static let originalDataSerializer: DefaultCacheSerializer = {
-        var serializer = DefaultCacheSerializer()
-        serializer.preferCacheOriginalData = true
-        return serializer
-    }()
+    /// Decoded images, shared by every `ImageCache` the app creates. Each cache keeps its own disk storage.
+    private static let memoryStorage = MemoryStorage.Backend<UIImage>(config: .init(totalCostLimit: 150.megabytes))
+
+    private static let cacheSerializer = OriginalDataCacheSerializer()
+
+    /// Makes Kingfisher's default cache use the shared memory storage, and makes every load decode off the main
+    /// thread and keep the downloaded bytes on disk. Call it at launch, before anything loads an image.
+    static func configureKingfisher() {
+        KingfisherManager.shared.cache = makeCache(name: "default")
+        KingfisherManager.shared.defaultOptions = [.backgroundDecode, .cacheSerializer(cacheSerializer)]
+    }
+
+    /// Creates an image cache that stores images on disk under `name` and keeps them in the shared memory storage.
+    static func makeCache(name: String, directory: URL? = nil) -> ImageCache {
+        let config = DiskStorage.Config(name: name, sizeLimit: 0, directory: directory)
+        do {
+            return ImageCache(memoryStorage: memoryStorage, diskStorage: try DiskStorage.Backend<Data>(config: config))
+        } catch {
+            FileLog.shared.addMessage("ImageManager: failed to create the \(name) disk cache: \(error)")
+            return ImageCache(name: name)
+        }
+    }
 
     // search image cache, we limit this to 10MBs
-    private var searchImageCache = ImageCache(name: "generalImageCache")
+    private var searchImageCache = ImageManager.makeCache(name: "generalImageCache")
 
     // subscribed image cache, these we want to store for a longer period of time
     lazy var subscribedPodcastsCache: ImageCache = {
@@ -25,30 +42,27 @@ class ImageManager {
         #else
         let path = (NSHomeDirectory() as NSString).appendingPathComponent("Documents/artworkv3")
         #endif
-        let url = URL(fileURLWithPath: path)
-        subscribedPodcastsCache = try! ImageCache(name: "subscribedPodcastsCache", cacheDirectoryURL: url)
+        let cache = ImageManager.makeCache(name: "subscribedPodcastsCache", directory: URL(fileURLWithPath: path))
         #if os(tvOS)
-        subscribedPodcastsCache.diskStorage.config.sizeLimit = UInt(200.megabytes)
+        cache.diskStorage.config.sizeLimit = UInt(200.megabytes)
         #else
-        subscribedPodcastsCache.diskStorage.config.sizeLimit = UInt(400.megabytes)
+        cache.diskStorage.config.sizeLimit = UInt(400.megabytes)
         #endif
-        subscribedPodcastsCache.diskStorage.config.expiration = .days(365) // cache artwork for a full year, so that users don't have their artwork disappeared
-        subscribedPodcastsCache.memoryStorage.config.totalCostLimit = 100.megabytes
-        return subscribedPodcastsCache
+        cache.diskStorage.config.expiration = .days(365) // cache artwork for a full year, so that users don't have their artwork disappeared
+        return cache
     }()
 
     // user episode image cache
-    private var userEpisodeCache = ImageCache(name: "userEpisodeImageCache")
+    private var userEpisodeCache = ImageManager.makeCache(name: "userEpisodeImageCache")
 
     // Discover Cache
-    let discoverCache = ImageCache(name: "discoverCache")
+    let discoverCache = ImageManager.makeCache(name: "discoverCache")
 
     // cache for discover video thumbnails cache
     private var discoverVideoThumbnailCache: ImageCache = {
-        let cache = ImageCache(name: "discoverVideoThumbnailCache")
+        let cache = ImageManager.makeCache(name: "discoverVideoThumbnailCache")
         cache.diskStorage.config.expiration = .days(10)
         cache.diskStorage.config.sizeLimit = UInt(50.megabytes)
-        cache.memoryStorage.config.totalCostLimit = 25.megabytes
         return cache
     }()
 
@@ -63,17 +77,12 @@ class ImageManager {
 
     init() {
         searchImageCache.diskStorage.config.sizeLimit = UInt(10.megabytes)
-        searchImageCache.memoryStorage.config.totalCostLimit = 15.megabytes
 
         userEpisodeCache.diskStorage.config.sizeLimit = UInt(10.megabytes)
         userEpisodeCache.diskStorage.config.expiration = .days(365)
-        userEpisodeCache.memoryStorage.config.totalCostLimit = 15.megabytes
 
         discoverCache.diskStorage.config.expiration = .days(10)
         discoverCache.diskStorage.config.sizeLimit = UInt(50.megabytes)
-        discoverCache.memoryStorage.config.totalCostLimit = 40.megabytes
-
-        KingfisherManager.shared.cache.memoryStorage.config.totalCostLimit = 50.megabytes
 
         NotificationCenter.default.addObserver(self, selector: #selector(podcastAddedNotification(notification:)), name: Constants.Notifications.podcastAdded, object: nil)
     }
@@ -94,15 +103,14 @@ class ImageManager {
 
     func retrieveDiscoverImage(imageUrl: String, completionHandler: @escaping ((UIImage?) -> Void)) {
         let cache = discoverCache
-        cache.retrieveImage(forKey: imageUrl) { result in
+        cache.retrieveImage(forKey: imageUrl, options: KingfisherManager.shared.defaultOptions) { result in
             do {
                 let image = try result.get().image
                 completionHandler(image)
 
                 if let url = URL(string: imageUrl), image == nil {
                     // if we don't have the image, tell the system to try and cache it
-                    let prefetcher = ImagePrefetcher(urls: [url], options: [.targetCache(self.discoverCache)])
-                    prefetcher.start()
+                    self.prefetch([url], into: self.discoverCache)
                 }
             } catch {
                 completionHandler(nil)
@@ -123,7 +131,7 @@ class ImageManager {
     func retrieveDiscoverVideoThumbnail(imageUrl: String) async -> UIImage? {
         await withCheckedContinuation { continuation in
             let cache = discoverVideoThumbnailCache
-            cache.retrieveImage(forKey: imageUrl) { result in
+            cache.retrieveImage(forKey: imageUrl, options: KingfisherManager.shared.defaultOptions) { result in
                 do {
                     let image = try result.get().image
                     continuation.resume(returning: image)
@@ -209,8 +217,7 @@ class ImageManager {
 
         if !cache.diskStorage.isCached(forKey: key) {
             if fetchIfMissing {
-                let prefetcher = ImagePrefetcher(resources: [url], options: [.targetCache(cache)])
-                prefetcher.start()
+                prefetch([url], into: cache)
             }
 
             return nil
@@ -279,7 +286,7 @@ class ImageManager {
             return
         }
 
-        cache.store(image, original: data, forKey: key, cacheSerializer: Self.originalDataSerializer) { result in
+        cache.store(image, original: data, forKey: key, cacheSerializer: Self.cacheSerializer) { result in
             completion?((try? result.diskCacheResult.get()) != nil)
         }
     }
@@ -311,7 +318,7 @@ class ImageManager {
     }
 
     private func loadEmbeddedArtwork(forKey key: String, into imageView: UIImageView? = nil, completion: ((UIImage?) -> Void)? = nil) {
-        subscribedPodcastsCache.retrieveImage(forKey: key, options: .none) { result in
+        subscribedPodcastsCache.retrieveImage(forKey: key, options: KingfisherManager.shared.defaultOptions) { result in
             switch result {
             case .success(let imageCache):
                 imageView?.image = imageCache.image
@@ -385,9 +392,7 @@ class ImageManager {
     // MARK: - Precaching
 
     func cacheImages(podcastUuid: String) {
-        let urls = allUrlsFor(podcastUuid: podcastUuid)
-        let prefetcher = ImagePrefetcher(resources: urls, options: [.targetCache(subscribedPodcastsCache)])
-        prefetcher.start()
+        prefetch(allUrlsFor(podcastUuid: podcastUuid), into: subscribedPodcastsCache)
     }
 
     // this method is designed to be called on app startup (eg: regularly) to check if our image cache needs to be updated
@@ -404,13 +409,22 @@ class ImageManager {
         UserDefaults.standard.set(Date(), forKey: Constants.UserDefaults.lastImageRefreshTime)
 
         DataManager.shared.setAllPodcastImageVersions(to: 0)
-        let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: [.targetCache(subscribedPodcastsCache), .forceRefresh])
-        prefetcher.start()
+        let cache = subscribedPodcastsCache
+        prefetch(allPodcastUrls(), into: cache, options: [.forceRefresh]) { _, _, completed in
+            for resource in completed {
+                cache.removeImage(forKey: resource.cacheKey, fromDisk: false)
+            }
+        }
     }
 
     private func cacheAllPodcastImages() {
-        let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: [.targetCache(subscribedPodcastsCache)])
-        prefetcher.start()
+        prefetch(allPodcastUrls(), into: subscribedPodcastsCache)
+    }
+
+    /// Downloads images to the disk cache only.
+    private func prefetch(_ urls: [URL], into cache: ImageCache, options: KingfisherOptionsInfo = [], completion: PrefetcherCompletionHandler? = nil) {
+        let options: KingfisherOptionsInfo = [.targetCache(cache), .cacheSerializer(Self.cacheSerializer), .memoryCacheExpiration(.expired)] + options
+        ImagePrefetcher(resources: urls, options: options, completionHandler: completion).start()
     }
 
     private func allPodcastUrls() -> [URL] {
@@ -610,5 +624,17 @@ private extension UIImage {
         default:
             return pngData()
         }
+    }
+}
+
+/// Writes the downloaded bytes to disk instead of re-encoding the decoded image, and runs the request's processor on
+/// them when they're read back.
+private struct OriginalDataCacheSerializer: CacheSerializer {
+    func data(with image: UIImage, original: Data?) -> Data? {
+        original ?? DefaultCacheSerializer.default.data(with: image, original: nil)
+    }
+
+    func image(with data: Data, options: KingfisherParsedOptionsInfo) -> UIImage? {
+        options.processor.process(item: .data(data), options: options)
     }
 }

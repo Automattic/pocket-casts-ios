@@ -12,6 +12,7 @@ struct PocketCastsTVApp: App {
         DataLossSimulator.simulateIfRequested()
 
         AnalyticsSetup.setupIfNeeded()
+        ImageManager.configureKingfisher()
     }
 
     var body: some Scene {
