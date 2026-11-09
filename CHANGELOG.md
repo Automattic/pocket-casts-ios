@@ -1,3 +1,7 @@
+8.26
+-----
+
+
 8.25
 -----
 - Fix the episode details screen showing the podcast cover when episode artwork is enabled and available [#5430](https://github.com/Automattic/pocket-casts-ios/pull/5430)
