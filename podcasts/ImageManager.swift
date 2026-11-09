@@ -75,6 +75,10 @@ class ImageManager {
 
         KingfisherManager.shared.cache.memoryStorage.config.totalCostLimit = 50.megabytes
 
+        var cacheSerializer = DefaultCacheSerializer()
+        cacheSerializer.preferCacheOriginalData = true
+        KingfisherManager.shared.defaultOptions += [.backgroundDecode, .cacheSerializer(cacheSerializer)]
+
         NotificationCenter.default.addObserver(self, selector: #selector(podcastAddedNotification(notification:)), name: Constants.Notifications.podcastAdded, object: nil)
     }
 
