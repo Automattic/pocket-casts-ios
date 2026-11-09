@@ -21,11 +21,22 @@ import PocketCastsServer
 ///
 /// Fixtures that change account data only run when signed out or signed in by these hooks, unless `launch.sh` marks the
 /// simulator as a throwaway one it created (`PC_QA_TRUSTED=1`).
+/// Analytics stay off on those throwaway simulators and on any simulator these hooks signed in, so test runs don't send events.
 /// Progress goes to the unified log (subsystem `au.com.shiftyjelly.podcasts`, category `QA`),
 /// ending with `[QA] ready` or `[QA] failed: …`.
 enum QALaunchHooks {
     private static let logger = Logger(subsystem: "au.com.shiftyjelly.podcasts", category: "QA")
     private static let managedEmailKey = "QALaunchHooksSignedInEmail"
+
+    /// Runs at the start of every launch, before analytics starts.
+    static func prepareForLaunch() {
+        let ownedByQA = ProcessInfo.processInfo.environment["PC_QA_TRUSTED"] == "1"
+            || UserDefaults.standard.string(forKey: managedEmailKey) != nil
+        if ownedByQA && !Settings.analyticsOptOut() {
+            Settings.setAnalytics(optOut: true)
+            log("analytics off")
+        }
+    }
 
     static func runIfRequested() {
         let environment = ProcessInfo.processInfo.environment
@@ -81,6 +92,7 @@ enum QALaunchHooks {
         log("signing in")
         _ = try await AuthenticationHelper.validateLogin(username: email, password: password)
         UserDefaults.standard.set(ServerSettings.syncingEmail(), forKey: managedEmailKey)
+        await turnOffAnalytics()
         NotificationCenter.postOnMainThread(notification: .userSignedIn)
         try await waitForSync()
         log("signed in and synced")
@@ -97,6 +109,15 @@ enum QALaunchHooks {
             try await Task.sleep(nanoseconds: 1_000_000_000)
         }
         throw Failure("the first sync didn't finish in 3 minutes")
+    }
+
+    private static func turnOffAnalytics() async {
+        guard !Settings.analyticsOptOut() else {
+            return
+        }
+        Settings.setAnalytics(optOut: true)
+        await MainActor.run { Analytics.shared.refreshRegistered() }
+        log("analytics off")
     }
 
     /// Keeps one test account's podcasts and Up Next from merging into the next one on sign-in.
