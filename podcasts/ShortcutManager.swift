@@ -6,6 +6,8 @@ import Combine
 class ShortcutManager: CustomObserver {
 
     private var cancelable: Cancellable?
+    private var backgroundCancelable: Cancellable?
+    private var isUpdateNeeded = false
 
     func listenForShortcutChanges() {
         //Cleans up existing observers
@@ -30,22 +32,47 @@ class ShortcutManager: CustomObserver {
             .debounce(for: .seconds(3), scheduler: RunLoop.main)
 
         cancelable = mergedNotifications.sink { [weak self] _ in
-            self?.shortcutsRequireUpdate()
+            self?.setNeedsUpdate()
         }
 
-        shortcutsRequireUpdate()
+        backgroundCancelable = NotificationCenter.default
+            .publisher(for: UIApplication.didEnterBackgroundNotification)
+            .sink { [weak self] _ in
+                self?.updateIfNeeded()
+            }
+
+        isUpdateNeeded = true
     }
 
     func stopListeningForShortcutChanges() {
         cancelable?.cancel()
         cancelable = nil
+        backgroundCancelable?.cancel()
+        backgroundCancelable = nil
     }
 
-    @objc private func shortcutsRequireUpdate() {
-        DispatchQueue.global().async { [weak self] () in
-            guard let strongSelf = self else { return }
+    private func setNeedsUpdate() {
+        isUpdateNeeded = true
+        if UIApplication.shared.applicationState == .background {
+            updateIfNeeded()
+        }
+    }
 
-            strongSelf.updateShortcuts()
+    private func updateIfNeeded() {
+        guard isUpdateNeeded else { return }
+        isUpdateNeeded = false
+
+        let application = UIApplication.shared
+        var taskID = UIBackgroundTaskIdentifier.invalid
+        taskID = application.beginBackgroundTask(withName: "UpdateShortcuts") {
+            application.endBackgroundTask(taskID)
+        }
+
+        DispatchQueue.global().async { [weak self] in
+            self?.updateShortcuts()
+            DispatchQueue.main.async {
+                application.endBackgroundTask(taskID)
+            }
         }
     }
 
