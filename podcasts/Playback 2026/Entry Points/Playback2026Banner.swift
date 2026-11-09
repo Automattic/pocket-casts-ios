@@ -10,6 +10,7 @@ struct Playback2026Banner: View {
             Text(L10n.playback2026BannerDescription)
                 .font(size: 11, style: .caption, weight: .medium, maxSizeCategory: .accessibilityMedium)
                 .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: 197, alignment: .leading)
         }
         .foregroundColor(.white)
         .multilineTextAlignment(.leading)
