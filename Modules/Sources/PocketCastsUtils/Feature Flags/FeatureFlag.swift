@@ -279,6 +279,10 @@ public enum FeatureFlag: String, CaseIterable {
     /// Save the episodes a podcast update finds missing in transactions of up to 100, instead of one by one
     case saveMissingEpisodesInOneTransaction
 
+    /// Use StoreKit 2 for in-app purchases instead of StoreKit 1. Also the remote kill switch:
+    /// turning it off in Remote Config (`storekit2_purchases`) goes back to StoreKit 1 on the next launch
+    case storeKit2Purchases
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -473,6 +477,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .saveMissingEpisodesInOneTransaction:
             true
+        case .storeKit2Purchases:
+            false
         }
     }
 
@@ -486,6 +492,8 @@ public enum FeatureFlag: String, CaseIterable {
             "end_of_year_2025"
         case .encourageAccountCreation:
             "encourage_account_creation_recurring"
+        case .storeKit2Purchases:
+            "storekit2_purchases"
         default:
             rawValue.lowerSnakeCased()
         }

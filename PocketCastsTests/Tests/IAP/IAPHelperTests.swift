@@ -21,12 +21,12 @@ final class IAPHelperTests: XCTestCase {
         handler = MockIAPHandler()
         helper = IAPHelper(settings: handler, networking: handler)
 
-        SKPaymentQueue.default().add(helper)
+        helper.setup(hasSubscription: true)
     }
 
     override func tearDownWithError() throws {
         session.clearTransactions()
-        SKPaymentQueue.default().remove(helper)
+        helper.tearDown()
     }
 /*
     func testRequestInfo() throws {
