@@ -26,8 +26,7 @@ struct PlaylistDetailView: View {
         static let rowInsets = EdgeInsets(top: 2, leading: 16, bottom: 2, trailing: 16)
     }
 
-    var body: some View {
-        @Bindable var model = model
+    var body: some View {        
         ZStack {
             switch model.state {
             case .loading:
