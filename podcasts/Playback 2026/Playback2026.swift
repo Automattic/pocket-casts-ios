@@ -1,4 +1,5 @@
 import UIKit
+import PlaybackKit
 import PocketCastsServer
 import PocketCastsUtils
 
@@ -12,29 +13,21 @@ enum Playback2026 {
 
     static let year = 2026
 
-    private static var isStarting = false
-
+    /// Opens the stories at once. The listening history is read while the intro plays
+    /// (``Playback2026ViewController``); if the user moves on before it is there, the intro shows
+    /// a spinner until it is.
     static func start(from viewController: UIViewController) {
-        guard isAvailable, !isStarting else { return }
-        isStarting = true
+        guard isAvailable, viewController.presentedViewController == nil else { return }
+        viewController.present(Playback2026ViewController(), animated: true)
+    }
 
-        Task { @MainActor [weak viewController] in
-            defer { isStarting = false }
-
-            let payload = await Task.detached(priority: .userInitiated) {
-                syncListeningHistoryIfNeeded()
-                return Playback2026Payload.make(year: year)
-            }.value
-
-            guard let viewController else { return }
-
-            do {
-                let playbackViewController = try Playback2026ViewController(payload: payload)
-                viewController.present(playbackViewController, animated: true)
-            } catch {
-                FileLog.shared.addMessage("Playback 2026: failed to start: \(error)")
-            }
-        }
+    /// Syncs the year's listening history when signed in (so the stats include episodes played on
+    /// other devices; the local history is used if it fails) and builds the payload from it.
+    nonisolated static func makePayload() async -> PlaybackPayload {
+        await Task.detached(priority: .userInitiated) {
+            syncListeningHistoryIfNeeded()
+            return Playback2026Payload.make(year: year)
+        }.value
     }
 
     nonisolated private static func syncListeningHistoryIfNeeded() {
