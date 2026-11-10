@@ -1,5 +1,6 @@
 8.26
 -----
+- [tvOS] Refresh podcasts when returning to the app after 5 minutes or more away
 
 
 8.25
