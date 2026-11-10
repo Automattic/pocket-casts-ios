@@ -2,6 +2,8 @@ import SwiftUI
 
 /// The permanent Playback 2026 entry point at the top of the Profile tab.
 struct Playback2026Banner: View {
+    @ScaledMetricWithMaxSize(relativeTo: .caption, maxSize: .accessibility1) private var descriptionMaxWidth: CGFloat = 197
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(L10n.playback2026BannerTitle)
@@ -10,7 +12,7 @@ struct Playback2026Banner: View {
             Text(L10n.playback2026BannerDescription)
                 .font(size: 11, style: .caption, weight: .medium, maxSizeCategory: .accessibilityMedium)
                 .fixedSize(horizontal: false, vertical: true)
-                .frame(maxWidth: 197, alignment: .leading)
+                .frame(maxWidth: descriptionMaxWidth, alignment: .leading)
         }
         .foregroundColor(.white)
         .multilineTextAlignment(.leading)
