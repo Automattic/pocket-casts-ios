@@ -1,6 +1,6 @@
 8.26
 -----
-
+- [tvOS] Fix playlist rows refresh when showing details [#5615](https://github.com/Automattic/pocket-casts-ios/pull/5615)
 
 8.25
 -----
