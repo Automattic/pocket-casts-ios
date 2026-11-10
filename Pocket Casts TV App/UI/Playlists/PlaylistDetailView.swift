@@ -6,9 +6,13 @@ struct PlaylistDetailView: View {
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
     @Environment(\.dismiss) var dismiss
 
-    let model: PlaylistDetailsViewModel
+    @State private var model: PlaylistDetailsViewModel
     @FocusState private var focusedSection: FocusSection?
     @FocusState private var rowFocus: EpisodeRowFocus?
+
+    init(model: PlaylistDetailsViewModel) {
+        _model = State(wrappedValue: model)
+    }
 
     enum FocusSection: Hashable {
         case episodes
@@ -213,12 +217,12 @@ struct PlaylistDetailView: View {
     var episodeList: some View {
         List {
             Section {
-                ForEach(model.episodes, id: \.uuid) { episode in
-                    EpisodeRowWithActions(model: EpisodeRowViewModel(episode: episode, podcast: nil, source: .filters), context: .other(showGoToPodcast: true), focus: $rowFocus, detailsDismissed: {
+                ForEach(model.episodeRows) { row in
+                    EpisodeRowWithActions(model: row, context: .other(showGoToPodcast: true), focus: $rowFocus, detailsDismissed: {
                         currentFocus = lastFocus
                     })
-                    .focused($currentFocus, equals: episode.uuid)
-                    .prefersDefaultFocus(episode.uuid == model.episodes.first?.uuid, in: episodeListNamespace)
+                    .focused($currentFocus, equals: row.id)
+                    .prefersDefaultFocus(row.id == model.episodeRows.first?.id, in: episodeListNamespace)
                     .listRowInsets(Layout.rowInsets)
                 }
             } header: {
@@ -287,7 +291,7 @@ struct PlaylistDetailView: View {
 
 #Preview {
     let router = MainTabViewModel()
-    PlaylistDetailView(model: PlaylistDetailsViewModel(playlist: PlaylistItem(playlist: MockData.makeStubPlaylists().first!)))
+    PlaylistDetailView(model: PlaylistDetailsViewModel(playlist: PlaylistItem(playlist: MockData.makeStubPlaylists().first!), detail: true))
         .environment(AppCoordinator())
         .environment(router)
 }
