@@ -1,8 +1,10 @@
+import Combine
 import SwiftUI
 import PlaybackKit
 import PocketCastsUtils
 
-/// Hosts the PlaybackKit experience full screen and turns its events into app behavior.
+/// Hosts the PlaybackKit experience full screen and turns its events into app behavior and
+/// analytics (``Playback2026Analytics``).
 ///
 /// The story opens before its data is there: the listening history is synced and read while
 /// the intro plays, and handed to the page when it is ready. If the user moves on from the
@@ -19,6 +21,7 @@ final class Playback2026ViewController: UIHostingController<Playback2026ViewCont
     }
 
     private let controller: PlaybackController
+    private var screenshots: AnyCancellable?
 
     init() {
         controller = PlaybackController()
@@ -27,6 +30,18 @@ final class Playback2026ViewController: UIHostingController<Playback2026ViewCont
         controller.onEvent = { [weak self] event in
             self?.handle(event)
         }
+        controller.onAnalyticsEvent = { event in
+            Playback2026Analytics.track(event)
+        }
+        // A screenshot of the story counts as sharing it, as in 2025.
+        screenshots = NotificationCenter.default.publisher(for: UIApplication.userDidTakeScreenshotNotification)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                MainActor.assumeIsolated {
+                    guard let self, self.viewIfLoaded?.window != nil else { return }
+                    self.controller.didTakeScreenshot()
+                }
+            }
         // Started with the screen, so it runs while the intro plays. Closed before it is done,
         // the payload has nowhere to go.
         Task { [weak self] in
@@ -79,6 +94,11 @@ final class Playback2026ViewController: UIHostingController<Playback2026ViewCont
 
             guard let data, let image = UIImage(data: data) else { return }
             let activityController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            activityController.completionWithItemsHandler = { [controller] activityType, completed, _, _ in
+                // Shared, not cancelled: end_of_year_story_shared and playback_shared.
+                guard completed else { return }
+                controller.didShare(activity: activityType?.rawValue)
+            }
             activityController.popoverPresentationController?.sourceView = view
             activityController.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.maxY, width: 0, height: 0)
             present(activityController, animated: true)

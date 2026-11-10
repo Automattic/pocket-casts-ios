@@ -810,6 +810,8 @@ public enum AnalyticsEvent: String {
     case endOfYearModalTapped
     case endOfYearModalDismissed
     case endOfYearPlusContinued
+    case endOfYearQuizRevealed
+    case endOfYearArchetypeAssigned
 
     // MARK: - Welcome View
 
