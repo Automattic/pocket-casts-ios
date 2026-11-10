@@ -1,4 +1,5 @@
 import Foundation
+import PocketCastsDataModel
 import UIKit
 
 class GridHelper {
@@ -17,12 +18,34 @@ class GridHelper {
         return formatter
     }()
 
+    private static let defaultSpacing: CGFloat = 6
+
     private let spacing: CGFloat
 
     // MARK: - UICollectionView layout
 
-    init(spacing: CGFloat = 6) {
+    init(spacing: CGFloat = GridHelper.defaultSpacing) {
         self.spacing = spacing
+    }
+
+    static func columnCount(viewWidth: CGFloat, viewHeight: CGFloat, gridType: LibraryType) -> CGFloat {
+        if viewWidth > viewHeight {
+            if viewWidth > bigDeviceLandscapeWidth {
+                return gridType == .threeByThree ? 10 : 14
+            }
+            return gridType == .threeByThree ? 5 : 7
+        }
+        if viewWidth > bigDevicePortraitWidth {
+            return gridType == .threeByThree ? 6 : 8
+        }
+        return gridType == .threeByThree ? 3 : 4
+    }
+
+    static func fullScreenPortraitCellWidth(screenSize: CGSize, gridType: LibraryType) -> CGFloat {
+        let width = min(screenSize.width, screenSize.height)
+        let height = max(screenSize.width, screenSize.height)
+        let columns = columnCount(viewWidth: width, viewHeight: height, gridType: gridType)
+        return (width - defaultSpacing * (columns - 1)) / columns
     }
 
     func configureLayout(collectionView: UICollectionView) {
@@ -57,20 +80,7 @@ class GridHelper {
             return CGSize(width: viewWidth, height: imageSize)
         }
 
-        var divideBy: CGFloat
-        if viewWidth > viewHeight {
-            if viewWidth > GridHelper.bigDeviceLandscapeWidth {
-                divideBy = gridType == .threeByThree ? 10 : 14
-            } else {
-                divideBy = gridType == .threeByThree ? 5 : 7
-            }
-        } else {
-            if viewWidth > GridHelper.bigDevicePortraitWidth {
-                divideBy = gridType == .threeByThree ? 6 : 8
-            } else {
-                divideBy = gridType == .threeByThree ? 3 : 4
-            }
-        }
+        var divideBy = GridHelper.columnCount(viewWidth: viewWidth, viewHeight: viewHeight, gridType: gridType)
 
         if  largerSizes.contains(collectionView.traitCollection.preferredContentSizeCategory) {
             divideBy = ceil(divideBy * 2 / 3)
