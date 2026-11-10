@@ -222,8 +222,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Automattic/pocket-casts-client-dependencies",
       "state" : {
-        "revision" : "a921f837843ece1ca9826e2c02be5c1b6d2b1588",
-        "version" : "0.2.0"
+        "revision" : "af5de82d379115e7da60426e4760f39b6989dd7f",
+        "version" : "0.3.0"
       }
     },
     {
