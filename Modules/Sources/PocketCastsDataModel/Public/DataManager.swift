@@ -652,9 +652,6 @@ public class DataManager {
     }
 
     public func saveEpisode(playedUpTo: Double, episode: BaseEpisode, updateSyncFlag: Bool) {
-        let trace = TraceManager.shared.beginTracing(eventName: "DATABASE_EPISODE_POSITION_SAVE")
-        defer { TraceManager.shared.endTracing(trace: trace) }
-
         if let episode = episode as? Episode {
             episodeManager.saveEpisode(playedUpTo: playedUpTo, episode: episode, updateSyncFlag: updateSyncFlag, dbQueue: dbQueue)
         } else if let episode = episode as? UserEpisode {
