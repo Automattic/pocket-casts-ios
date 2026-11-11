@@ -11,8 +11,6 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
 
     @Bindable var model: ViewModel
 
-
-
     let gridColumns: [GridItem] = (0..<6).map { _ in
         GridItem(.fixed(Layout.gridSize), spacing: 48)
     }

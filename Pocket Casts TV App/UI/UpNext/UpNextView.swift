@@ -15,7 +15,6 @@ struct UpNextView: View {
     @State private var lastFocus: String?
     @FocusState private var currentFocus: String?
 
-
     var body: some View {
         ZStack {
             switch model.state {

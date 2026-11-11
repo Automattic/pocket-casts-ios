@@ -14,7 +14,6 @@ struct PlaylistsView: View {
         static let gridSize = CGFloat(496)
     }
 
-
     var body: some View {
         ZStack {
             switch model.state {

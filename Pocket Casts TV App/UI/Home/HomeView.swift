@@ -9,7 +9,6 @@ struct HomeView: View {
 
     @Bindable var model: HomeViewModel
 
-
     enum Layout {
         static let gridSize = CGFloat(250)
     }
