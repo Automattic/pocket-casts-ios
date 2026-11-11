@@ -55,7 +55,7 @@ struct EpisodeShowNotesView: View {
 
     @ViewBuilder
     private var artwork: some View {
-        EpisodeArtworkView(model: EpisodeArtworkViewModel(episode: episode, showEpisodeNotesImage: Settings.loadEmbeddedImages))
+        EpisodeArtworkView(episode: episode, showEpisodeNotesImage: Settings.loadEmbeddedImages)
     }
 
     @ViewBuilder
