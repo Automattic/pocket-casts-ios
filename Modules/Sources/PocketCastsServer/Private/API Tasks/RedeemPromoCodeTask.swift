@@ -36,6 +36,8 @@ class RedeemPromoCodeTask: ApiBaseTask, @unchecked Sendable {
                     FileLog.shared.addMessage("Redeem promo code response \n \(httpStatus), error ")
                     let error = APIError(rawValue: errorMessageId) ?? .UNKNOWN
                     completion?(httpStatus, nil, error)
+                } else {
+                    completion?(httpStatus, nil, APIError.UNKNOWN)
                 }
             } catch {
                 FileLog.shared.addMessage("Redeem promo code failed \(error.localizedDescription)")
@@ -45,5 +47,9 @@ class RedeemPromoCodeTask: ApiBaseTask, @unchecked Sendable {
             FileLog.shared.addMessage("Redeem promo code Protobuf Encoding failed \(error.localizedDescription)")
             completion?(0, nil, APIError.UNKNOWN)
         }
+    }
+
+    override func apiTokenAcquisitionFailed() {
+        completion?(0, nil, APIError.UNKNOWN)
     }
 }
