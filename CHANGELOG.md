@@ -1,5 +1,6 @@
 8.26
 -----
+- Fix a crash that could happen in the background when the Apple Watch app didn't answer a request for its logs [#5624](https://github.com/Automattic/pocket-casts-ios/pull/5624)
 
 
 8.25
