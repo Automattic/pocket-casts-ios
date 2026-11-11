@@ -7,7 +7,7 @@ struct PodcastPickerRow: View {
     @EnvironmentObject var theme: Theme
 
     @Binding var pickingForFolderUuid: String?
-    @State var podcast: Podcast
+    let podcast: Podcast
     @Binding var selectedPodcasts: [String]
     var body: some View {
         HStack {
