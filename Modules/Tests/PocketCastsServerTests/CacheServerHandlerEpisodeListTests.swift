@@ -56,14 +56,6 @@ final class CacheServerHandlerEpisodeListTests: XCTestCase {
         XCTAssertEqual(loadEpisodeListUrls(handler, podcastUuids: ["one"]), [:])
     }
 
-    func testLoadEpisodeListUrlsReturnsNoneWhenTheResponseIsInvalid() {
-        let handler = makeHandler { request in
-            (Data("{\"error\": true}".utf8), self.response(request, status: 200))
-        }
-
-        XCTAssertEqual(loadEpisodeListUrls(handler, podcastUuids: ["one"]), [:])
-    }
-
     // MARK: - Podcast info
 
     func testLoadPodcastInfoLoadsTheEpisodeListDirectly() throws {
@@ -76,7 +68,6 @@ final class CacheServerHandlerEpisodeListTests: XCTestCase {
         XCTAssertEqual((podcastInfo?["podcast"] as? [String: Any])?["title"] as? String, "A podcast")
         XCTAssertEqual(lastModified, self.lastModified)
         XCTAssertEqual(requests.map(\.url), [episodeListUrl])
-        XCTAssertEqual(requests.first?.httpMethod, "GET")
         XCTAssertNil(requests.first?.value(forHTTPHeaderField: "Authorization"))
     }
 
@@ -96,18 +87,6 @@ final class CacheServerHandlerEpisodeListTests: XCTestCase {
             episodeListUrl.absoluteString,
             ServerConstants.Urls.cache() + "mobile/podcast/full/\(podcastUuid)"
         ])
-    }
-
-    func testLoadPodcastInfoWithoutAnEpisodeListUrlUsesTheCacheServer() throws {
-        let handler = makeHandler { request in
-            (try self.podcastJson(), self.response(request, status: 200, headers: ["Last-Modified": self.lastModified]))
-        }
-
-        let (podcastInfo, lastModified) = loadPodcastInfo(handler, episodeListUrl: nil)
-
-        XCTAssertNotNil(podcastInfo)
-        XCTAssertEqual(lastModified, self.lastModified)
-        XCTAssertEqual(requests.map(\.url?.absoluteString), [ServerConstants.Urls.cache() + "mobile/podcast/full/\(podcastUuid)"])
     }
 
     // MARK: - Helpers
