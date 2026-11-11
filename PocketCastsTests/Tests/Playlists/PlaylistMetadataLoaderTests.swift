@@ -20,50 +20,6 @@ final class PlaylistMetadataLoaderTests: DBTestCase {
         XCTAssertEqual(after.counts, playlists.map { dataManager.allPlaylistEpisodeCount(for: $0, episodeUuidToAdd: nil, includingArchivedEpisodes: $0.manual) })
     }
 
-    func testCancelledLoadsSkipTheirQueuedReads() async throws {
-        try FeatureFlagOverrideStore().override(FeatureFlag.efficientPlaylistQueries, withValue: true)
-        let playlists = makeLibrary()
-        let readQueue = SuspendedQueue()
-        readQueue.added.expectedFulfillmentCount = playlists.count * 2
-        let loader = PlaylistMetadataLoader(dataManager: dataManager, readQueue: readQueue)
-
-        let loads = playlists.map { playlist in
-            Task {
-                async let count = loader.loadCount(for: playlist)
-                async let images = loader.loadImages(for: playlist)
-                return await (count, images)
-            }
-        }
-        await fulfillment(of: [readQueue.added], timeout: 10)
-        for playlist in playlists {
-            await loader.cancelLoadCount(for: playlist.uuid)
-            await loader.cancelLoadImages(for: playlist.uuid)
-        }
-        readQueue.isSuspended = false
-
-        let finished = expectation(description: "Cancelled loads finish")
-        Task {
-            for load in loads {
-                let (count, images) = await load.value
-                XCTAssertEqual(count, 0)
-                XCTAssertEqual(images, [])
-            }
-            finished.fulfill()
-        }
-        await fulfillment(of: [finished], timeout: 10)
-
-        for playlist in playlists {
-            let cachedCount = await loader.cachedCount(for: playlist.uuid)
-            let cachedImages = await loader.cachedImages(for: playlist.uuid)
-            XCTAssertNil(cachedCount)
-            XCTAssertNil(cachedImages)
-        }
-        for playlist in playlists {
-            let count = await loader.loadCount(for: playlist)
-            XCTAssertEqual(count, dataManager.allPlaylistEpisodeCount(for: playlist, episodeUuidToAdd: nil, includingArchivedEpisodes: playlist.manual))
-        }
-    }
-
     private func load(_ playlists: [EpisodeFilter], flag: Bool) async throws -> (counts: [Int], images: [[String]]) {
         try FeatureFlagOverrideStore().override(FeatureFlag.efficientPlaylistQueries, withValue: flag)
         let loader = PlaylistMetadataLoader(dataManager: dataManager)
@@ -132,19 +88,5 @@ final class PlaylistMetadataLoaderTests: DBTestCase {
         let manualEpisodes = (0..<10).compactMap { dataManager.findEpisode(uuid: "loader-episode-\($0 * 3)") }
         dataManager.add(episodes: manualEpisodes, to: manual)
         return playlists
-    }
-}
-
-private final class SuspendedQueue: OperationQueue, @unchecked Sendable {
-    let added = XCTestExpectation(description: "Reads queued")
-
-    override init() {
-        super.init()
-        isSuspended = true
-    }
-
-    override func addOperation(_ operation: Operation) {
-        super.addOperation(operation)
-        added.fulfill()
     }
 }

@@ -105,7 +105,12 @@ actor PlaylistMetadataLoader {
     private var countTasks: [String: Task<Int, Never>] = [:]
     private var imagesTasks: [String: Task<[PlaylistArtworkView.ImageItem], Never>] = [:]
 
-    private let readQueue: OperationQueue
+    private let readQueue: OperationQueue = {
+        let queue = OperationQueue()
+        queue.name = "PlaylistMetadataLoader"
+        queue.maxConcurrentOperationCount = 2
+        return queue
+    }()
 
     private let dataManager: DataManager
     private let imageManager: ImageManager
@@ -114,15 +119,11 @@ actor PlaylistMetadataLoader {
     init(
         dataManager: DataManager = .shared,
         imageManager: ImageManager = .shared,
-        episodesDataManager: EpisodesDataManager = .init(),
-        readQueue: OperationQueue = OperationQueue()
+        episodesDataManager: EpisodesDataManager = .init()
     ) {
         self.dataManager = dataManager
         self.imageManager = imageManager
         self.episodesDataManager = episodesDataManager
-        readQueue.name = "PlaylistMetadataLoader"
-        readQueue.maxConcurrentOperationCount = 2
-        self.readQueue = readQueue
     }
 
     func cachedCount(for playlistID: String) -> Int? {
