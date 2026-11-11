@@ -1,5 +1,4 @@
 import DifferenceKit
-import Kingfisher
 import SwiftUI
 import PocketCastsDataModel
 import PocketCastsServer
@@ -40,7 +39,6 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
 
     var gridItems = [HomeGridListItem]()
     var gridLayout: LibraryType = Settings.libraryType
-    var imagePrefetchTasks: [String: DownloadTask] = [:]
 
     var isEditingOrder = false
     var hasReorderedItems = false
@@ -107,7 +105,6 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         setupSearchBar()
         setupRefreshControl()
 
-        podcastsCollectionView.prefetchDataSource = self
         podcastsCollectionView.dragDelegate = self
         podcastsCollectionView.dropDelegate = self
         podcastsCollectionView.dragInteractionEnabled = false
