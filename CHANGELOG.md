@@ -1,5 +1,6 @@
 8.26
 -----
+- Leave podcast artwork out of iCloud and device backups, since it can be downloaded again. For large libraries this makes the app's backup hundreds of MB smaller [#5631](https://github.com/Automattic/pocket-casts-ios/pull/5631)
 
 
 8.25
