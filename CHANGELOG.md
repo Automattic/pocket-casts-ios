@@ -1,6 +1,7 @@
 8.26
 -----
 - Fix a crash that could happen in the background when the Apple Watch app didn't answer a request for its logs [#5624](https://github.com/Automattic/pocket-casts-ios/pull/5624)
+- Fix the app icons ignoring the Dark, Tinted and Clear Home Screen styles on iOS 26 and later [#5636](https://github.com/Automattic/pocket-casts-ios/pull/5636)
 
 
 8.25
