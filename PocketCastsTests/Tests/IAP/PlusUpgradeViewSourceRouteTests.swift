@@ -1,4 +1,5 @@
 @testable import podcasts
+import PocketCastsServer
 import XCTest
 
 final class PlusUpgradeViewSourceRouteTests: XCTestCase {
@@ -13,5 +14,17 @@ final class PlusUpgradeViewSourceRouteTests: XCTestCase {
 
     func testUnknownSourceIsUnknown() {
         XCTAssertEqual(PlusUpgradeViewSource(routeParameters: ["source": "not_a_source"]), .unknown)
+    }
+
+    func testUpsellRouteOffersPlusToFreeAccount() {
+        XCTAssertEqual(OnboardingFlow.Flow(upsellRouteTier: .none), .plusUpsell)
+    }
+
+    func testUpsellRouteOffersOnlyPatronToPlusAccount() {
+        XCTAssertEqual(OnboardingFlow.Flow(upsellRouteTier: .plus), .patronAccountUpgrade)
+    }
+
+    func testUpsellRouteOffersNothingToPatronAccount() {
+        XCTAssertNil(OnboardingFlow.Flow(upsellRouteTier: .patron))
     }
 }
