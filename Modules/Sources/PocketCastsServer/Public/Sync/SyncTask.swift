@@ -182,6 +182,9 @@ class SyncTask: ApiBaseTask, @unchecked Sendable {
             return
         }
 
+        let trace = TraceManager.shared.beginTracing(eventName: "SERVER_INCREMENTAL_SYNC")
+        defer { TraceManager.shared.endTracing(trace: trace) }
+
         let episodesToSync = DataManager.shared.unsyncedEpisodes(limit: ServerConstants.Limits.maxEpisodesToSync)
         guard let dataToSend = createIncrementalSyncData(episodesToSync: episodesToSync) else { return }
         if isCancelled {

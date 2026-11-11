@@ -279,6 +279,10 @@ public enum FeatureFlag: String, CaseIterable {
     /// Save the episodes a podcast update finds missing in transactions of up to 100, instead of one by one
     case saveMissingEpisodesInOneTransaction
 
+    /// Run Firebase Performance: its automatic instrumentation (including the display link that wakes
+    /// the main thread every frame), its data collection and uploads, and the custom traces
+    case firebasePerformance
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -472,6 +476,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .syncUpNextAfterFullSync:
             true
         case .saveMissingEpisodesInOneTransaction:
+            true
+        case .firebasePerformance:
             true
         }
     }

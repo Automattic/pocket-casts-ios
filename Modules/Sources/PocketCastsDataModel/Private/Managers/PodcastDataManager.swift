@@ -555,6 +555,9 @@ class PodcastDataManager {
     }
 
     private func cachePodcasts(db: PCDatabase) {
+        let trace = TraceManager.shared.beginTracing(eventName: "DATABASE_PODCAST_CACHE")
+        defer { TraceManager.shared.endTracing(trace: trace) }
+
         do {
             let resultSet = try db.executeQuery("SELECT * from \(DataManager.podcastTableName)", values: nil)
 

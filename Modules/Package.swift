@@ -211,6 +211,7 @@ enum XcodeSupport {
                     .product(name: "AutomatticEncryptedLogs", package: "Automattic-Tracks-iOS"),
                     .product(name: "AutomatticTracks", package: "Automattic-Tracks-iOS"),
                     .product(name: "FirebaseAnalyticsWithoutAdIdSupport", package: "firebase-ios-sdk"),
+                    .product(name: "FirebasePerformance", package: "firebase-ios-sdk"),
                     .product(name: "FirebaseRemoteConfig", package: "firebase-ios-sdk"),
                     .product(name: "GoogleSignIn", package: "GoogleSignIn-iOS"),
                     .product(name: "Agrume", package: "Agrume"),

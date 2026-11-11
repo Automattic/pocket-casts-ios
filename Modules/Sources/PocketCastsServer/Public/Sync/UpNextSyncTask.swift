@@ -53,6 +53,9 @@ class UpNextSyncTask: ApiBaseTask, @unchecked Sendable {
     }
 
     override func apiTokenAcquired(token: String) {
+        let trace = TraceManager.shared.beginTracing(eventName: "SERVER_UP_NEXT_SYNC")
+        defer { TraceManager.shared.endTracing(trace: trace) }
+
         let (syncRequest, latestActionTime) = createUpNextSyncRequest()
         let url = ServerConstants.Urls.api() + "up_next/sync"
         do {
