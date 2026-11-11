@@ -2,6 +2,7 @@
 -----
 - Fix a crash that could happen in the background when the Apple Watch app didn't answer a request for its logs [#5624](https://github.com/Automattic/pocket-casts-ios/pull/5624)
 - Use less battery while the app is open, especially when it's idle on screen [#5627](https://github.com/Automattic/pocket-casts-ios/pull/5627)
+- Sign in faster with a large library, writing less than half as much to storage, by saving new episodes next to each other in the database [#5625](https://github.com/Automattic/pocket-casts-ios/pull/5625)
 
 8.25
 -----
