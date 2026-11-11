@@ -30,9 +30,6 @@ class RefreshOperation: Operation, @unchecked Sendable {
                 return
             }
 
-            let trace = TraceManager.shared.beginTracing(eventName: "SERVER_REFRESH")
-            defer { TraceManager.shared.endTracing(trace: trace) }
-
             FileLog.shared.addMessage("Refresh - Processing response after waiting \(createdDate.elapsedTimeDescription) in the queue")
 
             // look for new podcasts from the server

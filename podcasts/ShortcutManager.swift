@@ -62,6 +62,9 @@ class ShortcutManager: CustomObserver {
         guard isUpdateNeeded else { return }
         isUpdateNeeded = false
 
+        let currentEpisodeTitle = PlaybackManager.shared.currentEpisode?.displayableTitle()
+        let isPlaying = PlaybackManager.shared.isPlaying
+
         let application = UIApplication.shared
         var taskID = UIBackgroundTaskIdentifier.invalid
         taskID = application.beginBackgroundTask(withName: "UpdateShortcuts") {
@@ -69,14 +72,14 @@ class ShortcutManager: CustomObserver {
         }
 
         DispatchQueue.global().async { [weak self] in
-            self?.updateShortcuts()
+            self?.updateShortcuts(currentEpisodeTitle: currentEpisodeTitle, isPlaying: isPlaying)
             DispatchQueue.main.async {
                 application.endBackgroundTask(taskID)
             }
         }
     }
 
-    private func updateShortcuts() {
+    private func updateShortcuts(currentEpisodeTitle: String?, isPlaying: Bool) {
         var shortcutItems = [UIMutableApplicationShortcutItem]()
 
         // top playlist
@@ -92,14 +95,14 @@ class ShortcutManager: CustomObserver {
             )
         }
 
-        if let currentEpisode = PlaybackManager.shared.currentEpisode {
+        if let currentEpisodeTitle {
             // add a play/pause shortcut
-            if PlaybackManager.shared.isPlaying {
+            if isPlaying {
                 shortcutItems.append(
                     UIMutableApplicationShortcutItem(
                         type: "au.com.shiftyjelly.podcasts",
                         localizedTitle: L10n.pause,
-                        localizedSubtitle: currentEpisode.displayableTitle(),
+                        localizedSubtitle: currentEpisodeTitle,
                         icon: UIApplicationShortcutIcon(type: .pause),
                         userInfo: ["url": "pktc://shortcuts/pause" as NSSecureCoding]
                     )
@@ -109,7 +112,7 @@ class ShortcutManager: CustomObserver {
                     UIMutableApplicationShortcutItem(
                         type: "au.com.shiftyjelly.podcasts",
                         localizedTitle: L10n.play,
-                        localizedSubtitle: currentEpisode.displayableTitle(),
+                        localizedSubtitle: currentEpisodeTitle,
                         icon: UIApplicationShortcutIcon(type: .play),
                         userInfo: ["url": "pktc://shortcuts/play" as NSSecureCoding]
                     )

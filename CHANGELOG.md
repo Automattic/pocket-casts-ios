@@ -1,8 +1,9 @@
 8.26
 -----
+- Fix a crash that could happen while updating the home screen shortcuts as playback changes [#5637](https://github.com/Automattic/pocket-casts-ios/pull/5637)
 - Fix a crash that could happen in the background when the Apple Watch app didn't answer a request for its logs [#5624](https://github.com/Automattic/pocket-casts-ios/pull/5624)
 - Fix the app icons ignoring the Dark, Tinted and Clear Home Screen styles on iOS 26 and later [#5636](https://github.com/Automattic/pocket-casts-ios/pull/5636)
-
+- Use less battery while the app is open, especially when it's idle on screen [#5627](https://github.com/Automattic/pocket-casts-ios/pull/5627)
 
 8.25
 -----
