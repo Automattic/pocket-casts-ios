@@ -60,7 +60,7 @@ struct FolderDetailView: View {
                 }
                 .focusScope(podcastGridNamespace)
             }
-        }        
+        }
     }
 
     var emptyView: some View {
