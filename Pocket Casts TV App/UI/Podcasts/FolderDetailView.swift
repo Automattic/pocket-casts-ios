@@ -60,10 +60,7 @@ struct FolderDetailView: View {
                 }
                 .focusScope(podcastGridNamespace)
             }
-        }
-        .navigationDestination(for: Podcast.self) { podcast in
-            PodcastDetailView(model: PodcastDetailViewModel(podcast: podcast))
-        }
+        }        
     }
 
     var emptyView: some View {
