@@ -122,6 +122,16 @@ class SyncTask: ApiBaseTask, @unchecked Sendable {
     }
 
     private func performFullSync(token: String) {
+        guard FeatureFlag.fewerCheckpointsDuringFullSync.enabled else {
+            importAllServerData(token: token)
+            return
+        }
+        dataManager.withWALAutocheckpoint(pages: 15_000) {
+            importAllServerData(token: token)
+        }
+    }
+
+    private func importAllServerData(token: String) {
         FileLog.shared.addMessage("Performing initial full sync")
 
         // grab the last sync date before we begin

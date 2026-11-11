@@ -129,6 +129,27 @@ public class DataManager {
         vacuumDatabase()
     }
 
+    /// Runs `work` with SQLite copying the write-ahead log into the database every `pages` pages instead of every 1,000.
+    public func withWALAutocheckpoint<T>(pages: Int, _ work: () throws -> T) rethrows -> T {
+        var previousPages: Int?
+        do {
+            previousPages = try dbQueue.walAutocheckpoint()
+            try dbQueue.setWALAutocheckpoint(pages: pages)
+        } catch {
+            FileLog.shared.addMessage("DataManager.withWALAutocheckpoint error: \(error)")
+        }
+        defer {
+            if let previousPages {
+                do {
+                    try dbQueue.setWALAutocheckpoint(pages: previousPages)
+                } catch {
+                    FileLog.shared.addMessage("DataManager.withWALAutocheckpoint error: \(error)")
+                }
+            }
+        }
+        return try work()
+    }
+
     /// Rebuilds the database to reclaim free pages, skipping it when less than
     /// `minimumFreePageRatio` of the file is free, since it rewrites the whole file.
     public func vacuumDatabase(minimumFreePageRatio: Double = 0.2) {

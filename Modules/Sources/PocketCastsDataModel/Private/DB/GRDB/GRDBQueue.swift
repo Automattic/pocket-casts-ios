@@ -50,6 +50,18 @@ public final class GRDBQueue {
         }
     }
 
+    func walAutocheckpoint() throws -> Int {
+        try dbPool.writeWithoutTransaction { db in
+            try Int.fetchOne(db, sql: "PRAGMA wal_autocheckpoint") ?? 0
+        }
+    }
+
+    func setWALAutocheckpoint(pages: Int) throws {
+        try dbPool.writeWithoutTransaction { db in
+            _ = try Int.fetchOne(db, sql: "PRAGMA wal_autocheckpoint = \(pages)")
+        }
+    }
+
     func close() {
         do {
             try dbPool.close()

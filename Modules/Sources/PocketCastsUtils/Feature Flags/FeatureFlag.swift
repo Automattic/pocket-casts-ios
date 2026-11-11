@@ -292,6 +292,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Count smart playlists and pick their artwork without walking the episode table in index order, and load the Playlists tab's counts and artwork two queries at a time
     case efficientPlaylistQueries
 
+    /// During the first full sync, copy SQLite's write-ahead log into the database less often
+    case fewerCheckpointsDuringFullSync
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -493,6 +496,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .skipEmptyPlaylistQueriesInFullSync:
             true
         case .efficientPlaylistQueries:
+            true
+        case .fewerCheckpointsDuringFullSync:
             true
         }
     }
