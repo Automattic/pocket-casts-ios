@@ -5,6 +5,7 @@
 - Use less battery while the app is open: it no longer wakes up on every screen refresh when nothing changes, or uploads performance reports in the background of everything you do [#5627](https://github.com/Automattic/pocket-casts-ios/pull/5627)
 - Use less battery while the app is open: it no longer wakes up for every screen refresh when nothing on screen changes, and no longer sends performance reports to Firebase [#5627](https://github.com/Automattic/pocket-casts-ios/pull/5627)
 
+- Use less battery while the app is open: it no longer wakes up for every screen refresh when nothing on screen changes, and no longer sends performance reports to Firebase [#5627](https://github.com/Automattic/pocket-casts-ios/pull/5627)
 
 8.25
 -----
