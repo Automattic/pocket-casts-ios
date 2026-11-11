@@ -406,8 +406,9 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
     private class AudioProcessingTapProxy {
         weak var input: DefaultPlayer?
 
-        var peakLimiter: AudioUnit?
         var highPassFilter: AudioUnit?
+        /// Disposed only when the tap is finalized, not in unprepare, which can run while a process call is still rendering through them.
+        var audioUnits: [AudioUnit] = []
         var sampleCount: Float64 = 0
         var voiceBoostNState: OpaquePointer?
         var cachedSampleRate: Double = 0
@@ -417,28 +418,16 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         deinit {
-            disposeResources()
-            FileLog.shared.console("[AudioProcessingTapProxy] Deinit proxy")
-        }
-
-        func disposeResources() {
             if let voiceBoostNState {
                 VBN_Destroy(voiceBoostNState)
-                self.voiceBoostNState = nil
                 FileLog.shared.addMessage("[DefaultPlayer] VoiceBoostN state destroyed")
             }
 
-            if let peakLimiter {
-                AudioUnitUninitialize(peakLimiter)
-                AudioComponentInstanceDispose(peakLimiter)
-                self.peakLimiter = nil
+            for audioUnit in audioUnits {
+                AudioUnitUninitialize(audioUnit)
+                AudioComponentInstanceDispose(audioUnit)
             }
-
-            if let highPassFilter {
-                AudioUnitUninitialize(highPassFilter)
-                AudioComponentInstanceDispose(highPassFilter)
-                self.highPassFilter = nil
-            }
+            FileLog.shared.console("[AudioProcessingTapProxy] Deinit proxy")
         }
     }
 
@@ -471,7 +460,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                 init: tapInit,
                 finalize: tapFinalize,
                 prepare: tapPrepare,
-                unprepare: tapUnprepare,
+                unprepare: nil,
                 process: tapProcess
             )
 
@@ -515,24 +504,21 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
                 return
             }
 
-            guard let filter = referenceToSelf.createHighPassFilter(maxFrames: maxFrames, processingFormat: processingFormat.pointee, tap: tap) else {
-                referenceToSelf.handlePlaybackError("Setup high pass filter failed")
-                return
-            }
-            proxy.highPassFilter = filter
-
             guard let limiter = referenceToSelf.createPeakLimiter(maxFrames: maxFrames, processingFormat: processingFormat.pointee, tap: tap) else {
                 referenceToSelf.handlePlaybackError("Setup peak limiter failed")
                 return
             }
-            proxy.peakLimiter = limiter
+            proxy.audioUnits.append(limiter)
+
+            guard let filter = referenceToSelf.createHighPassFilter(maxFrames: maxFrames, processingFormat: processingFormat.pointee, peakLimiter: limiter) else {
+                referenceToSelf.handlePlaybackError("Setup high pass filter failed")
+                return
+            }
+            proxy.audioUnits.append(filter)
+            proxy.highPassFilter = filter
 
             // Store sample rate for dynamic VoiceBoostN creation
             proxy.cachedSampleRate = Double(processingFormat.pointee.mSampleRate)
-        }
-
-        let tapUnprepare: MTAudioProcessingTapUnprepareCallback = { tap in
-            DefaultPlayer.tapProxy(for: tap).disposeResources()
         }
 
         let tapProcess: MTAudioProcessingTapProcessCallback = { tap, numberFrames, _, bufferListInOut, numberFramesOut, flagsOut in
@@ -543,7 +529,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
             let currentSampleCount = proxy.sampleCount
             proxy.sampleCount += Float64(numberFrames)
-            guard referenceToSelf.volumeBoostEnabled, let highPassFilter = proxy.highPassFilter, proxy.peakLimiter != nil else {
+            guard referenceToSelf.volumeBoostEnabled, let highPassFilter = proxy.highPassFilter else {
                 // no effects enabled, so just play normally
                 guard MTAudioProcessingTapGetSourceAudio(tap, numberFrames, bufferListInOut, flagsOut, nil, numberFramesOut) == noErr else {
                     referenceToSelf.handlePlaybackError("MTAudioProcessingTapGetSourceAudio failed")
@@ -693,10 +679,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
         // MARK: - High Pass Filter
 
-    private func createHighPassFilter(maxFrames: CMItemCount, processingFormat: AudioStreamBasicDescription, tap: MTAudioProcessingTap) -> AudioUnit? {
-            guard let referenceToSelf = DefaultPlayer.unretainedDefaultPlayer(for: tap) else {
-                return nil
-            }
+    private func createHighPassFilter(maxFrames: CMItemCount, processingFormat: AudioStreamBasicDescription, peakLimiter: AudioUnit) -> AudioUnit? {
             var componentDescription = AudioComponentDescription(componentType: kAudioUnitType_Effect,
                                                                  componentSubType: kAudioUnitSubType_HighPassFilter,
                                                                  componentManufacturer: kAudioUnitManufacturer_Apple,
@@ -713,8 +696,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
             guard AudioUnitSetProperty(createdUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 0, &format, UInt32(MemoryLayout<AudioStreamBasicDescription>.stride)) == noErr else { return nil }
 
             // Set audio unit render callback
-            let inputProcRefCon = Unmanaged<AudioProcessingTapProxy>.fromOpaque(MTAudioProcessingTapGetStorage(tap))
-            var renderCallback = AURenderCallbackStruct(inputProc: referenceToSelf.highPassFilterRenderCallback, inputProcRefCon: inputProcRefCon.toOpaque())
+            var renderCallback = AURenderCallbackStruct(inputProc: highPassFilterRenderCallback, inputProcRefCon: UnsafeMutableRawPointer(peakLimiter))
             guard AudioUnitSetProperty(createdUnit, kAudioUnitProperty_SetRenderCallback, kAudioUnitScope_Input, 0, &renderCallback, UInt32(MemoryLayout<AURenderCallbackStruct>.stride)) == noErr else { return nil }
 
             // Set audio unit maximum frames per slice to max frames
@@ -734,10 +716,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         }
 
         let highPassFilterRenderCallback: AURenderCallback = { inRefCon, _, inTimeStamp, _, inNumberFrames, ioData -> OSStatus in
-            guard
-                let peakLimiter = Unmanaged<AudioProcessingTapProxy>.fromOpaque(inRefCon).takeUnretainedValue().peakLimiter,
-                let ioData
-            else {
+            guard let ioData else {
                 return -1
             }
 
@@ -747,7 +726,7 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
 
             // The high pass filter calls the peak limiter as the next thing in the chain
             var actionFlags = AudioUnitRenderActionFlags()
-            return AudioUnitRender(peakLimiter, &actionFlags, &audioTimeStamp, 0, inNumberFrames, ioData)
+            return AudioUnitRender(AudioUnit(inRefCon), &actionFlags, &audioTimeStamp, 0, inNumberFrames, ioData)
         }
     #endif
 
