@@ -279,6 +279,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Save the episodes a podcast update finds missing in transactions of up to 100, instead of one by one
     case saveMissingEpisodesInOneTransaction
 
+    /// Give a new episode the ID after the largest one in the table instead of a random ID
+    case sequentialEpisodeIds
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -472,6 +475,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .syncUpNextAfterFullSync:
             true
         case .saveMissingEpisodesInOneTransaction:
+            true
+        case .sequentialEpisodeIds:
             true
         }
     }
