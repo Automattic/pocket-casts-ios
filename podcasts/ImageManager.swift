@@ -27,6 +27,7 @@ class ImageManager {
         #endif
         let url = URL(fileURLWithPath: path)
         subscribedPodcastsCache = try! ImageCache(name: "subscribedPodcastsCache", cacheDirectoryURL: url)
+        Self.excludeFromBackup(url)
         #if os(tvOS)
         subscribedPodcastsCache.diskStorage.config.sizeLimit = UInt(200.megabytes)
         #else
@@ -481,6 +482,21 @@ class ImageManager {
 
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastImageReCacheRequired)
         })
+    }
+
+    // MARK: - Backup
+
+    private static func excludeFromBackup(_ url: URL) {
+        guard (try? url.resourceValues(forKeys: [.isExcludedFromBackupKey]))?.isExcludedFromBackup != true else { return }
+
+        var url = url
+        var values = URLResourceValues()
+        values.isExcludedFromBackup = true
+        do {
+            try url.setResourceValues(values)
+        } catch {
+            FileLog.shared.addMessage("ImageManager: failed to exclude \(url.lastPathComponent) from backup: \(error)")
+        }
     }
 
     // MARK: - Subscription Bundle Image
