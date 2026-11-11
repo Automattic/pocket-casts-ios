@@ -1,6 +1,6 @@
 8.26
 -----
-- Fix a crash that could happen while casting a live stream when the app saved the playback position [#5638](https://github.com/Automattic/pocket-casts-ios/pull/5638)
+- Fix a crash that could happen when syncing the playback position of an episode with no valid length, such as a live stream played over Google Cast [#5638](https://github.com/Automattic/pocket-casts-ios/pull/5638)
 - Fix a crash that could happen in the background when the Apple Watch app didn't answer a request for its logs [#5624](https://github.com/Automattic/pocket-casts-ios/pull/5624)
 
 
