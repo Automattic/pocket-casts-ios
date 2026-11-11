@@ -138,7 +138,7 @@ public struct RefreshEpisode: Decodable {
         case seasonNumber = "epSeason"
         case episodeNumber = "epNumber"
         case publishedDate = "publishedAt"
-        case alternateEnclosures = "alternate_enclosures"
+        case alternateEnclosures
     }
 
     /// The HLS stream URL from the episode's alternate enclosures, if one is present.
