@@ -9,11 +9,9 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
     @Environment(AppCoordinator.self) var coordinator
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
 
-    @State private var model: ViewModel
+    @Bindable var model: ViewModel
 
-    init(model: ViewModel = PodcastsViewModel()) {
-        self.model = model
-    }
+
 
     let gridColumns: [GridItem] = (0..<6).map { _ in
         GridItem(.fixed(Layout.gridSize), spacing: 48)

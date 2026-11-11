@@ -7,16 +7,13 @@ struct PlaylistsView: View {
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
     @Environment(\.requireAccount) private var requireAccount
 
-    @State private var model: PlaylistsViewModel
+    @Bindable var model: PlaylistsViewModel
     @State private var showDownloadModal = false
 
     enum Layout {
         static let gridSize = CGFloat(496)
     }
 
-    init(model: PlaylistsViewModel) {
-        _model = State(wrappedValue: model)
-    }
 
     var body: some View {
         ZStack {
