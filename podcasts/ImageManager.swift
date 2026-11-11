@@ -179,6 +179,10 @@ class ImageManager {
         [.targetCache(subscribedPodcastsCache), .backgroundDecode, .cacheSerializer(Self.originalDataSerializer)]
     }
 
+    private var podcastImageDiskPrefetchOptions: KingfisherOptionsInfo {
+        [.targetCache(subscribedPodcastsCache), .cacheSerializer(Self.originalDataSerializer), .memoryCacheExpiration(.expired)]
+    }
+
     func loadImage(episode: BaseEpisode, imageView: UIImageView, size: PodcastThumbnailSize) {
         if loadEmbeddedImageIfRequired(in: episode, into: imageView) {
             return
@@ -404,7 +408,7 @@ class ImageManager {
 
     func cacheImages(podcastUuid: String) {
         let urls = allUrlsFor(podcastUuid: podcastUuid)
-        let prefetcher = ImagePrefetcher(resources: urls, options: podcastImageOptions)
+        let prefetcher = ImagePrefetcher(resources: urls, options: podcastImageDiskPrefetchOptions)
         prefetcher.start()
     }
 
@@ -422,7 +426,7 @@ class ImageManager {
         UserDefaults.standard.set(Date(), forKey: Constants.UserDefaults.lastImageRefreshTime)
 
         DataManager.shared.setAllPodcastImageVersions(to: 0)
-        let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: podcastImageOptions + [.forceRefresh])
+        let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: podcastImageDiskPrefetchOptions + [.forceRefresh])
         prefetcher.start()
     }
 
@@ -443,7 +447,7 @@ class ImageManager {
     }
 
     private func cacheAllPodcastImages() {
-        let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: podcastImageOptions)
+        let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: podcastImageDiskPrefetchOptions)
         prefetcher.start()
     }
 
@@ -461,7 +465,6 @@ class ImageManager {
         var urls = [URL]()
         urls.append(podcastUrl(imageSize: .list, uuid: podcastUuid))
         urls.append(podcastUrl(imageSize: .grid, uuid: podcastUuid))
-        urls.append(podcastUrl(imageSize: .libraryGrid, uuid: podcastUuid))
         urls.append(podcastUrl(imageSize: .page, uuid: podcastUuid))
 
         return urls
@@ -505,9 +508,6 @@ class ImageManager {
 
         let gridUrl = podcastUrl(imageSize: .grid, uuid: podcastUuid)
         subscribedPodcastsCache.removeImage(forKey: gridUrl.cacheKey)
-
-        let libraryGridUrl = podcastUrl(imageSize: .libraryGrid, uuid: podcastUuid)
-        subscribedPodcastsCache.removeImage(forKey: libraryGridUrl.cacheKey)
 
         let pageUrl = podcastUrl(imageSize: .page, uuid: podcastUuid)
         subscribedPodcastsCache.removeImage(forKey: pageUrl.cacheKey, completionHandler: { [weak self] in
@@ -584,7 +584,7 @@ class ImageManager {
         }
         let name: String
         switch size {
-        case .grid, .libraryGrid:
+        case .grid:
             name = key.isDark ? "noartwork-grid-dark" : "noartwork-grid"
         case .list:
             name = key.isDark ? "noartwork-list-dark" : "noartwork-list"
@@ -629,19 +629,7 @@ class ImageManager {
         case .list:
             return Int(65.0 * UIScreen.main.scale)
         case .grid:
-            let screenWidth = UIScreen.main.bounds.width
-            let screenHeight = UIScreen.main.bounds.height
-            let shortestSide = screenHeight > screenWidth ? screenWidth : screenHeight
-
-            return Int(round(shortestSide * UIScreen.main.scale / 3.0))
-        case .libraryGrid:
-            #if APPCLIP || os(tvOS)
-            return sizeFor(imageSize: .grid)
-            #else
-            let gridType: LibraryType = Settings.libraryType == .fourByFour ? .fourByFour : .threeByThree
-            let cellWidth = GridHelper.fullScreenPortraitCellWidth(screenSize: UIScreen.main.bounds.size, gridType: gridType)
-            return Int(round(cellWidth * UIScreen.main.scale))
-            #endif
+            return 400
         case .page, .detail:
             return Int(320.0 * UIScreen.main.scale)
         }
