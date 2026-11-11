@@ -105,6 +105,13 @@ actor PlaylistMetadataLoader {
     private var countTasks: [String: Task<Int, Never>] = [:]
     private var imagesTasks: [String: Task<[PlaylistArtworkView.ImageItem], Never>] = [:]
 
+    private let readQueue: OperationQueue = {
+        let queue = OperationQueue()
+        queue.name = "PlaylistMetadataLoader"
+        queue.maxConcurrentOperationCount = 2
+        return queue
+    }()
+
     private let dataManager: DataManager
     private let imageManager: ImageManager
     private let episodesDataManager: EpisodesDataManager
@@ -300,24 +307,39 @@ actor PlaylistMetadataLoader {
         let playlist = playlist
         let dataManager = self.dataManager
 
-        return await Task(priority: FeatureFlag.playlistDataCacheBeforeQuery.enabled ? .medium : .userInitiated) {
+        return await read {
             dataManager.allPlaylistEpisodeCount(
                 for: playlist,
                 episodeUuidToAdd: playlist.episodeUuidToAddToQueries(),
                 includingArchivedEpisodes: playlist.manual
             )
-        }.value
+        }
     }
 
     private func loadListEpisodes(for playlist: EpisodeFilter) async -> [ListEpisode] {
         let playlist = playlist
         let episodesDataManager = self.episodesDataManager
-        return await Task(priority: FeatureFlag.playlistDataCacheBeforeQuery.enabled ? .medium : .userInitiated) {
+        return await read {
             episodesDataManager.playlistFirstDistinctEpisodes(
                 for: playlist,
                 shouldShowArchived: playlist.showArchivedEpisodes
             )
-        }.value
+        }
+    }
+
+    private func read<T>(_ query: @escaping () -> T) async -> T {
+        guard FeatureFlag.efficientPlaylistQueries.enabled else {
+            return await Task(priority: FeatureFlag.playlistDataCacheBeforeQuery.enabled ? .medium : .userInitiated) {
+                query()
+            }.value
+        }
+        return await withCheckedContinuation { continuation in
+            let operation = BlockOperation {
+                continuation.resume(returning: query())
+            }
+            operation.qualityOfService = FeatureFlag.playlistDataCacheBeforeQuery.enabled ? .default : .userInitiated
+            readQueue.addOperation(operation)
+        }
     }
 
     private func loadImagesURLs(episodes: [ListEpisode], includingEpisodeArtwork: Bool = false) async throws -> [PlaylistArtworkView.ImageItem] {

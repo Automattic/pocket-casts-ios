@@ -289,6 +289,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// In a full sync, save a playlist the server sent no episodes for (every smart playlist, and any empty manual one) without querying its local episodes
     case skipEmptyPlaylistQueriesInFullSync
 
+    /// Count smart playlists and pick their artwork without walking the episode table in index order, and load the Playlists tab's counts and artwork two queries at a time
+    case efficientPlaylistQueries
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -488,6 +491,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .fullSyncEpisodeStateInParallel:
             true
         case .skipEmptyPlaylistQueriesInFullSync:
+            true
+        case .efficientPlaylistQueries:
             true
         }
     }
