@@ -4,7 +4,7 @@ import PocketCastsServer
 import Kingfisher
 
 struct DiscoverCategoryCell: View {
-    @State var model: DiscoverCategoryModel
+    @State private var model: DiscoverCategoryModel
     let colorIndex: Int
 
     @Environment(\.isFocused) var isFocused: Bool
