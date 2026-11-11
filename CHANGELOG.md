@@ -1,5 +1,6 @@
 8.26
 -----
+- [tvOS] Refresh podcasts when returning to the app after 5 minutes or more away [#5618](https://github.com/Automattic/pocket-casts-ios/pull/5618)
 
 
 8.25
