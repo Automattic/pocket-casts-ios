@@ -123,7 +123,7 @@ extension SyncTask {
         } else {
             let semaphore = DispatchSemaphore(value: 0)
 
-            ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastItem.uuid, subscribe: true, completion: { success in
+            ServerPodcastManager.shared.addFromUuid(podcastUuid: podcastItem.uuid, subscribe: true, fromSync: true, completion: { success in
                 if success {
                     if let podcast = DataManager.shared.findPodcast(uuid: podcastItem.uuid, includeUnsubscribed: true) {
                         podcast.syncStatus = SyncStatus.synced.rawValue

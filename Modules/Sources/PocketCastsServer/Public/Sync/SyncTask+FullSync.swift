@@ -97,7 +97,7 @@ extension SyncTask {
     }
 
     private func addPodcastThenRetrieveEpisodeState(_ podcast: PodcastSyncInfo, uuid: String, lastSyncAt: String, completion: @escaping () -> Void) {
-        ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: true) { success in
+        ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: true, fromSync: true) { success in
             if !success {
                 completion()
 
@@ -141,7 +141,7 @@ extension SyncTask {
                 return
             }
 
-            ServerPodcastManager.shared.addFromJson(podcastUuid: uuid, lastModified: loadedPodcast.lastModified, podcastInfo: podcastInfo, subscribe: true, autoDownloads: 0) { added in
+            ServerPodcastManager.shared.addFromJson(podcastUuid: uuid, lastModified: loadedPodcast.lastModified, podcastInfo: podcastInfo, subscribe: true, autoDownloads: 0, fromSync: true) { added in
                 defer { completion() }
 
                 guard added, let localPodcast = DataManager.shared.findPodcast(uuid: uuid) else { return }
