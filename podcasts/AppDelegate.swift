@@ -3,7 +3,6 @@ import AutomatticRemoteLogging
 import BackgroundTasks
 import Combine
 import Firebase
-import FirebasePerformance
 import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
@@ -16,7 +15,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private let shortcutManager = ShortcutManager()
     private let badgeHelper = BadgeHelper()
-    private let traceHandler = TraceHelper()
 
     @objc var backgroundSessionCompletionHandler: (() -> Void)?
 
@@ -39,7 +37,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         #endif
 
         configureFirebase()
-        TraceManager.shared.setup(handler: traceHandler)
 
         setupSecrets()
         addAnalyticsObservers()
