@@ -466,7 +466,7 @@ public enum FeatureFlag: String, CaseIterable {
         case .playback2026:
             BuildEnvironment.current == .debug
         case .hidePlayedPodcasts:
-            false
+            true
         case .reloadOnlySavedPodcast:
             true
         case .syncUpNextAfterFullSync:
