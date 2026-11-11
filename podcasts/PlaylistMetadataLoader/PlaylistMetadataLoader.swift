@@ -105,12 +105,7 @@ actor PlaylistMetadataLoader {
     private var countTasks: [String: Task<Int, Never>] = [:]
     private var imagesTasks: [String: Task<[PlaylistArtworkView.ImageItem], Never>] = [:]
 
-    private let readQueue: OperationQueue = {
-        let queue = OperationQueue()
-        queue.name = "PlaylistMetadataLoader"
-        queue.maxConcurrentOperationCount = 2
-        return queue
-    }()
+    private let readQueue: OperationQueue
 
     private let dataManager: DataManager
     private let imageManager: ImageManager
@@ -119,11 +114,15 @@ actor PlaylistMetadataLoader {
     init(
         dataManager: DataManager = .shared,
         imageManager: ImageManager = .shared,
-        episodesDataManager: EpisodesDataManager = .init()
+        episodesDataManager: EpisodesDataManager = .init(),
+        readQueue: OperationQueue = OperationQueue()
     ) {
         self.dataManager = dataManager
         self.imageManager = imageManager
         self.episodesDataManager = episodesDataManager
+        readQueue.name = "PlaylistMetadataLoader"
+        readQueue.maxConcurrentOperationCount = 2
+        self.readQueue = readQueue
     }
 
     func cachedCount(for playlistID: String) -> Int? {
@@ -149,7 +148,9 @@ actor PlaylistMetadataLoader {
 
         // Start new fetch task
         let task = Task {
-            let newCount = await getEpisodesCount(for: playlist)
+            guard let newCount = await getEpisodesCount(for: playlist) else {
+                return cache.counts[playlistID]?.count ?? 0
+            }
 
             countTasks[playlistID] = nil
 
@@ -183,10 +184,12 @@ actor PlaylistMetadataLoader {
 
         // Start new fetch task
         let task = Task {
+            guard let episodes = await loadListEpisodes(for: playlist) else {
+                return cache.images[playlistID] ?? []
+            }
             defer {
                 imagesTasks[playlistID] = nil
             }
-            let episodes = await loadListEpisodes(for: playlist)
             let distinctEpisodes = firstDistinctPodcasts(from: episodes)
 
             do {
@@ -303,7 +306,7 @@ actor PlaylistMetadataLoader {
         }
     }
 
-    private func getEpisodesCount(for playlist: EpisodeFilter) async -> Int {
+    private func getEpisodesCount(for playlist: EpisodeFilter) async -> Int? {
         let playlist = playlist
         let dataManager = self.dataManager
 
@@ -316,7 +319,7 @@ actor PlaylistMetadataLoader {
         }
     }
 
-    private func loadListEpisodes(for playlist: EpisodeFilter) async -> [ListEpisode] {
+    private func loadListEpisodes(for playlist: EpisodeFilter) async -> [ListEpisode]? {
         let playlist = playlist
         let episodesDataManager = self.episodesDataManager
         return await read {
@@ -327,19 +330,32 @@ actor PlaylistMetadataLoader {
         }
     }
 
-    private func read<T>(_ query: @escaping () -> T) async -> T {
+    /// Returns `nil` when the task is cancelled before the query starts.
+    private func read<T>(_ query: @escaping () -> T) async -> T? {
         guard FeatureFlag.efficientPlaylistQueries.enabled else {
             return await Task(priority: FeatureFlag.playlistDataCacheBeforeQuery.enabled ? .medium : .userInitiated) {
                 query()
             }.value
         }
-        return await withCheckedContinuation { continuation in
-            let operation = BlockOperation {
-                continuation.resume(returning: query())
-            }
-            operation.qualityOfService = FeatureFlag.playlistDataCacheBeforeQuery.enabled ? .default : .userInitiated
-            readQueue.addOperation(operation)
+        let result = ReadResult<T>()
+        let operation = BlockOperation {
+            result.value = query()
         }
+        operation.qualityOfService = FeatureFlag.playlistDataCacheBeforeQuery.enabled ? .default : .userInitiated
+        return await withTaskCancellationHandler {
+            await withCheckedContinuation { continuation in
+                operation.completionBlock = {
+                    continuation.resume(returning: result.value)
+                }
+                readQueue.addOperation(operation)
+            }
+        } onCancel: {
+            operation.cancel()
+        }
+    }
+
+    private final class ReadResult<T>: @unchecked Sendable {
+        var value: T?
     }
 
     private func loadImagesURLs(episodes: [ListEpisode], includingEpisodeArtwork: Bool = false) async throws -> [PlaylistArtworkView.ImageItem] {
