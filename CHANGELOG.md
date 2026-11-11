@@ -2,6 +2,7 @@
 -----
 - Fix a crash that could happen in the background when the Apple Watch app didn't answer a request for its logs [#5624](https://github.com/Automattic/pocket-casts-ios/pull/5624)
 
+- Use less battery while the app is open: it no longer wakes up on every screen refresh when nothing changes, or uploads performance reports in the background of everything you do [#5627](https://github.com/Automattic/pocket-casts-ios/pull/5627)
 
 8.25
 -----
