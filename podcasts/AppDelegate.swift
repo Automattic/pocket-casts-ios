@@ -34,6 +34,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - App Lifecycle
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        #if DEBUG
+        QALaunchHooks.prepareForLaunch()
+        #endif
+
         configureFirebase()
         TraceManager.shared.setup(handler: traceHandler)
 
@@ -113,6 +117,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if FeatureFlag.enableLocalizationHeaders.enabled {
                 LocalizationHelper.provider = InternationalizationProvider(userRegion: Settings.userRegion())
             }
+
+            #if DEBUG
+            QALaunchHooks.runIfRequested()
+            #endif
         }
 
         badgeHelper.setup()
