@@ -11,6 +11,20 @@ class EpisodeDataManager {
         }
     }
 
+    private var largestEpisodeId: Int64 = 0
+
+    func setup(dbQueue: GRDBQueue) {
+        guard FeatureFlag.sequentialEpisodeIds.enabled else { return }
+
+        do {
+            try dbQueue.dbPool.writeWithoutTransaction { db in
+                try rememberLargestEpisodeId(in: db)
+            }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.setup error: \(error)")
+        }
+    }
+
     // MARK: - Query
 
     func findBy(uuid: String, dbQueue: GRDBQueue) -> Episode? {
@@ -429,7 +443,7 @@ class EpisodeDataManager {
                     for episode in chunk {
                         if try Bool.fetchOne(exists, arguments: [episode.uuid]) == true { continue }
                         do {
-                            episode.id = DBUtils.generateUniqueId()
+                            episode.id = try newEpisodeId(in: db)
                             try episode.insert(db)
                         } catch {
                             episode.id = 0
@@ -445,11 +459,33 @@ class EpisodeDataManager {
 
     private func insertOrSave(_ episode: Episode, in db: Database) throws {
         if episode.id == 0 {
-            episode.id = DBUtils.generateUniqueId()
+            episode.id = try newEpisodeId(in: db)
             try episode.insert(db)
         } else {
             try episode.save(db)
         }
+    }
+
+    private func newEpisodeId(in db: Database) throws -> Int64 {
+        guard FeatureFlag.sequentialEpisodeIds.enabled else {
+            return DBUtils.generateUniqueId()
+        }
+
+        try rememberLargestEpisodeId(in: db)
+        if largestEpisodeId == 0 {
+            largestEpisodeId = DBUtils.generateUniqueId() / 2
+        }
+        guard largestEpisodeId < Int64.max else {
+            return DBUtils.generateUniqueId()
+        }
+
+        largestEpisodeId += 1
+        return largestEpisodeId
+    }
+
+    private func rememberLargestEpisodeId(in db: Database) throws {
+        let maxId = try Int64.fetchOne(db.cachedStatement(sql: "SELECT MAX(id) FROM \(DataManager.episodeTableName)")) ?? 0
+        largestEpisodeId = max(largestEpisodeId, maxId)
     }
 
     func bulkSetStarred(starred: Bool, episodes: [Episode], updateSyncFlag: Bool, dbQueue: GRDBQueue) {

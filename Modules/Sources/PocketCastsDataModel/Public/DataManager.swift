@@ -90,6 +90,7 @@ public class DataManager {
         podcastManager.setup(dbQueue: dbQueue)
         folderManager.setup(dbQueue: dbQueue)
         upNextManager.setup(dbQueue: dbQueue)
+        episodeManager.setup(dbQueue: dbQueue)
     }
 
     convenience init(endOfYearManager: EndOfYearDataManager) {
