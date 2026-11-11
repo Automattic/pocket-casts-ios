@@ -7,7 +7,10 @@ import PocketCastsDataModel
 final class RefreshEpisodeHLSTests: XCTestCase {
 
     private func decode(_ json: String) throws -> RefreshEpisode {
-        try JSONDecoder().decode(RefreshEpisode.self, from: Data(json.utf8))
+        let response = ServerHelper.decodeRefreshResponse(from: Data("""
+        { "status": "ok", "result": { "podcast_updates": { "podcast-uuid": [\(json)] } } }
+        """.utf8))
+        return try XCTUnwrap(response.result?.podcastUpdates?["podcast-uuid"]?.first)
     }
 
     func testDecodesHlsUrlFromAlternateEnclosures() throws {
