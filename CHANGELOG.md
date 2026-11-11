@@ -2,6 +2,7 @@
 -----
 - Fix a crash that could happen in the background when the Apple Watch app didn't answer a request for its logs [#5624](https://github.com/Automattic/pocket-casts-ios/pull/5624)
 - Use less battery while the app is open, especially when it's idle on screen [#5627](https://github.com/Automattic/pocket-casts-ios/pull/5627)
+- Fix a crash that could happen with Voice Boost on when playback stopped or moved to another episode [#5639](https://github.com/Automattic/pocket-casts-ios/pull/5639)
 
 8.25
 -----
