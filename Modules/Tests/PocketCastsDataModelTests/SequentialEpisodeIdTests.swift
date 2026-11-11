@@ -4,15 +4,25 @@ import GRDB
 @testable import PocketCastsUtils
 
 final class SequentialEpisodeIdTests: DataManagerTestCase {
+    private var userDefaultsSuiteName = ""
+    private var userDefaults: UserDefaults!
+
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+        userDefaultsSuiteName = "SequentialEpisodeIdTests-\(UUID().uuidString)"
+        userDefaults = try XCTUnwrap(UserDefaults(suiteName: userDefaultsSuiteName))
+    }
+
     override func tearDownWithError() throws {
         try FeatureFlagOverrideStore().override(FeatureFlag.sequentialEpisodeIds, withValue: true)
+        userDefaults.removePersistentDomain(forName: userDefaultsSuiteName)
         try super.tearDownWithError()
     }
 
     // MARK: - Allocation
 
     func testNewEpisodesGetTheIdsAfterTheLargestId() throws {
-        try runWithDataManager { dataManager in
+        try runWithNewDatabase { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let existing = self.makeEpisode(podcast: podcast)
             existing.id = 5_000_000_000_000_000_000
@@ -36,7 +46,7 @@ final class SequentialEpisodeIdTests: DataManagerTestCase {
     func testEpisodesInAnEmptyTableStartAfterARandomIdBelowHalfTheRange() throws {
         var firstIds = Set<Int64>()
         for _ in 0..<3 {
-            try runWithDataManager { dataManager in
+            try runWithNewDatabase { dataManager in
                 let podcast = self.createTestPodcast(dataManager: dataManager)
                 let episodes = (0..<3).map { _ in self.makeEpisode(podcast: podcast) }
                 dataManager.bulkSave(episodes: episodes)
@@ -52,7 +62,7 @@ final class SequentialEpisodeIdTests: DataManagerTestCase {
     }
 
     func testSavingAnExistingEpisodeKeepsItsId() throws {
-        try runWithDataManager { dataManager in
+        try runWithNewDatabase { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let episode = self.makeEpisode(podcast: podcast)
             dataManager.save(episode: episode)
@@ -72,7 +82,7 @@ final class SequentialEpisodeIdTests: DataManagerTestCase {
     // MARK: - Deleted IDs
 
     func testNewEpisodeDoesNotReuseTheIdOfADeletedEpisode() throws {
-        try runWithDataManager { dataManager in
+        try runWithNewDatabase { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let kept = self.makeEpisode(podcast: podcast)
             let deleted = self.makeEpisode(podcast: podcast)
@@ -104,7 +114,7 @@ final class SequentialEpisodeIdTests: DataManagerTestCase {
     }
 
     func testSavingAStaleCopyOfADeletedEpisodeDoesNotOverwriteANewEpisode() throws {
-        try runWithDataManager { dataManager in
+        try runWithNewDatabase { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let kept = self.makeEpisode(podcast: podcast)
             let stale = self.makeEpisode(podcast: podcast)
@@ -124,7 +134,7 @@ final class SequentialEpisodeIdTests: DataManagerTestCase {
     // MARK: - Mixed and full ranges
 
     func testNewEpisodesFollowTheLargestOfMixedRandomAndSequentialIds() throws {
-        try runWithDataManager { dataManager in
+        try runWithNewDatabase { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let random = (0..<50).map { _ in self.makeEpisode(podcast: podcast) }
             try FeatureFlagOverrideStore().override(FeatureFlag.sequentialEpisodeIds, withValue: false)
@@ -141,7 +151,7 @@ final class SequentialEpisodeIdTests: DataManagerTestCase {
     }
 
     func testRandomIdsSavedByAnOlderVersionDoNotCollideWithSequentialIds() throws {
-        try runWithDataManager { dataManager in
+        try runWithNewDatabase { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let sequential = (0..<100).map { _ in self.makeEpisode(podcast: podcast) }
             dataManager.bulkSave(episodes: sequential)
@@ -161,7 +171,7 @@ final class SequentialEpisodeIdTests: DataManagerTestCase {
     }
 
     func testNewEpisodesUseTheLastIdsBeforeInt64Max() throws {
-        try runWithDataManager { dataManager in
+        try runWithNewDatabase { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let existing = self.makeEpisode(podcast: podcast)
             existing.id = Int64.max - 2
@@ -181,7 +191,7 @@ final class SequentialEpisodeIdTests: DataManagerTestCase {
     }
 
     func testNewEpisodeGetsARandomIdWhenTheLargestIdIsInt64Max() throws {
-        try runWithDataManager { dataManager in
+        try runWithNewDatabase { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let existing = self.makeEpisode(podcast: podcast)
             existing.id = Int64.max
@@ -197,12 +207,51 @@ final class SequentialEpisodeIdTests: DataManagerTestCase {
         }
     }
 
+    // MARK: - New installs
+
+    func testNewEpisodesGetRandomIdsInADatabaseCreatedBeforeTheUpdate() throws {
+        let path = try makeDatabasePath()
+        let olderVersion = try makeDataManager(path: path)
+        let podcast = createTestPodcast(dataManager: olderVersion)
+        let existing = makeEpisode(podcast: podcast)
+        existing.id = 1_000
+        olderVersion.save(episode: existing)
+        userDefaults.removeObject(forKey: "SequentialEpisodeIds")
+
+        let update = try makeDataManager(path: path)
+        let episodes = (0..<20).map { _ in makeEpisode(podcast: podcast) }
+        update.bulkSave(episodes: episodes)
+        let missing = (0..<20).map { _ in makeEpisode(podcast: podcast) }
+        update.insertMissing(episodes: missing)
+
+        let ids = (episodes + missing).map(\.id)
+        XCTAssertEqual(Set(ids).count, 40)
+        XCTAssertTrue(ids.allSatisfy { $0 > 0 })
+        XCTAssertFalse(ids.contains(1_001))
+        XCTAssertNotEqual(ids, ids.sorted())
+        XCTAssertEqual(episodeCount(update), 41)
+    }
+
+    func testDatabaseCreatedByANewInstallKeepsSequentialIdsAfterARelaunch() throws {
+        let path = try makeDatabasePath()
+        let firstLaunch = try makeDataManager(path: path)
+        let podcast = createTestPodcast(dataManager: firstLaunch)
+        let episodes = (0..<3).map { _ in makeEpisode(podcast: podcast) }
+        firstLaunch.bulkSave(episodes: episodes)
+
+        let secondLaunch = try makeDataManager(path: path)
+        let new = makeEpisode(podcast: podcast)
+        secondLaunch.save(episode: new)
+
+        XCTAssertEqual(new.id, episodes[2].id + 1)
+    }
+
     // MARK: - Feature flag
 
     func testNewEpisodesGetRandomIdsWhenTheFlagIsOff() throws {
         try FeatureFlagOverrideStore().override(FeatureFlag.sequentialEpisodeIds, withValue: false)
 
-        try runWithDataManager { dataManager in
+        try runWithNewDatabase { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let existing = self.makeEpisode(podcast: podcast)
             existing.id = 1_000
@@ -225,7 +274,7 @@ final class SequentialEpisodeIdTests: DataManagerTestCase {
     // MARK: - Concurrency
 
     func testConcurrentWritersGetUniqueIds() throws {
-        try runWithDataManager { dataManager in
+        try runWithNewDatabase { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
             let existing = self.makeEpisode(podcast: podcast)
             existing.id = 7_000_000_000_000_000_000
@@ -268,6 +317,11 @@ final class SequentialEpisodeIdTests: DataManagerTestCase {
     }
 
     // MARK: - Helpers
+
+    private func runWithNewDatabase(_ testBlock: (DataManager) throws -> Void) throws {
+        let dbPool = try XCTUnwrap(DatabasePool.newTestDatabase())
+        try testBlock(DataManager(dbQueue: GRDBQueue(dbPool: dbPool), userDefaults: userDefaults))
+    }
 
     /// Each writer saves 13 new episodes: one with `save`, five with `bulkSave`, and seven with `insertMissing`
     private func saveConcurrently(writers: Int, podcast: Podcast, dataManagers: [DataManager]) -> [Episode] {
@@ -312,6 +366,6 @@ final class SequentialEpisodeIdTests: DataManagerTestCase {
     private func makeDataManager(path: String) throws -> DataManager {
         var config = Configuration()
         config.busyMode = .timeout(10)
-        return DataManager(dbQueue: GRDBQueue(dbPool: try DatabasePool(path: path, configuration: config)))
+        return DataManager(dbQueue: GRDBQueue(dbPool: try DatabasePool(path: path, configuration: config)), userDefaults: userDefaults)
     }
 }

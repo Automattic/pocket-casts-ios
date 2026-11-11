@@ -17,7 +17,7 @@ public class DataManager {
     private let upNextManager = UpNextDataManager()
     private let upNextChangesManager = UpNextChangesDataManager()
     private let playlistManager = PlaylistDataManager()
-    private let episodeManager = EpisodeDataManager()
+    private let episodeManager: EpisodeDataManager
     private let userEpisodeManager = UserEpisodeDataManager()
     private let folderManager = FolderDataManager()
     private lazy var endOfYearManager = EndOfYearDataManager()
@@ -71,10 +71,11 @@ public class DataManager {
     }
 
     /// Creates a DataManager using the given `GRDBQueue`.
-    public init(dbQueue: GRDBQueue) {
+    public init(dbQueue: GRDBQueue, userDefaults: UserDefaults = .standard) {
         self.dbQueue = dbQueue
 
         self.databaseWasCreated = DatabaseHelper.setup(queue: dbQueue)
+        episodeManager = EpisodeDataManager(databaseWasCreated: databaseWasCreated, userDefaults: userDefaults)
 
         autoAddCandidates = AutoAddCandidatesDataManager(dbQueue: dbQueue)
         bookmarks = BookmarkDataManager(dbQueue: dbQueue)

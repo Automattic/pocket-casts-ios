@@ -11,10 +11,25 @@ class EpisodeDataManager {
         }
     }
 
+    private static let sequentialEpisodeIdsKey = "SequentialEpisodeIds"
+
+    /// `true` if the database was created by a version that gives new episodes sequential IDs
+    private let isDatabaseCreatedWithSequentialIds: Bool
     private var largestEpisodeId: Int64 = 0
 
+    private var givesSequentialIds: Bool {
+        isDatabaseCreatedWithSequentialIds && FeatureFlag.sequentialEpisodeIds.enabled
+    }
+
+    init(databaseWasCreated: Bool, userDefaults: UserDefaults) {
+        if databaseWasCreated {
+            userDefaults.set(true, forKey: Self.sequentialEpisodeIdsKey)
+        }
+        isDatabaseCreatedWithSequentialIds = userDefaults.bool(forKey: Self.sequentialEpisodeIdsKey)
+    }
+
     func setup(dbQueue: GRDBQueue) {
-        guard FeatureFlag.sequentialEpisodeIds.enabled else { return }
+        guard givesSequentialIds else { return }
 
         do {
             try dbQueue.dbPool.writeWithoutTransaction { db in
@@ -467,7 +482,7 @@ class EpisodeDataManager {
     }
 
     private func newEpisodeId(in db: Database) throws -> Int64 {
-        guard FeatureFlag.sequentialEpisodeIds.enabled else {
+        guard givesSequentialIds else {
             return DBUtils.generateUniqueId()
         }
 
