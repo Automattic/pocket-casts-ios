@@ -42,6 +42,48 @@ class LargeListSummaryCellHeaderView: UIView {
         return label
     }()
 
+    private let chevronImageView: ThemeableImageView = {
+        let imageView = ThemeableImageView(frame: .zero)
+        imageView.image = UIImage(named: "chevron-small-right")
+        imageView.imageStyle = .primaryIcon03
+        imageView.contentMode = .scaleAspectFit
+        imageView.isHidden = true
+        imageView.setContentHuggingPriority(.required, for: .horizontal)
+        imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
+        // Nudges the glyph to look optically centered against the text's cap height/line height.
+        imageView.transform = CGAffineTransform(translationX: 0, y: 2)
+        return imageView
+    }()
+
+    // Soaks up the leftover width in `titleRow` so the chevron hugs the text instead of
+    // drifting into the middle of the row when the title doesn't fill the available width.
+    private let titleRowSpacer: UIView = {
+        let view = UIView()
+        view.setContentHuggingPriority(UILayoutPriority(1), for: .horizontal)
+        return view
+    }()
+
+    private let titleRow: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.alignment = .center
+        stack.spacing = 0
+        return stack
+    }()
+
+    private let tapGestureRecognizer = UITapGestureRecognizer()
+
+    /// Called when the title row is tapped, while `showAllAvailable` is `true`.
+    var onShowAllTapped: (() -> Void)?
+
+    var showAllAvailable = false {
+        didSet {
+            chevronImageView.isHidden = !showAllAvailable
+            tapGestureRecognizer.isEnabled = showAllAvailable
+            titleRow.accessibilityTraits = showAllAvailable ? .button : []
+        }
+    }
+
     var topText: String? {
         get { topLabel.text }
         set { topLabel.text = newValue }
@@ -49,7 +91,10 @@ class LargeListSummaryCellHeaderView: UIView {
 
     var bottomText: String? {
         get { bottomLabel.text }
-        set { bottomLabel.text = newValue }
+        set {
+            bottomLabel.text = newValue
+            titleRow.accessibilityLabel = newValue
+        }
     }
 
     var podcastUUID: String? {
@@ -95,14 +140,29 @@ class LargeListSummaryCellHeaderView: UIView {
             horizontalStack.topAnchor.constraint(equalTo: topAnchor),
             horizontalStack.bottomAnchor.constraint(equalTo: bottomAnchor),
             imageWidthAnchor,
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
+            chevronImageView.widthAnchor.constraint(equalToConstant: 32),
+            chevronImageView.heightAnchor.constraint(equalToConstant: 32)
         ])
 
+        titleRow.addArrangedSubview(bottomLabel)
+        titleRow.addArrangedSubview(chevronImageView)
+        titleRow.addArrangedSubview(titleRowSpacer)
+        titleRow.isAccessibilityElement = true
+
+        tapGestureRecognizer.addTarget(self, action: #selector(titleRowTapped))
+        tapGestureRecognizer.isEnabled = showAllAvailable
+        titleRow.addGestureRecognizer(tapGestureRecognizer)
+
         verticalStack.addArrangedSubview(topLabel)
-        verticalStack.addArrangedSubview(bottomLabel)
+        verticalStack.addArrangedSubview(titleRow)
 
         horizontalStack.addArrangedSubview(imageView)
         horizontalStack.addArrangedSubview(verticalStack)
+    }
+
+    @objc private func titleRowTapped() {
+        onShowAllTapped?()
     }
 
     override func awakeFromNib() {

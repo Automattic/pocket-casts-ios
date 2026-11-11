@@ -6,13 +6,11 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
 
     @IBOutlet weak var divider: ThemeDividerView!
     @IBOutlet weak var titleTopConstraint: NSLayoutConstraint!
-    @IBOutlet var podcastHeaderView: LargeListSummaryCellHeaderView?
-    @IBOutlet var showAllBtn: UIButton! {
+    @IBOutlet var podcastHeaderView: LargeListSummaryCellHeaderView? {
         didSet {
-            showAllBtn.setTitle(L10n.discoverShowAll.localizedUppercase, for: .normal)
-            showAllBtn.titleLabel?.font = .font(ofSize: 13, weight: .bold, scalingWith: .title1)
-            showAllBtn.titleLabel?.numberOfLines = 2
-            showAllBtn.titleLabel?.adjustsFontForContentSizeCategory = true
+            podcastHeaderView?.onShowAllTapped = { [weak self] in
+                self?.showAll()
+            }
         }
     }
 
@@ -66,8 +64,6 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         gridLayout.numberOfRowsOrColumns = 1
         gridLayout.scrollDirection = .horizontal
         gridLayout.itemSpacing = cellSpacing
-
-        showAllBtn.setLetterSpacing(0.6)
     }
 
     var cellExtraHeight: CGFloat {
@@ -192,7 +188,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         guard let source = item.source else { return }
         guard let title = item.title?.localized else { return }
 
-        showAllBtn.isHidden = item.expandedStyle == nil
+        podcastHeaderView?.showAllAvailable = item.expandedStyle != nil
 
         self.item = item
         self.category = category
@@ -251,9 +247,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         }
     }
 
-    // MARK: - IBActions
-
-    @IBAction func showAllTapped(_ sender: Any) {
+    private func showAll() {
         guard let delegate, let item else { return }
 
         delegate.showExpanded(item: item, podcasts: podcasts, podcastCollection: nil, datetime: datetime)
