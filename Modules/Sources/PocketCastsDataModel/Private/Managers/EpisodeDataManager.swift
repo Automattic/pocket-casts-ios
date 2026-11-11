@@ -483,9 +483,6 @@ class EpisodeDataManager {
         }
 
         try rememberLargestEpisodeId(in: db)
-        if largestEpisodeId == 0 {
-            largestEpisodeId = DBUtils.generateUniqueId() / 2
-        }
         guard largestEpisodeId < Int64.max else {
             return DBUtils.generateUniqueId()
         }

@@ -43,22 +43,14 @@ final class SequentialEpisodeIdTests: DataManagerTestCase {
         }
     }
 
-    func testEpisodesInAnEmptyTableStartAfterARandomIdBelowHalfTheRange() throws {
-        var firstIds = Set<Int64>()
-        for _ in 0..<3 {
-            try runWithNewDatabase { dataManager in
-                let podcast = self.createTestPodcast(dataManager: dataManager)
-                let episodes = (0..<3).map { _ in self.makeEpisode(podcast: podcast) }
-                dataManager.bulkSave(episodes: episodes)
+    func testEpisodesInAnEmptyTableStartAtOne() throws {
+        try runWithNewDatabase { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episodes = (0..<3).map { _ in self.makeEpisode(podcast: podcast) }
+            dataManager.bulkSave(episodes: episodes)
 
-                let first = episodes[0].id
-                XCTAssertGreaterThan(first, 0)
-                XCTAssertLessThanOrEqual(first, Int64.max / 2 + 1)
-                XCTAssertEqual(episodes.map(\.id), [first, first + 1, first + 2])
-                firstIds.insert(first)
-            }
+            XCTAssertEqual(episodes.map(\.id), [1, 2, 3])
         }
-        XCTAssertEqual(firstIds.count, 3)
     }
 
     func testSavingAnExistingEpisodeKeepsItsId() throws {
