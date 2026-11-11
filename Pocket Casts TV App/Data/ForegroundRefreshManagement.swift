@@ -8,7 +8,7 @@ import SwiftUI
 /// `.background` triggers a refresh.
 class ForegroundRefreshManagement {
 
-    private static let minTimeBetweenRefreshes = 5.minutes
+    private static let minTimeBetweenRefreshes = 1.minutes
 
     private let refreshManager: RefreshManager
     private var wasInBackground = false
