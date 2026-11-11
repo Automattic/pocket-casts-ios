@@ -22,7 +22,7 @@ enum Playback2026 {
     static func start(from viewController: UIViewController, source: Playback2026Analytics.Source) {
         guard isAvailable, viewController.presentedViewController == nil else { return }
 
-        if requiresSignIn() {
+        if !SyncManager.isUserLoggedIn() {
             isWaitingForSignIn = true
             let controller = OnboardingFlow.shared.begin(flow: .endOfYear, source: .endOfYear, traitCollection: viewController.traitCollection)
             viewController.present(controller, animated: true)
@@ -31,10 +31,6 @@ enum Playback2026 {
 
         viewController.present(Playback2026ViewController(), animated: true)
         Playback2026Analytics.track(.endOfYearStoriesShown, properties: ["source": source.rawValue])
-    }
-
-    static func requiresSignIn(requireAccount: Bool = Settings.endOfYearRequireAccount, isSignedIn: Bool = SyncManager.isUserLoggedIn()) -> Bool {
-        requireAccount && !isSignedIn
     }
 
     private static var isWaitingForSignIn = false
