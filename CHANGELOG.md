@@ -1,5 +1,6 @@
 8.26
 -----
+- Replace the "Show All" links in Discover section headers with a chevron after the title; tap the title to see the full list [#5468](https://github.com/Automattic/pocket-casts-ios/pull/5468)
 
 
 8.25
