@@ -1,7 +1,5 @@
 8.26
 -----
-- [tvOS] Refresh podcasts when returning to the app after 5 minutes or more away [#5618](https://github.com/Automattic/pocket-casts-ios/pull/5618)
-
 
 8.25
 -----
@@ -25,6 +23,7 @@
 - Add an option to hide played podcasts from the Podcasts tab, in the "…" menu [#5543](https://github.com/Automattic/pocket-casts-ios/pull/5543)
 - Fix the Profile header splitting the email address mid-word at accessibility text sizes on iPad; the header now stacks [#5544](https://github.com/Automattic/pocket-casts-ios/pull/5544)
 - Fix a crash when VoiceOver or another accessibility service reads the player's progress slider while the playback time is negative or unknown [#5561](https://github.com/Automattic/pocket-casts-ios/pull/5561)
+- [tvOS] Refresh podcasts when returning to the app after 5 minutes or more away [#5618](https://github.com/Automattic/pocket-casts-ios/pull/5618)
 
 8.24
 -----
