@@ -1,6 +1,7 @@
 8.26
 -----
 - Fix a crash that could happen in the background when the Apple Watch app didn't answer a request for its logs [#5624](https://github.com/Automattic/pocket-casts-ios/pull/5624)
+- Fix the app freezing for up to 30 seconds while Siri's "Surprise Me!" shortcut picks an episode, for accounts with a long listening history [#5635](https://github.com/Automattic/pocket-casts-ios/pull/5635)
 
 
 8.25
