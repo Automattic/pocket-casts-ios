@@ -134,40 +134,43 @@ final class SequentialEpisodeIdTests: DataManagerTestCase {
     // MARK: - Mixed and full ranges
 
     func testNewEpisodesFollowTheLargestOfMixedRandomAndSequentialIds() throws {
-        try runWithNewDatabase { dataManager in
-            let podcast = self.createTestPodcast(dataManager: dataManager)
-            let random = (0..<50).map { _ in self.makeEpisode(podcast: podcast) }
-            try FeatureFlagOverrideStore().override(FeatureFlag.sequentialEpisodeIds, withValue: false)
-            dataManager.bulkSave(episodes: random)
-            try FeatureFlagOverrideStore().override(FeatureFlag.sequentialEpisodeIds, withValue: true)
+        let path = try makeDatabasePath()
+        try FeatureFlagOverrideStore().override(FeatureFlag.sequentialEpisodeIds, withValue: false)
+        let flagOff = try makeDataManager(path: path)
+        let podcast = createTestPodcast(dataManager: flagOff)
+        let random = (0..<50).map { _ in makeEpisode(podcast: podcast) }
+        flagOff.bulkSave(episodes: random)
 
-            let sequential = (0..<3).map { _ in self.makeEpisode(podcast: podcast) }
-            dataManager.bulkSave(episodes: sequential)
+        try FeatureFlagOverrideStore().override(FeatureFlag.sequentialEpisodeIds, withValue: true)
+        let flagOn = try makeDataManager(path: path)
+        let sequential = (0..<3).map { _ in makeEpisode(podcast: podcast) }
+        flagOn.bulkSave(episodes: sequential)
 
-            let largestRandomId = try XCTUnwrap(random.map(\.id).max())
-            XCTAssertEqual(sequential.map(\.id), (1...3).map { largestRandomId + $0 })
-            XCTAssertEqual(self.episodeCount(dataManager), 53)
-        }
+        let largestRandomId = try XCTUnwrap(random.map(\.id).max())
+        XCTAssertEqual(sequential.map(\.id), (1...3).map { largestRandomId + $0 })
+        XCTAssertEqual(episodeCount(flagOn), 53)
     }
 
     func testRandomIdsSavedByAnOlderVersionDoNotCollideWithSequentialIds() throws {
-        try runWithNewDatabase { dataManager in
-            let podcast = self.createTestPodcast(dataManager: dataManager)
-            let sequential = (0..<100).map { _ in self.makeEpisode(podcast: podcast) }
-            dataManager.bulkSave(episodes: sequential)
+        let path = try makeDatabasePath()
+        let firstLaunch = try makeDataManager(path: path)
+        let podcast = createTestPodcast(dataManager: firstLaunch)
+        let sequential = (0..<100).map { _ in makeEpisode(podcast: podcast) }
+        firstLaunch.bulkSave(episodes: sequential)
 
-            try FeatureFlagOverrideStore().override(FeatureFlag.sequentialEpisodeIds, withValue: false)
-            let random = (0..<100).map { _ in self.makeEpisode(podcast: podcast) }
-            dataManager.bulkSave(episodes: random)
-            try FeatureFlagOverrideStore().override(FeatureFlag.sequentialEpisodeIds, withValue: true)
+        try FeatureFlagOverrideStore().override(FeatureFlag.sequentialEpisodeIds, withValue: false)
+        let flagOff = try makeDataManager(path: path)
+        let random = (0..<100).map { _ in makeEpisode(podcast: podcast) }
+        flagOff.bulkSave(episodes: random)
 
-            let next = self.makeEpisode(podcast: podcast)
-            dataManager.save(episode: next)
+        try FeatureFlagOverrideStore().override(FeatureFlag.sequentialEpisodeIds, withValue: true)
+        let flagOn = try makeDataManager(path: path)
+        let next = makeEpisode(podcast: podcast)
+        flagOn.save(episode: next)
 
-            XCTAssertEqual(next.id, try XCTUnwrap(random.map(\.id).max()) + 1)
-            XCTAssertEqual(Set((sequential + random + [next]).map(\.id)).count, 201)
-            XCTAssertEqual(self.episodeCount(dataManager), 201)
-        }
+        XCTAssertEqual(next.id, try XCTUnwrap(random.map(\.id).max()) + 1)
+        XCTAssertEqual(Set((sequential + random + [next]).map(\.id)).count, 201)
+        XCTAssertEqual(episodeCount(flagOn), 201)
     }
 
     func testNewEpisodesUseTheLastIdsBeforeInt64Max() throws {
@@ -247,6 +250,26 @@ final class SequentialEpisodeIdTests: DataManagerTestCase {
     }
 
     // MARK: - Feature flag
+
+    func testTurningTheFlagOffTakesEffectOnTheNextLaunch() throws {
+        let path = try makeDatabasePath()
+        let firstLaunch = try makeDataManager(path: path)
+        let podcast = createTestPodcast(dataManager: firstLaunch)
+        let first = makeEpisode(podcast: podcast)
+        firstLaunch.save(episode: first)
+
+        try FeatureFlagOverrideStore().override(FeatureFlag.sequentialEpisodeIds, withValue: false)
+        let sameLaunch = makeEpisode(podcast: podcast)
+        firstLaunch.save(episode: sameLaunch)
+        XCTAssertEqual(sameLaunch.id, first.id + 1)
+
+        let secondLaunch = try makeDataManager(path: path)
+        let nextLaunch = (0..<20).map { _ in makeEpisode(podcast: podcast) }
+        secondLaunch.bulkSave(episodes: nextLaunch)
+        let ids = nextLaunch.map(\.id)
+        XCTAssertFalse(ids.contains(sameLaunch.id + 1))
+        XCTAssertNotEqual(ids, ids.sorted())
+    }
 
     func testNewEpisodesGetRandomIdsWhenTheFlagIsOff() throws {
         try FeatureFlagOverrideStore().override(FeatureFlag.sequentialEpisodeIds, withValue: false)
