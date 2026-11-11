@@ -54,8 +54,9 @@ public class ServerPodcastManager: NSObject {
         }
     }
 
-    public func addFromUuid(podcastUuid: String, subscribe: Bool, autoDownloads: Int = 0, completion: ((Bool) -> Void)?) {
-        CacheServerHandler.shared.loadPodcastInfo(podcastUuid: podcastUuid) { [weak self] podcastInfo, lastModified in
+    /// - Parameter episodeListUrl: Where the podcast's episode list is, if it's known. See ``CacheServerHandler/loadPodcastInfo(podcastUuid:episodeListUrl:completion:)``.
+    public func addFromUuid(podcastUuid: String, episodeListUrl: URL? = nil, subscribe: Bool, autoDownloads: Int = 0, completion: ((Bool) -> Void)?) {
+        CacheServerHandler.shared.loadPodcastInfo(podcastUuid: podcastUuid, episodeListUrl: episodeListUrl) { [weak self] podcastInfo, lastModified in
             if let podcastInfo {
                 self?.addFromJson(podcastUuid: podcastUuid, lastModified: lastModified, podcastInfo: podcastInfo, subscribe: subscribe, autoDownloads: autoDownloads, completion: completion)
             } else {

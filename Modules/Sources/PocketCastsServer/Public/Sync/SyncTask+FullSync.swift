@@ -53,13 +53,23 @@ extension SyncTask {
         totalToImport = podcasts.count
         NotificationCenter.default.post(name: ServerNotifications.syncProgressPodcastCount, object: totalToImport)
 
+        let episodeListUrls = ThreadSafeDictionary<String, URL>()
+        let podcastUuids = podcasts.compactMap(\.uuid)
+        if FeatureFlag.loadEpisodeListUrlsInOneRequest.enabled, !podcastUuids.isEmpty {
+            CacheServerHandler.shared.loadEpisodeListUrls(podcastUuids: podcastUuids) { urls in
+                for (uuid, url) in urls {
+                    episodeListUrls[uuid] = url
+                }
+            }
+        }
+
         upToPodcast = 0
         for podcast in podcasts {
             importQueue.addOperation {
                 self.upToPodcast += 1
                 NotificationCenter.default.post(name: ServerNotifications.syncProgressPodcastUpto, object: self.upToPodcast)
 
-                self.processPodcast(podcast, lastSyncAt: lastSyncAt)
+                self.processPodcast(podcast, lastSyncAt: lastSyncAt, episodeListUrl: podcast.uuid.flatMap { episodeListUrls[$0] })
             }
         }
         importQueue.waitUntilAllOperationsAreFinished()
@@ -71,7 +81,7 @@ extension SyncTask {
         FolderHelper.addFolderToDatabase(folder)
     }
 
-    func processPodcast(_ podcast: PodcastSyncInfo, lastSyncAt: String) {
+    func processPodcast(_ podcast: PodcastSyncInfo, lastSyncAt: String, episodeListUrl: URL? = nil) {
         guard let uuid = podcast.uuid else { return }
 
         if let localPodcast = DataManager.shared.findPodcast(uuid: uuid), lastSyncAt == localPodcast.fullSyncLastSyncAt {
@@ -82,7 +92,7 @@ extension SyncTask {
         FileLog.shared.addMessage("Processing podcast \(uuid)")
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
-        ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: true) { success in
+        ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, episodeListUrl: episodeListUrl, subscribe: true) { success in
             if !success {
                 dispatchGroup.leave()
 

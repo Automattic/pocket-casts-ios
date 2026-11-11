@@ -282,6 +282,10 @@ public enum FeatureFlag: String, CaseIterable {
     /// Give a new episode the ID after the largest one in the table instead of a random ID
     case sequentialEpisodeIds
 
+    /// On a first sign-in, look up where every podcast's episode list is in one request and load the lists from there,
+    /// instead of following the cache server's redirect for each podcast
+    case loadEpisodeListUrlsInOneRequest
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -477,6 +481,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .saveMissingEpisodesInOneTransaction:
             true
         case .sequentialEpisodeIds:
+            true
+        case .loadEpisodeListUrlsInOneRequest:
             true
         }
     }
