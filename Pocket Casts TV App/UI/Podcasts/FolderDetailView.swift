@@ -3,7 +3,7 @@ import PocketCastsDataModel
 
 struct FolderDetailView: View {
 
-    @State var model: FolderDetailViewModel
+    @State private var model: FolderDetailViewModel
 
     @Environment(\.dismiss) var dismiss
 
