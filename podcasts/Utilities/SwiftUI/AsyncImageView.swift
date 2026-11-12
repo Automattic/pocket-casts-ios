@@ -38,6 +38,7 @@ struct AsyncImageView: View {
             .resizable()
             .targetCache(cache)
             .serialize(by: ImageManager.originalDataSerializer)
+            .backgroundDecode()
             .fade(duration: 0.25)
             .aspectRatio(aspectRatio, contentMode: contentMode)
     }
