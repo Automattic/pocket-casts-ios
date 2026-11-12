@@ -32,6 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - App Lifecycle
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        ImageManager.readDisplayScale()
+
         #if DEBUG
         QALaunchHooks.prepareForLaunch()
         #endif
