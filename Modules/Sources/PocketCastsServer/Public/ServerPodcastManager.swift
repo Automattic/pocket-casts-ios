@@ -78,10 +78,11 @@ public class ServerPodcastManager: NSObject {
     }
 
     public func addFromJson(podcastUuid: String, lastModified: String?, podcastInfo: [String: Any], subscribe: Bool, autoDownloads: Int, fromSync: Bool = false, completion: ((Bool) -> Void)?) {
+        let episodes = Self.episodes(fromPodcastInfo: podcastInfo)
         subscribeQueue.addOperation { [weak self] in
             guard let strongSelf = self else { return }
 
-            let added = strongSelf.addPodcast(podcastInfo: podcastInfo, subscribe: subscribe, autoDownloads: autoDownloads, lastModified: lastModified)
+            let added = strongSelf.addPodcast(podcastInfo: podcastInfo, episodes: episodes, subscribe: subscribe, autoDownloads: autoDownloads, lastModified: lastModified)
             if subscribe, added, !fromSync { ServerConfig.shared.syncDelegate?.subscribedToPodcast() } // addFromUuid and addFromiTunesId end up here, so just need this one analytic
             completion?(added)
         }
@@ -196,6 +197,19 @@ public class ServerPodcastManager: NSObject {
     }
 
     private func addPodcast(podcastInfo: [String: Any], subscribe: Bool, autoDownloads: Int = 0, lastModified: String?) -> Bool {
+        addPodcast(podcastInfo: podcastInfo, episodes: Self.episodes(fromPodcastInfo: podcastInfo), subscribe: subscribe, autoDownloads: autoDownloads, lastModified: lastModified)
+    }
+
+    /// Parses the podcast's episodes without a `podcast_id`, which `addPodcast` sets once the podcast is saved.
+    private static func episodes(fromPodcastInfo podcastInfo: [String: Any]) -> [Episode]? {
+        guard let podcastJson = podcastInfo["podcast"] as? [String: Any],
+              let podcastUuid = podcastJson["uuid"] as? String,
+              let episodesJson = podcastJson["episodes"] as? [[String: Any]] else { return nil }
+
+        return episodesJson.map { Episode.from(episodeJson: $0, podcastId: 0, podcastUuid: podcastUuid) }
+    }
+
+    private func addPodcast(podcastInfo: [String: Any], episodes: [Episode]?, subscribe: Bool, autoDownloads: Int = 0, lastModified: String?) -> Bool {
         guard let podcastJson = podcastInfo["podcast"] as? [String: Any], let podcastUuid = podcastJson["uuid"] as? String else { return false }
 
         // check if we already have this podcast, and if we do treat it differently
@@ -221,15 +235,13 @@ public class ServerPodcastManager: NSObject {
         podcast.sortOrder = highestSortOrderForHomeGrid() + 1
 
         // we don't accept podcasts with no episodes
-        guard let episodesJson = podcastJson["episodes"] as? [[String: Any]] else { return false }
+        guard let episodes else { return false }
 
         // save the podcast so that it gets and ID
         DataManager.shared.save(podcast: podcast)
 
-        var episodes = [Episode]()
-        for episodeJson in episodesJson {
-            let episode = Episode.from(episodeJson: episodeJson, podcastId: podcast.id, podcastUuid: podcast.uuid)
-            episodes.append(episode)
+        for episode in episodes {
+            episode.podcast_id = podcast.id
         }
         DataManager.shared.bulkSave(episodes: episodes)
 
