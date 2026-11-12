@@ -326,12 +326,15 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
     func testMarkAllEpisodePlaybackHistorySyncedUpdatesSyncStatus() throws {
         try runWithDataManager { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
-            let episode = self.createTestEpisode(podcast: podcast, dataManager: dataManager)
+            let unsynced = self.createTestEpisode(podcast: podcast, dataManager: dataManager)
+            unsynced.lastPlaybackInteractionSyncStatus = SyncStatus.notSynced.rawValue
+            dataManager.save(episode: unsynced)
+            let synced = self.createTestEpisode(podcast: podcast, dataManager: dataManager)
 
             dataManager.markAllEpisodePlaybackHistorySynced()
 
-            let found = dataManager.findEpisode(uuid: episode.uuid)
-            XCTAssertEqual(found?.lastPlaybackInteractionSyncStatus, SyncStatus.synced.rawValue, "Should mark as synced")
+            XCTAssertEqual(dataManager.findEpisode(uuid: unsynced.uuid)?.lastPlaybackInteractionSyncStatus, SyncStatus.synced.rawValue, "Should mark as synced")
+            XCTAssertEqual(dataManager.findEpisode(uuid: synced.uuid)?.lastPlaybackInteractionSyncStatus, SyncStatus.synced.rawValue, "Should stay synced")
         }
     }
 
