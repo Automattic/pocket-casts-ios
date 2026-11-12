@@ -9,6 +9,17 @@ import SJUtils
 class ImageManager {
     static let shared = ImageManager()
 
+    /// Writes the downloaded bytes to the disk cache as they are, instead of
+    /// re-encoding the decoded image (a JPEG at quality 1.0, which costs CPU
+    /// and is larger than the download).
+    ///
+    /// Not a plain `DefaultCacheSerializer` with `preferCacheOriginalData`:
+    /// that one also reports `originalDataUsed == true`, and Kingfisher then
+    /// re-runs the processor on every cache hit on its processing queue,
+    /// including memory hits. Our processor is `DefaultImageProcessor`, so that
+    /// pass does nothing useful, but it makes memory hits asynchronous: reused
+    /// cells show the placeholder for a frame before the cached artwork. This
+    /// wrapper keeps the protocol's default `originalDataUsed` of `false`.
     private struct OriginalDataCacheSerializer: CacheSerializer {
         private let serializer: DefaultCacheSerializer = {
             var serializer = DefaultCacheSerializer()
