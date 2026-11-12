@@ -12,6 +12,7 @@ enum Playback2026Analytics {
     enum Source: String {
         case modal
         case profile
+        case userLogin = "user_login"
     }
 
     static func track(_ event: AnalyticsEvent, properties: [String: String] = [:]) {

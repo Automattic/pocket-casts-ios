@@ -1,0 +1,140 @@
+{
+  "images": [
+    {
+      "filename": "AppIcon-Pocket-Cats-120.png",
+      "idiom": "universal",
+      "size": "60x60",
+      "platform": "ios",
+      "scale": "2x"
+    },
+    {
+      "filename": "AppIcon-Pocket-Cats-180.png",
+      "idiom": "universal",
+      "size": "60x60",
+      "platform": "ios",
+      "scale": "3x"
+    },
+    {
+      "filename": "AppIcon-Pocket-Cats-152.png",
+      "idiom": "universal",
+      "size": "76x76",
+      "platform": "ios",
+      "scale": "2x"
+    },
+    {
+      "filename": "AppIcon-Pocket-Cats-167.png",
+      "idiom": "universal",
+      "size": "83.5x83.5",
+      "platform": "ios",
+      "scale": "2x"
+    },
+    {
+      "filename": "AppIcon-Pocket-Cats-Dark-120.png",
+      "idiom": "universal",
+      "size": "60x60",
+      "platform": "ios",
+      "scale": "2x",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "dark"
+        }
+      ]
+    },
+    {
+      "filename": "AppIcon-Pocket-Cats-Dark-180.png",
+      "idiom": "universal",
+      "size": "60x60",
+      "platform": "ios",
+      "scale": "3x",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "dark"
+        }
+      ]
+    },
+    {
+      "filename": "AppIcon-Pocket-Cats-Dark-152.png",
+      "idiom": "universal",
+      "size": "76x76",
+      "platform": "ios",
+      "scale": "2x",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "dark"
+        }
+      ]
+    },
+    {
+      "filename": "AppIcon-Pocket-Cats-Dark-167.png",
+      "idiom": "universal",
+      "size": "83.5x83.5",
+      "platform": "ios",
+      "scale": "2x",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "dark"
+        }
+      ]
+    },
+    {
+      "filename": "AppIcon-Pocket-Cats-Tinted-120.png",
+      "idiom": "universal",
+      "size": "60x60",
+      "platform": "ios",
+      "scale": "2x",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "tinted"
+        }
+      ]
+    },
+    {
+      "filename": "AppIcon-Pocket-Cats-Tinted-180.png",
+      "idiom": "universal",
+      "size": "60x60",
+      "platform": "ios",
+      "scale": "3x",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "tinted"
+        }
+      ]
+    },
+    {
+      "filename": "AppIcon-Pocket-Cats-Tinted-152.png",
+      "idiom": "universal",
+      "size": "76x76",
+      "platform": "ios",
+      "scale": "2x",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "tinted"
+        }
+      ]
+    },
+    {
+      "filename": "AppIcon-Pocket-Cats-Tinted-167.png",
+      "idiom": "universal",
+      "size": "83.5x83.5",
+      "platform": "ios",
+      "scale": "2x",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "tinted"
+        }
+      ]
+    }
+  ],
+  "info": {
+    "author": "xcode",
+    "version": 1
+  }
+}

@@ -48,7 +48,7 @@ let package = Package(
         .package(url: "https://github.com/ksemianov/WrappingHStack", from: "0.2.0"),
         .package(url: "https://github.com/Automattic/pocket-casts-ios-fingerprint", branch: "trunk"),
         .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.7.0"),
-        .package(url: "https://github.com/Automattic/pocket-casts-client-dependencies", .upToNextMinor(from: "0.3.0")),
+        .package(url: "https://github.com/Automattic/pocket-casts-client-dependencies", .upToNextMinor(from: "0.4.0")),
     ],
     targets: XcodeSupport.targets + [
         .target(
@@ -211,7 +211,6 @@ enum XcodeSupport {
                     .product(name: "AutomatticEncryptedLogs", package: "Automattic-Tracks-iOS"),
                     .product(name: "AutomatticTracks", package: "Automattic-Tracks-iOS"),
                     .product(name: "FirebaseAnalyticsWithoutAdIdSupport", package: "firebase-ios-sdk"),
-                    .product(name: "FirebasePerformance", package: "firebase-ios-sdk"),
                     .product(name: "FirebaseRemoteConfig", package: "firebase-ios-sdk"),
                     .product(name: "GoogleSignIn", package: "GoogleSignIn-iOS"),
                     .product(name: "Agrume", package: "Agrume"),

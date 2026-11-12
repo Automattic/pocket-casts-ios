@@ -16,20 +16,58 @@ enum Playback2026 {
     /// Opens the stories at once. The listening history is read while the intro plays
     /// (``Playback2026ViewController``); if the user moves on before it is there, the intro shows
     /// a spinner until it is.
+    ///
+    /// Signed out, it opens the sign-in flow instead, as Playback 2025 did, and the stories open
+    /// once that flow is closed signed in (``startAfterSignInIfNeeded(from:)``).
     static func start(from viewController: UIViewController, source: Playback2026Analytics.Source) {
         guard isAvailable, viewController.presentedViewController == nil else { return }
+
+        if !SyncManager.isUserLoggedIn() {
+            isWaitingForSignIn = true
+            let controller = OnboardingFlow.shared.begin(flow: .endOfYear, source: .endOfYear, traitCollection: viewController.traitCollection)
+            viewController.present(controller, animated: true)
+            return
+        }
+
         viewController.present(Playback2026ViewController(), animated: true)
         Playback2026Analytics.track(.endOfYearStoriesShown, properties: ["source": source.rawValue])
     }
 
+    private static var isWaitingForSignIn = false
+
+    /// Opens the stories when the sign-in flow that ``start(from:source:)`` opened is closed
+    /// signed in. Returns whether it did.
+    static func startAfterSignInIfNeeded(from viewController: UIViewController) -> Bool {
+        guard isWaitingForSignIn else { return false }
+        isWaitingForSignIn = false
+        guard SyncManager.isUserLoggedIn() else { return false }
+        start(from: viewController, source: .userLogin)
+        return true
+    }
+
     /// Syncs the listening history of the year and the year before when signed in (so the stats,
     /// and the comparison with last year, include episodes played on other devices; the local
-    /// history is used if it fails) and builds the payload from it.
+    /// history is used if it fails) and builds the payload from it, with the listener archetype
+    /// the server works out, asked for meanwhile.
     nonisolated static func makePayload() async -> PlaybackPayload {
-        await Task.detached(priority: .userInitiated) {
+        let archetype = Task { await fetchArchetype() }
+        return await Task.detached(priority: .userInitiated) {
             syncListeningHistoryIfNeeded()
-            return Playback2026Payload.make(year: year)
+            return Playback2026Payload.make(year: year, archetype: await archetype.value)
         }.value
+    }
+
+    /// `nil` when the server can't be reached: the stories show their default archetype.
+    nonisolated private static func fetchArchetype() async -> Playback2026Archetype? {
+        guard SyncManager.isUserLoggedIn() else { return nil }
+        do {
+            let archetype = try await Playback2026ArchetypeTask().archetype()
+            FileLog.shared.addMessage("Playback 2026: archetype \(archetype.rawValue)")
+            return archetype
+        } catch {
+            FileLog.shared.addMessage("Playback 2026: couldn't get the archetype, the stories show their default: \(error)")
+            return nil
+        }
     }
 
     nonisolated private static func syncListeningHistoryIfNeeded() {
