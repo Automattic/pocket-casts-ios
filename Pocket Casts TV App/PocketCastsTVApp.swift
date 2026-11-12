@@ -12,6 +12,7 @@ struct PocketCastsTVApp: App {
         DataLossSimulator.simulateIfRequested()
 
         AnalyticsSetup.setupIfNeeded()
+        ImageManager.createMemoryStorage()
     }
 
     var body: some Scene {
