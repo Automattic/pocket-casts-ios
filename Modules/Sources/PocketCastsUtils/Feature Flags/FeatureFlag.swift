@@ -282,6 +282,10 @@ public enum FeatureFlag: String, CaseIterable {
     /// Give a new episode the ID after the largest one in the table instead of a random ID
     case sequentialEpisodeIds
 
+    /// During the first full sync, request each podcast's episode state at the same time as the podcast, instead of
+    /// after adding it on the queue that adds podcasts one at a time
+    case fullSyncEpisodeStateInParallel
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -477,6 +481,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .saveMissingEpisodesInOneTransaction:
             true
         case .sequentialEpisodeIds:
+            true
+        case .fullSyncEpisodeStateInParallel:
             true
         }
     }
