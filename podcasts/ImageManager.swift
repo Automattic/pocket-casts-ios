@@ -182,11 +182,9 @@ class ImageManager {
         imageView.kf.setImage(with: url, placeholder: placeholderImage, options: podcastImageOptions)
     }
 
-    func prefetchImage(podcastUuid: String, size: PodcastThumbnailSize, completion: @escaping () -> Void) -> DownloadTask? {
+    func prefetchImage(podcastUuid: String, size: PodcastThumbnailSize) {
         let url = podcastUrl(imageSize: size, uuid: podcastUuid)
-        return KingfisherManager.shared.retrieveImage(with: url, options: podcastImageOptions) { _ in
-            completion()
-        }
+        KingfisherManager.shared.retrieveImage(with: url, options: podcastImageOptions, completionHandler: nil)
     }
 
     var podcastImageOptions: KingfisherOptionsInfo {

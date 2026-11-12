@@ -1,4 +1,3 @@
-import Kingfisher
 import PocketCastsDataModel
 import PocketCastsUtils
 import UIKit
@@ -263,20 +262,10 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
 extension PodcastListViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         let size: PodcastThumbnailSize = Settings.libraryType == .list ? .list : .grid
-        for podcastUuid in podcastUuids(at: indexPaths) where imagePrefetchTasks[podcastUuid] == nil {
-            imagePrefetchTasks[podcastUuid] = ImageManager.shared.prefetchImage(podcastUuid: podcastUuid, size: size) { [weak self] in
-                self?.imagePrefetchTasks[podcastUuid] = nil
+        for indexPath in indexPaths {
+            if let podcastUuid = itemAt(indexPath: indexPath)?.podcast?.uuid {
+                ImageManager.shared.prefetchImage(podcastUuid: podcastUuid, size: size)
             }
         }
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
-        for podcastUuid in podcastUuids(at: indexPaths) {
-            imagePrefetchTasks.removeValue(forKey: podcastUuid)?.cancel()
-        }
-    }
-
-    private func podcastUuids(at indexPaths: [IndexPath]) -> [String] {
-        indexPaths.compactMap { itemAt(indexPath: $0)?.podcast?.uuid }
     }
 }
