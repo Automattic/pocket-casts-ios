@@ -286,6 +286,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// after adding it on the queue that adds podcasts one at a time
     case fullSyncEpisodeStateInParallel
 
+    /// In a full sync, save a playlist the server sent no episodes for (every smart playlist, and any empty manual one) without querying its local episodes
+    case skipEmptyPlaylistQueriesInFullSync
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -483,6 +486,8 @@ public enum FeatureFlag: String, CaseIterable {
         case .sequentialEpisodeIds:
             true
         case .fullSyncEpisodeStateInParallel:
+            true
+        case .skipEmptyPlaylistQueriesInFullSync:
             true
         }
     }

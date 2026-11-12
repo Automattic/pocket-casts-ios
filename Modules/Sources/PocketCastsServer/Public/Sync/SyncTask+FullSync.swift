@@ -18,6 +18,12 @@ extension SyncTask {
                 return
             }
 
+            if FeatureFlag.skipEmptyPlaylistQueriesInFullSync.enabled, serverEpisodes.isEmpty {
+                playlist.syncStatus = SyncStatus.synced.rawValue
+                DataManager.shared.save(playlist: playlist)
+                return
+            }
+
             var addedEpisodes: [Episode] = []
 
             // Add missing episodes
