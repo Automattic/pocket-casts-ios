@@ -1,5 +1,6 @@
 8.26
 -----
+- Fix a crash that could happen when syncing the playback position of an episode with no valid length, such as a live stream played over Google Cast [#5638](https://github.com/Automattic/pocket-casts-ios/pull/5638)
 - Sign in faster with a large library: each podcast's played, archived and starred episodes now load alongside the podcast instead of one podcast at a time [#5643](https://github.com/Automattic/pocket-casts-ios/pull/5643)
 - Fix a crash that could happen while updating the home screen shortcuts as playback changes [#5637](https://github.com/Automattic/pocket-casts-ios/pull/5637)
 - Fix a crash that could happen in the background when the Apple Watch app didn't answer a request for its logs [#5624](https://github.com/Automattic/pocket-casts-ios/pull/5624)
