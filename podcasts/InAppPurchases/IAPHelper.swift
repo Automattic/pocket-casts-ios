@@ -64,7 +64,7 @@ class IAPHelper: NSObject {
 
     /// Requests the product info if we're not checking already, and the products we have already are different
     func requestProductInfoIfNeeded() {
-        let isMissingProducts = productsArray.isEmpty || productsArray.map { $0.id } == productIdentifiers.map { $0.rawValue }
+        let isMissingProducts = productsArray.isEmpty || productsArray.map { $0.id } != productIdentifiers.map { $0.rawValue }
 
         guard isMissingProducts, !isRequestingProducts else {
             return
