@@ -68,6 +68,7 @@ public class DataManager {
         DataManager.setDatabaseFileProtectionToNone()
 
         self.init(dbQueue: dbQueue)
+        checkpointLeftoverWALInBackground()
     }
 
     /// Creates a DataManager using the given `GRDBQueue`.
@@ -130,6 +131,7 @@ public class DataManager {
     }
 
     /// Runs `work` with SQLite copying the write-ahead log into the database every `pages` pages instead of every 1,000.
+    /// When `work` ends, copies the rest of the log into the database, so the next commit doesn't have to.
     public func withWALAutocheckpoint<T>(pages: Int, _ work: () throws -> T) rethrows -> T {
         var previousPages: Int?
         do {
@@ -141,6 +143,11 @@ public class DataManager {
         defer {
             if let previousPages {
                 do {
+                    try dbQueue.checkpoint()
+                } catch {
+                    FileLog.shared.addMessage("DataManager.withWALAutocheckpoint checkpoint error: \(error)")
+                }
+                do {
                     try dbQueue.setWALAutocheckpoint(pages: previousPages)
                 } catch {
                     FileLog.shared.addMessage("DataManager.withWALAutocheckpoint error: \(error)")
@@ -148,6 +155,21 @@ public class DataManager {
             }
         }
         return try work()
+    }
+
+    /// A full sync that the app didn't finish leaves a write-ahead log of thousands of pages, which the first
+    /// commit after launch would copy into the database. Copies it in the background instead.
+    private func checkpointLeftoverWALInBackground() {
+        guard dbQueue.walFileSize() > 4 * 1024 * 1024 else {
+            return
+        }
+        DispatchQueue.global(qos: .utility).async { [dbQueue] in
+            do {
+                try dbQueue.checkpoint()
+            } catch {
+                FileLog.shared.addMessage("DataManager.checkpointLeftoverWALInBackground error: \(error)")
+            }
+        }
     }
 
     /// Rebuilds the database to reclaim free pages, skipping it when less than

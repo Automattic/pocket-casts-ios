@@ -62,6 +62,19 @@ public final class GRDBQueue {
         }
     }
 
+    /// Copies the write-ahead log into the database and truncates the log to zero bytes.
+    func checkpoint() throws {
+        try dbPool.writeWithoutTransaction { db in
+            _ = try db.checkpoint(.truncate)
+        }
+    }
+
+    /// The size of the write-ahead log file in bytes.
+    func walFileSize() -> Int {
+        let attributes = try? FileManager.default.attributesOfItem(atPath: dbPool.path + "-wal")
+        return (attributes?[.size] as? Int) ?? 0
+    }
+
     func close() {
         do {
             try dbPool.close()

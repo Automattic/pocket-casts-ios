@@ -43,4 +43,21 @@ final class WALAutocheckpointTests: DataManagerTestCase {
             XCTAssertEqual(dataManager.findEpisodesWhere(customWhere: "podcast_id = ?", arguments: [podcast.id]).count, 50)
         }
     }
+
+    func testLogIsCopiedIntoDatabaseWhenWorkEnds() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+
+            let logSizeDuringWork = dataManager.withWALAutocheckpoint(pages: 20_000) {
+                for _ in 0..<50 {
+                    self.createTestEpisode(podcast: podcast, dataManager: dataManager)
+                }
+                return dataManager.dbQueue.walFileSize()
+            }
+
+            XCTAssertGreaterThan(logSizeDuringWork, 0)
+            XCTAssertEqual(dataManager.dbQueue.walFileSize(), 0)
+            XCTAssertEqual(dataManager.findEpisodesWhere(customWhere: "podcast_id = ?", arguments: [podcast.id]).count, 50)
+        }
+    }
 }

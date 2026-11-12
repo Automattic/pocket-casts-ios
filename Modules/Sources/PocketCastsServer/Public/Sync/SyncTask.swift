@@ -126,7 +126,7 @@ class SyncTask: ApiBaseTask, @unchecked Sendable {
             importAllServerData(token: token)
             return
         }
-        dataManager.withWALAutocheckpoint(pages: 15_000) {
+        dataManager.withWALAutocheckpoint(pages: 10_000) {
             importAllServerData(token: token)
         }
     }
