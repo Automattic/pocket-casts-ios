@@ -54,10 +54,10 @@ public class ServerPodcastManager: NSObject {
         }
     }
 
-    public func addFromUuid(podcastUuid: String, subscribe: Bool, autoDownloads: Int = 0, completion: ((Bool) -> Void)?) {
+    public func addFromUuid(podcastUuid: String, subscribe: Bool, autoDownloads: Int = 0, fromSync: Bool = false, completion: ((Bool) -> Void)?) {
         CacheServerHandler.shared.loadPodcastInfo(podcastUuid: podcastUuid) { [weak self] podcastInfo, lastModified in
             if let podcastInfo {
-                self?.addFromJson(podcastUuid: podcastUuid, lastModified: lastModified, podcastInfo: podcastInfo, subscribe: subscribe, autoDownloads: autoDownloads, completion: completion)
+                self?.addFromJson(podcastUuid: podcastUuid, lastModified: lastModified, podcastInfo: podcastInfo, subscribe: subscribe, autoDownloads: autoDownloads, fromSync: fromSync, completion: completion)
             } else {
                 completion?(false)
             }
@@ -77,12 +77,12 @@ public class ServerPodcastManager: NSObject {
         }
     }
 
-    public func addFromJson(podcastUuid: String, lastModified: String?, podcastInfo: [String: Any], subscribe: Bool, autoDownloads: Int, completion: ((Bool) -> Void)?) {
+    public func addFromJson(podcastUuid: String, lastModified: String?, podcastInfo: [String: Any], subscribe: Bool, autoDownloads: Int, fromSync: Bool = false, completion: ((Bool) -> Void)?) {
         subscribeQueue.addOperation { [weak self] in
             guard let strongSelf = self else { return }
 
             let added = strongSelf.addPodcast(podcastInfo: podcastInfo, subscribe: subscribe, autoDownloads: autoDownloads, lastModified: lastModified)
-            if subscribe, added { ServerConfig.shared.syncDelegate?.subscribedToPodcast() } // addFromUuid and addFromiTunesId end up here, so just need this one analytic
+            if subscribe, added, !fromSync { ServerConfig.shared.syncDelegate?.subscribedToPodcast() } // addFromUuid and addFromiTunesId end up here, so just need this one analytic
             completion?(added)
         }
     }

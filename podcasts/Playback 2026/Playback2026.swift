@@ -47,12 +47,27 @@ enum Playback2026 {
 
     /// Syncs the listening history of the year and the year before when signed in (so the stats,
     /// and the comparison with last year, include episodes played on other devices; the local
-    /// history is used if it fails) and builds the payload from it.
+    /// history is used if it fails) and builds the payload from it, with the listener archetype
+    /// the server works out, asked for meanwhile.
     nonisolated static func makePayload() async -> PlaybackPayload {
-        await Task.detached(priority: .userInitiated) {
+        let archetype = Task { await fetchArchetype() }
+        return await Task.detached(priority: .userInitiated) {
             syncListeningHistoryIfNeeded()
-            return Playback2026Payload.make(year: year)
+            return Playback2026Payload.make(year: year, archetype: await archetype.value)
         }.value
+    }
+
+    /// `nil` when the server can't be reached: the stories show their default archetype.
+    nonisolated private static func fetchArchetype() async -> Playback2026Archetype? {
+        guard SyncManager.isUserLoggedIn() else { return nil }
+        do {
+            let archetype = try await Playback2026ArchetypeTask().archetype()
+            FileLog.shared.addMessage("Playback 2026: archetype \(archetype.rawValue)")
+            return archetype
+        } catch {
+            FileLog.shared.addMessage("Playback 2026: couldn't get the archetype, the stories show their default: \(error)")
+            return nil
+        }
     }
 
     nonisolated private static func syncListeningHistoryIfNeeded() {

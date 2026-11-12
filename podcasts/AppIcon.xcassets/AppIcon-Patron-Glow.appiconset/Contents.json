@@ -1,0 +1,140 @@
+{
+  "images": [
+    {
+      "filename": "AppIcon-Patron-Glow-120.png",
+      "idiom": "universal",
+      "size": "60x60",
+      "platform": "ios",
+      "scale": "2x"
+    },
+    {
+      "filename": "AppIcon-Patron-Glow-180.png",
+      "idiom": "universal",
+      "size": "60x60",
+      "platform": "ios",
+      "scale": "3x"
+    },
+    {
+      "filename": "AppIcon-Patron-Glow-152.png",
+      "idiom": "universal",
+      "size": "76x76",
+      "platform": "ios",
+      "scale": "2x"
+    },
+    {
+      "filename": "AppIcon-Patron-Glow-167.png",
+      "idiom": "universal",
+      "size": "83.5x83.5",
+      "platform": "ios",
+      "scale": "2x"
+    },
+    {
+      "filename": "AppIcon-Patron-Glow-Dark-120.png",
+      "idiom": "universal",
+      "size": "60x60",
+      "platform": "ios",
+      "scale": "2x",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "dark"
+        }
+      ]
+    },
+    {
+      "filename": "AppIcon-Patron-Glow-Dark-180.png",
+      "idiom": "universal",
+      "size": "60x60",
+      "platform": "ios",
+      "scale": "3x",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "dark"
+        }
+      ]
+    },
+    {
+      "filename": "AppIcon-Patron-Glow-Dark-152.png",
+      "idiom": "universal",
+      "size": "76x76",
+      "platform": "ios",
+      "scale": "2x",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "dark"
+        }
+      ]
+    },
+    {
+      "filename": "AppIcon-Patron-Glow-Dark-167.png",
+      "idiom": "universal",
+      "size": "83.5x83.5",
+      "platform": "ios",
+      "scale": "2x",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "dark"
+        }
+      ]
+    },
+    {
+      "filename": "AppIcon-Patron-Glow-Tinted-120.png",
+      "idiom": "universal",
+      "size": "60x60",
+      "platform": "ios",
+      "scale": "2x",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "tinted"
+        }
+      ]
+    },
+    {
+      "filename": "AppIcon-Patron-Glow-Tinted-180.png",
+      "idiom": "universal",
+      "size": "60x60",
+      "platform": "ios",
+      "scale": "3x",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "tinted"
+        }
+      ]
+    },
+    {
+      "filename": "AppIcon-Patron-Glow-Tinted-152.png",
+      "idiom": "universal",
+      "size": "76x76",
+      "platform": "ios",
+      "scale": "2x",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "tinted"
+        }
+      ]
+    },
+    {
+      "filename": "AppIcon-Patron-Glow-Tinted-167.png",
+      "idiom": "universal",
+      "size": "83.5x83.5",
+      "platform": "ios",
+      "scale": "2x",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "tinted"
+        }
+      ]
+    }
+  ],
+  "info": {
+    "author": "xcode",
+    "version": 1
+  }
+}
