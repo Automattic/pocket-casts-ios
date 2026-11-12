@@ -280,7 +280,7 @@ extension ServerPodcastManager {
         DataManager.shared.save(podcast: podcast)
         DataManager.shared.setPushDefaultForNewPodcast(podcast)
         #if !os(watchOS)
-        if let latestEpisode = latestEpisodes.first {
+        if FeatureFlag.newPodcastMetadataRequest.enabled, let latestEpisode = latestEpisodes.first {
                 MetadataUpdater.shared.updatedMetadata(episodeUuid: latestEpisode.uuid)
             }
         #endif

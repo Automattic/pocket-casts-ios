@@ -292,6 +292,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// Count smart playlists and pick their artwork without walking the episode table in index order, and load the Playlists tab's counts and artwork two queries at a time
     case efficientPlaylistQueries
 
+    /// When a podcast is followed, send a HEAD request for its newest episode to update the episode's file type and size
+    case newPodcastMetadataRequest
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -494,6 +497,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .efficientPlaylistQueries:
             true
+        case .newPodcastMetadataRequest:
+            false
         }
     }
 
