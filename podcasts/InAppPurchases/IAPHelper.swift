@@ -7,11 +7,12 @@ import UIKit
 class IAPHelper: NSObject {
     static let shared = IAPHelper(settings: SettingsProxy(), networking: ApiServerHandler.shared)
 
+    static let productIdentifiers: [IAPProductID] = [.monthly, .yearly, .patronMonthly, .patronYearly, .yearlyReferral]
+
     private var productIdentifiers: [IAPProductID] {
-        [.monthly, .yearly, .patronMonthly, .patronYearly, .yearlyReferral]
+        Self.productIdentifiers
     }
-    private var productsArray = [SKProduct]()
-    private var productsRequest: SKProductsRequest?
+    private var productsArray = [IAPProduct]()
 
     /// Whether or not the user is eligible for an offer
     private(set) var isEligibleForOffer = Constants.Values.offerEligibilityDefaultValue
@@ -34,10 +35,14 @@ class IAPHelper: NSObject {
 
     private var settings: IAPHelperSettings
     private var networking: IAPHelperNetworking
+    private let provider: PurchaseProvider
 
-    init(settings: IAPHelperSettings, networking: IAPHelperNetworking) {
+    init(settings: IAPHelperSettings,
+         networking: IAPHelperNetworking,
+         provider: PurchaseProvider = StoreKit1PurchaseProvider(productIdentifiers: IAPHelper.productIdentifiers.map(\.rawValue))) {
         self.settings = settings
         self.networking = networking
+        self.provider = provider
 
         super.init()
 
@@ -45,19 +50,21 @@ class IAPHelper: NSObject {
     }
 
     func setup(hasSubscription: Bool) {
-        SKPaymentQueue.default().add(self)
+        provider.startObservingTransactions { [weak self] events in
+            self?.handleTransactionEvents(events)
+        }
         if !hasSubscription {
             IAPHelper.shared.requestProductInfo()
         }
     }
 
     func tearDown() {
-        SKPaymentQueue.default().remove(self)
+        provider.stopObservingTransactions()
     }
 
     /// Requests the product info if we're not checking already, and the products we have already are different
     func requestProductInfoIfNeeded() {
-        let isMissingProducts = productsArray.isEmpty || productsArray.map { $0.productIdentifier } == productIdentifiers.map { $0.rawValue }
+        let isMissingProducts = productsArray.isEmpty || productsArray.map { $0.id } != productIdentifiers.map { $0.rawValue }
 
         guard isMissingProducts, !isRequestingProducts else {
             return
@@ -71,27 +78,22 @@ class IAPHelper: NSObject {
         guard !isRequestingProducts else { return }
 
         isRequestingProducts = true
-        let request = SKProductsRequest(productIdentifiers: Set(productIdentifiers.map { $0.rawValue }))
-        request.delegate = self
-        request.start()
+        provider.requestProducts(ids: productIdentifiers.map { $0.rawValue }) { [weak self] result in
+            self?.productsRequestCompleted(with: result)
+        }
     }
 
     func requestProductsInfo(for ids: [String]) async throws -> [Product] {
         return try await Product.products(for: ids)
     }
 
-    func getProduct(for identifier: IAPProductID) -> SKProduct! {
+    func getProduct(for identifier: IAPProductID) -> IAPProduct? {
         guard !productsArray.isEmpty else {
             requestProductInfo()
             return nil
         }
 
-        for p in productsArray {
-            if p.productIdentifier.caseInsensitiveCompare(identifier.rawValue) == .orderedSame {
-                return p
-            }
-        }
-        return nil
+        return productsArray.first { $0.id.caseInsensitiveCompare(identifier.rawValue) == .orderedSame }
     }
 
     func findLastSubscriptionsPurchased() async -> [StoreKit.Transaction] {
@@ -154,8 +156,6 @@ class IAPHelper: NSObject {
                     value = 12
                 case .year:
                     value = 1
-                @unknown default:
-                    return 0
             }
             if value > 1 {
                 return value / Double(subscriptionPeriod.numberOfUnits)
@@ -164,7 +164,7 @@ class IAPHelper: NSObject {
             }
         }()
 
-        let weekly = (product.price.doubleValue * multiplyFactor) / 52
+        let weekly = ((product.price as NSDecimalNumber).doubleValue * multiplyFactor) / 52
         return weekly
     }
 
@@ -175,7 +175,7 @@ class IAPHelper: NSObject {
         numberFormatter.formatterBehavior = .behavior10_4
         numberFormatter.numberStyle = .currency
         numberFormatter.locale = product.priceLocale
-        let formattedPrice = numberFormatter.string(from: product.price)
+        let formattedPrice = numberFormatter.string(from: product.price as NSDecimalNumber)
         return formattedPrice ?? ""
     }
 
@@ -195,7 +195,7 @@ class IAPHelper: NSObject {
 
     public func getMonthlyPrice(for identifier: IAPProductID) -> String {
         guard let product = getProduct(for: identifier) else { return "" }
-        let monthly = product.price.doubleValue / 12
+        let monthly = (product.price as NSDecimalNumber).doubleValue / 12
 
         let numberFormatter = NumberFormatter()
         numberFormatter.formatterBehavior = .behavior10_4
@@ -215,15 +215,9 @@ class IAPHelper: NSObject {
 
         storePurchaseSource(source ?? OnboardingFlow.shared.source, for: identifier)
 
-        FileLog.shared.addMessage("IAPHelper Buying \(product.productIdentifier)")
-        let payment = SKMutablePayment(product: product)
-        if let discount {
-            payment.paymentDiscount = SKPaymentDiscount(identifier: discount.identifier, keyIdentifier: discount.key, nonce: discount.uuid, signature: discount.signature, timestamp: NSNumber(integerLiteral: discount.timestamp))
-            payment.applicationUsername = ServerSettings.userId
-        }
-        SKPaymentQueue.default().add(payment)
-
-        return true
+        FileLog.shared.addMessage("IAPHelper Buying \(product.id)")
+        let applicationUsername = discount != nil ? ServerSettings.userId : nil
+        return provider.purchase(productID: product.id, discount: discount, applicationUsername: applicationUsername)
     }
 
     // MARK: - Purchase source persistence
@@ -271,37 +265,23 @@ class IAPHelper: NSObject {
     }
 }
 
-// MARK: - SKProductsRequestDelegate
-extension IAPHelper: SKProductsRequestDelegate {
-    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
+// MARK: - Products
+
+private extension IAPHelper {
+    func productsRequestCompleted(with result: Result<[IAPProduct], Error>) {
         defer { isRequestingProducts = false }
 
-        if !response.products.isEmpty {
-            productsArray = response.products
+        switch result {
+        case .success(let products):
+            productsArray = products
 
             // Update the trial eligibility
             updateTrialEligibility()
 
             NotificationCenter.postOnMainThread(notification: ServerNotifications.iapProductsUpdated)
-        } else {
-            let invalid = response.invalidProductIdentifiers
-            for i in invalid {
-                FileLog.shared.addMessage("IAPHelper Invalid appstore identifier \(i)")
-            }
+        case .failure:
             NotificationCenter.postOnMainThread(notification: ServerNotifications.iapProductsFailed)
         }
-        clearRequestAndHandler()
-    }
-
-    public func request(_ request: SKRequest, didFailWithError error: Error) {
-        defer { isRequestingProducts = false }
-        FileLog.shared.addMessage("IAPHelper Failed to load list of products \(error.localizedDescription)")
-        NotificationCenter.postOnMainThread(notification: ServerNotifications.iapProductsFailed)
-        clearRequestAndHandler()
-    }
-
-    private func clearRequestAndHandler() {
-        productsRequest = nil
     }
 }
 
@@ -322,8 +302,6 @@ extension IAPHelper {
         case .payUpFront:
             return .discount
         case .payAsYouGo:
-            return nil
-        @unknown default:
             return nil
         }
     }
@@ -359,7 +337,7 @@ extension IAPHelper {
         numberFormatter.formatterBehavior = .behavior10_4
         numberFormatter.numberStyle = .currency
         numberFormatter.locale = offer.priceLocale
-        let formattedPrice = numberFormatter.string(from: offer.price)
+        let formattedPrice = numberFormatter.string(from: offer.price as NSDecimalNumber)
         return formattedPrice ?? ""
     }
 
@@ -387,9 +365,9 @@ extension IAPHelper {
 
     /// Checks if there is a free trial introductory offer for the given product
     /// - Parameter identifier: The product to check
-    /// - Returns: The SKProductDiscount or nil if there is no offer or the user is not eligible for one
-    private func getFreeTrialOffer(_ identifier: IAPProductID) -> SKProductDiscount? {
-        guard let offer = getProduct(for: identifier)?.introductoryPrice,
+    /// - Returns: The introductory offer or nil if there is no offer or the user is not eligible for one
+    private func getFreeTrialOffer(_ identifier: IAPProductID) -> IAPProduct.IntroductoryOffer? {
+        guard let offer = getProduct(for: identifier)?.introductoryOffer,
             offer.paymentMode == .freeTrial || offer.paymentMode == .payUpFront
         else {
             return nil
@@ -478,77 +456,51 @@ extension IAPHelper {
     }
 }
 
-// MARK: - SKPaymentTransactionObserver
+// MARK: - Transactions
 
-extension IAPHelper: SKPaymentTransactionObserver {
-    fileprivate func purchaseWasSuccessful(_ payment: SKPayment) {
+private extension IAPHelper {
+    func purchaseWasSuccessful(productID: String, discountID: String?) {
         if FeatureFlag.newOfferEligibilityCheck.enabled {
             updateTrialEligibility()
         }
-        guard let productId = IAPProductID(rawValue: payment.productIdentifier) else {
+        guard let productId = IAPProductID(rawValue: productID) else {
             return
         }
-        trackPaymentEvent(.purchaseSuccessful, productId: productId, discount: payment.paymentDiscount?.identifier)
+        trackPaymentEvent(.purchaseSuccessful, productId: productId, discount: discountID)
     }
 
-    fileprivate func purchaseWasCancelled(_ payment: SKPayment, error: NSError) {
-        guard let productId = IAPProductID(rawValue: payment.productIdentifier) else {
+    func purchaseWasCancelled(productID: String, discountID: String?, error: NSError) {
+        guard let productId = IAPProductID(rawValue: productID) else {
             return
         }
-        trackPaymentEvent(.purchaseCancelled, productId: productId, discount: payment.paymentDiscount?.identifier, error: error)
+        trackPaymentEvent(.purchaseCancelled, productId: productId, discount: discountID, error: error)
     }
 
-    fileprivate func purchaseFailed(_ payment: SKPayment, error: NSError) {
-        guard let productId = IAPProductID(rawValue: payment.productIdentifier) else {
+    func purchaseFailed(productID: String, discountID: String?, error: NSError) {
+        guard let productId = IAPProductID(rawValue: productID) else {
             return
         }
-        trackPaymentEvent(.purchaseFailed, productId: productId, discount: payment.paymentDiscount?.identifier, error: error)
+        trackPaymentEvent(.purchaseFailed, productId: productId, discount: discountID, error: error)
     }
 
-    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        FileLog.shared.addMessage("IAPHelper number of transactions in SKPayemntTransaction queue    \(transactions.count)")
+    func handleTransactionEvents(_ events: [PurchaseTransactionEvent]) {
         var hasNewPurchasedReceipt = false
-        let lowercasedProductIdentifiers = productIdentifiers.map { $0.rawValue.lowercased() }
 
-        for transaction in transactions {
-            let product = transaction.payment.productIdentifier
-            let transactionDate = DateFormatHelper.shared.jsonFormat(transaction.transactionDate)
-            FileLog.shared.addMessage("IAPHelper Processing transaction with id \(String(describing: transaction.transactionIdentifier)) \(transactionDate))")
-
-            if lowercasedProductIdentifiers.contains(product.lowercased()) {
-                switch transaction.transactionState {
-                case .purchasing:
-                    FileLog.shared.addMessage("IAPHelper Purchasing \(product)")
-                case .purchased:
-                    hasNewPurchasedReceipt = true
-                    queue.finishTransaction(transaction)
-                    FileLog.shared.addMessage("IAPHelper Purchase successful for \(product) ")
-                    purchaseWasSuccessful(transaction.payment)
-                case .failed:
-                    let e = transaction.error! as NSError
-                    FileLog.shared.addMessage("IAPHelper Purchase FAILED for \(product), code=\(e.code) msg= \(e.localizedDescription)/")
-                    queue.finishTransaction(transaction)
-
-                    let userInfo = ["error": e]
-
-                    if e.code == SKError.Code.unknown.rawValue || e.code == SKError.Code.paymentCancelled.rawValue { // app store couldn't be connected or user cancelled
-                        NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseCancelled, userInfo: userInfo)
-                        purchaseWasCancelled(transaction.payment, error: e)
-                    } else { // report error to user
-                        NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseFailed, userInfo: userInfo)
-                        purchaseFailed(transaction.payment, error: e)
-                    }
-                case .deferred:
-                    FileLog.shared.addMessage("IAPHelper Purchase deferred for \(product)")
-                    NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseDeferred)
-                case .restored:
-                    queue.finishTransaction(transaction)
-                default:
-                    break
-                }
-            } else {
-                FileLog.shared.addMessage("IAPHelper mark non-subscription transaction as finished")
-                queue.finishTransaction(transaction)
+        for event in events {
+            switch event {
+            case .purchasing, .restored:
+                break
+            case let .purchased(productID, discountID):
+                hasNewPurchasedReceipt = true
+                purchaseWasSuccessful(productID: productID, discountID: discountID)
+            case let .cancelled(productID, discountID, error):
+                NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseCancelled, userInfo: ["error": error])
+                purchaseWasCancelled(productID: productID, discountID: discountID, error: error)
+            case let .failed(productID, discountID, error):
+                NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseFailed, userInfo: ["error": error])
+                purchaseFailed(productID: productID, discountID: discountID, error: error)
+            case .deferred:
+                NotificationCenter.postOnMainThread(notification: ServerNotifications.iapPurchaseDeferred)
             }
         }
 
@@ -569,74 +521,11 @@ extension IAPHelper: SKPaymentTransactionObserver {
     }
 }
 
-// MARK: - SKProductSubscriptionPeriod Helper Extension
-
-private extension SKProductSubscriptionPeriod {
-    /// Converts the period into a localized readable format, ie: 3 days, 1 month, 1 year, etc.
-    /// - Returns: Localized formatted version of the subscription period
-    func localizedPeriodString() -> String? {
-        let calendarUnit: NSCalendar.Unit
-        switch unit {
-        case .day:
-            calendarUnit = .day
-        case .week:
-            calendarUnit = .weekOfMonth
-        case .month:
-            calendarUnit = .month
-        case .year:
-            calendarUnit = .year
-        @unknown default:
-            return nil
-        }
-
-        return TimePeriodFormatter.format(numberOfUnits: numberOfUnits, unit: calendarUnit)
-    }
-
-    func localizedPeriodAdjective() -> String? {
-        var localizedUnit: String = "N/A"
-        switch unit {
-            case .day:
-                localizedUnit = L10n.day
-            case .week:
-                localizedUnit = L10n.week
-            case .month:
-                localizedUnit = L10n.month
-            case .year:
-                localizedUnit = L10n.year
-        @unknown default:
-            localizedUnit = "N/A"
-        }
-        return "\(self.numberOfUnits)-\(localizedUnit.capitalized)"
-    }
-
-    /// Return the date when the offer price ends if an offer is available and is time bound
-    var offerEndDate: Date? {
-        let calendarUnit: Calendar.Component
-        switch unit {
-        case .day:
-            calendarUnit = .day
-        case .week:
-            calendarUnit = .weekOfMonth
-        case .month:
-            calendarUnit = .month
-        case .year:
-            calendarUnit = .year
-        @unknown default:
-            return nil
-        }
-        var components = DateComponents()
-        components.calendar = Calendar.current
-        components.setValue(self.numberOfUnits, for: calendarUnit)
-
-        return Calendar.current.date(byAdding: components, to: Date.now, wrappingComponents: true)
-    }
-}
-
 private extension IAPHelper {
     func trackPaymentEvent(_ event: AnalyticsEvent, productId: IAPProductID, discount: String?, error: NSError? = nil) {
         let product = getProduct(for: productId)
         var offerType = "none"
-        if isEligibleForOffer, let paymentMode = product?.introductoryPrice?.paymentMode {
+        if isEligibleForOffer, let paymentMode = product?.introductoryOffer?.paymentMode {
             if paymentMode == .freeTrial {
                 offerType = IAPOfferType.freeTrial.rawValue
             } else if paymentMode == .payUpFront {
