@@ -1,5 +1,6 @@
 8.26
 -----
+- Use less storage for podcast artwork in the iPad grid, and remove artwork sizes the app no longer uses [#5647](https://github.com/Automattic/pocket-casts-ios/pull/5647)
 - Fix a crash that could happen while updating the home screen shortcuts as playback changes [#5637](https://github.com/Automattic/pocket-casts-ios/pull/5637)
 - Fix a crash that could happen in the background when the Apple Watch app didn't answer a request for its logs [#5624](https://github.com/Automattic/pocket-casts-ios/pull/5624)
 - Fix the app freezing for up to 30 seconds while Siri's "Surprise Me!" shortcut picks an episode, for accounts with a long listening history [#5635](https://github.com/Automattic/pocket-casts-ios/pull/5635)
