@@ -110,8 +110,6 @@ class ImageManager {
         discoverCache.diskStorage.config.expiration = .days(10)
         discoverCache.diskStorage.config.sizeLimit = UInt(50.megabytes)
 
-        KingfisherManager.shared.cache = ImageCache(memoryStorage: Self.memoryStorage, diskStorage: ImageCache.default.diskStorage)
-
         NotificationCenter.default.addObserver(self, selector: #selector(podcastAddedNotification(notification:)), name: Constants.Notifications.podcastAdded, object: nil)
     }
 
@@ -424,13 +422,20 @@ class ImageManager {
     // MARK: - Precaching
 
     func cacheImages(podcastUuid: String) {
-        let urls = allUrlsFor(podcastUuid: podcastUuid)
-        let prefetcher = ImagePrefetcher(resources: urls, options: podcastImageDiskPrefetchOptions)
-        prefetcher.start()
+        cacheOnDisk(allUrlsFor(podcastUuid: podcastUuid))
+    }
+
+    private func cacheOnDisk(_ urls: [URL]) {
+        let cache = subscribedPodcastsCache
+        let options = podcastImageDiskPrefetchOptions
+        DispatchQueue.global(qos: .utility).async {
+            let missingUrls = urls.filter { !cache.diskStorage.isCached(forKey: $0.cacheKey) }
+            ImagePrefetcher(resources: missingUrls, options: options).start()
+        }
     }
 
     private var podcastImageDiskPrefetchOptions: KingfisherOptionsInfo {
-        [.targetCache(subscribedPodcastsCache), .cacheSerializer(Self.originalDataSerializer), .memoryCacheExpiration(.expired)]
+        [.targetCache(subscribedPodcastsCache), .cacheSerializer(Self.originalDataSerializer), .memoryCacheExpiration(.expired), .forceRefresh]
     }
 
     // this method is designed to be called on app startup (eg: regularly) to check if our image cache needs to be updated
@@ -448,10 +453,12 @@ class ImageManager {
 
         DataManager.shared.setAllPodcastImageVersions(to: 0)
         let cache = subscribedPodcastsCache
-        let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: podcastImageDiskPrefetchOptions + [.forceRefresh], completionHandler: { _, _, completedResources in
-            for resource in completedResources {
+        var refreshedCount = 0
+        let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: podcastImageDiskPrefetchOptions + [.waitForCache], progressBlock: { _, _, completedResources in
+            for resource in completedResources.dropFirst(refreshedCount) {
                 cache.removeImage(forKey: resource.cacheKey, fromDisk: false)
             }
+            refreshedCount = completedResources.count
         })
         prefetcher.start()
     }
@@ -477,8 +484,7 @@ class ImageManager {
     }
 
     private func cacheAllPodcastImages() {
-        let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: podcastImageDiskPrefetchOptions)
-        prefetcher.start()
+        cacheOnDisk(allPodcastUrls())
     }
 
     private func allPodcastUrls() -> [URL] {
@@ -648,8 +654,8 @@ class ImageManager {
     }
 
     @MainActor
-    static func createMemoryStorage() {
-        _ = memoryStorage
+    static func setUpMemoryStorage() {
+        KingfisherManager.shared.cache = ImageCache(memoryStorage: memoryStorage, diskStorage: ImageCache.default.diskStorage)
     }
 
     class func sizeFor(imageSize: PodcastThumbnailSize) -> Int {
