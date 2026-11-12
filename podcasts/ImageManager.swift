@@ -9,7 +9,7 @@ import SJUtils
 class ImageManager {
     static let shared = ImageManager()
 
-    private static let originalDataSerializer: DefaultCacheSerializer = {
+    static let originalDataSerializer: DefaultCacheSerializer = {
         var serializer = DefaultCacheSerializer()
         serializer.preferCacheOriginalData = true
         return serializer
@@ -157,7 +157,7 @@ class ImageManager {
         let url = podcastUrl(imageSize: size, uuid: podcastUuid)
         let placeholderImage = showPlaceHolder ? placeHolderImage(size) : nil
         let processor = DefaultImageProcessor.default
-        imageView.kf.setImage(with: url, placeholder: placeholderImage, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .transition(.fade(Constants.Animation.defaultAnimationTime))])
+        imageView.kf.setImage(with: url, placeholder: placeholderImage, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .cacheSerializer(Self.originalDataSerializer), .transition(.fade(Constants.Animation.defaultAnimationTime))])
     }
 
     func loadImage(episode: BaseEpisode, imageView: UIImageView, size: PodcastThumbnailSize) {
@@ -173,7 +173,7 @@ class ImageManager {
             // for larger images, avoid really obvious reload flashes by keeping whatever image is there currently while loading a new one
             let placeholder = (imageView.image != nil && size == .page) ? imageView.image : placeHolderImage(size)
             let processor = DefaultImageProcessor.default
-            imageView.kf.setImage(with: url, placeholder: placeholder, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .transition(.fade(Constants.Animation.defaultAnimationTime))], progressBlock: nil) { [weak self] result in
+            imageView.kf.setImage(with: url, placeholder: placeholder, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .cacheSerializer(Self.originalDataSerializer), .transition(.fade(Constants.Animation.defaultAnimationTime))], progressBlock: nil) { [weak self] result in
                 switch result {
                 case .failure:
                     if size == .page {
@@ -209,7 +209,7 @@ class ImageManager {
 
         if !cache.diskStorage.isCached(forKey: key) {
             if fetchIfMissing {
-                let prefetcher = ImagePrefetcher(resources: [url], options: [.targetCache(cache)])
+                let prefetcher = ImagePrefetcher(resources: [url], options: [.targetCache(cache), .cacheSerializer(Self.originalDataSerializer)])
                 prefetcher.start()
             }
 
@@ -260,7 +260,7 @@ class ImageManager {
             return
         }
 
-        KingfisherManager.shared.retrieveImage(with: imageURL, options: [.targetCache(imageCache)]) { result in
+        KingfisherManager.shared.retrieveImage(with: imageURL, options: [.targetCache(imageCache), .cacheSerializer(Self.originalDataSerializer)]) { result in
             let image = try? result.get().image
             completionHandler(image)
         }
@@ -386,7 +386,7 @@ class ImageManager {
 
     func cacheImages(podcastUuid: String) {
         let urls = allUrlsFor(podcastUuid: podcastUuid)
-        let prefetcher = ImagePrefetcher(resources: urls, options: [.targetCache(subscribedPodcastsCache)])
+        let prefetcher = ImagePrefetcher(resources: urls, options: [.targetCache(subscribedPodcastsCache), .cacheSerializer(Self.originalDataSerializer)])
         prefetcher.start()
     }
 
@@ -404,12 +404,12 @@ class ImageManager {
         UserDefaults.standard.set(Date(), forKey: Constants.UserDefaults.lastImageRefreshTime)
 
         DataManager.shared.setAllPodcastImageVersions(to: 0)
-        let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: [.targetCache(subscribedPodcastsCache), .forceRefresh])
+        let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: [.targetCache(subscribedPodcastsCache), .cacheSerializer(Self.originalDataSerializer), .forceRefresh])
         prefetcher.start()
     }
 
     private func cacheAllPodcastImages() {
-        let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: [.targetCache(subscribedPodcastsCache)])
+        let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: [.targetCache(subscribedPodcastsCache), .cacheSerializer(Self.originalDataSerializer)])
         prefetcher.start()
     }
 
