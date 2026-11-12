@@ -592,14 +592,15 @@ class ImageManager {
         return availablePodcastImageSizes.min { abs($0 - sizeRequired) < abs($1 - sizeRequired) }!
     }
 
-    private static let isHighScale = UITraitCollection.current.displayScale > 2
+    private static let displayScale = UITraitCollection.current.displayScale
 
     @MainActor
     static func readDisplayScale() {
-        _ = isHighScale
+        _ = displayScale
     }
 
     class func sizeFor(imageSize: PodcastThumbnailSize) -> Int {
+        let isHighScale = displayScale > 2
         switch imageSize {
         case .list:
             return isHighScale ? 210 : 130
