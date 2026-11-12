@@ -19,6 +19,10 @@ Metrics/BlockLength:
     - fastlane/Fastfile
     - scripts/themes/generate_themes.rb
 
+Metrics/ClassLength:
+  Exclude:
+    - fastlane/test/**/*
+
 Metrics/MethodLength:
   Max: 50
   Exclude:
