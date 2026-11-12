@@ -419,6 +419,10 @@ class ImageManager {
                     try? subscribedPodcastsCache.diskStorage.remove(forKey: ServerHelper.imageUrl(podcastUuid: podcast.uuid, size: size).cacheKey)
                 }
             }
+
+            if NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
+                cacheAllPodcastImages()
+            }
         }
 
         UserDefaults.standard.set(Array(requestedSizes), forKey: Constants.UserDefaults.requestedPodcastImageSizes)
@@ -582,20 +586,10 @@ class ImageManager {
     }
 
     private func closestImageSize(sizeRequired: Int) -> Int {
-        var closeness = 999
-        var closestIndex = 0
-        for (index, value) in availablePodcastImageSizes.enumerated() {
-            let newCloseness = abs(sizeRequired - value)
-            if newCloseness < closeness {
-                closeness = newCloseness
-                closestIndex = index
-            }
+        if availablePodcastImageSizes.contains(sizeRequired) {
+            return sizeRequired
         }
-
-        return availablePodcastImageSizes[closestIndex]
-
-        // you'd think you'd just be able to: //availablePodcastImageSizes.enumerated().min( by: { abs($0.1 - sizeRequired) < abs($1.1 - sizeRequired)} )!
-        // but that's about 8x slower, which sucks because this gets called a lot in table views, oh well
+        return availablePodcastImageSizes.min { abs($0 - sizeRequired) < abs($1 - sizeRequired) }!
     }
 
     class func sizeFor(imageSize: PodcastThumbnailSize) -> Int {
