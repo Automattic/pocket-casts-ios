@@ -601,11 +601,11 @@ class ImageManager {
     class func sizeFor(imageSize: PodcastThumbnailSize) -> Int {
         switch imageSize {
         case .list:
-            return 210
+            return Int(65.0 * UITraitCollection.current.displayScale)
         case .grid:
             return 400
         case .page, .detail:
-            return 960
+            return Int(320.0 * UITraitCollection.current.displayScale)
         }
     }
 }
