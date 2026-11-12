@@ -1206,7 +1206,8 @@ public class DataManager {
 
     // MARK: - Push Notification
 
-    public func setPushDefaultForNewPodcast(_ podcast: Podcast) {
+    /// Turns on new episode notifications for the podcast when every other subscribed podcast has them on. Doesn't save the podcast.
+    public func applyPushDefaultForNewPodcast(_ podcast: Podcast) {
         // if all the podcasts the user currently has are auto download, set this one to be as well
         let pushOnQuery = "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE subscribed = 1 AND pushEnabled = 1"
         let totalQuery = "SELECT COUNT(*) FROM \(DataManager.podcastTableName) WHERE subscribed = 1"
@@ -1218,8 +1219,6 @@ public class DataManager {
         } else {
             podcast.pushEnabled = false
         }
-
-        DataManager.shared.save(podcast: podcast)
     }
 
     public func pushEnabledPodcastsCount() -> Int {

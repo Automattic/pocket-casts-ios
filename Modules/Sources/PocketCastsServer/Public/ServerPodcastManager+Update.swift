@@ -238,6 +238,11 @@ extension ServerPodcastManager {
 
     public func updateLatestEpisodeInfo(podcast: Podcast, setDefaults: Bool, autoDownloadLimit: Int = 1) {
         let latestEpisodes = podcast.latestEpisodes(limit: max(autoDownloadLimit, 1))
+        updateLatestEpisodeInfo(podcast: podcast, latestEpisodes: latestEpisodes, setDefaults: setDefaults, autoDownloadLimit: autoDownloadLimit)
+    }
+
+    /// - Parameter latestEpisodes: The podcast's newest episodes, newest first, as `Podcast.latestEpisodes(limit:)` returns them.
+    func updateLatestEpisodeInfo(podcast: Podcast, latestEpisodes: [Episode], setDefaults: Bool, autoDownloadLimit: Int) {
         guard let latestEpisode = latestEpisodes.first else { return }
 
         // no need to re-save one we already have
@@ -245,10 +250,11 @@ extension ServerPodcastManager {
 
         podcast.latestEpisodeDate = latestEpisode.publishedDate
         podcast.latestEpisodeUuid = latestEpisode.uuid
-        DataManager.shared.save(podcast: podcast)
 
         if setDefaults {
             setDefaultsAndLoadMetadataForNewlyAddedPodcast(podcast, latestEpisodes: latestEpisodes, autoDownload: autoDownloadLimit > 0)
+        } else {
+            DataManager.shared.save(podcast: podcast)
         }
     }
 
@@ -265,20 +271,15 @@ extension ServerPodcastManager {
         } else {
             shouldTriggerAutoDownload = (totalCount > 0) && (autoDownloadCount >= totalCount)
         }
-        if shouldTriggerAutoDownload {
-            podcast.autoDownloadSetting = AutoDownloadSetting.latest.rawValue
-            if !latestEpisodes.isEmpty {
-                ServerConfig.shared.syncDelegate?.autoDownloadLatestEpisodes(uuids: latestEpisodes.map(\.uuid))
-            }
-        } else {
-            podcast.autoDownloadSetting = AutoDownloadSetting.off.rawValue
-        }
-
+        podcast.autoDownloadSetting = (shouldTriggerAutoDownload ? AutoDownloadSetting.latest : AutoDownloadSetting.off).rawValue
         podcast.episodeGrouping = (podcast.episodeGrouping == PodcastGrouping.none.rawValue) ?  ServerConfig.shared.syncDelegate?.defaultPodcastGrouping() ?? 0 : podcast.episodeGrouping
         podcast.showArchived = ServerConfig.shared.syncDelegate?.defaultShowArchived() ?? false
-
+        DataManager.shared.applyPushDefaultForNewPodcast(podcast)
         DataManager.shared.save(podcast: podcast)
-        DataManager.shared.setPushDefaultForNewPodcast(podcast)
+
+        if shouldTriggerAutoDownload, !latestEpisodes.isEmpty {
+            ServerConfig.shared.syncDelegate?.autoDownloadLatestEpisodes(uuids: latestEpisodes.map(\.uuid))
+        }
         #if !os(watchOS)
         if let latestEpisode = latestEpisodes.first {
                 MetadataUpdater.shared.updatedMetadata(episodeUuid: latestEpisode.uuid)

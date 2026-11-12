@@ -209,6 +209,25 @@ public class ServerPodcastManager: NSObject {
         return episodesJson.map { Episode.from(episodeJson: $0, podcastId: 0, podcastUuid: podcastUuid) }
     }
 
+    /// The newest of a new podcast's episodes, in the same order as `Podcast.latestEpisodes(limit:)`: newest published first, then most recently added,
+    /// and episodes without a published date last.
+    static func latestEpisodes(in episodes: [Episode], limit: Int) -> [Episode] {
+        let added = { (episode: Episode) in episode.addedDate ?? Date(timeIntervalSince1970: 0) }
+        let sorted = episodes.filter { !$0.wasDeleted }.sorted { lhs, rhs in
+            switch (lhs.publishedDate, rhs.publishedDate) {
+            case let (lhsDate?, rhsDate?) where lhsDate != rhsDate:
+                return lhsDate > rhsDate
+            case (.some, .none):
+                return true
+            case (.none, .some):
+                return false
+            default:
+                return added(lhs) > added(rhs)
+            }
+        }
+        return Array(sorted.prefix(limit))
+    }
+
     private func addPodcast(podcastInfo: [String: Any], episodes: [Episode]?, subscribe: Bool, autoDownloads: Int = 0, lastModified: String?) -> Bool {
         guard let podcastJson = podcastInfo["podcast"] as? [String: Any], let podcastUuid = podcastJson["uuid"] as? String else { return false }
 
@@ -245,7 +264,8 @@ public class ServerPodcastManager: NSObject {
         }
         DataManager.shared.bulkSave(episodes: episodes)
 
-        updateLatestEpisodeInfo(podcast: podcast, setDefaults: subscribe, autoDownloadLimit: autoDownloads)
+        let latestEpisodes = Self.latestEpisodes(in: episodes, limit: max(autoDownloads, 1))
+        updateLatestEpisodeInfo(podcast: podcast, latestEpisodes: latestEpisodes, setDefaults: subscribe, autoDownloadLimit: autoDownloads)
 
         if subscribe { ServerConfig.shared.syncDelegate?.podcastAdded(podcastUuid: podcast.uuid) }
 
