@@ -9,23 +9,11 @@ import SJUtils
 class ImageManager {
     static let shared = ImageManager()
 
-    private struct OriginalDataCacheSerializer: CacheSerializer {
-        private let serializer: DefaultCacheSerializer = {
-            var serializer = DefaultCacheSerializer()
-            serializer.preferCacheOriginalData = true
-            return serializer
-        }()
-
-        func data(with image: UIImage, original: Data?) -> Data? {
-            serializer.data(with: image, original: original)
-        }
-
-        func image(with data: Data, options: KingfisherParsedOptionsInfo) -> UIImage? {
-            serializer.image(with: data, options: options)
-        }
-    }
-
-    static let originalDataSerializer: CacheSerializer = OriginalDataCacheSerializer()
+    private static let originalDataSerializer: DefaultCacheSerializer = {
+        var serializer = DefaultCacheSerializer()
+        serializer.preferCacheOriginalData = true
+        return serializer
+    }()
 
     static let memoryCache = MemoryStorage.Backend<UIImage>(config: .init(totalCostLimit: memoryCacheCostLimit))
 
@@ -176,11 +164,11 @@ class ImageManager {
     }
 
     var podcastImageOptions: KingfisherOptionsInfo {
-        [.targetCache(subscribedPodcastsCache), .backgroundDecode, .cacheSerializer(Self.originalDataSerializer)]
+        [.targetCache(subscribedPodcastsCache), .backgroundDecode]
     }
 
     private var podcastImageDiskPrefetchOptions: KingfisherOptionsInfo {
-        [.targetCache(subscribedPodcastsCache), .cacheSerializer(Self.originalDataSerializer), .memoryCacheExpiration(.expired)]
+        [.targetCache(subscribedPodcastsCache), .memoryCacheExpiration(.expired)]
     }
 
     func loadImage(episode: BaseEpisode, imageView: UIImageView, size: PodcastThumbnailSize) {
