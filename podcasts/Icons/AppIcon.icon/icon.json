@@ -1,0 +1,38 @@
+{
+  "fill" : {
+    "solid" : "srgb:0.95686,0.24314,0.21569,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "blend-mode" : "normal",
+          "image-name" : "Path.svg",
+          "name" : "Path",
+          "position" : {
+            "scale" : 8.6,
+            "translation-in-points" : [
+              2.0427719168135354,
+              2.0427719168135354
+            ]
+          }
+        }
+      ],
+      "name" : "Roundel",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.3
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}

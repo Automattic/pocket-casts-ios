@@ -18,7 +18,6 @@ class PlaybackStatsDataManager {
                             SELECT \(DataManager.podcastTableName).uuid as podcastUuid,
                                 \(DataManager.podcastTableName).title as title,
                                 \(DataManager.podcastTableName).author as author,
-                                substr(trim(\(DataManager.podcastTableName).podcastCategory), 1, instr(trim(\(DataManager.podcastTableName).podcastCategory) || char(10), char(10)) - 1) as category,
                                 SUM(\(DataManager.episodeTableName).playedUpTo) as playedSeconds,
                                 COUNT(DISTINCT \(DataManager.episodeTableName).uuid) as episodesPlayed
                             FROM \(DataManager.episodeTableName), \(DataManager.podcastTableName)
@@ -36,7 +35,6 @@ class PlaybackStatsDataManager {
                         uuid: uuid,
                         title: resultSet.string(forColumn: "title") ?? "",
                         author: resultSet.string(forColumn: "author") ?? "",
-                        genre: resultSet.string(forColumn: "category"),
                         playedSeconds: resultSet.double(forColumn: "playedSeconds"),
                         episodesPlayed: Int(resultSet.int(forColumn: "episodesPlayed"))
                     ))
@@ -109,16 +107,13 @@ public struct PlaybackPodcastStats {
     public let uuid: String
     public let title: String
     public let author: String
-    /// The podcast's first category, if it has one.
-    public let genre: String?
     public let playedSeconds: Double
     public let episodesPlayed: Int
 
-    public init(uuid: String, title: String, author: String, genre: String?, playedSeconds: Double, episodesPlayed: Int) {
+    public init(uuid: String, title: String, author: String, playedSeconds: Double, episodesPlayed: Int) {
         self.uuid = uuid
         self.title = title
         self.author = author
-        self.genre = genre
         self.playedSeconds = playedSeconds
         self.episodesPlayed = episodesPlayed
     }

@@ -1,7 +1,14 @@
+import Combine
 import SwiftUI
 import PlaybackKit
+import PocketCastsUtils
 
-/// Hosts the PlaybackKit experience full screen and turns its events into app behavior.
+/// Hosts the PlaybackKit experience full screen and turns its events into app behavior and
+/// analytics (``Playback2026Analytics``).
+///
+/// The story opens before its data is there: the listening history is synced and read while
+/// the intro plays, and handed to the page when it is ready. If the user moves on from the
+/// intro first, the page shows a spinner until then.
 final class Playback2026ViewController: UIHostingController<Playback2026ViewController.Content> {
     struct Content: View {
         let controller: PlaybackController
@@ -14,13 +21,32 @@ final class Playback2026ViewController: UIHostingController<Playback2026ViewCont
     }
 
     private let controller: PlaybackController
+    private var screenshots: AnyCancellable?
 
-    init(payload: PlaybackPayload) throws {
-        controller = try PlaybackController(payload: payload)
+    init() {
+        controller = PlaybackController()
         super.init(rootView: Content(controller: controller))
         modalPresentationStyle = .fullScreen
         controller.onEvent = { [weak self] event in
             self?.handle(event)
+        }
+        controller.onAnalyticsEvent = { event in
+            Playback2026Analytics.track(event)
+        }
+        // A screenshot of the story counts as sharing it, as in 2025.
+        screenshots = NotificationCenter.default.publisher(for: UIApplication.userDidTakeScreenshotNotification)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                MainActor.assumeIsolated {
+                    guard let self, self.viewIfLoaded?.window != nil else { return }
+                    self.controller.didTakeScreenshot()
+                }
+            }
+        // Started with the screen, so it runs while the intro plays. Closed before it is done,
+        // the payload has nowhere to go.
+        Task { [weak self] in
+            let payload = await Playback2026.makePayload()
+            self?.setPayload(payload)
         }
     }
 
@@ -37,6 +63,16 @@ final class Playback2026ViewController: UIHostingController<Playback2026ViewCont
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         UIDevice.current.userInterfaceIdiom == .pad ? .all : .portrait
+    }
+
+    private func setPayload(_ payload: PlaybackPayload) {
+        do {
+            try controller.setPayload(payload)
+        } catch {
+            FileLog.shared.addMessage("Playback 2026: failed to encode the payload: \(error)")
+            // Not JSON: the page shows its error state, rather than a spinner that never ends.
+            controller.setPayload(Data())
+        }
     }
 
     private func handle(_ event: PlaybackEvent) {
@@ -58,6 +94,11 @@ final class Playback2026ViewController: UIHostingController<Playback2026ViewCont
 
             guard let data, let image = UIImage(data: data) else { return }
             let activityController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            activityController.completionWithItemsHandler = { [controller] activityType, completed, _, _ in
+                // Shared, not cancelled: end_of_year_story_shared and playback_shared.
+                guard completed else { return }
+                controller.didShare(activity: activityType?.rawValue)
+            }
             activityController.popoverPresentationController?.sourceView = view
             activityController.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.maxY, width: 0, height: 0)
             present(activityController, animated: true)

@@ -3,7 +3,7 @@ import PocketCastsDataModel
 
 struct FolderDetailView: View {
 
-    @State var model: FolderDetailViewModel
+    @State private var model: FolderDetailViewModel
 
     @Environment(\.dismiss) var dismiss
 
@@ -60,9 +60,6 @@ struct FolderDetailView: View {
                 }
                 .focusScope(podcastGridNamespace)
             }
-        }
-        .navigationDestination(for: Podcast.self) { podcast in
-            PodcastDetailView(model: PodcastDetailViewModel(podcast: podcast))
         }
     }
 

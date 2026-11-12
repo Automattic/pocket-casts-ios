@@ -217,7 +217,7 @@ platform :ios do
   lane :test do
     run_tests(
       scheme: SCHEME,
-      devices: ['iPhone 17 Pro'],
+      devices: ['iPhone 18 Pro'],
       output_types: 'junit',
       # Workaround: on Xcode 27, post-test simulator diagnostics collection can hang until its 600 s timeout.
       # Drop once a newer Xcode no longer does.

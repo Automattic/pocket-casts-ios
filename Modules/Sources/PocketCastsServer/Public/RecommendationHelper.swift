@@ -4,18 +4,22 @@ import PocketCastsDataModel
 public class RecommendationHelper {
     public init() {}
 
-    public func recommendEpisode() -> Episode? {
+    public func recommendEpisode() async -> Episode? {
         if !SyncManager.isUserLoggedIn() {
             return nil
         }
 
-        let recommendTask = RecommendEpisodesTask()
-        var episode: Episode?
-        recommendTask.completion = { recommendedEpisode in
-            episode = recommendedEpisode
-        }
-        recommendTask.runTaskSynchronously()
+        return await withCheckedContinuation { continuation in
+            DispatchQueue.global(qos: .userInitiated).async {
+                let recommendTask = RecommendEpisodesTask()
+                var episode: Episode?
+                recommendTask.completion = { recommendedEpisode in
+                    episode = recommendedEpisode
+                }
+                recommendTask.runTaskSynchronously()
 
-        return episode
+                continuation.resume(returning: episode)
+            }
+        }
     }
 }

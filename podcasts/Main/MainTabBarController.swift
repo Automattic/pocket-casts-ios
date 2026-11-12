@@ -1135,7 +1135,8 @@ private extension MainTabBarController {
 
     func observersForPlayback2026() {
         NotificationCenter.default.addObserver(forName: .onboardingFlowDidDismiss, object: nil, queue: .main) { [weak self] _ in
-            self?.showPlayback2026SheetIfNeeded()
+            guard let self, !Playback2026.startAfterSignInIfNeeded(from: self) else { return }
+            self.showPlayback2026SheetIfNeeded()
         }
     }
 

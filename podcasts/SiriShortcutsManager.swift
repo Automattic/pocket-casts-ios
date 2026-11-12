@@ -389,10 +389,11 @@ class SiriShortcutsManager: CustomObserver {
         return INPlayMediaIntentResponseCode.success
     }
 
-    func playSuggested() -> INPlayMediaIntentResponseCode {
+    @MainActor
+    func playSuggested() async -> INPlayMediaIntentResponseCode {
         AnalyticsHelper.siriSurpriseMe()
         let recommendationHelper = RecommendationHelper()
-        guard let episodeInfo = recommendationHelper.recommendEpisode() else {
+        guard let episodeInfo = await recommendationHelper.recommendEpisode() else {
             return INPlayMediaIntentResponseCode.failureRequiringAppLaunch
         }
 

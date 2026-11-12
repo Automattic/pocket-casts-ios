@@ -279,6 +279,16 @@ public enum FeatureFlag: String, CaseIterable {
     /// Save the episodes a podcast update finds missing in transactions of up to 100, instead of one by one
     case saveMissingEpisodesInOneTransaction
 
+    /// Give a new episode the ID after the largest one in the table instead of a random ID
+    case sequentialEpisodeIds
+
+    /// During the first full sync, request each podcast's episode state at the same time as the podcast, instead of
+    /// after adding it on the queue that adds podcasts one at a time
+    case fullSyncEpisodeStateInParallel
+
+    /// In a full sync, save a playlist the server sent no episodes for (every smart playlist, and any empty manual one) without querying its local episodes
+    case skipEmptyPlaylistQueriesInFullSync
+
     /// Use StoreKit 2 for in-app purchases instead of StoreKit 1. Also the remote kill switch:
     /// turning it off in Remote Config (`storekit2_purchases`) goes back to StoreKit 1 on the next launch
     case storeKit2Purchases
@@ -470,12 +480,18 @@ public enum FeatureFlag: String, CaseIterable {
         case .playback2026:
             BuildEnvironment.current == .debug
         case .hidePlayedPodcasts:
-            false
+            true
         case .reloadOnlySavedPodcast:
             true
         case .syncUpNextAfterFullSync:
             true
         case .saveMissingEpisodesInOneTransaction:
+            true
+        case .sequentialEpisodeIds:
+            true
+        case .fullSyncEpisodeStateInParallel:
+            true
+        case .skipEmptyPlaylistQueriesInFullSync:
             true
         case .storeKit2Purchases:
             false
