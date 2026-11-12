@@ -245,10 +245,11 @@ extension ServerPodcastManager {
 
         podcast.latestEpisodeDate = latestEpisode.publishedDate
         podcast.latestEpisodeUuid = latestEpisode.uuid
-        DataManager.shared.save(podcast: podcast)
 
         if setDefaults {
             setDefaultsAndLoadMetadataForNewlyAddedPodcast(podcast, latestEpisodes: latestEpisodes, autoDownload: autoDownloadLimit > 0)
+        } else {
+            DataManager.shared.save(podcast: podcast)
         }
     }
 
@@ -277,7 +278,6 @@ extension ServerPodcastManager {
         podcast.episodeGrouping = (podcast.episodeGrouping == PodcastGrouping.none.rawValue) ?  ServerConfig.shared.syncDelegate?.defaultPodcastGrouping() ?? 0 : podcast.episodeGrouping
         podcast.showArchived = ServerConfig.shared.syncDelegate?.defaultShowArchived() ?? false
 
-        DataManager.shared.save(podcast: podcast)
         DataManager.shared.setPushDefaultForNewPodcast(podcast)
         #if !os(watchOS)
         if let latestEpisode = latestEpisodes.first {
