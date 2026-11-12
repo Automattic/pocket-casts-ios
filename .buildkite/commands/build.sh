@@ -8,3 +8,5 @@ fi
 
 echo "--- Build & Test"
 bundle exec fastlane test
+
+save_swiftpm_cache --package-resolved Modules/Package.resolved
