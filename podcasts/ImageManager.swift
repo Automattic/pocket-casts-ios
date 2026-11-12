@@ -179,7 +179,12 @@ class ImageManager {
     func loadImage(podcastUuid: String, imageView: UIImageView, size: PodcastThumbnailSize, showPlaceHolder: Bool) {
         let url = podcastUrl(imageSize: size, uuid: podcastUuid)
         let placeholderImage = showPlaceHolder ? placeHolderImage(size) : nil
-        imageView.kf.setImage(with: url, placeholder: placeholderImage, options: podcastImageOptions + [.transition(.fade(Constants.Animation.defaultAnimationTime))])
+        imageView.kf.setImage(with: url, placeholder: placeholderImage, options: podcastImageOptions)
+    }
+
+    func prefetchImage(podcastUuid: String, size: PodcastThumbnailSize) {
+        let url = podcastUrl(imageSize: size, uuid: podcastUuid)
+        KingfisherManager.shared.retrieveImage(with: url, options: podcastImageOptions, completionHandler: nil)
     }
 
     var podcastImageOptions: KingfisherOptionsInfo {

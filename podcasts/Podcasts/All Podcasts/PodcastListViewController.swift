@@ -105,6 +105,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         setupSearchBar()
         setupRefreshControl()
 
+        podcastsCollectionView.prefetchDataSource = self
         podcastsCollectionView.dragDelegate = self
         podcastsCollectionView.dropDelegate = self
         podcastsCollectionView.dragInteractionEnabled = false
