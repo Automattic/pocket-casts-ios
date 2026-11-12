@@ -10,6 +10,8 @@
 - Sign in faster with a large library on a new install, writing less than half as much to storage, by saving new episodes next to each other in the database [#5625](https://github.com/Automattic/pocket-casts-ios/pull/5625)
 - Fix the sign-up link and the "Your shows, on any device!" notification showing the create-account screen when you're already signed in. They now open the Profile tab [#5435](https://github.com/Automattic/pocket-casts-ios/pull/5435)
 - Sign in faster with a large library and smart playlists on a new install [#5646](https://github.com/Automattic/pocket-casts-ios/pull/5646)
+- Load the episode counts and artwork of smart playlists on the Playlists tab faster in large libraries, and keep the app responsive while they load [#5632](https://github.com/Automattic/pocket-casts-ios/pull/5632)
+
 
 8.25
 -----
