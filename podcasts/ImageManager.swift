@@ -9,11 +9,23 @@ import SJUtils
 class ImageManager {
     static let shared = ImageManager()
 
-    static let originalDataSerializer: DefaultCacheSerializer = {
-        var serializer = DefaultCacheSerializer()
-        serializer.preferCacheOriginalData = true
-        return serializer
-    }()
+    private struct OriginalDataCacheSerializer: CacheSerializer {
+        private let serializer: DefaultCacheSerializer = {
+            var serializer = DefaultCacheSerializer()
+            serializer.preferCacheOriginalData = true
+            return serializer
+        }()
+
+        func data(with image: UIImage, original: Data?) -> Data? {
+            serializer.data(with: image, original: original)
+        }
+
+        func image(with data: Data, options: KingfisherParsedOptionsInfo) -> UIImage? {
+            serializer.image(with: data, options: options)
+        }
+    }
+
+    static let originalDataSerializer: CacheSerializer = OriginalDataCacheSerializer()
 
     // search image cache, we limit this to 10MBs
     private var searchImageCache = ImageCache(name: "generalImageCache")
