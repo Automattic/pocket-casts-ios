@@ -55,7 +55,7 @@ enum PodcastFinishedAction: Int {
     case doNothing = 0, delete
 }
 
-enum PodcastThumbnailSize {
+enum PodcastThumbnailSize: CaseIterable {
     case list, grid, page, detail
 }
 

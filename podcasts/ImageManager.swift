@@ -408,6 +408,26 @@ class ImageManager {
         prefetcher.start()
     }
 
+    func removeUnrequestedPodcastImages() {
+        let requestedSizes = Set(PodcastThumbnailSize.allCases.map { closestImageSize(sizeRequired: Self.sizeFor(imageSize: $0)) })
+        let previousSizes = UserDefaults.standard.array(forKey: Constants.UserDefaults.requestedPodcastImageSizes) as? [Int] ?? availablePodcastImageSizes
+        let unrequestedSizes = Set(previousSizes).subtracting(requestedSizes)
+
+        if !unrequestedSizes.isEmpty {
+            for podcast in DataManager.shared.allPodcasts(includeUnsubscribed: true) {
+                for size in unrequestedSizes {
+                    try? subscribedPodcastsCache.diskStorage.remove(forKey: ServerHelper.imageUrl(podcastUuid: podcast.uuid, size: size).cacheKey)
+                }
+            }
+
+            if NetworkUtils.shared.isConnectedToUnexpensiveConnection() {
+                cacheAllPodcastImages()
+            }
+        }
+
+        UserDefaults.standard.set(Array(requestedSizes), forKey: Constants.UserDefaults.requestedPodcastImageSizes)
+    }
+
     private func cacheAllPodcastImages() {
         let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: [.targetCache(subscribedPodcastsCache)])
         prefetcher.start()
@@ -566,38 +586,28 @@ class ImageManager {
     }
 
     private func closestImageSize(sizeRequired: Int) -> Int {
-        var closeness = 999
-        var closestIndex = 0
-        for (index, value) in availablePodcastImageSizes.enumerated() {
-            let newCloseness = abs(sizeRequired - value)
-            if newCloseness < closeness {
-                closeness = newCloseness
-                closestIndex = index
-            }
+        if availablePodcastImageSizes.contains(sizeRequired) {
+            return sizeRequired
         }
-
-        return availablePodcastImageSizes[closestIndex]
-
-        // you'd think you'd just be able to: //availablePodcastImageSizes.enumerated().min( by: { abs($0.1 - sizeRequired) < abs($1.1 - sizeRequired)} )!
-        // but that's about 8x slower, which sucks because this gets called a lot in table views, oh well
+        return availablePodcastImageSizes.min { abs($0 - sizeRequired) < abs($1 - sizeRequired) }!
     }
 
-    // TODO: Modernization - These sizes read UIScreen.main, which assumes one display. The URLs they pick are
-    // also the cache keys that cacheAllPodcastImages() and clearCache(podcastUuid:recacheWhenDone:) rebuild with
-    // no view in scope, so sizing from each caller's traitCollection.displayScale and width would split the
-    // offline cache. Decide how cached sizes are keyed first, then take the trait collection from the caller.
+    private static let displayScale = UITraitCollection.current.displayScale
+
+    @MainActor
+    static func readDisplayScale() {
+        _ = displayScale
+    }
+
     class func sizeFor(imageSize: PodcastThumbnailSize) -> Int {
+        let isHighScale = displayScale > 2
         switch imageSize {
         case .list:
-            return Int(65.0 * UIScreen.main.scale)
+            return isHighScale ? 210 : 130
         case .grid:
-            let screenWidth = UIScreen.main.bounds.width
-            let screenHeight = UIScreen.main.bounds.height
-            let shortestSide = screenHeight > screenWidth ? screenWidth : screenHeight
-
-            return Int(round(shortestSide * UIScreen.main.scale / 3.0))
+            return isHighScale ? 400 : 340
         case .page, .detail:
-            return Int(320.0 * UIScreen.main.scale)
+            return isHighScale ? 960 : 680
         }
     }
 }

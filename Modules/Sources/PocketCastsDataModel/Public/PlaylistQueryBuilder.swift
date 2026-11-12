@@ -240,7 +240,8 @@ public class PlaylistQueryBuilder {
                     sortFor: sortType,
                     limit: limit,
                     values: stringifiedValues,
-                    addedUuid: addedUuid.boolValue
+                    addedUuid: addedUuid.boolValue,
+                    matchesFewEpisodes: matchesFewEpisodes(playlist)
                 )
             }
             if clause == .episodeCount || clause == .allEpisodeCount {
@@ -282,11 +283,17 @@ public class PlaylistQueryBuilder {
         sortFor sortType: Int32,
         limit: Int,
         values: String,
-        addedUuid: Bool
+        addedUuid: Bool,
+        matchesFewEpisodes: Bool
     ) -> String {
         let sortClause = add(sortFor: sortType) ?? ""
         var sortClauseStripped = sortClause.replacingOccurrences(of: "ORDER BY", with: "")
         sortClauseStripped = sortClauseStripped.replacingOccurrences(of: "episode.", with: "")
+
+        var limitedSortClause = sortClause
+        if matchesFewEpisodes, FeatureFlag.efficientPlaylistQueries.enabled {
+            limitedSortClause = sortClause.replacingOccurrences(of: "episode.publishedDate", with: "+episode.publishedDate")
+        }
 
         var query = """
         WITH limited_episodes AS (
@@ -300,7 +307,7 @@ public class PlaylistQueryBuilder {
                 LEFT JOIN \(DataManager.podcastTableName) podcast
                   ON episode.podcast_id = podcast.id
                 WHERE episode.archived = 0 \(values)\(addedUuid ? ")" : ")")
-                \(sortClause)
+                \(limitedSortClause)
                 LIMIT \(episodeLimit)
             )
         ),
@@ -388,7 +395,7 @@ public class PlaylistQueryBuilder {
 
         let whereTail = trimmedValues.isEmpty ? "" : " \(trimmedValues)"
 
-        return """
+        let filtered = """
         WITH filtered AS (
           SELECT episode.uuid,
                  episode.archived,
@@ -398,7 +405,22 @@ public class PlaylistQueryBuilder {
           LEFT JOIN \(DataManager.podcastTableName) podcast
             ON episode.podcast_id = podcast.id
           WHERE 1 = 1 \(whereArchived)\(whereTail)
-        ),
+        )
+        """
+
+        if FeatureFlag.efficientPlaylistQueries.enabled {
+            return """
+            \(filtered),
+            duplicated AS (
+              SELECT uuid FROM \(DataManager.episodeTableName) GROUP BY uuid HAVING COUNT(*) > 1
+            )
+            SELECT (SELECT COUNT(*) FROM filtered)
+              - (SELECT COUNT(*) - COUNT(DISTINCT uuid) FROM filtered WHERE uuid IN (SELECT uuid FROM duplicated))
+            """
+        }
+
+        return """
+        \(filtered),
         deduped AS (
           SELECT uuid
           FROM (
@@ -648,6 +670,11 @@ public class PlaylistQueryBuilder {
         case .dragAndDrop:
             return "ORDER BY p.pos ASC" // Only for manual playlist
         }
+    }
+
+    private static func matchesFewEpisodes(_ playlist: EpisodeFilter) -> Bool {
+        let excludesUnplayed = !playlist.filterUnplayed && (playlist.filterPartiallyPlayed || playlist.filterFinished)
+        return excludesUnplayed || playlist.filterStarred
     }
 
     private static func add(smartRulesFor playlist: EpisodeFilter) -> QueryResult {

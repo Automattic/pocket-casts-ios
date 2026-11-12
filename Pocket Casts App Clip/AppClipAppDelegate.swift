@@ -14,6 +14,8 @@ enum AppClipNotification {
 class AppClipAppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        ImageManager.readDisplayScale()
+
         // This is where we register this device to receive push notifications from Apple
         // All this function does is register the device with APNs, it doesn't set up push notifications by itself
         application.registerForRemoteNotifications()

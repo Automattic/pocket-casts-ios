@@ -3,8 +3,8 @@ import PocketCastsDataModel
 
 struct FolderCardView: View {
 
-    var folder: Folder
-    @State var model: FolderCardViewModel
+    private var folder: Folder
+    @State private var model: FolderCardViewModel
 
     init(folder: Folder) {
         self.folder = folder
