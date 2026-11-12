@@ -599,13 +599,14 @@ class ImageManager {
     }
 
     class func sizeFor(imageSize: PodcastThumbnailSize) -> Int {
+        let isHighScale = UITraitCollection.current.displayScale > 2
         switch imageSize {
         case .list:
-            return Int(65.0 * UITraitCollection.current.displayScale)
+            return isHighScale ? 210 : 130
         case .grid:
-            return 400
+            return isHighScale ? 400 : 340
         case .page, .detail:
-            return Int(320.0 * UITraitCollection.current.displayScale)
+            return isHighScale ? 960 : 680
         }
     }
 }
