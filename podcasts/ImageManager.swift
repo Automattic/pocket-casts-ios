@@ -408,6 +408,22 @@ class ImageManager {
         prefetcher.start()
     }
 
+    func removeUnrequestedPodcastImages() {
+        let requestedSizes = Set(PodcastThumbnailSize.allCases.map { closestImageSize(sizeRequired: Self.sizeFor(imageSize: $0)) })
+        let previousSizes = UserDefaults.standard.array(forKey: Constants.UserDefaults.requestedPodcastImageSizes) as? [Int] ?? availablePodcastImageSizes
+        let unrequestedSizes = Set(previousSizes).subtracting(requestedSizes)
+
+        if !unrequestedSizes.isEmpty {
+            for podcast in DataManager.shared.allPodcasts(includeUnsubscribed: true) {
+                for size in unrequestedSizes {
+                    try? subscribedPodcastsCache.diskStorage.remove(forKey: ServerHelper.imageUrl(podcastUuid: podcast.uuid, size: size).cacheKey)
+                }
+            }
+        }
+
+        UserDefaults.standard.set(Array(requestedSizes), forKey: Constants.UserDefaults.requestedPodcastImageSizes)
+    }
+
     private func cacheAllPodcastImages() {
         let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: [.targetCache(subscribedPodcastsCache)])
         prefetcher.start()
@@ -591,11 +607,7 @@ class ImageManager {
         case .list:
             return Int(65.0 * UIScreen.main.scale)
         case .grid:
-            let screenWidth = UIScreen.main.bounds.width
-            let screenHeight = UIScreen.main.bounds.height
-            let shortestSide = screenHeight > screenWidth ? screenWidth : screenHeight
-
-            return Int(round(shortestSide * UIScreen.main.scale / 3.0))
+            return 400
         case .page, .detail:
             return Int(320.0 * UIScreen.main.scale)
         }
