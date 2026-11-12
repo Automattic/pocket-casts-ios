@@ -44,7 +44,7 @@ class ImageManager {
     private static var memoryCostLimit: Int {
         let physicalMemory = ProcessInfo.processInfo.physicalMemory
         let ratio = physicalMemory <= UInt64(512.megabytes) ? 0.1 : 0.2
-        return min(Int(Double(physicalMemory) * ratio), 512.megabytes)
+        return min(Int(Double(physicalMemory) * ratio), 256.megabytes)
     }
 
     /// Creates an image cache that stores images on disk under `name` and in the shared memory storage.
