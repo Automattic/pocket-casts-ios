@@ -1,5 +1,6 @@
 8.26
 -----
+- Fix new episodes found by a refresh playing the regular file instead of their HLS stream [#5633](https://github.com/Automattic/pocket-casts-ios/pull/5633)
 - Use less storage for podcast artwork in the iPad grid, and remove artwork sizes the app no longer uses [#5647](https://github.com/Automattic/pocket-casts-ios/pull/5647)
 - Fix a crash that could happen when syncing the playback position of an episode with no valid length, such as a live stream played over Google Cast [#5638](https://github.com/Automattic/pocket-casts-ios/pull/5638)
 - Sign in faster with a large library: each podcast's played, archived and starred episodes now load alongside the podcast instead of one podcast at a time [#5643](https://github.com/Automattic/pocket-casts-ios/pull/5643)
