@@ -10,6 +10,7 @@ import XCTest
 /// same queues as in the app. They need the app's keychain for the sync token.
 final class FullSyncPodcastImportTests: XCTestCase {
     private let lastSyncAt = "2026-11-05T10:00:00Z"
+    private let featureFlagMock = FeatureFlagMock()
     private var originalSyncToken: String?
     private var originalDataManager: DataManager!
     private var directory: URL!
@@ -37,7 +38,7 @@ final class FullSyncPodcastImportTests: XCTestCase {
 
     override func tearDownWithError() throws {
         URLProtocol.unregisterClass(FullSyncURLProtocol.self)
-        try FeatureFlagOverrideStore().override(FeatureFlag.fullSyncEpisodeStateInParallel, withValue: FeatureFlag.fullSyncEpisodeStateInParallel.default)
+        featureFlagMock.reset()
         ServerSettings.syncingV2Token = originalSyncToken
         DataManager.shared = originalDataManager
         dataManager = nil
@@ -48,16 +49,16 @@ final class FullSyncPodcastImportTests: XCTestCase {
     // MARK: - Episode state requested with the podcast
 
     func testSavesTheSyncInfoWhenTheEpisodeStateIsRequestedWithThePodcast() throws {
-        try processPodcast(episodeStateInParallel: true)
+        processPodcast(episodeStateInParallel: true)
 
         try checkTheSyncInfo()
         XCTAssertEqual(FullSyncURLProtocol.episodeStateRequestCount, 1)
     }
 
     func testRequestsTheEpisodeStateBeforeThePodcastArrives() throws {
-        FullSyncURLProtocol.podcastDelay = 0.5
+        FullSyncURLProtocol.holdsThePodcastUntilTheEpisodeStateIsRequested = true
 
-        try processPodcast(episodeStateInParallel: true)
+        processPodcast(episodeStateInParallel: true)
 
         XCTAssertEqual(FullSyncURLProtocol.episodeStateRequestsBeforeThePodcastResponse, 1)
         try checkTheSyncInfo()
@@ -66,7 +67,7 @@ final class FullSyncPodcastImportTests: XCTestCase {
     func testRequestsTheEpisodeStateAfterThePodcastArrivesWhenTheFlagIsOff() throws {
         FullSyncURLProtocol.podcastDelay = 0.5
 
-        try processPodcast(episodeStateInParallel: false)
+        processPodcast(episodeStateInParallel: false)
 
         XCTAssertEqual(FullSyncURLProtocol.episodeStateRequestsBeforeThePodcastResponse, 0)
         try checkTheSyncInfo()
@@ -75,7 +76,7 @@ final class FullSyncPodcastImportTests: XCTestCase {
     func testSavesThePodcastWhenTheEpisodeStateCannotBeRetrievedWithThePodcast() throws {
         FullSyncURLProtocol.episodeStateStatusCode = 500
 
-        try processPodcast(episodeStateInParallel: true)
+        processPodcast(episodeStateInParallel: true)
 
         try checkTheSyncInfoWithoutTheEpisodeState()
     }
@@ -83,7 +84,7 @@ final class FullSyncPodcastImportTests: XCTestCase {
     func testSavesNothingWhenThePodcastCannotBeLoadedWithItsEpisodeState() throws {
         FullSyncURLProtocol.podcastStatusCode = 404
 
-        try processPodcast(episodeStateInParallel: true)
+        processPodcast(episodeStateInParallel: true)
 
         XCTAssertNil(try savedPodcast())
     }
@@ -91,7 +92,7 @@ final class FullSyncPodcastImportTests: XCTestCase {
     // MARK: - Episode state requested after adding the podcast
 
     func testSavesTheSyncInfoWhenTheEpisodeStateIsRequestedAfterAddingThePodcast() throws {
-        try processPodcast(episodeStateInParallel: false)
+        processPodcast(episodeStateInParallel: false)
 
         try checkTheSyncInfo()
         XCTAssertEqual(FullSyncURLProtocol.episodeStateRequestCount, 1)
@@ -100,7 +101,7 @@ final class FullSyncPodcastImportTests: XCTestCase {
     func testSavesNothingWhenThePodcastCannotBeLoadedBeforeItsEpisodeState() throws {
         FullSyncURLProtocol.podcastStatusCode = 404
 
-        try processPodcast(episodeStateInParallel: false)
+        processPodcast(episodeStateInParallel: false)
 
         XCTAssertNil(try savedPodcast())
         XCTAssertEqual(FullSyncURLProtocol.episodeStateRequestCount, 0)
@@ -160,8 +161,8 @@ final class FullSyncPodcastImportTests: XCTestCase {
     }
 
     /// Runs off the main thread, like the full sync's import queue does.
-    private func processPodcast(episodeStateInParallel: Bool) throws {
-        try FeatureFlagOverrideStore().override(FeatureFlag.fullSyncEpisodeStateInParallel, withValue: episodeStateInParallel)
+    private func processPodcast(episodeStateInParallel: Bool) {
+        featureFlagMock.set(.fullSyncEpisodeStateInParallel, value: episodeStateInParallel)
 
         var podcast = PodcastSyncInfo()
         podcast.uuid = podcastUuid
@@ -187,9 +188,12 @@ private final class FullSyncURLProtocol: URLProtocol {
     nonisolated(unsafe) static var podcastStatusCode = 200
     nonisolated(unsafe) static var episodeStateStatusCode = 200
     nonisolated(unsafe) static var podcastDelay: TimeInterval = 0
+    /// Holds the podcast response for up to 10 s, until the episode state is requested
+    nonisolated(unsafe) static var holdsThePodcastUntilTheEpisodeStateIsRequested = false
     nonisolated(unsafe) private(set) static var episodeStateRequestsBeforeThePodcastResponse: Int?
     private static let lock = NSLock()
     nonisolated(unsafe) private static var requestCount = 0
+    nonisolated(unsafe) private static var episodeStateRequested = DispatchSemaphore(value: 0)
 
     static var episodeStateRequestCount: Int {
         lock.withLock { requestCount }
@@ -200,8 +204,10 @@ private final class FullSyncURLProtocol: URLProtocol {
         podcastStatusCode = 200
         episodeStateStatusCode = 200
         podcastDelay = 0
+        holdsThePodcastUntilTheEpisodeStateIsRequested = false
         episodeStateRequestsBeforeThePodcastResponse = nil
         lock.withLock { requestCount = 0 }
+        episodeStateRequested = DispatchSemaphore(value: 0)
     }
 
     override class func canInit(with request: URLRequest) -> Bool {
@@ -218,12 +224,17 @@ private final class FullSyncURLProtocol: URLProtocol {
         guard let url = request.url else { return }
 
         if Self.isPodcastRequest(url) {
+            let episodeStateRequested = Self.episodeStateRequested
             DispatchQueue.global().asyncAfter(deadline: .now() + Self.podcastDelay) {
+                if Self.holdsThePodcastUntilTheEpisodeStateIsRequested {
+                    _ = episodeStateRequested.wait(timeout: .now() + 10)
+                }
                 Self.episodeStateRequestsBeforeThePodcastResponse = Self.episodeStateRequestCount
                 self.respond(statusCode: Self.podcastStatusCode, data: Self.podcastJson())
             }
         } else if Self.requestedUuid(request) == Self.podcastUuid {
             Self.lock.withLock { Self.requestCount += 1 }
+            Self.episodeStateRequested.signal()
             let statusCode = Self.episodeStateStatusCode
             respond(statusCode: statusCode, data: statusCode == 200 ? Self.episodeState() : Data())
         } else {

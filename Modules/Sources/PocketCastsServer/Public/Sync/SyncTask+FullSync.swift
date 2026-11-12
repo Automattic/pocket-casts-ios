@@ -80,6 +80,7 @@ extension SyncTask {
         }
 
         FileLog.shared.addMessage("Processing podcast \(uuid)")
+        let deadline = DispatchTime.now() + 30.seconds
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
         if FeatureFlag.fullSyncEpisodeStateInParallel.enabled {
@@ -92,7 +93,7 @@ extension SyncTask {
             }
         }
 
-        _ = dispatchGroup.wait(timeout: .now() + 30.seconds)
+        _ = dispatchGroup.wait(timeout: deadline)
     }
 
     private func addPodcastThenRetrieveEpisodeState(_ podcast: PodcastSyncInfo, uuid: String, lastSyncAt: String, completion: @escaping () -> Void) {
@@ -122,29 +123,25 @@ extension SyncTask {
     }
 
     private func addPodcastWithEpisodeState(_ podcast: PodcastSyncInfo, uuid: String, lastSyncAt: String, completion: @escaping () -> Void) {
-        let responses = FullSyncPodcastResponses()
-        let loaded = DispatchGroup()
+        let loadedPodcast = FullSyncLoadedPodcast()
+        let podcastLoaded = DispatchGroup()
 
-        loaded.enter()
+        podcastLoaded.enter()
         CacheServerHandler.shared.loadPodcastInfo(podcastUuid: uuid) { podcastInfo, lastModified in
-            responses.podcastInfo = podcastInfo
-            responses.lastModified = lastModified
-            loaded.leave()
+            loadedPodcast.podcastInfo = podcastInfo
+            loadedPodcast.lastModified = lastModified
+            podcastLoaded.leave()
         }
 
-        loaded.enter()
-        DispatchQueue.global().async {
-            responses.episodes = ApiServerHandler.shared.retrieveEpisodeTaskSynchronouusly(podcastUuid: uuid)
-            loaded.leave()
-        }
+        let episodes = ApiServerHandler.shared.retrieveEpisodeTaskSynchronouusly(podcastUuid: uuid)
 
-        loaded.notify(queue: .global()) {
-            guard let podcastInfo = responses.podcastInfo else {
+        podcastLoaded.notify(queue: .global()) {
+            guard let podcastInfo = loadedPodcast.podcastInfo else {
                 completion()
                 return
             }
 
-            ServerPodcastManager.shared.addFromJson(podcastUuid: uuid, lastModified: responses.lastModified, podcastInfo: podcastInfo, subscribe: true, autoDownloads: 0) { added in
+            ServerPodcastManager.shared.addFromJson(podcastUuid: uuid, lastModified: loadedPodcast.lastModified, podcastInfo: podcastInfo, subscribe: true, autoDownloads: 0) { added in
                 defer { completion() }
 
                 guard added, let localPodcast = DataManager.shared.findPodcast(uuid: uuid) else { return }
@@ -152,7 +149,7 @@ extension SyncTask {
                 self.applySyncInfo(podcast, lastSyncAt: lastSyncAt, to: localPodcast)
                 DataManager.shared.save(podcast: localPodcast)
 
-                guard let episodes = responses.episodes else {
+                guard let episodes else {
                     FileLog.shared.addMessage("SyncTask: Couldn't retrieve the episode state for podcast \(uuid)")
                     return
                 }
@@ -189,11 +186,10 @@ extension SyncTask {
     }
 }
 
-/// The responses the full sync loads for a podcast before adding it
-private final class FullSyncPodcastResponses: @unchecked Sendable {
+/// The podcast the full sync loads while the import thread requests its episode state
+private final class FullSyncLoadedPodcast: @unchecked Sendable {
     var podcastInfo: [String: Any]?
     var lastModified: String?
-    var episodes: [EpisodeSyncInfo]?
 }
 
 // MARK: - Bookmarks
