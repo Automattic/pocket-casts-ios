@@ -179,8 +179,11 @@ class ImageManager {
     func loadImage(podcastUuid: String, imageView: UIImageView, size: PodcastThumbnailSize, showPlaceHolder: Bool) {
         let url = podcastUrl(imageSize: size, uuid: podcastUuid)
         let placeholderImage = showPlaceHolder ? placeHolderImage(size) : nil
-        let processor = DefaultImageProcessor.default
-        imageView.kf.setImage(with: url, placeholder: placeholderImage, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .cacheSerializer(Self.originalDataSerializer), .transition(.fade(Constants.Animation.defaultAnimationTime))])
+        imageView.kf.setImage(with: url, placeholder: placeholderImage, options: podcastImageOptions + [.transition(.fade(Constants.Animation.defaultAnimationTime))])
+    }
+
+    var podcastImageOptions: KingfisherOptionsInfo {
+        [.targetCache(subscribedPodcastsCache), .cacheSerializer(Self.originalDataSerializer), .backgroundDecode]
     }
 
     func loadImage(episode: BaseEpisode, imageView: UIImageView, size: PodcastThumbnailSize) {
@@ -195,8 +198,7 @@ class ImageManager {
             let url = podcastUrl(imageSize: size, uuid: episode.parentIdentifier())
             // for larger images, avoid really obvious reload flashes by keeping whatever image is there currently while loading a new one
             let placeholder = (imageView.image != nil && size == .page) ? imageView.image : placeHolderImage(size)
-            let processor = DefaultImageProcessor.default
-            imageView.kf.setImage(with: url, placeholder: placeholder, options: [.processor(processor), .targetCache(subscribedPodcastsCache), .cacheSerializer(Self.originalDataSerializer), .transition(.fade(Constants.Animation.defaultAnimationTime))], progressBlock: nil) { [weak self] result in
+            imageView.kf.setImage(with: url, placeholder: placeholder, options: podcastImageOptions + [.transition(.fade(Constants.Animation.defaultAnimationTime))], progressBlock: nil) { [weak self] result in
                 switch result {
                 case .failure:
                     if size == .page {
@@ -216,23 +218,23 @@ class ImageManager {
     func cachedImageFor(podcastUuid: String, size: PodcastThumbnailSize) -> UIImage? {
         let url = podcastUrl(imageSize: size, uuid: podcastUuid)
 
-        return retrieveImageFromCache(url: url, cache: subscribedPodcastsCache, fetchIfMissing: true)
+        return retrieveImageFromCache(url: url, cache: subscribedPodcastsCache, options: podcastImageOptions, fetchIfMissing: true)
     }
 
     func cachedImageForUserEpisode(episode: UserEpisode, size: PodcastThumbnailSize) -> UIImage? {
         let url = episode.urlForImage()
 
-        return retrieveImageFromCache(url: url, cache: userEpisodeCache, fetchIfMissing: true)
+        return retrieveImageFromCache(url: url, cache: userEpisodeCache, options: [.targetCache(userEpisodeCache), .cacheSerializer(Self.originalDataSerializer)], fetchIfMissing: true)
     }
 
-    private func retrieveImageFromCache(url: URL, cache: ImageCache, fetchIfMissing: Bool) -> UIImage? {
+    private func retrieveImageFromCache(url: URL, cache: ImageCache, options: KingfisherOptionsInfo, fetchIfMissing: Bool) -> UIImage? {
         let key = url.cacheKey
 
         if let image = cache.retrieveImageInMemoryCache(forKey: key) { return image }
 
         if !cache.diskStorage.isCached(forKey: key) {
             if fetchIfMissing {
-                let prefetcher = ImagePrefetcher(resources: [url], options: [.targetCache(cache), .cacheSerializer(Self.originalDataSerializer)])
+                let prefetcher = ImagePrefetcher(resources: [url], options: options)
                 prefetcher.start()
             }
 
@@ -241,7 +243,7 @@ class ImageManager {
 
         do {
             let data = try Data(contentsOf: cache.diskStorage.cacheFileURL(forKey: key))
-            guard let image = UIImage(data: data) else {
+            guard let image = UIImage(data: data)?.kf.decoded else {
                 try? cache.diskStorage.remove(forKey: key)
                 return nil
             }
@@ -271,19 +273,19 @@ class ImageManager {
         }
 
         let imageURL: URL
-        let imageCache: ImageCache
+        let options: KingfisherOptionsInfo
         if let userEpisode = episode as? UserEpisode {
             imageURL = userEpisode.urlForImage()
-            imageCache = userEpisodeCache
+            options = [.targetCache(userEpisodeCache), .cacheSerializer(Self.originalDataSerializer)]
         } else if let episode = episode as? Episode, let parentPodcast = episode.parentPodcast() {
             imageURL = podcastUrl(imageSize: size, uuid: parentPodcast.uuid)
-            imageCache = subscribedPodcastsCache
+            options = podcastImageOptions
         } else {
             completionHandler(nil)
             return
         }
 
-        KingfisherManager.shared.retrieveImage(with: imageURL, options: [.targetCache(imageCache), .cacheSerializer(Self.originalDataSerializer)]) { result in
+        KingfisherManager.shared.retrieveImage(with: imageURL, options: options) { result in
             let image = try? result.get().image
             completionHandler(image)
         }
@@ -334,7 +336,7 @@ class ImageManager {
     }
 
     private func loadEmbeddedArtwork(forKey key: String, into imageView: UIImageView? = nil, completion: ((UIImage?) -> Void)? = nil) {
-        subscribedPodcastsCache.retrieveImage(forKey: key, options: .none) { result in
+        subscribedPodcastsCache.retrieveImage(forKey: key, options: podcastImageOptions) { result in
             switch result {
             case .success(let imageCache):
                 imageView?.image = imageCache.image
