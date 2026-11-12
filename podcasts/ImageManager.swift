@@ -38,8 +38,28 @@ class ImageManager {
 
     static let originalDataSerializer: CacheSerializer = OriginalDataCacheSerializer()
 
+    /// Decoded images for every image cache in the app. Each cache keeps its own disk storage.
+    static let memoryStorage = MemoryStorage.Backend<UIImage>(config: .init(totalCostLimit: memoryCostLimit))
+
+    private static var memoryCostLimit: Int {
+        let physicalMemory = ProcessInfo.processInfo.physicalMemory
+        let ratio = physicalMemory <= UInt64(512.megabytes) ? 0.1 : 0.2
+        return min(Int(Double(physicalMemory) * ratio), 256.megabytes)
+    }
+
+    /// Creates an image cache that stores images on disk under `name` and in the shared memory storage.
+    static func makeCache(name: String, directory: URL? = nil) -> ImageCache {
+        do {
+            let diskStorage = try DiskStorage.Backend<Data>(config: .init(name: name, sizeLimit: 0, directory: directory))
+            return ImageCache(memoryStorage: memoryStorage, diskStorage: diskStorage)
+        } catch {
+            FileLog.shared.addMessage("ImageManager: failed to create the \(name) disk cache: \(error)")
+            return ImageCache(name: name)
+        }
+    }
+
     // search image cache, we limit this to 10MBs
-    private var searchImageCache = ImageCache(name: "generalImageCache")
+    private var searchImageCache = ImageManager.makeCache(name: "generalImageCache")
 
     // subscribed image cache, these we want to store for a longer period of time
     lazy var subscribedPodcastsCache: ImageCache = {
@@ -48,30 +68,27 @@ class ImageManager {
         #else
         let path = (NSHomeDirectory() as NSString).appendingPathComponent("Documents/artworkv3")
         #endif
-        let url = URL(fileURLWithPath: path)
-        subscribedPodcastsCache = try! ImageCache(name: "subscribedPodcastsCache", cacheDirectoryURL: url)
+        let cache = ImageManager.makeCache(name: "subscribedPodcastsCache", directory: URL(fileURLWithPath: path))
         #if os(tvOS)
-        subscribedPodcastsCache.diskStorage.config.sizeLimit = UInt(200.megabytes)
+        cache.diskStorage.config.sizeLimit = UInt(200.megabytes)
         #else
-        subscribedPodcastsCache.diskStorage.config.sizeLimit = UInt(400.megabytes)
+        cache.diskStorage.config.sizeLimit = UInt(400.megabytes)
         #endif
-        subscribedPodcastsCache.diskStorage.config.expiration = .days(365) // cache artwork for a full year, so that users don't have their artwork disappeared
-        subscribedPodcastsCache.memoryStorage.config.totalCostLimit = 100.megabytes
-        return subscribedPodcastsCache
+        cache.diskStorage.config.expiration = .days(365) // cache artwork for a full year, so that users don't have their artwork disappeared
+        return cache
     }()
 
     // user episode image cache
-    private var userEpisodeCache = ImageCache(name: "userEpisodeImageCache")
+    private var userEpisodeCache = ImageManager.makeCache(name: "userEpisodeImageCache")
 
     // Discover Cache
-    let discoverCache = ImageCache(name: "discoverCache")
+    let discoverCache = ImageManager.makeCache(name: "discoverCache")
 
     // cache for discover video thumbnails cache
     private var discoverVideoThumbnailCache: ImageCache = {
-        let cache = ImageCache(name: "discoverVideoThumbnailCache")
+        let cache = ImageManager.makeCache(name: "discoverVideoThumbnailCache")
         cache.diskStorage.config.expiration = .days(10)
         cache.diskStorage.config.sizeLimit = UInt(50.megabytes)
-        cache.memoryStorage.config.totalCostLimit = 25.megabytes
         return cache
     }()
 
@@ -86,17 +103,12 @@ class ImageManager {
 
     init() {
         searchImageCache.diskStorage.config.sizeLimit = UInt(10.megabytes)
-        searchImageCache.memoryStorage.config.totalCostLimit = 15.megabytes
 
         userEpisodeCache.diskStorage.config.sizeLimit = UInt(10.megabytes)
         userEpisodeCache.diskStorage.config.expiration = .days(365)
-        userEpisodeCache.memoryStorage.config.totalCostLimit = 15.megabytes
 
         discoverCache.diskStorage.config.expiration = .days(10)
         discoverCache.diskStorage.config.sizeLimit = UInt(50.megabytes)
-        discoverCache.memoryStorage.config.totalCostLimit = 40.megabytes
-
-        KingfisherManager.shared.cache.memoryStorage.config.totalCostLimit = 50.megabytes
 
         NotificationCenter.default.addObserver(self, selector: #selector(podcastAddedNotification(notification:)), name: Constants.Notifications.podcastAdded, object: nil)
     }
@@ -415,9 +427,20 @@ class ImageManager {
     // MARK: - Precaching
 
     func cacheImages(podcastUuid: String) {
-        let urls = allUrlsFor(podcastUuid: podcastUuid)
-        let prefetcher = ImagePrefetcher(resources: urls, options: [.targetCache(subscribedPodcastsCache), .cacheSerializer(Self.originalDataSerializer)])
-        prefetcher.start()
+        cacheOnDisk(allUrlsFor(podcastUuid: podcastUuid))
+    }
+
+    private func cacheOnDisk(_ urls: [URL]) {
+        let cache = subscribedPodcastsCache
+        let options = podcastImageDiskPrefetchOptions
+        DispatchQueue.global(qos: .utility).async {
+            let missingUrls = urls.filter { !cache.diskStorage.isCached(forKey: $0.cacheKey) }
+            ImagePrefetcher(resources: missingUrls, options: options).start()
+        }
+    }
+
+    private var podcastImageDiskPrefetchOptions: KingfisherOptionsInfo {
+        [.targetCache(subscribedPodcastsCache), .cacheSerializer(Self.originalDataSerializer), .memoryCacheExpiration(.expired), .forceRefresh]
     }
 
     // this method is designed to be called on app startup (eg: regularly) to check if our image cache needs to be updated
@@ -434,7 +457,14 @@ class ImageManager {
         UserDefaults.standard.set(Date(), forKey: Constants.UserDefaults.lastImageRefreshTime)
 
         DataManager.shared.setAllPodcastImageVersions(to: 0)
-        let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: [.targetCache(subscribedPodcastsCache), .cacheSerializer(Self.originalDataSerializer), .forceRefresh])
+        let cache = subscribedPodcastsCache
+        var refreshedCount = 0
+        let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: podcastImageDiskPrefetchOptions + [.waitForCache], progressBlock: { _, _, completedResources in
+            for resource in completedResources.dropFirst(refreshedCount) {
+                cache.removeImage(forKey: resource.cacheKey, fromDisk: false)
+            }
+            refreshedCount = completedResources.count
+        })
         prefetcher.start()
     }
 
@@ -459,8 +489,7 @@ class ImageManager {
     }
 
     private func cacheAllPodcastImages() {
-        let prefetcher = ImagePrefetcher(resources: allPodcastUrls(), options: [.targetCache(subscribedPodcastsCache), .cacheSerializer(Self.originalDataSerializer)])
-        prefetcher.start()
+        cacheOnDisk(allPodcastUrls())
     }
 
     private func allPodcastUrls() -> [URL] {
@@ -627,6 +656,11 @@ class ImageManager {
     @MainActor
     static func readDisplayScale() {
         _ = displayScale
+    }
+
+    @MainActor
+    static func setUpMemoryStorage() {
+        KingfisherManager.shared.cache = ImageCache(memoryStorage: memoryStorage, diskStorage: ImageCache.default.diskStorage)
     }
 
     class func sizeFor(imageSize: PodcastThumbnailSize) -> Int {
