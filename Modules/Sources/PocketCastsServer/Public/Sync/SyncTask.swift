@@ -8,7 +8,7 @@ class SyncTask: ApiBaseTask, @unchecked Sendable {
 
     lazy var importQueue: OperationQueue = {
         let queue = OperationQueue()
-        queue.maxConcurrentOperationCount = 5
+        queue.maxConcurrentOperationCount = 6
 
         return queue
     }()
@@ -181,9 +181,6 @@ class SyncTask: ApiBaseTask, @unchecked Sendable {
             status = .cancelled
             return
         }
-
-        let trace = TraceManager.shared.beginTracing(eventName: "SERVER_INCREMENTAL_SYNC")
-        defer { TraceManager.shared.endTracing(trace: trace) }
 
         let episodesToSync = DataManager.shared.unsyncedEpisodes(limit: ServerConstants.Limits.maxEpisodesToSync)
         guard let dataToSend = createIncrementalSyncData(episodesToSync: episodesToSync) else { return }

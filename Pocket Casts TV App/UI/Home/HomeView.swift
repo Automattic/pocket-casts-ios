@@ -7,11 +7,7 @@ struct HomeView: View {
     @Environment(AppCoordinator.self) var coordinator
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
 
-    @State private var model: HomeViewModel
-
-    init(model: HomeViewModel) {
-        _model = State(wrappedValue: model)
-    }
+    @Bindable var model: HomeViewModel
 
     enum Layout {
         static let gridSize = CGFloat(250)

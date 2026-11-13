@@ -5,11 +5,7 @@ import PocketCastsDataModel
 import PocketCastsUtils
 
 class CarPlayImageHelper {
-    static var imageCache: ImageCache = {
-        let cache = ImageCache(name: "carplay_cache")
-        cache.memoryStorage.config.totalCostLimit = 20.megabytes
-        return cache
-    }()
+    static var imageCache = ImageManager.makeCache(name: "carplay_cache")
     static var carTraitCollection: UITraitCollection?
 
     class func image(for podcast: Podcast, maxSize: CGSize = CPListItem.maximumImageSize) -> UIImage {

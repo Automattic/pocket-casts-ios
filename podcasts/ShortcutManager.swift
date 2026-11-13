@@ -6,6 +6,8 @@ import Combine
 class ShortcutManager: CustomObserver {
 
     private var cancelable: Cancellable?
+    private var backgroundCancelable: Cancellable?
+    private var isUpdateNeeded = false
 
     func listenForShortcutChanges() {
         //Cleans up existing observers
@@ -30,26 +32,54 @@ class ShortcutManager: CustomObserver {
             .debounce(for: .seconds(3), scheduler: RunLoop.main)
 
         cancelable = mergedNotifications.sink { [weak self] _ in
-            self?.shortcutsRequireUpdate()
+            self?.setNeedsUpdate()
         }
 
-        shortcutsRequireUpdate()
+        backgroundCancelable = NotificationCenter.default
+            .publisher(for: UIApplication.didEnterBackgroundNotification)
+            .sink { [weak self] _ in
+                self?.updateIfNeeded()
+            }
+
+        isUpdateNeeded = true
     }
 
     func stopListeningForShortcutChanges() {
         cancelable?.cancel()
         cancelable = nil
+        backgroundCancelable?.cancel()
+        backgroundCancelable = nil
     }
 
-    @objc private func shortcutsRequireUpdate() {
-        DispatchQueue.global().async { [weak self] () in
-            guard let strongSelf = self else { return }
-
-            strongSelf.updateShortcuts()
+    private func setNeedsUpdate() {
+        isUpdateNeeded = true
+        if UIApplication.shared.applicationState == .background {
+            updateIfNeeded()
         }
     }
 
-    private func updateShortcuts() {
+    private func updateIfNeeded() {
+        guard isUpdateNeeded else { return }
+        isUpdateNeeded = false
+
+        let currentEpisodeTitle = PlaybackManager.shared.currentEpisode?.displayableTitle()
+        let isPlaying = PlaybackManager.shared.isPlaying
+
+        let application = UIApplication.shared
+        var taskID = UIBackgroundTaskIdentifier.invalid
+        taskID = application.beginBackgroundTask(withName: "UpdateShortcuts") {
+            application.endBackgroundTask(taskID)
+        }
+
+        DispatchQueue.global().async { [weak self] in
+            self?.updateShortcuts(currentEpisodeTitle: currentEpisodeTitle, isPlaying: isPlaying)
+            DispatchQueue.main.async {
+                application.endBackgroundTask(taskID)
+            }
+        }
+    }
+
+    private func updateShortcuts(currentEpisodeTitle: String?, isPlaying: Bool) {
         var shortcutItems = [UIMutableApplicationShortcutItem]()
 
         // top playlist
@@ -65,14 +95,14 @@ class ShortcutManager: CustomObserver {
             )
         }
 
-        if let currentEpisode = PlaybackManager.shared.currentEpisode {
+        if let currentEpisodeTitle {
             // add a play/pause shortcut
-            if PlaybackManager.shared.isPlaying {
+            if isPlaying {
                 shortcutItems.append(
                     UIMutableApplicationShortcutItem(
                         type: "au.com.shiftyjelly.podcasts",
                         localizedTitle: L10n.pause,
-                        localizedSubtitle: currentEpisode.displayableTitle(),
+                        localizedSubtitle: currentEpisodeTitle,
                         icon: UIApplicationShortcutIcon(type: .pause),
                         userInfo: ["url": "pktc://shortcuts/pause" as NSSecureCoding]
                     )
@@ -82,7 +112,7 @@ class ShortcutManager: CustomObserver {
                     UIMutableApplicationShortcutItem(
                         type: "au.com.shiftyjelly.podcasts",
                         localizedTitle: L10n.play,
-                        localizedSubtitle: currentEpisode.displayableTitle(),
+                        localizedSubtitle: currentEpisodeTitle,
                         icon: UIApplicationShortcutIcon(type: .play),
                         userInfo: ["url": "pktc://shortcuts/play" as NSSecureCoding]
                     )

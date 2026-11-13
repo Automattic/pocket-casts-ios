@@ -3,7 +3,6 @@ import AutomatticRemoteLogging
 import BackgroundTasks
 import Combine
 import Firebase
-import FirebasePerformance
 import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
@@ -16,7 +15,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private let shortcutManager = ShortcutManager()
     private let badgeHelper = BadgeHelper()
-    private let traceHandler = TraceHelper()
 
     @objc var backgroundSessionCompletionHandler: (() -> Void)?
 
@@ -34,8 +32,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - App Lifecycle
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        ImageManager.readDisplayScale()
+        ImageManager.setUpMemoryStorage()
+
+        #if DEBUG
+        QALaunchHooks.prepareForLaunch()
+        #endif
+
         configureFirebase()
-        TraceManager.shared.setup(handler: traceHandler)
 
         setupSecrets()
         addAnalyticsObservers()
@@ -104,6 +108,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             postLaunchSetup()
             checkIfRestoreCleanupRequired()
 
+            ImageManager.shared.removeUnrequestedPodcastImages()
             ImageManager.shared.updatePodcastImagesIfRequired()
             WidgetHelper.shared.cleanupAppGroupImages()
             SiriShortcutsManager.shared.setup()
@@ -113,6 +118,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if FeatureFlag.enableLocalizationHeaders.enabled {
                 LocalizationHelper.provider = InternationalizationProvider(userRegion: Settings.userRegion())
             }
+
+            #if DEBUG
+            QALaunchHooks.runIfRequested()
+            #endif
         }
 
         badgeHelper.setup()

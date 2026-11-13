@@ -3,7 +3,7 @@ import PocketCastsDataModel
 
 struct PlaylistCell: View {
 
-    var playlist: PlaylistItem
+    private var playlist: PlaylistItem
     @State private var model: PlaylistDetailsViewModel
 
     init(playlist: PlaylistItem) {
