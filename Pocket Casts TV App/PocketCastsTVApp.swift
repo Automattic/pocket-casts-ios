@@ -6,6 +6,7 @@ struct PocketCastsTVApp: App {
 
     private let appLifecycleAnalytics = AppLifecycleAnalytics()
     private let backgroundPlaybackManagement = BackgroundPlaybackManagement()
+    private let foregroundRefreshManagement = ForegroundRefreshManagement()
 
     init() {
         // Before anything opens the database, so a requested wipe hits a closed file.
@@ -25,6 +26,7 @@ struct PocketCastsTVApp: App {
         .onChange(of: scenePhase) { _, newPhase in
             appLifecycleAnalytics.handle(scenePhase: newPhase)
             backgroundPlaybackManagement.handle(scenePhase: newPhase)
+            foregroundRefreshManagement.handle(scenePhase: newPhase)
         }
     }
 }

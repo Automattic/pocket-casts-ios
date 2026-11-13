@@ -15,7 +15,6 @@
 - Sign in faster with a large library and smart playlists on a new install [#5646](https://github.com/Automattic/pocket-casts-ios/pull/5646)
 - Load the episode counts and artwork of smart playlists on the Playlists tab faster in large libraries, and keep the app responsive while they load [#5632](https://github.com/Automattic/pocket-casts-ios/pull/5632)
 
-
 8.25
 -----
 - Fix the episode details screen showing the podcast cover when episode artwork is enabled and available [#5430](https://github.com/Automattic/pocket-casts-ios/pull/5430)
@@ -38,6 +37,8 @@
 - Add an option to hide played podcasts from the Podcasts tab, in the "…" menu [#5543](https://github.com/Automattic/pocket-casts-ios/pull/5543)
 - Fix the Profile header splitting the email address mid-word at accessibility text sizes on iPad; the header now stacks [#5544](https://github.com/Automattic/pocket-casts-ios/pull/5544)
 - Fix a crash when VoiceOver or another accessibility service reads the player's progress slider while the playback time is negative or unknown [#5561](https://github.com/Automattic/pocket-casts-ios/pull/5561)
+- [tvOS] Fix playlist rows refresh when showing details [#5630](https://github.com/Automattic/pocket-casts-ios/pull/5630)
+- [tvOS] Refresh podcasts when returning to the app after 1 minute or more away [#5629](https://github.com/Automattic/pocket-casts-ios/pull/5629)
 
 8.24
 -----
