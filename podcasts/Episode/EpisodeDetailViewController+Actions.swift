@@ -7,7 +7,7 @@ extension EpisodeDetailViewController {
     // MARK: - Button Actions
 
     @IBAction func addTapped(_ sender: UIButton) {
-        let addPicker = OptionsPicker(title: nil)
+        let addPicker = OptionsPicker(title: nil, themeOverride: themeOverride)
 
         let isInUpNext = PlaybackManager.shared.inUpNext(episode: episode) || PlaybackManager.shared.isCurrentEpisode(uuid: episode.uuid)
 

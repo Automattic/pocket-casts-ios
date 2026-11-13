@@ -538,7 +538,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     // MARK: - Sharing
 
     @objc private func shareTapped(_ sender: UIButton) {
-        SharingModal.showModal(episode: episode, from: analyticsSource, in: self)
+        SharingModal.showModal(episode: episode, from: analyticsSource, in: self, usePlayerStyle: false, themeOverride: themeOverride)
     }
 
     @objc private func podcastNameTapped() {
