@@ -126,4 +126,26 @@ class FastlaneHelpersTest < Minitest::Test
       end
     end
   end
+
+  def test_phased_release_message_omits_the_milestone_when_it_is_not_set
+    assert_equal ':announcement: `7.94` has started phased release.',
+                 phased_release_slack_message(version: '7.94')
+  end
+
+  def test_phased_release_message_includes_the_milestone_when_it_is_set
+    assert_equal ':announcement: `7.94` (Milestone 7.94) has started phased release.',
+                 phased_release_slack_message(version: '7.94', milestone: '(Milestone 7.94)')
+  end
+
+  def test_phased_release_message_trims_surrounding_whitespace
+    assert_equal ':announcement: `7.94` (Milestone 7.94) has started phased release.',
+                 phased_release_slack_message(version: "\t7.94\n", milestone: ' (Milestone 7.94) ')
+  end
+
+  def test_phased_release_message_drops_a_blank_milestone_rather_than_padding_the_subject
+    ['', "  \n", nil].each do |milestone|
+      assert_equal ':announcement: `7.94` has started phased release.',
+                   phased_release_slack_message(version: '7.94', milestone: milestone)
+    end
+  end
 end
