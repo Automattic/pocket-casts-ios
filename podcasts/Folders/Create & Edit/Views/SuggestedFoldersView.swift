@@ -1,4 +1,5 @@
 import SwiftUI
+import PocketCastsUtils
 
 enum SuggestedFoldersResult {
     case dismiss
@@ -161,8 +162,8 @@ struct SuggestedFoldersView: View {
             track(.suggestedFoldersReplaceFoldersConfirmTapped)
             onCompletion(.applySuggestedFolders(model.folders))
         })
-        .presentationDetents([.fraction(0.4)])
-            .presentationDragIndicator(.visible)
+        .fittedPresentationDetent()
+        .presentationDragIndicator(.visible)
     }
 
     private func track(_ event: AnalyticsEvent) {
