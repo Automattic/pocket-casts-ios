@@ -71,15 +71,15 @@ enum SharingModal {
 
     /// - Parameter usePlayerStyle: When `true` the options picker uses the dark player colors (e.g. from the Now Playing screen).
     ///   When `false` it uses the app theme, matching the other option pickers.
-    static func showModal(episode: Episode, from source: AnalyticsSource, in viewController: UIViewController, usePlayerStyle: Bool = true) {
+    static func showModal(episode: Episode, from source: AnalyticsSource, in viewController: UIViewController, usePlayerStyle: Bool = true, themeOverride: Theme.ThemeType? = nil) {
         guard let podcast = episode.parentPodcast() else {
             assertionFailure("Podcast should exist for episode")
             return
         }
-        showModal(podcast: podcast, episode: episode, from: source, in: viewController, usePlayerStyle: usePlayerStyle)
+        showModal(podcast: podcast, episode: episode, from: source, in: viewController, usePlayerStyle: usePlayerStyle, themeOverride: themeOverride)
     }
 
-    static func showModal(podcast: Podcast, episode: Episode?, from source: AnalyticsSource, in viewController: UIViewController, usePlayerStyle: Bool = true) {
+    static func showModal(podcast: Podcast, episode: Episode?, from source: AnalyticsSource, in viewController: UIViewController, usePlayerStyle: Bool = true, themeOverride: Theme.ThemeType? = nil) {
 
         if podcast.isPrivate {
             Toast.show(L10n.sharePodcastPrivateNotAvailable)
@@ -91,7 +91,7 @@ enum SharingModal {
             let colors = OptionsPickerRootController.Colors(title: UIColor.white.withAlphaComponent(0.5), background: PlayerColorHelper.playerBackgroundColor01())
             optionPicker = OptionsPicker(title: L10n.share.uppercased(), themeOverride: .dark, colors: colors)
         } else {
-            optionPicker = OptionsPicker(title: L10n.share.uppercased())
+            optionPicker = OptionsPicker(title: L10n.share.uppercased(), themeOverride: themeOverride)
         }
 
         let timeInterval: Double
