@@ -48,8 +48,6 @@ struct ModalMessageView: View {
                 Text(actionTitle)
                     .textStyle(RoundedButton(destructive: destructive))
             }
-            Spacer()
-                .frame(maxHeight: 16)
         }
         .padding()
         .applyDefaultThemeOptions()
