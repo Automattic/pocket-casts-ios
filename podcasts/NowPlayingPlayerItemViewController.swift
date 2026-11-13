@@ -450,6 +450,10 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         skipFwdBtn.changeSize(to: skipSize)
 
         view.layoutIfNeeded()
+
+        // The slider frame may have shifted after layout; re-sync the scroll view's
+        // no-sliding region so the knob grab zone is accurate on all screen sizes.
+        playerContainer?.adjustPlayerNoSlidingRegion()
     }
 
     /// Lets the episode title and podcast name in the large screen player take the room they need
