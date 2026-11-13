@@ -112,7 +112,7 @@ struct SuggestedFoldersView: View {
                 Text(model.userHasExistingFolders ? L10n.suggestedFoldersReplaceConfirmationButton : L10n.suggestedFoldersUseSuggestedFolders)
                     .textStyle(RoundedButton())
             }
-            Color.clear.frame(height: 2 )
+            Color.clear.frame(height: 2)
             if model.userHasSubscription {
                 Button {
                     track(.suggestedFoldersCreateCustomFolderTapped)
