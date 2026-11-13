@@ -68,9 +68,15 @@ steps:
       # Guards that the theme generator keeps working in Xcode build phases,
       # which run with an empty environment and possibly only system Ruby.
       - label: ":ruby: Theme Generator under System Ruby"
-        command: env -i /usr/bin/ruby scripts/themes/generate_themes.rb scripts/themes/theme.csv
+        command: |
+          if .buildkite/commands/should-skip-job.sh --job-type themes; then
+            exit 0
+          fi
+
+          env -i /usr/bin/ruby scripts/themes/generate_themes.rb scripts/themes/theme.csv
         agents:
           queue: mac
+        plugins: [$CI_TOOLKIT]
 
       - label: ":fastlane: fastlane Helper Tests"
         if: ${RUN_FASTLANE_TESTS:-false}

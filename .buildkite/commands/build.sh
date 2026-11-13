@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-if "$(dirname "${BASH_SOURCE[0]}")/should-skip-job.sh" --job-type build; then
+if "$(dirname "${BASH_SOURCE[0]}")/should-skip-job.sh" --job-type ios-tests; then
   exit 0
 fi
 

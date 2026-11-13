@@ -2,7 +2,7 @@
 
 set -eu
 
-if "$(dirname "${BASH_SOURCE[0]}")/should-skip-job.sh" --job-type build; then
+if "$(dirname "${BASH_SOURCE[0]}")/should-skip-job.sh" --job-type tvos-build; then
   exit 0
 fi
 
