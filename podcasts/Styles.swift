@@ -233,12 +233,13 @@ struct RoundedButton: ViewModifier {
 
 struct BorderButton: ViewModifier {
     @EnvironmentObject var theme: Theme
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     func body(content: Content) -> some View {
         HStack {
             Spacer()
             content
-                .font(.system(size: 18, weight: .semibold))
+                .font(size: 18, style: .body, weight: .semibold)
                 .foregroundColor(ThemeColor.primaryInteractive01(for: theme.activeTheme).color)
             Spacer()
         }
@@ -249,7 +250,7 @@ struct BorderButton: ViewModifier {
             RoundedRectangle(cornerRadius: ViewConstants.buttonCornerRadius)
                 .stroke(ThemeColor.primaryInteractive01(for: theme.activeTheme).color, lineWidth: ViewConstants.buttonStrokeWidth)
         )
-        .frame(height: 44)
+        .frame(height: dynamicTypeSize.isAccessibilitySize ? nil : 44)
     }
 }
 
