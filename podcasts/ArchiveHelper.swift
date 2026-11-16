@@ -35,12 +35,13 @@ enum ArchiveHelper {
 
         if afterPlayedTime > 0 {
             let playedRemoveTime = Date().addingTimeInterval(-afterPlayedTime)
-            var playedRemoveQuery = "podcast_id == ? AND archived = 0 AND playingStatus = 3 AND lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate < ?"
+            // Skip episodes whose archive state was changed recently, so a manual unarchive of an old played episode isn't immediately undone
+            var playedRemoveQuery = "podcast_id == ? AND archived = 0 AND playingStatus = 3 AND lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate < ? AND (lastArchiveInteractionDate IS NULL OR lastArchiveInteractionDate < ?)"
             if !archiveStarred {
                 playedRemoveQuery += " AND keepEpisode <> 1"
             }
 
-            removeEpisodesMatchingQuery(playedRemoveQuery, arguments: [podcast.id, playedRemoveTime])
+            removeEpisodesMatchingQuery(playedRemoveQuery, arguments: [podcast.id, playedRemoveTime, playedRemoveTime])
         }
 
         if afterInactiveTime > 0 {
