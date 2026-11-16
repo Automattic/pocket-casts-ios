@@ -215,7 +215,7 @@ class EpisodeManager: NSObject {
 
         // if this podcast has an episode limit, flag this episode as being manually excluded from that limit
         if let parentPodcast = episode.parentPodcast() {
-            if parentPodcast.autoArchivePlayedAfter > 0 {
+            if parentPodcast.autoArchiveEpisodeLimit > 0 {
                 DataManager.shared.saveEpisode(excludeFromEpisodeLimit: true, episode: episode)
             }
         }
