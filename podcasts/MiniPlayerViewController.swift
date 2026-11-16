@@ -54,6 +54,11 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     weak var hostTabBarController: UITabBarController?
 
+    /// True while a screen keeps the tab bar and the mini player hidden together, e.g. during
+    /// multi-select. `showMiniPlayer()` does nothing while it's set, so playback changes or
+    /// returning to the app can't bring the mini player back over that screen's own bottom bar.
+    var isHiddenWithTabBar = false
+
     var upNextViewController: UpNextViewController?
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared

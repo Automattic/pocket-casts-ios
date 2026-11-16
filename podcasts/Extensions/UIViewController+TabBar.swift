@@ -9,11 +9,6 @@ extension UIViewController {
 
         tabBarController.setTabBarHidden(hidden, animated: animated)
 
-        let miniPlayer = appDelegate()?.miniPlayer()
-        if hidden {
-            miniPlayer?.hideMiniPlayer(animated, isTransient: true)
-        } else {
-            miniPlayer?.showMiniPlayer()
-        }
+        appDelegate()?.miniPlayer()?.setHiddenWithTabBar(hidden, animated: animated)
     }
 }
