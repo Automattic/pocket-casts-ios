@@ -1,5 +1,6 @@
 8.26
 -----
+- Fix unarchived episodes being archived again after the next sync when "Archive played episodes" or an episode limit is set [#5661](https://github.com/Automattic/pocket-casts-ios/pull/5661)
 - Scroll the Podcasts grid, lists and playlists more smoothly: podcast artwork is now decoded in the background instead of while scrolling [#5656](https://github.com/Automattic/pocket-casts-ios/pull/5656)
 - Use less storage for podcast artwork in the iPad grid, and remove artwork sizes the app no longer uses [#5647](https://github.com/Automattic/pocket-casts-ios/pull/5647)
 - Fix a crash that could happen when syncing the playback position of an episode with no valid length, such as a live stream played over Google Cast [#5638](https://github.com/Automattic/pocket-casts-ios/pull/5638)
