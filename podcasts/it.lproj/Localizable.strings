@@ -77,6 +77,8 @@
     <string>Illustrazione del podcast</string>
     <key>accessibility_profile_settings</key>
     <string>Impostazioni Pocket Casts</string>
+    <key>accessibility_remove_recent_search</key>
+    <string>Rimuovi %1$@ dalle ricerche recenti</string>
     <key>accessibility_select_episode</key>
     <string>Seleziona episodio</string>
     <key>accessibility_show_filter_details</key>
@@ -2145,6 +2147,14 @@ Questa sì che è dedizione!</string>
     <string>Più podcast, più gioia</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>Rispetto al 2024, il tuo tempo di ascolto è salito alle stelle %1$@</string>
+    <key>playback_2026_banner_description</key>
+    <string>Scopri le tue statistiche di ascolto, il tuo profilo di ascolto e molto altro.</string>
+    <key>playback_2026_banner_title</key>
+    <string>Riproduzioni 2026 è qui!</string>
+    <key>playback_2026_sheet_button</key>
+    <string>Visualizza Le mie riproduzioni 2026</string>
+    <key>playback_2026_sheet_description</key>
+    <string>Cosa hai ascoltato. I podcast che hai amato. E cosa ti contraddistingue come ascoltatore. Il tuo anno su Pocket Casts è qui.</string>
     <key>playback_effect_all_podcasts</key>
     <string>Tutti i podcast</string>
     <key>playback_effect_this_podcast</key>
@@ -2581,6 +2591,8 @@ Prova a modificare le regole o salva questa playlist per episodi futuri che potr
     <string>%1$@ archiviati</string>
     <key>podcast_archived_msg</key>
     <string>Tutti i %1$@ episodi di questo podcast sono stati archiviati</string>
+    <key>podcast_archived_msg_singular</key>
+    <string>L'unico episodio di questo podcast è stato archiviato</string>
     <key>podcast_count_plural_format</key>
     <string>%1$@ podcast</string>
     <key>podcast_count_singular</key>
@@ -2774,6 +2786,14 @@ Se stai cercando ispirazione, prova la scheda Scopri.</string>
     <string>Nome</string>
     <key>podcasts_list</key>
     <string>Elenco</string>
+    <key>podcasts_played_podcasts</key>
+    <string>Podcast riprodotti</string>
+    <key>podcasts_played_podcasts_description</key>
+    <string>Nasconde i podcast senza più nulla da ascoltare, dove ogni episodio viene riprodotto o archiviato. Ricompaiono quando arriva un nuovo episodio.</string>
+    <key>podcasts_played_podcasts_hide</key>
+    <string>Nascondi</string>
+    <key>podcasts_played_podcasts_show</key>
+    <string>Mostra</string>
     <key>podcasts_plural</key>
     <string>Podcast</string>
     <key>podcasts_share</key>
