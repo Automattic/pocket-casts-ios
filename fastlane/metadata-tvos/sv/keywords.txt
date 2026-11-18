@@ -1,1 +1,1 @@
-pocketcasts,offline,pod,podcatcher,cast,netcast,strömma,ljud,video,teknik,radio,relä,npr,twit
+pocketcasts,pod,podcatcher,cast,netcast,strömma,ljud,video,teknik,radio,relä,npr,twit
