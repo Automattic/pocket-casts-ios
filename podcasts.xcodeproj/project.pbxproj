@@ -2648,7 +2648,6 @@
 		FF921CAC30ADCE7D0029A6C0 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		FF921CAD30ADCE7D0029A6C0 /* description.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = description.txt; sourceTree = "<group>"; };
 		FF921CAE30ADCE7D0029A6C0 /* keywords.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = keywords.txt; sourceTree = "<group>"; };
-		FF921CAF30ADCE7D0029A6C0 /* subtitle.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = subtitle.txt; sourceTree = "<group>"; };
 		FF921CB130ADCE7D0029A6C0 /* description.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = description.txt; sourceTree = "<group>"; };
 		FF921CB230ADCE7D0029A6C0 /* keywords.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = keywords.txt; sourceTree = "<group>"; };
 		FF921CB330ADCE7D0029A6C0 /* marketing_url.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = marketing_url.txt; sourceTree = "<group>"; };
@@ -2663,38 +2662,30 @@
 		FF921CBE30ADCE7D0029A6C0 /* keywords.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = keywords.txt; sourceTree = "<group>"; };
 		FF921CC030ADCE7D0029A6C0 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		FF921CC130ADCE7D0029A6C0 /* keywords.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = keywords.txt; sourceTree = "<group>"; };
-		FF921CC230ADCE7D0029A6C0 /* subtitle.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = subtitle.txt; sourceTree = "<group>"; };
 		FF921CC430ADCE7D0029A6C0 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		FF921CC530ADCE7D0029A6C0 /* description.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = description.txt; sourceTree = "<group>"; };
 		FF921CC630ADCE7D0029A6C0 /* keywords.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = keywords.txt; sourceTree = "<group>"; };
-		FF921CC730ADCE7D0029A6C0 /* subtitle.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = subtitle.txt; sourceTree = "<group>"; };
 		FF921CC930ADCE7D0029A6C0 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		FF921CCA30ADCE7D0029A6C0 /* description.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = description.txt; sourceTree = "<group>"; };
 		FF921CCB30ADCE7D0029A6C0 /* keywords.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = keywords.txt; sourceTree = "<group>"; };
-		FF921CCC30ADCE7D0029A6C0 /* subtitle.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = subtitle.txt; sourceTree = "<group>"; };
 		FF921CCE30ADCE7D0029A6C0 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		FF921CCF30ADCE7D0029A6C0 /* description.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = description.txt; sourceTree = "<group>"; };
 		FF921CD030ADCE7D0029A6C0 /* keywords.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = keywords.txt; sourceTree = "<group>"; };
 		FF921CD230ADCE7D0029A6C0 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		FF921CD330ADCE7D0029A6C0 /* description.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = description.txt; sourceTree = "<group>"; };
 		FF921CD430ADCE7D0029A6C0 /* keywords.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = keywords.txt; sourceTree = "<group>"; };
-		FF921CD530ADCE7D0029A6C0 /* subtitle.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = subtitle.txt; sourceTree = "<group>"; };
 		FF921CD730ADCE7D0029A6C0 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		FF921CD830ADCE7D0029A6C0 /* description.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = description.txt; sourceTree = "<group>"; };
 		FF921CD930ADCE7D0029A6C0 /* keywords.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = keywords.txt; sourceTree = "<group>"; };
-		FF921CDA30ADCE7D0029A6C0 /* subtitle.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = subtitle.txt; sourceTree = "<group>"; };
 		FF921CDC30ADCE7D0029A6C0 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		FF921CDD30ADCE7D0029A6C0 /* description.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = description.txt; sourceTree = "<group>"; };
 		FF921CDE30ADCE7D0029A6C0 /* keywords.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = keywords.txt; sourceTree = "<group>"; };
-		FF921CDF30ADCE7D0029A6C0 /* subtitle.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = subtitle.txt; sourceTree = "<group>"; };
 		FF921CE130ADCE7D0029A6C0 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		FF921CE230ADCE7D0029A6C0 /* description.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = description.txt; sourceTree = "<group>"; };
 		FF921CE330ADCE7D0029A6C0 /* keywords.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = keywords.txt; sourceTree = "<group>"; };
-		FF921CE430ADCE7D0029A6C0 /* subtitle.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = subtitle.txt; sourceTree = "<group>"; };
 		FF921CE630ADCE7D0029A6C0 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		FF921CE730ADCE7D0029A6C0 /* description.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = description.txt; sourceTree = "<group>"; };
 		FF921CE830ADCE7D0029A6C0 /* keywords.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = keywords.txt; sourceTree = "<group>"; };
-		FF921CE930ADCE7D0029A6C0 /* subtitle.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = subtitle.txt; sourceTree = "<group>"; };
 		FF921CEC30ADCE7D0029A6C0 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		FF921CED30ADCE7D0029A6C0 /* keywords.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = keywords.txt; sourceTree = "<group>"; };
 		FF921CEF30ADCE7D0029A6C0 /* description.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = description.txt; sourceTree = "<group>"; };
@@ -5626,7 +5617,6 @@
 				FF921CAC30ADCE7D0029A6C0 /* .gitkeep */,
 				FF921CAD30ADCE7D0029A6C0 /* description.txt */,
 				FF921CAE30ADCE7D0029A6C0 /* keywords.txt */,
-				FF921CAF30ADCE7D0029A6C0 /* subtitle.txt */,
 			);
 			path = "de-DE";
 			sourceTree = "<group>";
@@ -5669,7 +5659,6 @@
 			children = (
 				FF921CC030ADCE7D0029A6C0 /* .gitkeep */,
 				FF921CC130ADCE7D0029A6C0 /* keywords.txt */,
-				FF921CC230ADCE7D0029A6C0 /* subtitle.txt */,
 			);
 			path = "fr-FR";
 			sourceTree = "<group>";
@@ -5680,7 +5669,6 @@
 				FF921CC430ADCE7D0029A6C0 /* .gitkeep */,
 				FF921CC530ADCE7D0029A6C0 /* description.txt */,
 				FF921CC630ADCE7D0029A6C0 /* keywords.txt */,
-				FF921CC730ADCE7D0029A6C0 /* subtitle.txt */,
 			);
 			path = it;
 			sourceTree = "<group>";
@@ -5691,7 +5679,6 @@
 				FF921CC930ADCE7D0029A6C0 /* .gitkeep */,
 				FF921CCA30ADCE7D0029A6C0 /* description.txt */,
 				FF921CCB30ADCE7D0029A6C0 /* keywords.txt */,
-				FF921CCC30ADCE7D0029A6C0 /* subtitle.txt */,
 			);
 			path = ja;
 			sourceTree = "<group>";
@@ -5712,7 +5699,6 @@
 				FF921CD230ADCE7D0029A6C0 /* .gitkeep */,
 				FF921CD330ADCE7D0029A6C0 /* description.txt */,
 				FF921CD430ADCE7D0029A6C0 /* keywords.txt */,
-				FF921CD530ADCE7D0029A6C0 /* subtitle.txt */,
 			);
 			path = "pt-BR";
 			sourceTree = "<group>";
@@ -5723,7 +5709,6 @@
 				FF921CD730ADCE7D0029A6C0 /* .gitkeep */,
 				FF921CD830ADCE7D0029A6C0 /* description.txt */,
 				FF921CD930ADCE7D0029A6C0 /* keywords.txt */,
-				FF921CDA30ADCE7D0029A6C0 /* subtitle.txt */,
 			);
 			path = ru;
 			sourceTree = "<group>";
@@ -5734,7 +5719,6 @@
 				FF921CDC30ADCE7D0029A6C0 /* .gitkeep */,
 				FF921CDD30ADCE7D0029A6C0 /* description.txt */,
 				FF921CDE30ADCE7D0029A6C0 /* keywords.txt */,
-				FF921CDF30ADCE7D0029A6C0 /* subtitle.txt */,
 			);
 			path = sv;
 			sourceTree = "<group>";
@@ -5745,7 +5729,6 @@
 				FF921CE130ADCE7D0029A6C0 /* .gitkeep */,
 				FF921CE230ADCE7D0029A6C0 /* description.txt */,
 				FF921CE330ADCE7D0029A6C0 /* keywords.txt */,
-				FF921CE430ADCE7D0029A6C0 /* subtitle.txt */,
 			);
 			path = "zh-Hans";
 			sourceTree = "<group>";
@@ -5756,7 +5739,6 @@
 				FF921CE630ADCE7D0029A6C0 /* .gitkeep */,
 				FF921CE730ADCE7D0029A6C0 /* description.txt */,
 				FF921CE830ADCE7D0029A6C0 /* keywords.txt */,
-				FF921CE930ADCE7D0029A6C0 /* subtitle.txt */,
 			);
 			path = "zh-Hant";
 			sourceTree = "<group>";
