@@ -36,6 +36,9 @@ class WatchSyncManager {
             defaults.set(uuid, forKey: Constants.UserDefaults.appId)
         }
 
+        #if STAGING
+            ServerEnvironment.current = .staging
+        #endif
         ServerConfig.shared.syncDelegate = self
         ServerConfig.shared.playbackDelegate = PlaybackManager.shared
 

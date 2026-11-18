@@ -22,6 +22,12 @@ public struct FeatureFlagOverrideStore {
         return "\(overrideKeyPrefix)\(String(describing: flag))"
     }
 
+    /// - returns: True if the specified user defaults key holds an override
+    ///
+    public func isOverrideKey(_ key: String) -> Bool {
+        key.hasPrefix(overrideKeyPrefix)
+    }
+
     /// - returns: True if the specified feature flag is overridden
     ///
     func isOverridden(_ featureFlag: OverrideableFlag) -> Bool {

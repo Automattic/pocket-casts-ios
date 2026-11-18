@@ -3,6 +3,18 @@ import PocketCastsServer
 import PocketCastsDataModel
 
 extension DeveloperMenuSection {
+    static var server: DeveloperMenuSection {
+        var items: [DeveloperMenuItem] = [.value("Server", ServerEnvironment.current.rawValue.capitalized)]
+        #if DEBUG
+        for environment in ServerEnvironment.allCases where environment != ServerEnvironment.current {
+            items.append(.destructive("Switch to \(environment.rawValue.capitalized)") {
+                ServerEnvironmentSwitch.switchOnNextLaunch(to: environment)
+            })
+        }
+        #endif
+        return DeveloperMenuSection(title: "Server", footer: "Switching signs out, deletes local data and settings, and closes the app. Open it again to use the new server.", items: items)
+    }
+
     static var data: DeveloperMenuSection {
         DeveloperMenuSection(title: "Data", items: [
             .custom("Import Bundle") {

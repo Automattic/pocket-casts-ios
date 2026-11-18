@@ -37,5 +37,4 @@ public protocol ServerSyncDelegate {
     func appVersion() -> String
     func privateUserAgent() -> String
     func minTimeBetweenProgressSaves() -> Double
-    func production() -> Bool
 }
