@@ -161,7 +161,7 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
     }
 
     var title: String {
-        return customTitle ?? (isDiscountOfferAvailable ? "\(discountPercent) off your first year of Plus" : upgradeTier.header)
+        return customTitle ?? (isDiscountOfferAvailable ? L10n.discountOfferUpgradeTitle(discountPercent, upgradeTier.tier.displayNameShort) : upgradeTier.header)
     }
 
     func purchaseTapped() {

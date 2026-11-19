@@ -63,7 +63,7 @@ struct UpgradeProductsView: View {
                     .stroke(product.identifier == model.selectedProduct ? theme.primaryInteractive01 : .clear, lineWidth: 2)
                 if product.isBestValue || product.offer != nil {
                     if let offer = product.offer, offer.type == .discount {
-                        makeBadge(text: "\(offer.discountPercent) off")
+                        makeBadge(text: L10n.discountOfferProductBadge(offer.discountPercent))
                             .offset(x: 0, y: -badgeOffset)
                     } else if let savings = model.savingsOnBestValue {
                         makeBadge(text: savings)
@@ -163,7 +163,8 @@ extension PlusPricingInfoModel.PlusProductPricingInfo {
 
     var periodPrice: AttributedString {
         if let offer, offer.type == .discount {
-            return try! AttributedString(markdown: "~\(offer.rawPrice)~ \(offer.price) first  \(self.identifier.isYearlyProduct ? L10n.year : L10n.month)")
+            let translatedString = L10n.discountOfferPeriodPrice(offer.rawPrice, offer.price, self.identifier.isYearlyProduct ? L10n.year : L10n.month)
+            return (try? AttributedString(markdown: translatedString)) ?? AttributedString(translatedString)
         } else {
             return AttributedString(self.rawPrice + (self.identifier.isYearlyProduct ? "/\((L10n.year))" : "/\(L10n.month)"))
         }

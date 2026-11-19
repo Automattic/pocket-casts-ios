@@ -126,7 +126,7 @@ struct PlusPurchaseModal: View {
         if selectedOffer?.type == .freeTrial {
             return L10n.freeTrialStartButton
         } else if let offer = selectedOffer, offer.type == .discount {
-            return "Claim \(offer.discountPercent) off"
+            return L10n.discountOfferClaimButton(offer.discountPercent)
         }
         return coordinator.plan == .plus ? L10n.plusSubscribeTo : L10n.patronSubscribeTo
     }

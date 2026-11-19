@@ -49,7 +49,7 @@ struct UpgradeAccountView: View {
         HStack() {
             SubscriptionBadge(tier: model.upgradeTier.tier, displayMode: .plain)
             if model.isDiscountOfferAvailable {
-                makeBadge(text: "Limited time offer")
+                makeBadge(text: L10n.discountOfferLimitedTimeBadge)
             }
             Spacer()
             Button() {
