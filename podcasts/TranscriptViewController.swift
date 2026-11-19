@@ -50,6 +50,10 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
             restoreControlButtonsLayout()
         }
     }
+
+    /// iPhone Duo: set when the posture changes, so the next search can correct where UIKit puts the search bar.
+    private var needsInputViewsReloadAfterPostureChange = false
+    private var inputViewsReloadWorkItem: DispatchWorkItem?
     private var searchIndicesResult: [Int] = []
     private var currentSearchIndex = 0
     private var searchTerm: String?
@@ -111,6 +115,12 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         setupViews()
         if FeatureFlag.generatedTranscripts.enabled {
             addGeneratedTranscriptsObservers()
+        }
+        if #available(iOS 27.1, *) {
+            view.addInteraction(UIHingeInteraction { [weak self] _, _ in
+                self?.needsInputViewsReloadAfterPostureChange = true
+            })
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameDidChange), name: UIResponder.keyboardDidChangeFrameNotification, object: nil)
         }
     }
 
@@ -391,6 +401,23 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
         track(.transcriptSearchShown)
     }
 
+    /// On iPhone Duo, the first search after a change of posture leaves the search bar under the keyboard:
+    /// UIKit places the bar correctly, then moves it down by the height of the bottom safe area while the
+    /// keyboard settles. Reloading the input views after the last frame change puts it back above the keyboard.
+    @objc private func keyboardFrameDidChange() {
+        guard isSearching, needsInputViewsReloadAfterPostureChange else { return }
+
+        inputViewsReloadWorkItem?.cancel()
+        let workItem = DispatchWorkItem { [weak self] in
+            guard let self, isSearching, needsInputViewsReloadAfterPostureChange else { return }
+
+            needsInputViewsReloadAfterPostureChange = false
+            searchView.textField.reloadInputViews()
+        }
+        inputViewsReloadWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: workItem)
+    }
+
     @objc private func playEpisode() {
         playButton.buttonState = playbackManager.isPlayingEpisode ? .play : .pause
         playButtonTapped?(playbackManager.isPlayingEpisode)
@@ -413,6 +440,7 @@ class TranscriptViewController: PlayerItemViewController, AnalyticsSourceProvide
 
     private func dismissSearch() {
         isSearching = false
+        inputViewsReloadWorkItem?.cancel()
 
         searchView.textField.resignFirstResponder()
 
