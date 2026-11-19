@@ -61,9 +61,14 @@ struct UpgradeProductsView: View {
                 RoundedRectangle(cornerRadius: 12)
                     .inset(by: 1)
                     .stroke(product.identifier == model.selectedProduct ? theme.primaryInteractive01 : .clear, lineWidth: 2)
-                if product.isBestValue, model.savingsOnBestValue != nil {
-                    badge
-                        .offset(x: 0, y: -badgeOffset)
+                if product.isBestValue || product.offer != nil {
+                    if let offer = product.offer, offer.type == .discount {
+                        makeBadge(text: "\(offer.discountPercent) off")
+                            .offset(x: 0, y: -badgeOffset)
+                    } else if let savings = model.savingsOnBestValue {
+                        makeBadge(text: savings)
+                            .offset(x: 0, y: -badgeOffset)
+                    }
                 }
             }
         }
@@ -74,9 +79,10 @@ struct UpgradeProductsView: View {
         }
     }
 
-    var badge: some View {
+    @ViewBuilder
+    func makeBadge(text: String) -> some View {
         HStack(alignment: .center, spacing: 0) {
-            Text(model.savingsOnBestValue ?? "")
+            Text(text)
                 .foregroundStyle(theme.primaryUi01)
                 .font(size: 14, style: .footnote, weight: .medium, maxSizeCategory: .extraExtraExtraLarge)
         }
@@ -102,7 +108,7 @@ struct UpgradeProductsView: View {
         let privacyPolicy = ServerConstants.Urls.privacyPolicy
         let termsOfUse = ServerConstants.Urls.termsOfUse
 
-        Text(L10n.termsAndConditions)
+        Text(model.terms)
         .fixedSize(horizontal: false, vertical: true)
         .multilineTextAlignment(.center)
         .foregroundColor(theme.primaryText02)
@@ -155,8 +161,12 @@ extension L10n {
 
 extension PlusPricingInfoModel.PlusProductPricingInfo {
 
-    var periodPrice: String {
-        self.rawPrice + (self.identifier.isYearlyProduct ? "/\((L10n.year))" : "/\(L10n.month)")
+    var periodPrice: AttributedString {
+        if let offer, offer.type == .discount {
+            return try! AttributedString(markdown: "~\(offer.rawPrice)~ \(offer.price) first  \(self.identifier.isYearlyProduct ? L10n.year : L10n.month)")
+        } else {
+            return AttributedString(self.rawPrice + (self.identifier.isYearlyProduct ? "/\((L10n.year))" : "/\(L10n.month)"))
+        }
     }
 
     var periodDescription: String {

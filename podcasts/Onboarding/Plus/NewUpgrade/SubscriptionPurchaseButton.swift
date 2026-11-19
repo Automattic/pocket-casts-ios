@@ -21,8 +21,12 @@ struct SubscriptionPurchaseButton: View {
             return tier.buttonLabel
         }
 
-        if subscriptionInfo.offer?.type == .freeTrial {
-            return L10n.freeTrialStartButton
+        if let offer = subscriptionInfo.offer {
+            if offer.type == .freeTrial {
+                return L10n.freeTrialStartButton
+            } else if offer.type == .discount {
+                return "Claim \(offer.discountPercent) off"
+            }
         }
 
         return tier.buttonLabel

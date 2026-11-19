@@ -171,6 +171,8 @@ struct UpgradeLandingView: View {
 
         if subscriptionInfo.offer?.type == .freeTrial {
             return L10n.freeTrialStartButton
+        } else if let offer = subscriptionInfo.offer, offer.type == .discount {
+            return "Claim \(offer.discountPercent) off"
         }
 
         return selectedTier.buttonLabel

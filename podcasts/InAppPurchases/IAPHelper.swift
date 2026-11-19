@@ -179,17 +179,36 @@ class IAPHelper: NSObject {
         return formattedPrice ?? ""
     }
 
-    public func getWeeklyPrice(for identifier: IAPProductID) -> String {
+    public func getWeeklyPrice(for identifier: IAPProductID, applyDiscount: Bool) -> String {
         guard let product = getProduct(for: identifier),
             let weekly = getWeeklyReferencePrice(for: identifier) else {
             return ""
         }
-
+        var discountPercent: Double = 1
+        if applyDiscount, let introPrice = product.introductoryPrice {
+            discountPercent = introPrice.price.doubleValue / product.price.doubleValue
+        }
         let numberFormatter = NumberFormatter()
         numberFormatter.formatterBehavior = .behavior10_4
         numberFormatter.numberStyle = .currency
         numberFormatter.locale = product.priceLocale
-        let formattedPrice = numberFormatter.string(from: NSNumber(value: weekly))
+        let formattedPrice = numberFormatter.string(from: NSNumber(value: weekly * discountPercent))
+        return formattedPrice ?? ""
+    }
+
+    public func getDiscountPercent(for identifier: IAPProductID) -> String {
+        guard let product = getProduct(for: identifier) else {
+            return ""
+        }
+        var discountPercent: Double = 0
+        if let introPrice = product.introductoryPrice {
+            discountPercent = 1.0 - (introPrice.price.doubleValue / product.price.doubleValue)
+        }
+        let numberFormatter = NumberFormatter()
+        numberFormatter.formatterBehavior = .behavior10_4
+        numberFormatter.numberStyle = .percent
+        numberFormatter.locale = product.priceLocale
+        let formattedPrice = numberFormatter.string(from: NSNumber(value: discountPercent))
         return formattedPrice ?? ""
     }
 

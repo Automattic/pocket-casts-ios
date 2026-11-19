@@ -68,6 +68,38 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
         return offer.type == .freeTrial
     }
 
+    var isDiscountOfferAvailable: Bool {
+        guard pricingInfo.hasOffer, let product = pricingInfo.products.first(where: {$0.identifier == selectedProduct}) else {
+            return false
+        }
+        guard let offer = product.offer else {
+            return false
+        }
+
+        return offer.type == .discount
+    }
+
+    var discountPercent: String {
+        guard pricingInfo.hasOffer, let product = pricingInfo.products.first(where: {$0.identifier == selectedProduct}) else {
+            return ""
+        }
+        guard let offer = product.offer else {
+            return ""
+        }
+
+        return offer.discountPercent
+    }
+
+    var terms: AttributedString {
+        guard pricingInfo.hasOffer,
+              let product = pricingInfo.products.first(where: {$0.identifier == selectedProduct}),
+              let offer = product.offer else {
+            return L10n.termsAndConditions
+        }
+
+        return AttributedString(offer.terms + ".\n") + L10n.termsAndConditions
+    }
+
     var timelineEvents: [TimelineEvent] {
         guard let product = pricingInfo.products.first(where: {$0.identifier == selectedProduct}),
               let offer = product.offer, offer.type == .freeTrial,
@@ -129,7 +161,7 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
     }
 
     var title: String {
-        return customTitle ?? upgradeTier.header
+        return customTitle ?? (isDiscountOfferAvailable ? "\(discountPercent) off your first year of Plus" : upgradeTier.header)
     }
 
     func purchaseTapped() {

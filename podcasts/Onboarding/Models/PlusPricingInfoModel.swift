@@ -30,7 +30,7 @@ class PlusPricingInfoModel: ObservableObject {
             let basePrice = purchaseHandler.getWeeklyReferencePrice(for: product)
             let price = purchaseHandler.getPriceWithFrequency(for: product) ?? ""
             let rawPrice = purchaseHandler.getPrice(for: product)
-            let weeklyPrice = purchaseHandler.getWeeklyPrice(for: product)
+            let weeklyPrice = purchaseHandler.getWeeklyPrice(for: product, applyDiscount: purchaseHandler.isEligibleForOffer)
             let monthlyPrice = product.isYearlyProduct ? purchaseHandler.getMonthlyPrice(for: product) : nil
             var offer: ProductOfferInfo?
             if purchaseHandler.isEligibleForOffer,
@@ -39,7 +39,8 @@ class PlusPricingInfoModel: ObservableObject {
                let price = purchaseHandler.localizedOfferPrice(product),
                let offerEndDateLocalized = purchaseHandler.offerEndDateLocalized(product),
                let offerEndDate = purchaseHandler.offerEndDate(product) {
-                offer = ProductOfferInfo(type: type, duration: duration, price: price, rawPrice: rawPrice, offerEndDate: offerEndDate, offerEndDateLocalized: offerEndDateLocalized)
+                let discountPercent = purchaseHandler.getDiscountPercent(for: product)
+                offer = ProductOfferInfo(type: type, duration: duration, price: price, rawPrice: rawPrice, offerEndDate: offerEndDate, offerEndDateLocalized: offerEndDateLocalized, discountPercent: discountPercent)
             }
 
             let info = PlusProductPricingInfo(identifier: product,
@@ -91,6 +92,7 @@ class PlusPricingInfoModel: ObservableObject {
         let rawPrice: String
         let offerEndDate: Date?
         let offerEndDateLocalized: String
+        let discountPercent: String
 
         var title: String {
             switch type {
