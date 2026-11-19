@@ -114,7 +114,12 @@ end
 # @return [String] The slack message body to use, typically in a call to the `slack()` fastlane action
 #
 def phased_release_slack_message(version:, milestone: nil)
-  subject = ["`#{version.to_s.strip}`", milestone.to_s.strip].reject(&:empty?).join(' ')
+  version = version.to_s.strip
+  version_label = version.empty? ? 'An unknown version' : "`#{version}`"
+  subject = [version_label, milestone.to_s.strip].reject(&:empty?).join(' ')
 
-  ":announcement: #{subject} has started phased release."
+  message = ":announcement: #{subject} has started phased release."
+  return message unless version.empty?
+
+  "#{message}\n:warning: Version unavailable. This is unexpected, please investigate."
 end

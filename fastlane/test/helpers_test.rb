@@ -148,4 +148,14 @@ class FastlaneHelpersTest < Minitest::Test
                    phased_release_slack_message(version: '7.94', milestone: milestone)
     end
   end
+
+  def test_phased_release_message_flags_a_missing_version_instead_of_guessing_it
+    ['', "  \n", nil].each do |version|
+      assert_equal <<~MESSAGE.chomp,
+        :announcement: An unknown version (Milestone 7.94) has started phased release.
+        :warning: Version unavailable. This is unexpected, please investigate.
+      MESSAGE
+                   phased_release_slack_message(version: version, milestone: '(Milestone 7.94)')
+    end
+  end
 end

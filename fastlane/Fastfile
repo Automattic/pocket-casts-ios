@@ -1000,13 +1000,13 @@ platform :ios do
   #
   # Typically called right after `publish_release` by the release automation.
   #
-  # @param version [String] (optional) The release version the announcement is about. Defaults to the
-  #                checked-out project's version, which is trunk's once `publish_release` has run.
+  # @param version [String] The release version the announcement is about. Not read from the checkout:
+  #                `publish_release` leaves trunk checked out.
   # @param milestone [String] (optional) The milestone to name alongside the version.
   #                  Provided by Releases V2, which is the only place it can come from.
   #
   lane :notify_phased_release_on_slack do |version: nil, milestone: nil|
-    notify_slack { phased_release_slack_message(version: version || release_version_current, milestone: milestone) }
+    notify_slack { phased_release_slack_message(version: version, milestone: milestone) }
   end
 
   #####################################################################################
