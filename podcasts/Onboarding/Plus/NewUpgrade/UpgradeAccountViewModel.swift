@@ -57,62 +57,40 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
         return ABTestProvider.shared.variation(for: .pocketcastsNewOnboardingIOSABTest) == .treatment
     }
 
-    var isFreeTrialAvailable: Bool {
-        guard pricingInfo.hasOffer, let product = pricingInfo.products.first(where: {$0.identifier == selectedProduct}) else {
-            return false
+    /// The offer for the currently selected product, if there is one
+    var selectedOffer: PlusPricingInfoModel.ProductOfferInfo? {
+        guard pricingInfo.hasOffer else {
+            return nil
         }
-        guard let offer = product.offer else {
-            return false
-        }
+        return pricingInfo.products.first(where: { $0.identifier == selectedProduct })?.offer
+    }
 
-        return offer.type == .freeTrial
+    var isFreeTrialAvailable: Bool {
+        selectedOffer?.type == .freeTrial
     }
 
     var isDiscountOfferAvailable: Bool {
-        guard pricingInfo.hasOffer, let product = pricingInfo.products.first(where: {$0.identifier == selectedProduct}) else {
-            return false
-        }
-        guard let offer = product.offer else {
-            return false
-        }
-
-        return offer.type == .discount
+        selectedOffer?.type == .discount
     }
 
     var discountPercent: String {
-        guard pricingInfo.hasOffer, let product = pricingInfo.products.first(where: {$0.identifier == selectedProduct}) else {
-            return ""
-        }
-        guard let offer = product.offer else {
-            return ""
-        }
-
-        return offer.discountPercent
+        selectedOffer?.discountPercent ?? ""
     }
 
     var discountDuration: String {
-        guard pricingInfo.hasOffer,
-              let product = pricingInfo.products.first(where: {$0.identifier == selectedProduct}),
-              let offer = product.offer else {
-            return ""
-        }
-
-        return offer.spelledOutDuration
+        selectedOffer?.spelledOutDuration ?? ""
     }
 
     var terms: AttributedString {
-        guard pricingInfo.hasOffer,
-              let product = pricingInfo.products.first(where: {$0.identifier == selectedProduct}),
-              let offer = product.offer else {
+        guard let selectedOffer else {
             return L10n.termsAndConditions
         }
 
-        return AttributedString(offer.terms + ".\n") + L10n.termsAndConditions
+        return AttributedString(selectedOffer.terms + ".\n") + L10n.termsAndConditions
     }
 
     var timelineEvents: [TimelineEvent] {
-        guard let product = pricingInfo.products.first(where: {$0.identifier == selectedProduct}),
-              let offer = product.offer, offer.type == .freeTrial,
+        guard let offer = selectedOffer, offer.type == .freeTrial,
               let offerEndDate = offer.offerEndDate,
               let oneWeekBeforeDate = offerEndDate.sevenDaysAgo()
         else {

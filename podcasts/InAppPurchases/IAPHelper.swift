@@ -201,13 +201,7 @@ class IAPHelper: NSObject {
               let priceRatio = introductoryDiscountPriceRatio(for: product) else {
             return ""
         }
-        let discountPercent = 1.0 - priceRatio
-        let numberFormatter = NumberFormatter()
-        numberFormatter.formatterBehavior = .behavior10_4
-        numberFormatter.numberStyle = .percent
-        numberFormatter.locale = product.priceLocale
-        let formattedPrice = numberFormatter.string(from: NSNumber(value: discountPercent))
-        return formattedPrice ?? ""
+        return (1.0 - priceRatio).localized(.percent)
     }
 
     /// The ratio between a pay up front introductory offer price and the regular price for the same length of time.
