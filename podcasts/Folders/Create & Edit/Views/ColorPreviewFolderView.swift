@@ -3,6 +3,7 @@ import SwiftUI
 
 struct ColorPreviewFolderView: View {
     @EnvironmentObject var theme: Theme
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     @ObservedObject var model: FolderModel
 
@@ -65,6 +66,8 @@ struct ColorPreviewFolderView: View {
             .background(theme.primaryUi01)
         }
         .navigationTitle(L10n.folderChooseColor)
+        // Matches `NameFolderView`, which this screen is pushed from, rather than inheriting its title mode.
+        .navigationBarTitleDisplayMode(dynamicTypeSize.isAccessibilitySize ? .inline : .automatic)
         .onAppear {
             Analytics.track(.folderCreateColorShown, properties: ["number_of_podcasts": model.selectedPodcastUuids.count])
         }
