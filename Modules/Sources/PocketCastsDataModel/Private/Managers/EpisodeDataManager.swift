@@ -686,7 +686,7 @@ class EpisodeDataManager {
     func markAllEpisodePlaybackHistorySynced(dbQueue: GRDBQueue) {
         dbQueue.write { db in
             do {
-                try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET lastPlaybackInteractionSyncStatus = ?", values: [SyncStatus.synced.rawValue])
+                try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET lastPlaybackInteractionSyncStatus = ? WHERE lastPlaybackInteractionSyncStatus IS NOT ?", values: [SyncStatus.synced.rawValue, SyncStatus.synced.rawValue])
             } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.markAllEpisodePlaybackHistorySynced error: \(error)")
             }

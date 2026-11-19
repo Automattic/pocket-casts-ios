@@ -8,7 +8,7 @@ class SyncTask: ApiBaseTask, @unchecked Sendable {
 
     lazy var importQueue: OperationQueue = {
         let queue = OperationQueue()
-        queue.maxConcurrentOperationCount = 5
+        queue.maxConcurrentOperationCount = 6
 
         return queue
     }()

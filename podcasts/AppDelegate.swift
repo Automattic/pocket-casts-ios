@@ -32,6 +32,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - App Lifecycle
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        ImageManager.readDisplayScale()
+        ImageManager.setUpMemoryStorage()
+
         #if DEBUG
         QALaunchHooks.prepareForLaunch()
         #endif
@@ -105,6 +108,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             postLaunchSetup()
             checkIfRestoreCleanupRequired()
 
+            ImageManager.shared.removeUnrequestedPodcastImages()
             ImageManager.shared.updatePodcastImagesIfRequired()
             WidgetHelper.shared.cleanupAppGroupImages()
             SiriShortcutsManager.shared.setup()

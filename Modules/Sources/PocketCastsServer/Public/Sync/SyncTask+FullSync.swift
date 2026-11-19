@@ -18,6 +18,12 @@ extension SyncTask {
                 return
             }
 
+            if FeatureFlag.skipEmptyPlaylistQueriesInFullSync.enabled, serverEpisodes.isEmpty {
+                playlist.syncStatus = SyncStatus.synced.rawValue
+                DataManager.shared.save(playlist: playlist)
+                return
+            }
+
             var addedEpisodes: [Episode] = []
 
             // Add missing episodes
@@ -80,40 +86,33 @@ extension SyncTask {
         }
 
         FileLog.shared.addMessage("Processing podcast \(uuid)")
+        let deadline = DispatchTime.now() + 30.seconds
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
-        ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: true) { success in
-            if !success {
+        if FeatureFlag.fullSyncEpisodeStateInParallel.enabled {
+            addPodcastWithEpisodeState(podcast, uuid: uuid, lastSyncAt: lastSyncAt) {
                 dispatchGroup.leave()
+            }
+        } else {
+            addPodcastThenRetrieveEpisodeState(podcast, uuid: uuid, lastSyncAt: lastSyncAt) {
+                dispatchGroup.leave()
+            }
+        }
+
+        _ = dispatchGroup.wait(timeout: deadline)
+    }
+
+    private func addPodcastThenRetrieveEpisodeState(_ podcast: PodcastSyncInfo, uuid: String, lastSyncAt: String, completion: @escaping () -> Void) {
+        ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: true, fromSync: true) { success in
+            if !success {
+                completion()
 
                 return
             }
 
             guard let localPodcast = DataManager.shared.findPodcast(uuid: uuid) else { return }
 
-            // we have added the podcast locally so add the synced info for it
-            if let startFrom = podcast.autoStartFrom {
-                localPodcast.startFrom = Int32(startFrom)
-            }
-            if let skipLast = podcast.autoSkipLast {
-                localPodcast.skipLast = Int32(skipLast)
-            }
-            localPodcast.syncStatus = SyncStatus.synced.rawValue
-            localPodcast.fullSyncLastSyncAt = lastSyncAt
-
-            if let addedDate = podcast.dateAdded {
-                localPodcast.addedDate = addedDate
-            }
-
-            localPodcast.folderUuid = podcast.folderUuid
-
-            if let sortOrder = podcast.sortPosition {
-                localPodcast.sortOrder = sortOrder
-            }
-
-            if let settings = podcast.settings {
-                self.processSettings(settings, to: localPodcast)
-            }
+            self.applySyncInfo(podcast, lastSyncAt: lastSyncAt, to: localPodcast)
 
             // now grab the sync info for the episodes
             let retrieveEpisodesTask = RetrieveEpisodesTask(podcastUuid: uuid)
@@ -125,11 +124,78 @@ extension SyncTask {
                 DataManager.shared.saveBulkEpisodeSyncInfo(episodes: DataConverter.convert(syncInfoEpisodes: episodes))
             }
             retrieveEpisodesTask.runTaskSynchronously()
-            dispatchGroup.leave()
+            completion()
+        }
+    }
+
+    private func addPodcastWithEpisodeState(_ podcast: PodcastSyncInfo, uuid: String, lastSyncAt: String, completion: @escaping () -> Void) {
+        let loadedPodcast = FullSyncLoadedPodcast()
+        let podcastLoaded = DispatchGroup()
+
+        podcastLoaded.enter()
+        CacheServerHandler.shared.loadPodcastInfo(podcastUuid: uuid) { podcastInfo, lastModified in
+            loadedPodcast.podcastInfo = podcastInfo
+            loadedPodcast.lastModified = lastModified
+            podcastLoaded.leave()
         }
 
-        _ = dispatchGroup.wait(timeout: .now() + 30.seconds)
+        let episodes = ApiServerHandler.shared.retrieveEpisodeTaskSynchronouusly(podcastUuid: uuid)
+
+        podcastLoaded.notify(queue: .global()) {
+            guard let podcastInfo = loadedPodcast.podcastInfo else {
+                completion()
+                return
+            }
+
+            ServerPodcastManager.shared.addFromJson(podcastUuid: uuid, lastModified: loadedPodcast.lastModified, podcastInfo: podcastInfo, subscribe: true, autoDownloads: 0, fromSync: true) { added in
+                defer { completion() }
+
+                guard added, let localPodcast = DataManager.shared.findPodcast(uuid: uuid) else { return }
+
+                self.applySyncInfo(podcast, lastSyncAt: lastSyncAt, to: localPodcast)
+                DataManager.shared.save(podcast: localPodcast)
+
+                guard let episodes else {
+                    FileLog.shared.addMessage("SyncTask: Couldn't retrieve the episode state for podcast \(uuid)")
+                    return
+                }
+
+                DataManager.shared.saveBulkEpisodeSyncInfo(episodes: DataConverter.convert(syncInfoEpisodes: episodes))
+            }
+        }
     }
+
+    private func applySyncInfo(_ podcast: PodcastSyncInfo, lastSyncAt: String, to localPodcast: Podcast) {
+        // we have added the podcast locally so add the synced info for it
+        if let startFrom = podcast.autoStartFrom {
+            localPodcast.startFrom = Int32(startFrom)
+        }
+        if let skipLast = podcast.autoSkipLast {
+            localPodcast.skipLast = Int32(skipLast)
+        }
+        localPodcast.syncStatus = SyncStatus.synced.rawValue
+        localPodcast.fullSyncLastSyncAt = lastSyncAt
+
+        if let addedDate = podcast.dateAdded {
+            localPodcast.addedDate = addedDate
+        }
+
+        localPodcast.folderUuid = podcast.folderUuid
+
+        if let sortOrder = podcast.sortPosition {
+            localPodcast.sortOrder = sortOrder
+        }
+
+        if let settings = podcast.settings {
+            processSettings(settings, to: localPodcast)
+        }
+    }
+}
+
+/// The podcast the full sync loads while the import thread requests its episode state
+private final class FullSyncLoadedPodcast: @unchecked Sendable {
+    var podcastInfo: [String: Any]?
+    var lastModified: String?
 }
 
 // MARK: - Bookmarks
