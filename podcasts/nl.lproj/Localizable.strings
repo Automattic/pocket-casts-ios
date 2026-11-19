@@ -77,6 +77,8 @@
     <string>Podcast-artwork</string>
     <key>accessibility_profile_settings</key>
     <string>Pocket Casts-instellingen</string>
+    <key>accessibility_remove_recent_search</key>
+    <string>Verwijder %1$@ uit recente zoekopdrachten</string>
     <key>accessibility_select_episode</key>
     <string>Aflevering selecteren</string>
     <key>accessibility_show_filter_details</key>
@@ -2141,6 +2143,14 @@ Dat is waar we voor staan!</string>
     <string>Meer podcasts, meer plezier</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>Ten opzichte van 2024 is je luistertijd veel hoger %1$@</string>
+    <key>playback_2026_banner_description</key>
+    <string>Ontdek je luisterstatistieken, welk soort luisteraar je bent en meer.</string>
+    <key>playback_2026_banner_title</key>
+    <string>Playback 2026 staat voor je klaar!</string>
+    <key>playback_2026_sheet_button</key>
+    <string>Mijn Playback van 2026 bekijken</string>
+    <key>playback_2026_sheet_description</key>
+    <string>Waar je naar geluisterd hebt. De podcasts waar je van hield. En wat jou als luisteraar onderscheidt. Je jaar in Pocket Casts is aangebroken.</string>
     <key>playback_effect_all_podcasts</key>
     <string>Alle podcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -2575,6 +2585,8 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>%1$@ gearchiveerd</string>
     <key>podcast_archived_msg</key>
     <string>Alle %1$@ de afleveringen van deze podcast zijn gearchiveerd</string>
+    <key>podcast_archived_msg_singular</key>
+    <string>De enige aflevering van deze podcast is gearchiveerd</string>
     <key>podcast_count_plural_format</key>
     <string>%1$@ podcasts</string>
     <key>podcast_count_singular</key>
@@ -2768,6 +2780,14 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Naam</string>
     <key>podcasts_list</key>
     <string>Lijst</string>
+    <key>podcasts_played_podcasts</key>
+    <string>Afgespeelde podcasts</string>
+    <key>podcasts_played_podcasts_description</key>
+    <string>Verbergt podcasts waarvan je niks meer hoeft te luisteren, waarvan elke aflevering is afgespeeld of gearchiveerd. Ze verschijnen opnieuw wanneer een nieuwe aflevering online komt.</string>
+    <key>podcasts_played_podcasts_hide</key>
+    <string>Verbergen</string>
+    <key>podcasts_played_podcasts_show</key>
+    <string>Tonen</string>
     <key>podcasts_plural</key>
     <string>Podcasts</string>
     <key>podcasts_share</key>

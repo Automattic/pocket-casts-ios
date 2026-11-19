@@ -77,6 +77,8 @@
     <string>播客插图</string>
     <key>accessibility_profile_settings</key>
     <string>Pocket Casts 设置</string>
+    <key>accessibility_remove_recent_search</key>
+    <string>将 %1$@ 从最近搜索中移除</string>
     <key>accessibility_select_episode</key>
     <string>选择剧集</string>
     <key>accessibility_show_filter_details</key>
@@ -2145,6 +2147,14 @@ Pocket Casts。</string>
     <string>更多精彩播客，更多欢乐时光</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>相比于 2024 年，您的收听时长飙升 %1$@</string>
+    <key>playback_2026_banner_description</key>
+    <string>欢迎查看您的收听统计数据、了解您所属的听众类型，并探索更多内容。</string>
+    <key>playback_2026_banner_title</key>
+    <string>2026 年播放记录现已上线！</string>
+    <key>playback_2026_sheet_button</key>
+    <string>查看我的 2026 年播放记录</string>
+    <key>playback_2026_sheet_description</key>
+    <string>您收听过的内容。 您喜爱的播客。 以及您作为听众的与众不同之处。 您的 Pocket Casts 年度回顾已上线。</string>
     <key>playback_effect_all_podcasts</key>
     <string>所有播客</string>
     <key>playback_effect_this_podcast</key>
@@ -2581,6 +2591,8 @@ Pocket Casts。</string>
     <string>%1$@ 集已存档</string>
     <key>podcast_archived_msg</key>
     <string>此播客的所有 %1$@ 集均已存档</string>
+    <key>podcast_archived_msg_singular</key>
+    <string>此播客的唯一一集已存档</string>
     <key>podcast_count_plural_format</key>
     <string>%1$@ 个播客</string>
     <key>podcast_count_singular</key>
@@ -2774,6 +2786,14 @@ Pocket Casts。</string>
     <string>名称</string>
     <key>podcasts_list</key>
     <string>列表</string>
+    <key>podcasts_played_podcasts</key>
+    <string>已播放的播客</string>
+    <key>podcasts_played_podcasts_description</key>
+    <string>隐藏已无可听内容的播客，即所有剧集均已播放过或已存档的播客。 每当有新剧集上线时，它们就会重新出现。</string>
+    <key>podcasts_played_podcasts_hide</key>
+    <string>隐藏</string>
+    <key>podcasts_played_podcasts_show</key>
+    <string>显示</string>
     <key>podcasts_plural</key>
     <string>播客</string>
     <key>podcasts_share</key>
