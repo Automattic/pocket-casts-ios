@@ -73,7 +73,7 @@ struct UpgradeAccountView: View {
     func makeBadge(text: String) -> some View {
         HStack(alignment: .center, spacing: 0) {
             Text(text)
-                .foregroundStyle(theme.primaryText02)
+                .foregroundStyle(theme.primaryText01)
                 .font(size: 13, style: .footnote, weight: .medium, maxSizeCategory: .extraExtraExtraLarge)
         }
         .padding(.horizontal, 12)
