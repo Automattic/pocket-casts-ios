@@ -467,7 +467,9 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
             optionsPicker.addAction(action: playedPodcastsAction)
         }
 
-        if gridItems.contains(where: { !$0.isEmpty }) {
+        // Share Podcasts lists every followed podcast, including the ones Played Podcasts hides,
+        // so it depends on the library and not on what the grid shows.
+        if DataManager.shared.podcastCount() > 0 {
             let shareAction = OptionAction(label: L10n.podcastsShare, icon: "podcast-share") {
                 let shareController = SharePodcastsViewController()
                 shareController.delegate = self
@@ -476,7 +478,10 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
                 Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "share"])
             }
             optionsPicker.addAction(action: shareAction)
+        }
 
+        // Edit Podcasts reorders the grid, so it needs something on it.
+        if gridItems.contains(where: { !$0.isEmpty }) {
             let editAction = OptionAction(label: L10n.podcastsEdit, icon: "filter_manual_episode_order") { [weak self] in
                 self?.setEditingOrder(true)
                 Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "edit"])
