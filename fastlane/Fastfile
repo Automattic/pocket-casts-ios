@@ -1001,7 +1001,7 @@ platform :ios do
   # Typically called right after `publish_release` by the release automation.
   #
   # @param version [String] (optional) The release version the announcement is about. Defaults to the
-  #                checked-out project's version.
+  #                checked-out project's version, which is trunk's once `publish_release` has run.
   # @param milestone [String] (optional) The milestone to name alongside the version.
   #                  Provided by Releases V2, which is the only place it can come from.
   #
