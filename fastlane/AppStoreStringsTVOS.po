@@ -71,11 +71,6 @@ msgid ""
 "io,relay,npr,twit"
 msgstr ""
 
-#. translators: Subtitle to be displayed below the application name in the Apple App Store. Limit to 30 characters including spaces and commas! A translation over that length is dropped, and the locale then ships the English subtitle instead.
-msgctxt "app_store_subtitle"
-msgid "Apple Audiobooks & Podcasts"
-msgstr ""
-
 msgctxt "v8.17-whats-new"
 msgid ""
 "Never fear, a new feature is here! We took a poll in our virtual office about "

@@ -11,11 +11,9 @@ TVOS_NOTE_PREFIX = '- [tvOS]'
 # translations, which run longer, to fit.
 #
 # Budgets are field-specific: the description keeps a deliberate reserve, while keywords are already
-# constrained by a committed translation at the hard maximum. Subtitles and release notes use only their
-# hard maximum.
+# constrained by a committed translation at the hard maximum. Release notes use only their hard maximum.
 APP_STORE_METADATA_LIMITS = {
   'release_notes.txt' => { max_size: 4000 },
-  'subtitle.txt' => { max_size: 30 },
   # 3400 keeps a deliberate reserve; the measured expansion alone would allow ~3950.
   'description.txt' => { max_size: 4000, budget: 3400 },
   # 95 is today's source length, not a reserve: `metadata/it/keywords.txt` already sits at 100 of 100,

@@ -1530,10 +1530,6 @@ platform :ios do
 
     {
       whats_new: File.join(source_metadata_folder, 'release_notes.txt'),
-      app_store_subtitle: {
-        path: File.join(source_metadata_folder, 'subtitle.txt'),
-        comment: "translators: Subtitle to be displayed below the application name in the Apple App Store. Limit to #{app_store_metadata_max_size('subtitle.txt')} characters including spaces and commas! A translation over that length is dropped, and the locale then ships the English subtitle instead."
-      },
       app_store_desc: {
         path: File.join(source_metadata_folder, 'description.txt'),
         comment: "translators: Multi-paragraph text used to display in the Apple App Store. Limit to #{app_store_metadata_max_size('description.txt')} characters including spaces! A translation over that length is dropped, and the locale then ships the English description instead."
@@ -1550,7 +1546,6 @@ platform :ios do
   def app_store_metadata_target_files
     {
       "v#{release_version_current}-whats-new": app_store_metadata_target('release_notes.txt'),
-      app_store_subtitle: app_store_metadata_target('subtitle.txt'),
       app_store_desc: app_store_metadata_target('description.txt'),
       app_store_keywords: app_store_metadata_target('keywords.txt')
     }
