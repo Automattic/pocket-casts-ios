@@ -1154,11 +1154,11 @@ private extension MainTabBarController {
 
 extension MainTabBarController {
 
-    func showNotificationsPermissions() {
+    func showNotificationsPermissions(isNewAccount: Bool) {
         // Present inline so it beats the `.onboardingFlowDidDismiss` EOY prompt; skip only when
         // another flow is already presenting, since we can't stack on it.
         guard presentedViewController == nil else { return }
-        present(NotificationsPermissionsViewModel.makeController(), animated: true)
+        present(NotificationsPermissionsViewModel.makeController(isNewAccount: isNewAccount), animated: true)
     }
 }
 
