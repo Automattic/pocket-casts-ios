@@ -2,6 +2,9 @@
 ---
 
 # Variables used in this pipeline are defined in `shared-pipeline-vars`, which is `source`'d before calling `buidkite-agent pipeline upload`
+#
+# Steps that can be skipped have `skip: "$SKIP_…"`, decided at upload time by `commands/should-skip-job.sh` (`false` runs the step),
+# so skipped jobs never wait for an agent. Only the overall build status and SwiftLint are Required checks, so skipped steps don't need to notify GitHub.
 
 env:
   IMAGE_ID: $IMAGE_ID
@@ -9,6 +12,7 @@ env:
 steps:
   - label: Build and Test
     command: .buildkite/commands/build.sh
+    skip: "$SKIP_IOS_TESTS"
     agents:
       queue: mac
     plugins:
@@ -24,6 +28,7 @@ steps:
       - label: "Build tvOS (App Store Connect)"
         key: build_tvos_app_store
         command: .buildkite/commands/build-tvos-app-store.sh
+        skip: "$SKIP_TVOS_BUILD"
         agents:
           queue: mac
         plugins: [$CI_TOOLKIT]
@@ -41,6 +46,8 @@ steps:
           - build_tvos_app_store
           - upload_tvos_testflight_input
         command: .buildkite/commands/upload-tvos-app-store.sh
+        # A step that depends on a skipped step still runs, so it needs the same `skip`.
+        skip: "$SKIP_TVOS_BUILD"
         agents:
           queue: mac
         plugins: [$CI_TOOLKIT]
@@ -68,15 +75,10 @@ steps:
       # Guards that the theme generator keeps working in Xcode build phases,
       # which run with an empty environment and possibly only system Ruby.
       - label: ":ruby: Theme Generator under System Ruby"
-        command: |
-          if .buildkite/commands/should-skip-job.sh --job-type themes; then
-            exit 0
-          fi
-
-          env -i /usr/bin/ruby scripts/themes/generate_themes.rb scripts/themes/theme.csv
+        command: env -i /usr/bin/ruby scripts/themes/generate_themes.rb scripts/themes/theme.csv
+        skip: "$SKIP_THEMES"
         agents:
           queue: mac
-        plugins: [$CI_TOOLKIT]
 
       - label: ":fastlane: fastlane Helper Tests"
         if: ${RUN_FASTLANE_TESTS:-false}
@@ -90,12 +92,8 @@ steps:
               mount-buildkite-agent: true
 
       - label: ":sleuth_or_spy: Lint Localized Strings Format"
-        command: |
-          if .buildkite/commands/should-skip-job.sh --job-type localization; then
-            exit 0
-          fi
-
-          lint_localized_strings_format
+        command: lint_localized_strings_format
+        skip: "$SKIP_LOCALIZATION"
         agents:
           queue: mac
         plugins: [$CI_TOOLKIT]
@@ -110,6 +108,7 @@ steps:
       - label: Prototype Build - Build
         key: build_prototype
         command: .buildkite/commands/prototype-build.sh
+        skip: "$SKIP_BUILD"
         agents:
           queue: mac
         plugins: [$CI_TOOLKIT]
@@ -121,6 +120,7 @@ steps:
       - label: Prototype Build - Upload
         depends_on: build_prototype
         command: .buildkite/commands/prototype-upload.sh
+        skip: "$SKIP_BUILD"
         agents:
           queue: mac
         plugins: [$CI_TOOLKIT]

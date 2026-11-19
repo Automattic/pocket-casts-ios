@@ -2,10 +2,6 @@
 
 set -eu
 
-if "$(dirname "${BASH_SOURCE[0]}")/should-skip-job.sh" --job-type tvos-build; then
-  exit 0
-fi
-
 "$(dirname "${BASH_SOURCE[0]}")/shared_setup.sh"
 
 echo "--- :hammer_and_wrench: Building"
