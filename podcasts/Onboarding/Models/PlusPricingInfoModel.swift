@@ -30,7 +30,6 @@ class PlusPricingInfoModel: ObservableObject {
             let basePrice = purchaseHandler.getWeeklyReferencePrice(for: product)
             let price = purchaseHandler.getPriceWithFrequency(for: product) ?? ""
             let rawPrice = purchaseHandler.getPrice(for: product)
-            let weeklyPrice = purchaseHandler.getWeeklyPrice(for: product, applyDiscount: purchaseHandler.isEligibleForOffer)
             let monthlyPrice = product.isYearlyProduct ? purchaseHandler.getMonthlyPrice(for: product) : nil
             var offer: ProductOfferInfo?
             if purchaseHandler.isEligibleForOffer,
@@ -40,8 +39,11 @@ class PlusPricingInfoModel: ObservableObject {
                let offerEndDateLocalized = purchaseHandler.offerEndDateLocalized(product),
                let offerEndDate = purchaseHandler.offerEndDate(product) {
                 let discountPercent = purchaseHandler.getDiscountPercent(for: product)
-                offer = ProductOfferInfo(type: type, duration: duration, price: price, rawPrice: rawPrice, offerEndDate: offerEndDate, offerEndDateLocalized: offerEndDateLocalized, discountPercent: discountPercent)
+                let spelledOutDuration = purchaseHandler.localizedOfferDurationSpelledOut(product) ?? duration
+                offer = ProductOfferInfo(type: type, duration: duration, spelledOutDuration: spelledOutDuration, price: price, rawPrice: rawPrice, offerEndDate: offerEndDate, offerEndDateLocalized: offerEndDateLocalized, discountPercent: discountPercent)
             }
+
+            let weeklyPrice = purchaseHandler.getWeeklyPrice(for: product, applyDiscount: offer?.type == .discount)
 
             let info = PlusProductPricingInfo(identifier: product,
                                               price: price,
@@ -88,6 +90,8 @@ class PlusPricingInfoModel: ObservableObject {
     struct ProductOfferInfo {
         let type: ProductOfferType
         let duration: String
+        /// The duration with the number spelled out, for example "one year"
+        let spelledOutDuration: String
         let price: String
         let rawPrice: String
         let offerEndDate: Date?
@@ -99,7 +103,7 @@ class PlusPricingInfoModel: ObservableObject {
             case .freeTrial:
                 return L10n.plusStartMyFreeTrial
             case .discount:
-                return L10n.plusDiscountYearlyMembership
+                return L10n.discountOfferDescription(discountPercent, duration)
             }
         }
 
@@ -108,7 +112,7 @@ class PlusPricingInfoModel: ObservableObject {
             case .freeTrial:
                 return L10n.plusFreeMembershipFormat(duration)
             case .discount:
-                return L10n.plusDiscountYearlyMembership
+                return L10n.discountOfferDescription(discountPercent, duration)
             }
         }
 

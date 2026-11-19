@@ -61,14 +61,12 @@ struct UpgradeProductsView: View {
                 RoundedRectangle(cornerRadius: 12)
                     .inset(by: 1)
                     .stroke(product.identifier == model.selectedProduct ? theme.primaryInteractive01 : .clear, lineWidth: 2)
-                if product.isBestValue || product.offer != nil {
-                    if let offer = product.offer, offer.type == .discount {
-                        makeBadge(text: L10n.discountOfferProductBadge(offer.discountPercent))
-                            .offset(x: 0, y: -badgeOffset)
-                    } else if let savings = model.savingsOnBestValue {
-                        makeBadge(text: savings)
-                            .offset(x: 0, y: -badgeOffset)
-                    }
+                if let offer = product.offer, offer.type == .discount {
+                    makeBadge(text: L10n.discountOfferProductBadge(offer.discountPercent))
+                        .offset(x: 0, y: -badgeOffset)
+                } else if product.isBestValue, let savings = model.savingsOnBestValue {
+                    makeBadge(text: savings)
+                        .offset(x: 0, y: -badgeOffset)
                 }
             }
         }
@@ -163,7 +161,7 @@ extension PlusPricingInfoModel.PlusProductPricingInfo {
 
     var periodPrice: AttributedString {
         if let offer, offer.type == .discount {
-            let translatedString = L10n.discountOfferPeriodPrice(offer.rawPrice, offer.price, self.identifier.isYearlyProduct ? L10n.year : L10n.month)
+            let translatedString = L10n.discountOfferPeriodPrice(offer.rawPrice, offer.price, offer.duration)
             return (try? AttributedString(markdown: translatedString)) ?? AttributedString(translatedString)
         } else {
             return AttributedString(self.rawPrice + (self.identifier.isYearlyProduct ? "/\((L10n.year))" : "/\(L10n.month)"))

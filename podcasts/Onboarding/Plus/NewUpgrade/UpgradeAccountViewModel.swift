@@ -90,6 +90,16 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
         return offer.discountPercent
     }
 
+    var discountDuration: String {
+        guard pricingInfo.hasOffer,
+              let product = pricingInfo.products.first(where: {$0.identifier == selectedProduct}),
+              let offer = product.offer else {
+            return ""
+        }
+
+        return offer.spelledOutDuration
+    }
+
     var terms: AttributedString {
         guard pricingInfo.hasOffer,
               let product = pricingInfo.products.first(where: {$0.identifier == selectedProduct}),
@@ -161,7 +171,7 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
     }
 
     var title: String {
-        return customTitle ?? (isDiscountOfferAvailable ? L10n.discountOfferUpgradeTitle(discountPercent, upgradeTier.tier.displayNameShort) : upgradeTier.header)
+        return customTitle ?? (isDiscountOfferAvailable ? L10n.discountOfferUpgradeTitle(discountPercent, upgradeTier.tier.displayNameShort, discountDuration) : upgradeTier.header)
     }
 
     func purchaseTapped() {

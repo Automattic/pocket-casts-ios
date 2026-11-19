@@ -25,9 +25,9 @@
     },
     "_disableDialogs" : false,
     "_failTransactionsEnabled" : false,
-    "_locale" : "pt_PT",
+    "_locale" : "en_US",
     "_renewalBillingIssuesEnabled" : false,
-    "_storefront" : "PRT",
+    "_storefront" : "USA",
     "_storeKitErrors" : [
       {
         "enabled" : false,
