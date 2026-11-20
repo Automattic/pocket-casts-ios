@@ -82,7 +82,7 @@ private struct WhatsNewMessagePageView: View {
 
                     Text(page.description)
                         .font(size: 15, style: .subheadline)
-                        .foregroundStyle(theme.primaryText01)
+                        .foregroundStyle(theme.primaryText02)
                         .multilineTextAlignment(.leading)
                         .fixedSize(horizontal: false, vertical: true)
                         .frame(maxWidth: .infinity, alignment: .leading)
