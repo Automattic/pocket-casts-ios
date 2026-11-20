@@ -22,7 +22,7 @@ final class FeatureFlagRemoteValuesTests {
     @Test func turningAFlagOffPostsOnce() {
         flags.set(.playback2026, value: true)
 
-        let didChange = FeatureFlag.applyRemoteValues({ $0 == "playback2026" ? false : nil }, notificationCenter: notificationCenter)
+        let didChange = FeatureFlag.applyRemoteValues({ $0 == FeatureFlag.playback2026.remoteKey ? false : nil }, notificationCenter: notificationCenter)
 
         #expect(didChange)
         #expect(!FeatureFlag.playback2026.enabled)
@@ -32,7 +32,7 @@ final class FeatureFlagRemoteValuesTests {
     @Test func turningAFlagOnPostsOnce() {
         flags.set(.playback2026, value: false)
 
-        let didChange = FeatureFlag.applyRemoteValues({ $0 == "playback2026" ? true : nil }, notificationCenter: notificationCenter)
+        let didChange = FeatureFlag.applyRemoteValues({ $0 == FeatureFlag.playback2026.remoteKey ? true : nil }, notificationCenter: notificationCenter)
 
         #expect(didChange)
         #expect(FeatureFlag.playback2026.enabled)
@@ -42,7 +42,7 @@ final class FeatureFlagRemoteValuesTests {
     @Test func theSameValueDoesNotPost() {
         flags.set(.playback2026, value: true)
 
-        let didChange = FeatureFlag.applyRemoteValues({ $0 == "playback2026" ? true : nil }, notificationCenter: notificationCenter)
+        let didChange = FeatureFlag.applyRemoteValues({ $0 == FeatureFlag.playback2026.remoteKey ? true : nil }, notificationCenter: notificationCenter)
 
         #expect(!didChange)
         #expect(FeatureFlag.playback2026.enabled)
@@ -63,7 +63,7 @@ final class FeatureFlagRemoteValuesTests {
         flags.set(.playback2026, value: true)
         flags.set(.hidePlayedPodcasts, value: true)
 
-        let remote = ["playback2026": false, FeatureFlag.hidePlayedPodcasts.remoteKey!: false]
+        let remote = [FeatureFlag.playback2026.remoteKey!: false, FeatureFlag.hidePlayedPodcasts.remoteKey!: false]
         let didChange = FeatureFlag.applyRemoteValues({ remote[$0] }, notificationCenter: notificationCenter)
 
         #expect(didChange)

@@ -21,7 +21,7 @@ import PocketCastsServer
 ///   - `network:<fault>`: `offline`, `server-error` or `slow[:<seconds>]` (see `QANetworkFault`), or `off`. The fault
 ///     lasts across plain launches until a launch that sets `PC_QA_EMAIL` or `PC_QA_FIXTURES` without naming it again.
 ///
-/// - `tmp/qa-remote-config.json` in the app's data container, such as `{"playback2026": false}`: Remote Config values for
+/// - `tmp/qa-remote-config.json` in the app's data container, keyed by `FeatureFlag.remoteKey`: Remote Config values for
 ///   feature flags, used in place of Firebase's whenever the app applies Remote Config (at launch and each time it becomes
 ///   active), so a test can flip a flag mid-session. Delete the file to go back to Firebase.
 ///
