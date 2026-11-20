@@ -512,6 +512,8 @@ public enum FeatureFlag: String, CaseIterable {
             "end_of_year_2025"
         case .encourageAccountCreation:
             "encourage_account_creation_recurring"
+        case .playback2026:
+            "playback_2026"
         default:
             rawValue.lowerSnakeCased()
         }
