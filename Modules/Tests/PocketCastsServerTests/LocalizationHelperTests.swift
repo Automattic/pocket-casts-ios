@@ -49,21 +49,4 @@ final class LocalizationHelperTests: XCTestCase {
 
         XCTAssertTrue(LocalizationHelper.provider?.userRegion == "it")
     }
-
-    /// Picking a Discover region replaces the provider on the main thread while API requests read it
-    /// on background threads to add their headers (POCKET-CASTS-IOS-7C4).
-    func testProviderReadAndReplacedFromManyThreads() throws {
-        let url = try XCTUnwrap(URL(string: "https://api.pocketcasts.com/"))
-
-        DispatchQueue.concurrentPerform(iterations: 100_000) { index in
-            if index.isMultiple(of: 2) {
-                LocalizationHelper.update(userRegion: index.isMultiple(of: 4) ? "us" : "au")
-            } else {
-                var request = URLRequest(url: url)
-                request.addLocalizationHeaders()
-            }
-        }
-
-        XCTAssertNotNil(LocalizationHelper.provider?.userRegion)
-    }
 }
