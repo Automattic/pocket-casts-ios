@@ -8,11 +8,9 @@ env:
 
 steps:
   - label: Build and Test
-    command: .buildkite/commands/build.sh
+    command: RBENV_VERSION=3.4.13 .buildkite/commands/build.sh
     agents:
       queue: mac
-    env:
-      RBENV_VERSION: "3.4.13"
     plugins:
       - $CI_TOOLKIT
       - ${TEST_COLLECTOR}:
@@ -25,11 +23,9 @@ steps:
     steps:
       - label: "Build tvOS (App Store Connect)"
         key: build_tvos_app_store
-        command: .buildkite/commands/build-tvos-app-store.sh
+        command: RBENV_VERSION=3.4.13 .buildkite/commands/build-tvos-app-store.sh
         agents:
           queue: mac
-        env:
-          RBENV_VERSION: "3.4.13"
         plugins: [$CI_TOOLKIT]
         artifact_paths:
           - artifacts/*.ipa
@@ -44,11 +40,9 @@ steps:
         depends_on:
           - build_tvos_app_store
           - upload_tvos_testflight_input
-        command: .buildkite/commands/upload-tvos-app-store.sh
+        command: RBENV_VERSION=3.4.13 .buildkite/commands/upload-tvos-app-store.sh
         agents:
           queue: mac
-        env:
-          RBENV_VERSION: "3.4.13"
         plugins: [$CI_TOOLKIT]
 
   - group: "Linters"
@@ -91,6 +85,7 @@ steps:
 
       - label: ":sleuth_or_spy: Lint Localized Strings Format"
         command: |
+          export RBENV_VERSION=3.4.13
           if .buildkite/commands/should-skip-job.sh --job-type localization; then
             exit 0
           fi
@@ -98,8 +93,6 @@ steps:
           lint_localized_strings_format
         agents:
           queue: mac
-        env:
-          RBENV_VERSION: "3.4.13"
         plugins: [$CI_TOOLKIT]
 
   - input: Deploy Prototype Build
@@ -111,11 +104,9 @@ steps:
     steps:
       - label: Prototype Build - Build
         key: build_prototype
-        command: .buildkite/commands/prototype-build.sh
+        command: RBENV_VERSION=3.4.13 .buildkite/commands/prototype-build.sh
         agents:
           queue: mac
-        env:
-          RBENV_VERSION: "3.4.13"
         plugins: [$CI_TOOLKIT]
         # The folder name is are configured in Fastlane
         artifact_paths:
@@ -124,9 +115,7 @@ steps:
 
       - label: Prototype Build - Upload
         depends_on: build_prototype
-        command: .buildkite/commands/prototype-upload.sh
+        command: RBENV_VERSION=3.4.13 .buildkite/commands/prototype-upload.sh
         agents:
           queue: mac
-        env:
-          RBENV_VERSION: "3.4.13"
         plugins: [$CI_TOOLKIT]
