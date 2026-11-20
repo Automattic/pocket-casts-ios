@@ -86,20 +86,46 @@ struct SuggestedFoldersView: View {
     }
 
     var mainBody: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Group {
-                Text(L10n.suggestedFoldersTitle)
-                    .textStyle(PrimaryText())
-                    .font(.largeTitle.bold())
-                    .fixedSize(horizontal: false, vertical: true)
+        // The title, description and folders scroll together, so the description is never
+        // squeezed to make room for the folders at the larger text sizes.
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {                
                 Text(model.userHasExistingFolders ? L10n.suggestedFoldersDescriptionWithExistingFolders : L10n.suggestedFoldersDescription)
                     .textStyle(SecondaryText())
                     .font(.body)
+                    .fixedSize(horizontal: false, vertical: true)
+                foldersView
             }
-            foldersView
-                .padding(.horizontal, -Constants.margin)
-                // hack to allow the scroll indicator to be visible without overlapping the content
-                .contentMargins(.horizontal, Constants.margin, for: .scrollContent)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, Constants.margin)
+        }
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            actionButtons
+                .padding(Constants.margin)
+                .background(theme.primaryUi01)
+        }
+        .navigationBarTitleDisplayMode(.automatic)
+        .navigationTitle(L10n.suggestedFoldersTitle)
+        .onAppear {
+            track(.suggestedFoldersPageShown)
+        }
+        .navigationDestination(isPresented: $createFolderActive) {
+            CreateFolderView(isInsideNavigation: true) { uuid in
+                if let uuid {
+                    onCompletion(.createdManualFolder(uuid))
+                } else {
+                    onCompletion(.dismiss)
+                }
+            }
+        }
+        .applyDefaultThemeOptions()
+        .sheet(isPresented: $applySuggestedFoldersConfirmation) {
+            confirmationModal
+        }
+    }
+
+    private var actionButtons: some View {
+        VStack(spacing: 8) {
             Button {
                 if model.showConfirmation {
                     track(.suggestedFoldersReplaceFoldersTapped)
@@ -132,25 +158,6 @@ struct SuggestedFoldersView: View {
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
-        }
-        .padding(.horizontal, Constants.margin)
-        .padding(.vertical)
-        .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            track(.suggestedFoldersPageShown)
-        }
-        .navigationDestination(isPresented: $createFolderActive) {
-            CreateFolderView(isInsideNavigation: true) { uuid in
-                if let uuid {
-                    onCompletion(.createdManualFolder(uuid))
-                } else {
-                    onCompletion(.dismiss)
-                }
-            }
-        }
-        .applyDefaultThemeOptions()
-        .sheet(isPresented: $applySuggestedFoldersConfirmation) {
-            confirmationModal
         }
     }
 
