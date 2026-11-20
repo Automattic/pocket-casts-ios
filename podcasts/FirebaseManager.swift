@@ -22,10 +22,15 @@ struct FirebaseManager {
         remoteConfig.setDefaults(remoteConfigDefaults)
 
         remoteConfig.fetch(withExpirationDuration: expirationDuration) { status, _ in
-            if status == .success {
-                remoteConfig.activate(completion: nil)
+            guard status == .success else {
+                completion?(status)
+                return
             }
-            completion?(status)
+            remoteConfig.activate { _, _ in
+                DispatchQueue.main.async {
+                    completion?(status)
+                }
+            }
         }
     }
 }

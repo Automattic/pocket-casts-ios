@@ -22,6 +22,7 @@ final class Playback2026ViewController: UIHostingController<Playback2026ViewCont
 
     private let controller: PlaybackController
     private var screenshots: AnyCancellable?
+    private var availability: AnyCancellable?
 
     init() {
         controller = PlaybackController()
@@ -42,6 +43,11 @@ final class Playback2026ViewController: UIHostingController<Playback2026ViewCont
                     self.controller.didTakeScreenshot()
                 }
             }
+        availability = Playback2026.observeAvailability { [weak self] isAvailable in
+            guard !isAvailable, let presenter = self?.presentingViewController else { return }
+            FileLog.shared.addMessage("Playback 2026: turned off by Remote Config, closing the stories")
+            presenter.dismiss(animated: true)
+        }
         // Started with the screen, so it runs while the intro plays. Closed before it is done,
         // the payload has nowhere to go.
         Task { [weak self] in

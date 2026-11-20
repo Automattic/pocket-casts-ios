@@ -263,8 +263,10 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show the synced transcript timing debug overlay at the bottom of the transcript (debug builds only)
     case transcriptDebugOverlay
 
-    /// Enable Playback 2026 (the yearly listening recap). Also the remote kill switch: turning it off in
-    /// Remote Config (`playback2026`) hides every entry point and exits a running flow
+    /// Enable Playback 2026 (the yearly listening recap). Remote Config (`playback2026`) turns it on or off
+    /// in release builds when the app applies Remote Config: at launch and each time it becomes active,
+    /// fetching at most every 2 hours. Turning it on shows the Profile banner and, once, the Podcasts sheet;
+    /// turning it off hides the entry points and closes open stories
     case playback2026
 
     /// Show the Played Podcasts option in the Podcasts tab, which hides podcasts with nothing left to listen to

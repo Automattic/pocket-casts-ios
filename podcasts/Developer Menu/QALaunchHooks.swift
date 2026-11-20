@@ -21,6 +21,10 @@ import PocketCastsServer
 ///   - `network:<fault>`: `offline`, `server-error` or `slow[:<seconds>]` (see `QANetworkFault`), or `off`. The fault
 ///     lasts across plain launches until a launch that sets `PC_QA_EMAIL` or `PC_QA_FIXTURES` without naming it again.
 ///
+/// - `tmp/qa-remote-config.json` in the app's data container, such as `{"playback2026": false}`: Remote Config values for
+///   feature flags, used in place of Firebase's whenever the app applies Remote Config (at launch and each time it becomes
+///   active), so a test can flip a flag mid-session. Delete the file to go back to Firebase.
+///
 /// Fixtures that change account data only run when signed out or signed in by these hooks, unless `launch.sh` marks the
 /// simulator as a throwaway one it created (`PC_QA_TRUSTED=1`).
 /// Analytics stay off on those throwaway simulators and on any simulator these hooks signed in, so test runs don't send events.
@@ -83,6 +87,19 @@ enum QALaunchHooks {
 
     private static var isRequested: Bool {
         requestedEmail != nil || !requestedFixtures.isEmpty
+    }
+
+    static var remoteConfigValues: [String: Bool]? {
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("qa-remote-config.json")
+        guard let data = try? Data(contentsOf: url) else {
+            return nil
+        }
+        guard let values = try? JSONDecoder().decode([String: Bool].self, from: data) else {
+            log("ignored \(url.lastPathComponent): expected an object of booleans")
+            return nil
+        }
+        log("remote config: \(values.sorted { $0.key < $1.key }.map { "\($0.key)=\($0.value)" }.joined(separator: ","))")
+        return values
     }
 
     // MARK: Account

@@ -188,6 +188,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         addCustomObserver(.serverUserWillBeSignedOut, selector: #selector(handleDataChangedNotification))
         addCustomObserver(.whatsNewDismissed, selector: #selector(whatsNewDismissed))
         addCustomObserver(EndOfYear.eoyEligibilityDidChange, selector: #selector(handleDataChangedNotification))
+        addCustomObserver(.featureFlagsDidChange, selector: #selector(handleDataChangedNotification))
         addCustomObserver(ServerNotifications.iapProductsUpdated, selector: #selector(refreshReferrals))
         addCustomObserver(.referralURLChanged, selector: #selector(refreshReferrals))
 

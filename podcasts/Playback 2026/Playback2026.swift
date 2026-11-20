@@ -1,3 +1,4 @@
+import Combine
 import UIKit
 import PlaybackKit
 import PocketCastsServer
@@ -7,6 +8,21 @@ enum Playback2026 {
     /// The single check every entry point (Podcasts sheet, Profile banner) and the story flow use.
     static var isAvailable: Bool {
         FeatureFlag.playback2026.enabled
+    }
+
+    /// Calls `handler` with ``isAvailable`` on the main queue each time Remote Config turns a feature flag on or off.
+    static func observeAvailability(
+        notificationCenter: NotificationCenter = .default,
+        isAvailable: @escaping () -> Bool = { Playback2026.isAvailable },
+        _ handler: @escaping @MainActor (Bool) -> Void
+    ) -> AnyCancellable {
+        notificationCenter.publisher(for: .featureFlagsDidChange)
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+                MainActor.assumeIsolated {
+                    handler(isAvailable())
+                }
+            }
     }
 
     // MARK: - Entry points

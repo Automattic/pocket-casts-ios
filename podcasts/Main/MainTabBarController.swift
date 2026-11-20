@@ -1138,6 +1138,11 @@ private extension MainTabBarController {
             guard let self, !Playback2026.startAfterSignInIfNeeded(from: self) else { return }
             self.showPlayback2026SheetIfNeeded()
         }
+        Playback2026.observeAvailability { [weak self] isAvailable in
+            guard let self, isAvailable, self.viewDidAppearBefore else { return }
+            self.showPlayback2026SheetIfNeeded()
+        }
+        .store(in: &cancellables)
     }
 
     func showWhatsNewIfNeeded() {

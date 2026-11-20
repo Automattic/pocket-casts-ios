@@ -165,6 +165,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func handleBecomeActive() {
         setupSignOutListener()
         appLifecycleAnalytics.didBecomeActive()
+        refreshRemoteConfig()
 
         if FeatureFlag.whatsNewFeed.enabled {
             WhatsNewManager.shared.refreshIfNeeded()
@@ -307,6 +308,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func configureFirebase() {
         FirebaseApp.configure()
 
+        refreshRemoteConfig()
+    }
+
+    private func refreshRemoteConfig() {
         FirebaseManager.refreshRemoteConfig() { [weak self] _ in
             self?.updateEndOfYearRemoteValue()
             self?.updateRemoteFeatureFlags()
@@ -314,22 +319,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func updateRemoteFeatureFlags(forceReload: Bool = false) {
+        #if DEBUG
+        if let values = QALaunchHooks.remoteConfigValues {
+            FeatureFlag.applyRemoteValues { values[$0] }
+            return
+        }
+        #endif
+
         guard BuildEnvironment.current != .debug || forceReload else { return }
 
         try? FeatureFlagOverrideStore().override(FeatureFlag.slumber, withValue: Settings.slumberPromoCode?.isEmpty == false)
 
-        FeatureFlag.allCases.forEach { flag in
-            if let remoteKey = flag.remoteKey {
-                let remoteValue = RemoteConfig.remoteConfig().configValue(forKey: remoteKey)
-                if remoteValue.source == .remote {
-                    do {
-                        FileLog.shared.console("Override \(flag): \(remoteValue.boolValue)")
-                        try FeatureFlagOverrideStore().override(flag, withValue: remoteValue.boolValue)
-                    } catch {
-                        FileLog.shared.addMessage("Failed to set remote feature flag \(flag): \(error)")
-                    }
-                }
-            }
+        FeatureFlag.applyRemoteValues { remoteKey in
+            let remoteValue = RemoteConfig.remoteConfig().configValue(forKey: remoteKey)
+            return remoteValue.source == .remote ? remoteValue.boolValue : nil
         }
     }
 
