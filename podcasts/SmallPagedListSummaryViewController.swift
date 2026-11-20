@@ -124,21 +124,22 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
     }
 
     private func offset(forPage page: Int) -> CGFloat {
-        CGFloat(page) * pageStride - collectionView.contentInset.left
+        CGFloat(page) * pageStride - collectionView.leadingContentInset
     }
 
     private func updateInsets() {
-        collectionView.contentInset.left = cellSpacing + horizontalInsets.left
+        let leadingInset = cellSpacing + leadingHorizontalInset
         let columns = ceil(CGFloat(displayedPodcastCount) / CGFloat(numberOfRows))
         let contentWidth = columns * (cellWidth + cellSpacing) + cellSpacing
-        let lastPageOffset = offset(forPage: max(numberOfPages - 1, 0))
+        let lastPageOffset = CGFloat(max(numberOfPages - 1, 0)) * pageStride - leadingInset
         let visibleWidth = collectionView.bounds.width
-        collectionView.contentInset.right = max(0, lastPageOffset + visibleWidth - contentWidth)
+        collectionView.setContentInsets(leading: leadingInset, trailing: max(0, lastPageOffset + visibleWidth - contentWidth))
     }
 
     private func restore(page: Int) {
         let target = min(page, max(numberOfPages - 1, 0))
-        collectionView.setContentOffset(CGPoint(x: offset(forPage: target), y: 0), animated: false)
+        collectionView.layoutIfNeeded()
+        collectionView.setContentOffset(CGPoint(x: collectionView.leadingAlignedOffsetX(offset(forPage: target)), y: 0), animated: false)
         updateCurrentPage()
     }
 
@@ -251,6 +252,7 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
             DispatchQueue.main.async {
                 strongSelf.updatePageCount()
                 strongSelf.collectionView.reloadData()
+                strongSelf.restore(page: max(strongSelf.pageControl.currentPage, 0))
             }
         })
     }
@@ -258,7 +260,7 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
     // MARK: - TinyPageControl delegate
 
     func pageDidChange(_ newPage: Int) {
-        collectionView.setContentOffset(CGPoint(x: offset(forPage: newPage), y: 0), animated: true)
+        collectionView.setContentOffset(CGPoint(x: collectionView.leadingAlignedOffsetX(offset(forPage: newPage)), y: 0), animated: true)
     }
 
     private func updatePageCount() {
@@ -271,7 +273,7 @@ class SmallPagedListSummaryViewController: DiscoverPeekViewController, GridLayou
 
     private func updateCurrentPage() {
         guard pageStride > 0 else { return }
-        let currentPage = Int(round((collectionView.contentOffset.x + collectionView.contentInset.left) / pageStride))
+        let currentPage = Int(round((collectionView.leadingAlignedOffsetX(collectionView.contentOffset.x) + collectionView.leadingContentInset) / pageStride))
 
         if currentPage == pageControl.currentPage { return }
         pageControl.currentPage = currentPage
