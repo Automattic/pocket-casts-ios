@@ -6,6 +6,8 @@ class MultipleActionView: UIView {
     private let actions: [OptionAction]
     private let themeOverride: Theme.ThemeType?
     private var imageView: UIImageView?
+    private var inlineConstraints: [NSLayoutConstraint] = []
+    private var stackedConstraints: [NSLayoutConstraint] = []
     private let iconActionWidth: CGFloat = 45
     private let componentHeight: CGFloat = 44
 
@@ -48,16 +50,20 @@ class MultipleActionView: UIView {
                 imageView.heightAnchor.constraint(equalToConstant: 24),
                 imageView.widthAnchor.constraint(equalToConstant: 24),
                 label.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20),
+            ])
+            inlineConstraints = [
                 label.topAnchor.constraint(equalTo: topAnchor),
                 label.bottomAnchor.constraint(equalTo: bottomAnchor),
-            ])
+            ]
             self.imageView = imageView
         } else {
             NSLayoutConstraint.activate([
                 label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            ])
+            inlineConstraints = [
                 label.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
                 label.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
-            ])
+            ]
         }
 
         let segmentedControl = CustomSegmentedControl()
@@ -77,11 +83,24 @@ class MultipleActionView: UIView {
         addSubview(segmentedControl)
 
         NSLayoutConstraint.activate([
-            trailingAnchor.constraint(equalTo: segmentedControl.trailingAnchor, constant: 20),
             segmentedControl.widthAnchor.constraint(equalToConstant: (CGFloat(actions.count) * iconActionWidth) + (CGFloat(actions.count - 1) * CustomSegmentedControl.separatorWidth)),
             segmentedControl.heightAnchor.constraint(equalToConstant: componentHeight),
-            segmentedControl.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
+
+        // The control sits beside the label, or under it at the accessibility text sizes,
+        // where the label is too wide to share the row on a narrow screen.
+        inlineConstraints += [
+            trailingAnchor.constraint(equalTo: segmentedControl.trailingAnchor, constant: 20),
+            segmentedControl.centerYAnchor.constraint(equalTo: centerYAnchor),
+            segmentedControl.leadingAnchor.constraint(greaterThanOrEqualTo: label.trailingAnchor, constant: 12),
+        ]
+        stackedConstraints = [
+            label.topAnchor.constraint(equalTo: topAnchor, constant: 12),
+            trailingAnchor.constraint(greaterThanOrEqualTo: label.trailingAnchor, constant: 20),
+            segmentedControl.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 8),
+            segmentedControl.leadingAnchor.constraint(equalTo: label.leadingAnchor),
+            bottomAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 12),
+        ]
 
         segmentedControl.addTarget(self, action: #selector(optionSelected), for: .valueChanged)
 
@@ -100,5 +119,9 @@ class MultipleActionView: UIView {
             let imageSize = max(24, metric.scaledValue(for: 24))
             imageView.updateSizeConstraints(to: imageSize)
         }
+
+        let isStacked = traitCollection.preferredContentSizeCategory.isAccessibilityCategory
+        NSLayoutConstraint.deactivate(isStacked ? inlineConstraints : stackedConstraints)
+        NSLayoutConstraint.activate(isStacked ? stackedConstraints : inlineConstraints)
     }
 }
