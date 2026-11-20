@@ -11,6 +11,8 @@ steps:
     command: .buildkite/commands/build.sh
     agents:
       queue: mac
+    env:
+      RBENV_VERSION: "3.4.13"
     plugins:
       - $CI_TOOLKIT
       - ${TEST_COLLECTOR}:
@@ -26,6 +28,8 @@ steps:
         command: .buildkite/commands/build-tvos-app-store.sh
         agents:
           queue: mac
+        env:
+          RBENV_VERSION: "3.4.13"
         plugins: [$CI_TOOLKIT]
         artifact_paths:
           - artifacts/*.ipa
@@ -43,6 +47,8 @@ steps:
         command: .buildkite/commands/upload-tvos-app-store.sh
         agents:
           queue: mac
+        env:
+          RBENV_VERSION: "3.4.13"
         plugins: [$CI_TOOLKIT]
 
   - group: "Linters"
@@ -92,6 +98,8 @@ steps:
           lint_localized_strings_format
         agents:
           queue: mac
+        env:
+          RBENV_VERSION: "3.4.13"
         plugins: [$CI_TOOLKIT]
 
   - input: Deploy Prototype Build
@@ -106,6 +114,8 @@ steps:
         command: .buildkite/commands/prototype-build.sh
         agents:
           queue: mac
+        env:
+          RBENV_VERSION: "3.4.13"
         plugins: [$CI_TOOLKIT]
         # The folder name is are configured in Fastlane
         artifact_paths:
@@ -117,4 +127,6 @@ steps:
         command: .buildkite/commands/prototype-upload.sh
         agents:
           queue: mac
+        env:
+          RBENV_VERSION: "3.4.13"
         plugins: [$CI_TOOLKIT]
