@@ -82,7 +82,7 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
     }
 
     var terms: AttributedString {
-        guard let selectedOffer else {
+        guard let selectedOffer, selectedOffer.type == .discount else {
             return L10n.termsAndConditions
         }
 
