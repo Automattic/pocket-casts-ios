@@ -18,13 +18,20 @@ class PlaybackStatsDataManager {
                             SELECT \(DataManager.podcastTableName).uuid as podcastUuid,
                                 \(DataManager.podcastTableName).title as title,
                                 \(DataManager.podcastTableName).author as author,
-                                SUM(\(DataManager.episodeTableName).playedUpTo) as playedSeconds,
-                                COUNT(DISTINCT \(DataManager.episodeTableName).uuid) as episodesPlayed
-                            FROM \(DataManager.episodeTableName), \(DataManager.podcastTableName)
-                            WHERE \(DataManager.podcastTableName).uuid = \(DataManager.episodeTableName).podcastUuid AND
-                                \(listenedEpisodes(year: year))
-                            GROUP BY \(DataManager.podcastTableName).uuid
-                            HAVING playedSeconds > 0
+                                played.playedSeconds as playedSeconds,
+                                played.episodesPlayed as episodesPlayed
+                            FROM (
+                                SELECT podcastUuid,
+                                    SUM(playedUpTo) as playedSeconds,
+                                    COUNT(DISTINCT uuid) as episodesPlayed
+                                FROM \(DataManager.episodeTableName)
+                                WHERE \(listenedEpisodes(year: year))
+                                GROUP BY podcastUuid
+                                HAVING playedSeconds > 0
+                            ) AS played
+                            JOIN \(DataManager.podcastTableName) ON \(DataManager.podcastTableName).id = (
+                                SELECT MIN(id) FROM \(DataManager.podcastTableName) WHERE uuid = played.podcastUuid
+                            )
                             ORDER BY playedSeconds DESC
                             """
                 let resultSet = try db.executeQuery(query, values: nil)
