@@ -744,7 +744,10 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             return controller
         }
 
-        return nil
+        // As the tab bar's bottom accessory the view isn't always in a window: on iPad the tab bar
+        // takes it out as soon as the mini player is hidden, even with the full screen player still
+        // open (e.g. when playback ends with an empty Up Next).
+        return hostTabBarController as? MainTabBarController
     }
 
     func miniPlayerShowing() -> Bool {
