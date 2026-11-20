@@ -4,7 +4,8 @@ import PocketCastsServer
 import PocketCastsUtils
 
 enum Playback2026 {
-    /// The single check every entry point (Podcasts sheet, Profile banner) and the story flow use.
+    /// The feature flag, which the story flow checks. The Podcasts sheet and the Profile banner
+    /// also need the user to have listened this year (``showsEntryPoints``).
     static var isAvailable: Bool {
         FeatureFlag.playback2026.enabled
     }
@@ -12,6 +13,25 @@ enum Playback2026 {
     // MARK: - Entry points
 
     static let year = 2026
+
+    /// Whether the Podcasts sheet and the Profile banner show: the flag is on and the user listened
+    /// this year (``Playback2026Eligibility``). Starts the eligibility check the first time.
+    static var showsEntryPoints: Bool {
+        guard isAvailable else { return false }
+        Playback2026Eligibility.shared.start()
+        return showsEntryPoints(isAvailable: true, isEligible: Playback2026Eligibility.shared.isEligible)
+    }
+
+    static func showsEntryPoints(isAvailable: Bool, isEligible: Bool) -> Bool {
+        isAvailable && isEligible
+    }
+
+    /// Runs `body` once the first eligibility check is done, when the flag is on.
+    static func whenEligibilityIsKnown(_ body: @escaping () -> Void) {
+        guard isAvailable else { return }
+        Playback2026Eligibility.shared.start()
+        Playback2026Eligibility.shared.whenChecked(body)
+    }
 
     /// Opens the stories at once. The listening history is read while the intro plays
     /// (``Playback2026ViewController``); if the user moves on before it is there, the intro shows
@@ -95,8 +115,8 @@ enum Playback2026 {
         set { UserDefaults.standard.set(newValue, forKey: hasShownSheetKey) }
     }
 
-    static func shouldShowSheet(isAvailable: Bool = Playback2026.isAvailable, hasShownSheet: Bool = Playback2026.hasShownSheet) -> Bool {
-        isAvailable && !hasShownSheet
+    static func shouldShowSheet(showsEntryPoints: Bool = Playback2026.showsEntryPoints, hasShownSheet: Bool = Playback2026.hasShownSheet) -> Bool {
+        showsEntryPoints && !hasShownSheet
     }
 
     static func showSheetIfNeeded(in viewController: UIViewController) {

@@ -1123,9 +1123,11 @@ private extension MainTabBarController {
     }
 
     func showPlayback2026SheetIfNeeded() {
-        guard !isShowingWhatsNew, AnnouncementFlow.current == .none, !isInitialOnboardingPending else { return }
+        Playback2026.whenEligibilityIsKnown { [weak self] in
+            guard let self, !isShowingWhatsNew, AnnouncementFlow.current == .none, !isInitialOnboardingPending else { return }
 
-        Playback2026.showSheetIfNeeded(in: self)
+            Playback2026.showSheetIfNeeded(in: self)
+        }
     }
 
     private var isInitialOnboardingPending: Bool {

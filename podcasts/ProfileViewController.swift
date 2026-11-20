@@ -156,6 +156,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         profileTable.tableFooterView = footerView
 
         setupRefreshButton()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDataChangedNotification), name: Playback2026Eligibility.didChange, object: nil)
         updateDisplayedData()
         updateRefreshFooterColors()
         updateFooterFrame()
@@ -531,7 +532,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             data[0].insert(.informationalBanner, at: 0)
         }
 
-        if Playback2026.isAvailable {
+        if Playback2026.showsEntryPoints {
             data[0].insert(.playback2026Banner, at: 0)
         }
 
