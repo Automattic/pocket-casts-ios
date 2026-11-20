@@ -51,23 +51,11 @@ enum Playback2026 {
     /// the server works out, asked for meanwhile. Opened again while the sync runs, it waits for
     /// that sync instead of starting another.
     nonisolated static func makePayload() async -> PlaybackPayload {
-        await makePayload(
-            historySync: historySync,
-            fetchArchetype: { await fetchArchetype() },
-            build: { Playback2026Payload.make(year: year, archetype: $0) }
-        )
-    }
-
-    nonisolated static func makePayload(
-        historySync: Playback2026HistorySync,
-        fetchArchetype: @escaping @Sendable () async -> Playback2026Archetype?,
-        build: @escaping @Sendable (Playback2026Archetype?) -> PlaybackPayload
-    ) async -> PlaybackPayload {
         let archetype = Task { await fetchArchetype() }
         await historySync.run()
         let fetchedArchetype = await archetype.value
         return await Task.detached(priority: .userInitiated) {
-            build(fetchedArchetype)
+            Playback2026Payload.make(year: year, archetype: fetchedArchetype)
         }.value
     }
 
