@@ -77,6 +77,8 @@
     <string>Podcast 封面圖片</string>
     <key>accessibility_profile_settings</key>
     <string>Pocket Casts 設定</string>
+    <key>accessibility_remove_recent_search</key>
+    <string>已從最近搜尋內容移除「%1$@」</string>
     <key>accessibility_select_episode</key>
     <string>選取本集</string>
     <key>accessibility_show_filter_details</key>
@@ -85,6 +87,8 @@
     <string>點選即可檢視或設定帳號</string>
     <key>accessibility_sort_and_options</key>
     <string>排序與選項</string>
+    <key>accessibility_unfollow_podcast</key>
+    <string>停止追蹤 %1$@</string>
     <key>accessibility_up_next_list</key>
     <string>「接下來播放」清單</string>
     <key>account</key>
@@ -2143,6 +2147,14 @@ Pocket Casts Plus</string>
     <string>更多 Podcast 節目，更多歡樂</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>比起 2024 年，你的收聽時間飆高了 %1$@</string>
+    <key>playback_2026_banner_description</key>
+    <string>探索你的收聽統計資料、你的聽眾類型等內容。</string>
+    <key>playback_2026_banner_title</key>
+    <string>2026 年度播放回顧來囉！</string>
+    <key>playback_2026_sheet_button</key>
+    <string>檢視我的 2026 年度播放回顧</string>
+    <key>playback_2026_sheet_description</key>
+    <string>你收聽的內容。 你最愛的 Podcast。 還有哪些特點讓你在聽眾群中獨樹一格。 你的 Pocket Casts 年度盛事來囉。</string>
     <key>playback_effect_all_podcasts</key>
     <string>所有 Podcast</string>
     <key>playback_effect_this_podcast</key>
@@ -2579,6 +2591,8 @@ Pocket Casts Plus</string>
     <string>已封存 %1$@ 集</string>
     <key>podcast_archived_msg</key>
     <string>已封存此 Podcast 節目全部 %1$@ 集</string>
+    <key>podcast_archived_msg_singular</key>
+    <string>已封存此 Podcast 唯一的單集</string>
     <key>podcast_count_plural_format</key>
     <string>%1$@ 個 Podcast 節目</string>
     <key>podcast_count_singular</key>
@@ -2772,6 +2786,14 @@ Pocket Casts Plus</string>
     <string>名稱</string>
     <key>podcasts_list</key>
     <string>清單</string>
+    <key>podcasts_played_podcasts</key>
+    <string>播放過的 Podcast</string>
+    <key>podcasts_played_podcasts_description</key>
+    <string>隱藏已無其他內容可收聽的 Podcast，因為每個單集皆已聽過或封存。 這些 Podcast 推出新單集時就會重新出現。</string>
+    <key>podcasts_played_podcasts_hide</key>
+    <string>隱藏</string>
+    <key>podcasts_played_podcasts_show</key>
+    <string>顯示</string>
     <key>podcasts_plural</key>
     <string>Podcast 節目</string>
     <key>podcasts_share</key>

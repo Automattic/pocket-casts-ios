@@ -125,7 +125,7 @@ struct SuggestedFoldersView: View {
     }
 
     private var actionButtons: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 8) {
             Button {
                 if model.showConfirmation {
                     track(.suggestedFoldersReplaceFoldersTapped)
@@ -138,6 +138,7 @@ struct SuggestedFoldersView: View {
                 Text(model.userHasExistingFolders ? L10n.suggestedFoldersReplaceConfirmationButton : L10n.suggestedFoldersUseSuggestedFolders)
                     .textStyle(RoundedButton())
             }
+            Color.clear.frame(height: 2)
             if model.userHasSubscription {
                 Button {
                     track(.suggestedFoldersCreateCustomFolderTapped)
@@ -145,6 +146,7 @@ struct SuggestedFoldersView: View {
                 } label: {
                     Text(L10n.suggestedFoldersCreateCustomFolder)
                         .textStyle(BorderButton())
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             } else {
                 Button {
@@ -153,6 +155,7 @@ struct SuggestedFoldersView: View {
                 } label: {
                     Text(L10n.suggestedFoldersCreateCustomFolder)
                         .textStyle(BorderButton())
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             }
         }
@@ -169,8 +172,9 @@ struct SuggestedFoldersView: View {
             track(.suggestedFoldersReplaceFoldersConfirmTapped)
             onCompletion(.applySuggestedFolders(model.folders))
         })
-        .presentationDetents([.fraction(0.4)])
-            .presentationDragIndicator(.visible)
+        .scrolledFittedPresentationDetent()
+        .applyDefaultThemeOptions()
+        .presentationDragIndicator(.visible)
     }
 
     private func track(_ event: AnalyticsEvent) {
