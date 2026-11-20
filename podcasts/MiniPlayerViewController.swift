@@ -454,6 +454,13 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         let isInstalled = largeRow.superview != nil || compactTextStack.superview != nil
         guard isLarge != isLargeLayoutApplied || !isInstalled else { return }
 
+        // `PlayerZoomAnimator` blanks the mini player's direct subviews while the full screen player is
+        // open and restores them when it closes. The two layouts have different direct subviews, so a
+        // switch while the player is open (folding or unfolding) has to carry that state over, or the
+        // layout that was blanked stays blank the next time it is installed.
+        let installedRoot: UIView = isLargeLayoutApplied ? largeRow : compactTextStack
+        let contentAlpha = isInstalled ? installedRoot.alpha : 1
+
         isLargeLayoutApplied = isLarge
         NSLayoutConstraint.deactivate(compactConstraints + largeConstraints)
 
@@ -496,6 +503,10 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             view.addSubview(glassButtonStack)
             NSLayoutConstraint.activate(compactConstraints)
         }
+
+        let compactRoots: [UIView] = [podcastArtwork, compactTextStack, glassButtonStack]
+        largeRow.alpha = isLarge ? contentAlpha : 1
+        compactRoots.forEach { $0.alpha = isLarge ? 1 : contentAlpha }
 
         skipBackBtnWidthConstraint.constant = buttonWidth
         playPauseBtnWidthConstraint.constant = buttonWidth
