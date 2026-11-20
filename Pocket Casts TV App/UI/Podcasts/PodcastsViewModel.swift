@@ -16,7 +16,22 @@ protocol PodcastsViewModelProtocol: AnyObject, Observation.Observable {
 
     var items: [HomeGridItem] { get }
 
+    var sortOrder: LibrarySort { get }
+
     func load() async
+
+    func setSortOrder(_ order: LibrarySort)
+}
+
+extension LibrarySort {
+    /// The sort options offered on the podcasts list, in the same order as the iOS app.
+    static let podcastsListOptions: [LibrarySort] = [
+        .dateAddedNewestToOldest,
+        .episodeDateNewestToOldest,
+        .recentlyPlayed,
+        .titleAtoZ,
+        .custom
+    ]
 }
 
 @Observable
@@ -26,6 +41,8 @@ class PodcastsViewModel: PodcastsViewModelProtocol {
     private(set) var state: PodcastViewModelState = .loading
 
     var items: [HomeGridItem] = []
+
+    private(set) var sortOrder: LibrarySort = Settings.homeFolderSortOrder
 
     private let dataManager: DataManager
 
@@ -39,12 +56,24 @@ class PodcastsViewModel: PodcastsViewModelProtocol {
         RefreshManager.shared.refreshPodcasts()
     }
 
+    /// Persists the sort order to the (synced) setting shared with the iOS app, then reloads the grid.
+    func setSortOrder(_ order: LibrarySort) {
+        guard order != sortOrder else { return }
+        Settings.homeFolderSortOrder = order
+        sortOrder = order
+        Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": order])
+        Task { await fetchPodcasts() }
+    }
+
     private func fetchPodcasts() async {
+        // Re-read the setting, a sync may have changed it from another device.
+        let order = Settings.homeFolderSortOrder
         let gridItems = await Task {
-            HomeGridDataHelper.gridItems(orderedBy: .titleAtoZ)
+            HomeGridDataHelper.gridItems(orderedBy: order)
         }.value
 
         await MainActor.run {
+            self.sortOrder = order
             self.items = gridItems
             self.state = gridItems.isEmpty ? .empty : .ready
         }
@@ -81,6 +110,12 @@ class PodcastsViewModelMock: PodcastsViewModelProtocol {
     var state: PodcastViewModelState = .loading
 
     var items: [HomeGridItem] = []
+
+    var sortOrder: LibrarySort = .dateAddedNewestToOldest
+
+    func setSortOrder(_ order: LibrarySort) {
+        sortOrder = order
+    }
 
     func load() async {
         //Mock data load
