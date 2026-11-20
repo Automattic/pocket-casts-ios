@@ -326,8 +326,8 @@ class NavigationManager {
         }
     }
 
-    func showNotificationsPermissionsModal() {
-        mainController?.showNotificationsPermissions()
+    func showNotificationsPermissionsModal(isNewAccount: Bool) {
+        mainController?.showNotificationsPermissions(isNewAccount: isNewAccount)
     }
 }
 
