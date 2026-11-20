@@ -7,6 +7,7 @@ struct NameFolderView: View {
     }
 
     @EnvironmentObject var theme: Theme
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     @ObservedObject var model: FolderModel
 
@@ -39,6 +40,9 @@ struct NameFolderView: View {
             .background(theme.primaryUi01)
         }
         .navigationTitle(L10n.folderNameTitle)
+        // At the accessibility text sizes the field can need scrolling to stay above the keyboard,
+        // which leaves a large title resting under the back button. An inline title has no such state.
+        .navigationBarTitleDisplayMode(dynamicTypeSize.isAccessibilitySize ? .inline : .automatic)
         .onAppear {
             // this appears to be a known issue with SwiftUI, in that it just passes this onto UIKit which can't set focus while a view is appearing, so here we artificially delay it
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
