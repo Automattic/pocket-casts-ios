@@ -21,7 +21,7 @@ public class ServerPodcastManager: NSObject {
 
     private let urlConnection: URLConnection
 
-    private static let podcastInsertLock = NSLock()
+    private static let podcastAddLock = NSLock()
 
     init(urlConnection: URLConnection = URLConnection(handler: URLSession.shared)) {
         self.urlConnection = urlConnection
@@ -219,52 +219,29 @@ public class ServerPodcastManager: NSObject {
     private func addPodcast(podcastInfo: [String: Any], episodes: [Episode]?, subscribe: Bool, autoDownloads: Int = 0, lastModified: String?) -> Bool {
         guard let podcastJson = podcastInfo["podcast"] as? [String: Any], let podcastUuid = podcastJson["uuid"] as? String else { return false }
 
-        switch findOrInsertPodcast(uuid: podcastUuid, podcastJson: podcastJson, podcastInfo: podcastInfo, episodes: episodes, subscribe: subscribe, autoDownloads: autoDownloads, lastModified: lastModified) {
-        case .noEpisodes:
-            return false
-        case let .existing(existingPodcast):
-            if existingPodcast.isSubscribed(), subscribe { return true }
+        var didSubscribe = false
+        let added: Bool = Self.podcastAddLock.withLock {
+            // check if we already have this podcast, and if we do treat it differently
+            if let existingPodcast = DataManager.shared.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
+                guard subscribe, !existingPodcast.isSubscribed() else { return true }
 
-            if !existingPodcast.isSubscribed(), subscribe {
                 // we have this podcast, just in a non-subscribed state, so subscribe to it
                 existingPodcast.subscribed = 1
                 existingPodcast.syncStatus = SyncStatus.notSynced.rawValue
                 existingPodcast.autoDownloadSetting = (autoDownloads > 0 ? AutoDownloadSetting.latest : AutoDownloadSetting.off).rawValue
+                DataManager.shared.save(podcast: existingPodcast)
+                updateLatestEpisodeInfo(podcast: existingPodcast, setDefaults: true, autoDownloadLimit: autoDownloads)
+
+                didSubscribe = true
+                return true
             }
-            DataManager.shared.save(podcast: existingPodcast)
-            updateLatestEpisodeInfo(podcast: existingPodcast, setDefaults: true, autoDownloadLimit: autoDownloads)
 
-            ServerConfig.shared.syncDelegate?.podcastAdded(podcastUuid: existingPodcast.uuid)
-
-            return true
-        case let .inserted(podcast):
-            updateLatestEpisodeInfo(podcast: podcast, setDefaults: subscribe, autoDownloadLimit: autoDownloads)
-
-            if subscribe { ServerConfig.shared.syncDelegate?.podcastAdded(podcastUuid: podcast.uuid) }
-
-            return true
-        }
-    }
-
-    private enum PodcastInsertResult {
-        case existing(Podcast)
-        case inserted(Podcast)
-        case noEpisodes
-    }
-
-    private func findOrInsertPodcast(uuid podcastUuid: String, podcastJson: [String: Any], podcastInfo: [String: Any], episodes: [Episode]?, subscribe: Bool, autoDownloads: Int, lastModified: String?) -> PodcastInsertResult {
-        Self.podcastInsertLock.withLock {
-            // check if we already have this podcast, and if we do treat it differently
-            if let existingPodcast = DataManager.shared.findPodcast(uuid: podcastUuid, includeUnsubscribed: true) {
-                return .existing(existingPodcast)
-            }
+            // we don't accept podcasts with no episodes
+            guard let episodes else { return false }
 
             let podcast = Podcast.from(podcastJson: podcastJson, podcastInfo: podcastInfo, uuid: podcastUuid, subscribe: subscribe, autoDownloads: autoDownloads, lastModified: lastModified)
 
             podcast.sortOrder = highestSortOrderForHomeGrid() + 1
-
-            // we don't accept podcasts with no episodes
-            guard let episodes else { return .noEpisodes }
 
             // save the podcast so that it gets and ID
             DataManager.shared.save(podcast: podcast)
@@ -274,8 +251,15 @@ public class ServerPodcastManager: NSObject {
             }
             DataManager.shared.bulkSave(episodes: episodes)
 
-            return .inserted(podcast)
+            updateLatestEpisodeInfo(podcast: podcast, setDefaults: subscribe, autoDownloadLimit: autoDownloads)
+
+            didSubscribe = subscribe
+            return true
         }
+
+        if didSubscribe { ServerConfig.shared.syncDelegate?.podcastAdded(podcastUuid: podcastUuid) }
+
+        return added
     }
 
     private func addEpisode(podcastInfo: [String: Any], shouldUpdate: Bool = false) -> Episode? {

@@ -113,6 +113,29 @@ final class ServerPodcastManagerAddTests: XCTestCase {
         }
     }
 
+    func testAddingAMissingEpisodeKeepsTheSettingsOfAPodcastWeAlreadyHave() throws {
+        let podcast = Podcast()
+        podcast.uuid = "podcast-1"
+        podcast.subscribed = 1
+        podcast.autoDownloadSetting = AutoDownloadSetting.latest.rawValue
+        podcast.showArchived = true
+        dataManager.save(podcast: podcast)
+
+        let episode = Episode()
+        episode.uuid = "episode-1"
+        episode.podcast_id = podcast.id
+        episode.podcastUuid = podcast.uuid
+        episode.publishedDate = Date()
+        dataManager.save(episode: episode)
+
+        let manager = ServerPodcastManager(urlConnection: URLConnection(mockHandler: { try Self.findByEpisodeResponse(for: $0) }))
+        manager.addMissingPodcast(episodeUuid: "episode-2", podcastUuid: podcast.uuid)
+
+        let savedPodcast = try XCTUnwrap(dataManager.findPodcast(uuid: podcast.uuid))
+        XCTAssertEqual(savedPodcast.autoDownloadSetting, AutoDownloadSetting.latest.rawValue)
+        XCTAssertTrue(savedPodcast.showArchived)
+    }
+
     // MARK: - Helpers
 
     private func assertOnePodcastRow(uuid podcastUuid: String, containing episodeUuids: [String], subscribed: Bool, file: StaticString = #filePath, line: UInt = #line) throws {
