@@ -44,7 +44,8 @@ class PlaybackManager: ServerPlaybackDelegate {
     private var wasPlayingBeforeInterruption = false
     private let aboutToPlay = Mutex(false)
 
-    private let shouldDeactivateSession = Mutex(false)
+    private let audioSessionQueue = DispatchQueue(label: "AudioSessionQueue", qos: .userInitiated)
+    private let pendingDeactivation = Mutex<UUID?>(nil)
     private var haveCalledPlayerLoad = false
 
     /// Tracks whether `playback_source_resolved` has been reported for the current player, so it's
@@ -963,22 +964,21 @@ class PlaybackManager: ServerPlaybackDelegate {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackEnded)
     }
 
-    private var deactivateTimedActionHelper = TimedActionHelper()
-    private func deactivateAudioSession(waitBeforeDeactivating: Bool = true) {
-        if !waitBeforeDeactivating {
-            performDeactivate(audioSession: AVAudioSession.sharedInstance())
-            return
-        }
-
-        shouldDeactivateSession.value = true
+    private func deactivateAudioSession(after delay: TimeInterval = 3.seconds) {
+        let request = UUID()
+        pendingDeactivation.value = request
         // iOS gets cranky if you try to de-activate a session that's playing audio, and calling pause doesn't immediately cause audio to stop playing, so as a workaround wait a bit then do it
-        deactivateTimedActionHelper.startTimer(for: 3.seconds) { [weak self] in
+        audioSessionQueue.asyncAfter(deadline: .now() + delay) { [weak self] in
             guard let self else { return }
 
-            let audioSession = AVAudioSession.sharedInstance()
-            if !self.shouldDeactivateSession.value { return }
-            self.shouldDeactivateSession.value = false
-            self.performDeactivate(audioSession: audioSession)
+            let isLatestRequest = self.pendingDeactivation.withLock { pending in
+                guard pending == request else { return false }
+                pending = nil
+                return true
+            }
+            if isLatestRequest {
+                self.performDeactivate(audioSession: AVAudioSession.sharedInstance())
+            }
         }
     }
 
@@ -1594,11 +1594,8 @@ class PlaybackManager: ServerPlaybackDelegate {
                 if let index = self.playersToCleanUp.firstIndex(of: player) {
                     self.playersToCleanUp.remove(at: index)
                 }
-
-                if !self.isPlaying {
-                    self.deactivateAudioSession(waitBeforeDeactivating: false)
-                }
             }
+            deactivateAudioSession(after: 5.seconds)
         }
 
         player = nil
@@ -1617,7 +1614,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
         #endif
 
-        shouldDeactivateSession.value = false
+        pendingDeactivation.value = nil
 
         #if os(watchOS)
             do {
@@ -1631,7 +1628,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             }
         #else
             // Perform audio session activation on a background queue to avoid blocking the main thread
-            DispatchQueue.global(qos: .userInitiated).async {
+            audioSessionQueue.async {
                 self.activateSession(completion: completeOnMain)
             }
         #endif
