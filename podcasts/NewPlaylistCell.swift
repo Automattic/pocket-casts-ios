@@ -130,12 +130,13 @@ class NewPlaylistCell: ThemeableCell {
             subscribeToUpdates(for: playlist.uuid)
         }
 
+        playlistCountLoadTask?.cancel()
         playlistCountLoadTask = Task { [weak self] in
             guard let self else { return }
             let loadingPlaylist = playlistID
 
             if FeatureFlag.playlistDataCacheBeforeQuery.enabled {
-                if let cachedCount = await self.playlistMetadataLoader.cachedCount(for: playlist.uuid) {
+                if let cachedCount = await self.playlistMetadataLoader.cachedCount(for: playlist.uuid), !Task.isCancelled {
                     await MainActor.run {
                         self.viewModel.episodesCount = cachedCount
                     }
@@ -143,7 +144,7 @@ class NewPlaylistCell: ThemeableCell {
             }
 
             let count = await self.playlistMetadataLoader.loadCount(for: playlist)
-            if self.playlistID != loadingPlaylist {
+            if self.playlistID != loadingPlaylist || Task.isCancelled {
                 return
             }
             await MainActor.run {
