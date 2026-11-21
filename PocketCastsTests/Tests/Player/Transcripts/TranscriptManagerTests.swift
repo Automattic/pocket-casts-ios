@@ -56,6 +56,20 @@ final class TranscriptManagerTests: XCTestCase {
         }
     }
 
+    class UnreachableVTTMockShowCoordinator: MockShowCoordinator {
+        override func loadTranscriptsMetadata(podcastUuid: String, episodeUuid: String) async throws -> EpisodeTranscriptData {
+            guard let textURL = Bundle(for: Self.self).url(forResource: "sample", withExtension: "txt") else {
+                return (transcripts: [], hasGeneratedTranscripts: false, isDisplayingGeneratedTranscript: false)
+            }
+            let missingURL = textURL.deletingLastPathComponent().appendingPathComponent("\(UUID().uuidString).vtt")
+            let transcripts = [
+                Episode.Metadata.Transcript(url: missingURL.absoluteString, type: "text/vtt", language: nil),
+                Episode.Metadata.Transcript(url: textURL.absoluteString, type: "text/plain", language: nil)
+            ]
+            return (transcripts: transcripts, hasGeneratedTranscripts: false, isDisplayingGeneratedTranscript: false)
+        }
+    }
+
     func testLoadingTranscript() async throws {
         let mockShowCoordinator = MockShowCoordinator()
         let manager = TranscriptManager(episodeUUID: UUID().uuidString, podcastUUID: UUID().uuidString, showCoordinator: mockShowCoordinator)
@@ -98,5 +112,13 @@ final class TranscriptManagerTests: XCTestCase {
 
         XCTAssertTrue(model.attributedText.string.contains("Today I'm speaking with Daniel Kokotajlo."))
         XCTAssertTrue(model.cues.isEmpty)
+    }
+
+    func testLoadingTranscriptFallsBackWhenPreferredFormatFailsToLoad() async throws {
+        let manager = TranscriptManager(episodeUUID: UUID().uuidString, podcastUUID: UUID().uuidString, showCoordinator: UnreachableVTTMockShowCoordinator())
+
+        let model = try await manager.loadTranscript()
+
+        XCTAssertTrue(model.attributedText.string.contains("Today I'm speaking with Daniel Kokotajlo."))
     }
 }
