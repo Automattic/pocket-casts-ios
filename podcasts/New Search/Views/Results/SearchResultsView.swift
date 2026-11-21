@@ -169,25 +169,20 @@ struct SearchResultsView: View {
 
     @ViewBuilder var combinedList: some View {
         ForEach(filteredResults, id: \.self) { result in
-            switch result {
-                case .podcast(let podcast):
-                    SearchResultCell(episode: nil, result: podcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
-                        .listRowBackground(theme.searchBackground)
-                        .alignmentGuide(.listRowSeparatorLeading) { _ in
-                            return 0
-                        }
-                case .episode(let episode):
-                    SearchResultCell(episode: episode, result: nil, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
-                        .listRowBackground(theme.searchBackground)
-                        .alignmentGuide(.listRowSeparatorLeading) { _ in
-                            return 0
-                        }
-                case .network(let network):
-                    NetworkSearchResultCell(network: network, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
-                        .listRowBackground(theme.searchBackground)
-                        .alignmentGuide(.listRowSeparatorLeading) { _ in
-                            return 0
-                        }
+            Group {
+                switch result {
+                    case .podcast(let podcast):
+                        SearchResultCell(episode: nil, result: podcast, played: false, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
+                    case .episode(let episode):
+                        SearchResultCell(episode: episode, result: nil, showDivider: false, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
+                    case .network(let network):
+                        NetworkSearchResultCell(network: network, cellStyle: ListCellButtonStyle(backgroundStyle: .searchBackground))
+                }
+            }
+            .listRowInsets(EdgeInsets())
+            .listRowBackground(theme.searchBackground)
+            .alignmentGuide(.listRowSeparatorLeading) { _ in
+                return 0
             }
         }
     }
