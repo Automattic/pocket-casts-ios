@@ -63,7 +63,7 @@ struct UpgradeProductsView: View {
                     .stroke(product.identifier == model.selectedProduct ? theme.primaryInteractive01 : .clear, lineWidth: 2)
                 if let offer = product.offer, offer.type == .discount {
                     makeBadge(text: L10n.discountOfferProductBadge(offer.discountPercent))
-                        .offset(x: 0, y: -badgeOffset)                        
+                        .offset(x: 0, y: -badgeOffset)
                 } else if product.isBestValue, let savings = model.savingsOnBestValue {
                     makeBadge(text: savings)
                         .offset(x: 0, y: -badgeOffset)
