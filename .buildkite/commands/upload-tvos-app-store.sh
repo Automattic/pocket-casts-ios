@@ -2,10 +2,6 @@
 
 set -eu
 
-if "$(dirname "${BASH_SOURCE[0]}")/should-skip-job.sh" --job-type build; then
-  exit 0
-fi
-
 "$(dirname "${BASH_SOURCE[0]}")/shared_setup.sh"
 
 echo "--- :arrow_down: Downloading tvOS App Store Build"

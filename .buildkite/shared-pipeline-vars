@@ -20,7 +20,7 @@ TEST_COLLECTOR_PLUGIN_VERSION="1.11.0"
 
 RUN_FASTLANE_TESTS=false
 if [[ "${BUILDKITE_PULL_REQUEST:-false}" =~ ^[0-9]+$ ]]; then
-    RUN_FASTLANE_TESTS=$(pr_changed_files --stdout --any-match 'fastlane/*' '*.rb' 'Gemfile' 'Gemfile.lock' '.ruby-version')
+    RUN_FASTLANE_TESTS=$(pr_changed_files --stdout --any-match 'fastlane/*' '*.rb' 'Gemfile' 'Gemfile.lock' '.ruby-version') || RUN_FASTLANE_TESTS=true
 fi
 
 export IMAGE_ID="xcode-$XCODE_VERSION"
@@ -31,3 +31,11 @@ export DOCKER_RUBY_IMAGE="public.ecr.aws/docker/library/ruby:$RUBY_VERSION"
 export RUN_FASTLANE_TESTS
 
 echo "-> Should run Fastlane tests: $RUN_FASTLANE_TESTS"
+
+# Skip decisions, made here on the upload agent so that skipped jobs never wait for a Mac.
+# One variable per job type: `false` runs the step, anything else is the reason to skip it. The pipeline uses them as `skip: "$SKIP_…"`.
+for job_type in build ios-tests tvos-build localization themes; do
+    skip_var="SKIP_$(echo "$job_type" | tr 'a-z-' 'A-Z_')"
+    export "$skip_var=$("$SCRIPT_DIR/commands/should-skip-job.sh" --job-type "$job_type")"
+    echo "$skip_var=${!skip_var}"
+done
