@@ -66,4 +66,8 @@ class UploadFilesUpdateTask: ApiBaseTask, @unchecked Sendable {
             completion?(-1)
         }
     }
+
+    override func apiTokenAcquisitionFailed() {
+        completion?(-1)
+    }
 }

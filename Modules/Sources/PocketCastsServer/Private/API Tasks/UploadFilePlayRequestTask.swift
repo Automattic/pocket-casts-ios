@@ -39,4 +39,8 @@ class UploadFilePlayRequestTask: ApiBaseTask, @unchecked Sendable {
             }
         }
     }
+
+    override func apiTokenAcquisitionFailed() {
+        completion?(nil)
+    }
 }

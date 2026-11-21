@@ -39,4 +39,8 @@ class ReferralRedeemTask: ApiBaseTask, @unchecked Sendable {
             completion?(false)
         }
     }
+
+    override func apiTokenAcquisitionFailed() {
+        completion?(false)
+    }
 }

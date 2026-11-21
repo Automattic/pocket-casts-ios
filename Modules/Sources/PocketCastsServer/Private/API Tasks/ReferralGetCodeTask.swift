@@ -30,4 +30,8 @@ class ReferralGetCodeTask: ApiBaseTask, @unchecked Sendable {
             completion?(nil)
         }
     }
+
+    override func apiTokenAcquisitionFailed() {
+        completion?(nil)
+    }
 }
