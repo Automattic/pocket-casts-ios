@@ -38,15 +38,18 @@ public class CacheServerHandler {
 
         // even after returning a cached response, we still go and check if there's a newer version available and if so put that in our cache for next time
         URLSession.shared.dataTask(with: request) { [weak self] data, response, _ in
-            guard let strongSelf = self else { return }
-
-            if let data, let response {
-                let responseToCache = CachedURLResponse(response: response, data: data)
-                strongSelf.colorsUrlsCache.storeCachedResponse(responseToCache, for: request)
-
+            guard let strongSelf = self, let data, let response else {
                 if !sentResponse {
-                    strongSelf.extractCachedColors(responseData: data, completion: completion)
+                    completion(nil, nil, nil)
                 }
+                return
+            }
+
+            let responseToCache = CachedURLResponse(response: response, data: data)
+            strongSelf.colorsUrlsCache.storeCachedResponse(responseToCache, for: request)
+
+            if !sentResponse {
+                strongSelf.extractCachedColors(responseData: data, completion: completion)
             }
         }.resume()
     }
