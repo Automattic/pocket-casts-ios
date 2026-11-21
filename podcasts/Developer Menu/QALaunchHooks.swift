@@ -9,7 +9,8 @@ import PocketCastsServer
 /// They read environment variables, so they only run for a launch that sets them
 /// (`SIMCTL_CHILD_PC_QA_FIXTURES=quiet xcrun simctl launch …`):
 /// - `PC_QA_EMAIL` and `PC_QA_PASSWORD`: sign in to a test account and wait for the first sync.
-/// - `PC_QA_SERVER`: `staging` or `production`, checked against the build before signing in.
+/// - `PC_QA_SERVER`: `staging` or `production`, checked against the server the app talks to before signing in.
+///   To switch servers, launch with `PC_SERVER` (see `ServerEnvironmentSwitch`).
 /// - `PC_QA_FIXTURES`: comma-separated fixtures, applied in order:
 ///   - `quiet`: no onboarding, account-creation prompt, What's New, End of Year or review prompts.
 ///   - `no-tips`: no tips, banners or upsell popovers.
@@ -88,11 +89,7 @@ enum QALaunchHooks {
     // MARK: Account
 
     private static func checkServer(_ expected: String?) throws {
-        #if STAGING
-        let server = "staging"
-        #else
-        let server = "production"
-        #endif
+        let server = ServerEnvironment.current.rawValue
         guard let expected, expected == server else {
             throw Failure("this build talks to \(server), but the account is for \(expected ?? "an unspecified server")")
         }

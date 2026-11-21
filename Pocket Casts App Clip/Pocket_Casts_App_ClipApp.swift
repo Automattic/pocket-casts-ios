@@ -8,6 +8,7 @@ struct Pocket_Casts_App_ClipApp: App {
     @UIApplicationDelegateAdaptor private var appDelegate: AppClipAppDelegate
 
     init() {
+        ServerEnvironment.current = .buildDefault
         ServerConfig.shared.syncDelegate = ServerSyncManager.shared
         ServerConfig.shared.playbackDelegate = PlaybackManager.shared
 

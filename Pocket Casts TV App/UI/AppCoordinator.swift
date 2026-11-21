@@ -27,6 +27,7 @@ class AppCoordinator {
 
         checkDefaults()
 
+        ServerEnvironment.current = .buildDefault
         ServerConfig.shared.syncDelegate = ServerSyncManager.shared
         ServerConfig.shared.playbackDelegate = PlaybackManager.shared
 

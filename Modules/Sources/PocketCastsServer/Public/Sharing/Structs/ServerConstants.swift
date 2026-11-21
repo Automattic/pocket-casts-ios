@@ -72,10 +72,7 @@ public enum ServerConstants {
     }
 
     private static func production() -> Bool {
-        guard let delegate = ServerConfig.shared.syncDelegate else {
-            return true
-        }
-        return delegate.production()
+        ServerEnvironment.current == .production
     }
 
     public enum HttpConstants {

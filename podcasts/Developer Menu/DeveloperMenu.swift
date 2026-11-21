@@ -29,7 +29,7 @@ struct DeveloperMenu: View {
 extension DeveloperMenuSection {
     @MainActor
     static var all: [DeveloperMenuSection] {
-        [.data, .dangerZone, .subscription, .screens, .tipsAndPrompts, .notifications, .whatsNew, .playlists, .buildAndDevice]
+        [.server, .data, .dangerZone, .subscription, .screens, .tipsAndPrompts, .notifications, .whatsNew, .playlists, .buildAndDevice]
     }
 
     static var buildAndDevice: DeveloperMenuSection {
