@@ -8,7 +8,7 @@ protocol WhatsNewLinkDelegate: AnyObject {
 class WhatsNewLinkButton: ThemeableRoundedButton {
     var url: URL?
     var navigationKey: String?
-    var delegate: WhatsNewLinkDelegate?
+    weak var delegate: WhatsNewLinkDelegate?
     required init(url: URL) {
         self.url = url
 
