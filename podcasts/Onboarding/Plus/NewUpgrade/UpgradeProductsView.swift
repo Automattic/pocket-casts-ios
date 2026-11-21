@@ -7,7 +7,7 @@ struct UpgradeProductsView: View {
 
     @ObservedObject var model: UpgradeAccountViewModel
 
-    @ScaledMetric(relativeTo: .body) private var badgeOffset: CGFloat = 8
+    @ScaledMetricWithMaxSize(relativeTo: .body, maxSize: .xxxLarge) private var badgeOffset: CGFloat = 8
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -63,7 +63,7 @@ struct UpgradeProductsView: View {
                     .stroke(product.identifier == model.selectedProduct ? theme.primaryInteractive01 : .clear, lineWidth: 2)
                 if let offer = product.offer, offer.type == .discount {
                     makeBadge(text: L10n.discountOfferProductBadge(offer.discountPercent))
-                        .offset(x: 0, y: -badgeOffset)
+                        .offset(x: 0, y: -badgeOffset)                        
                 } else if product.isBestValue, let savings = model.savingsOnBestValue {
                     makeBadge(text: savings)
                         .offset(x: 0, y: -badgeOffset)
@@ -111,7 +111,7 @@ struct UpgradeProductsView: View {
         .multilineTextAlignment(.center)
         .foregroundColor(theme.primaryText02)
         .tint(theme.primaryText02)
-        .font(size: 11, style: .largeTitle, weight: .semibold)
+        .font(size: 11, style: .largeTitle, weight: .semibold, maxSizeCategory: .extraExtraExtraLarge)
         .environment(\.openURL, OpenURLAction { url in
             switch url.absoluteString {
                 case privacyPolicy:

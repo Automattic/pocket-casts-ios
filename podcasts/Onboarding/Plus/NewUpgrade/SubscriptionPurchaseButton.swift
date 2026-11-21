@@ -49,6 +49,7 @@ struct SubscriptionPurchaseButton: View {
         }, label: {
             VStack {
                 Text(purchaseTitle)
+                    .font(size: 18, style: .body, weight: .semibold, maxSizeCategory: .extraExtraExtraLarge)
             }
             .transition(.opacity)
             .id("plus_price" + tier.title)
