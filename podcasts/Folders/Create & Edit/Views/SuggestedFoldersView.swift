@@ -89,7 +89,7 @@ struct SuggestedFoldersView: View {
         // The title, description and folders scroll together, so the description is never
         // squeezed to make room for the folders at the larger text sizes.
         ScrollView {
-            VStack(alignment: .leading, spacing: 16) {                
+            VStack(alignment: .leading, spacing: 16) {
                 Text(model.userHasExistingFolders ? L10n.suggestedFoldersDescriptionWithExistingFolders : L10n.suggestedFoldersDescription)
                     .textStyle(SecondaryText())
                     .font(.body)
@@ -104,7 +104,7 @@ struct SuggestedFoldersView: View {
                 .padding(Constants.margin)
                 .background(theme.primaryUi01)
         }
-        .navigationBarTitleDisplayMode(.automatic)
+        .navigationBarTitleDisplayMode(.inline)
         .navigationTitle(L10n.suggestedFoldersTitle)
         .onAppear {
             track(.suggestedFoldersPageShown)
