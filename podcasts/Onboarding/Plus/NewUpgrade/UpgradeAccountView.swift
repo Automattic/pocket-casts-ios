@@ -47,10 +47,13 @@ struct UpgradeAccountView: View {
 
     var header: some View {
         HStack() {
-            SubscriptionBadge(tier: model.upgradeTier.tier, displayMode: .plain)
-            if model.isDiscountOfferAvailable {
-                makeBadge(text: L10n.discountOfferLimitedTimeBadge)
+            HStack {
+                SubscriptionBadge(tier: model.upgradeTier.tier, displayMode: .plain)
+                if model.isDiscountOfferAvailable {
+                    makeBadge(text: L10n.discountOfferLimitedTimeBadge)
+                }
             }
+            .fixedSize(horizontal: false, vertical: true)
             Spacer()
             Button() {
                 model.dismissTapped(originalDismiss: dismiss)
@@ -74,8 +77,9 @@ struct UpgradeAccountView: View {
         HStack(alignment: .center, spacing: 0) {
             Text(text)
                 .foregroundStyle(theme.primaryText01)
-                .font(size: 13, style: .footnote, weight: .medium, maxSizeCategory: .extraExtraExtraLarge)
+                .font(size: 13, style: .footnote, weight: .semibold, maxSizeCategory: .accessibilityExtraLarge)
         }
+        .frame(maxHeight: .infinity, alignment: .center)
         .padding(.horizontal, 12)
         .padding(.vertical, 2)
         .background(theme.primaryUi02Selected)
