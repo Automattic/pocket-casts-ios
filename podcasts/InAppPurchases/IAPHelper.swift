@@ -705,7 +705,7 @@ private extension SKProductSubscriptionPeriod {
         components.calendar = Calendar.current
         components.setValue(self.numberOfUnits, for: calendarUnit)
 
-        return Calendar.current.date(byAdding: components, to: Date.now, wrappingComponents: true)
+        return Calendar.current.date(byAdding: components, to: Date.now, wrappingComponents: false)
     }
 }
 
