@@ -10,11 +10,4 @@ public protocol PCDatabase {
     func executeUpdate(_ sql: String, values: [Any]?) throws
 
     func insert(into: String, columns: [String], values: [Any?]) throws
-
-    func lastErrorCode() -> Int32
-
-    func lastErrorMessage() -> String
-
-    @discardableResult
-    func rollback() -> Bool
 }
