@@ -198,12 +198,15 @@ class ServerSyncManager: ServerSyncDelegate {
     func minTimeBetweenProgressSaves() -> Double {
         Settings.minTimeBetweenProgressSaves()
     }
+}
 
-    func production() -> Bool {
+extension ServerEnvironment {
+    /// The server this build talks to unless a debug build switched it.
+    static var buildDefault: ServerEnvironment {
         #if STAGING
-            return false
+            return .staging
         #else
-            return true
+            return .production
         #endif
     }
 }

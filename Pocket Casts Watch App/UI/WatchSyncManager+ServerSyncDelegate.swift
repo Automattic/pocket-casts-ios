@@ -107,12 +107,4 @@ extension WatchSyncManager: ServerSyncDelegate {
     func minTimeBetweenProgressSaves() -> Double {
         2.minutes
     }
-
-    func production() -> Bool {
-        #if STAGING
-            return false
-        #else
-            return true
-        #endif
-    }
 }

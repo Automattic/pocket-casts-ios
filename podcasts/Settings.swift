@@ -396,11 +396,8 @@ class Settings: NSObject {
     }
 
     class func displayableVersion() -> String {
-#if STAGING
-        return L10n.appVersion(Settings.appVersion(), Settings.buildNumber()) + " - STAGING"
-#else
-        return L10n.appVersion(Settings.appVersion(), Settings.buildNumber())
-#endif
+        let version = L10n.appVersion(Settings.appVersion(), Settings.buildNumber())
+        return ServerEnvironment.current == .staging ? version + " - STAGING" : version
     }
 
     class func buildNumber() -> String {
