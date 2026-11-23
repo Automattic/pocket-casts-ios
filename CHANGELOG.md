@@ -18,6 +18,7 @@
 - Load the episode counts and artwork of smart playlists on the Playlists tab faster in large libraries, and keep the app responsive while they load [#5632](https://github.com/Automattic/pocket-casts-ios/pull/5632)
 - Show What's New message descriptions in the secondary text color, so the heading stands out [#5681](https://github.com/Automattic/pocket-casts-ios/pull/5681)
 - [tvOS] Add a sort button to podcasts and folders, with the same options as the iOS app [#5680](https://github.com/Automattic/pocket-casts-ios/pull/5680) [#5699](https://github.com/Automattic/pocket-casts-ios/pull/5699)
+- Fix a crash that could happen when opening Starred, such as from a link, while it was still loading [#5696](https://github.com/Automattic/pocket-casts-ios/pull/5696)
 
 8.25
 -----
