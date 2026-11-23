@@ -16,6 +16,7 @@
 - Fix the sign-up link and the "Your shows, on any device!" notification showing the create-account screen when you're already signed in. They now open the Profile tab [#5435](https://github.com/Automattic/pocket-casts-ios/pull/5435)
 - Sign in faster with a large library and smart playlists on a new install [#5646](https://github.com/Automattic/pocket-casts-ios/pull/5646)
 - Load the episode counts and artwork of smart playlists on the Playlists tab faster in large libraries, and keep the app responsive while they load [#5632](https://github.com/Automattic/pocket-casts-ios/pull/5632)
+- Fix the mini player covering the multi-select bar after leaving the app and coming back [#5662](https://github.com/Automattic/pocket-casts-ios/pull/5662)
 - Show What's New message descriptions in the secondary text color, so the heading stands out [#5681](https://github.com/Automattic/pocket-casts-ios/pull/5681)
 - Fix a crash that could happen when opening Starred, such as from a link, while it was still loading [#5696](https://github.com/Automattic/pocket-casts-ios/pull/5696)
 

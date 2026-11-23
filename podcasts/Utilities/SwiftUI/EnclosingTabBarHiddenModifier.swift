@@ -4,8 +4,8 @@ import UIKit
 extension View {
     /// Hides the enclosing tab bar and mini player while `hidden` is true, matching the
     /// screens that present a `MultiSelectFooterView`. It resolves the SwiftUI view's host
-    /// controller and forwards to `setEnclosingTabBarHidden`, which is a no-op on iOS 18
-    /// and earlier, or when the view isn't inside a tab bar controller (e.g. the player).
+    /// controller and forwards to `setEnclosingTabBarHidden`, which does nothing before
+    /// iOS 26, or when the view isn't inside a tab bar controller (e.g. the player).
     func enclosingTabBarHidden(_ hidden: Bool) -> some View {
         modifier(EnclosingTabBarHiddenModifier(hidden: hidden))
     }
