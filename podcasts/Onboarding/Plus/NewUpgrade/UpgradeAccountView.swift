@@ -47,7 +47,13 @@ struct UpgradeAccountView: View {
 
     var header: some View {
         HStack() {
-            SubscriptionBadge(tier: model.upgradeTier.tier, displayMode: .plain)
+            HStack {
+                SubscriptionBadge(tier: model.upgradeTier.tier, displayMode: .plain)
+                if model.isDiscountOfferAvailable {
+                    makeBadge(text: L10n.discountOfferLimitedTimeBadge)
+                }
+            }
+            .fixedSize(horizontal: false, vertical: true)
             Spacer()
             Button() {
                 model.dismissTapped(originalDismiss: dismiss)
@@ -64,6 +70,25 @@ struct UpgradeAccountView: View {
                 .cornerRadius(50)
             }
         }
+    }
+
+    @ViewBuilder
+    func makeBadge(text: String) -> some View {
+        HStack(alignment: .center, spacing: 0) {
+            Text(text)
+                .foregroundStyle(theme.primaryText01)
+                .font(size: 13, style: .footnote, weight: .semibold, maxSizeCategory: .accessibilityExtraLarge)
+        }
+        .frame(maxHeight: .infinity, alignment: .center)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 2)
+        .background(theme.primaryUi02Selected)
+        .cornerRadius(800)
+        .overlay(
+            RoundedRectangle(cornerRadius: 800)
+                .inset(by: 0.5)
+                .stroke(.white.opacity(0.08), lineWidth: 1)
+        )
     }
 
     var contextualAnimation: some View {

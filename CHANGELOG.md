@@ -1,5 +1,7 @@
 8.26
 -----
+- Add Playback 2026, your year in podcasts, with a Podcasts sheet and a Profile banner [#5568](https://github.com/Automattic/pocket-casts-ios/pull/5568) [#5567](https://github.com/Automattic/pocket-casts-ios/pull/5567)
+- Fix a crash that could happen when changing the Discover region [#5682](https://github.com/Automattic/pocket-casts-ios/pull/5682)
 - Scroll the Podcasts grid, lists and playlists more smoothly: podcast artwork is now decoded in the background instead of while scrolling [#5656](https://github.com/Automattic/pocket-casts-ios/pull/5656)
 - Use less storage for podcast artwork in the iPad grid, and remove artwork sizes the app no longer uses [#5647](https://github.com/Automattic/pocket-casts-ios/pull/5647)
 - Fix a crash that could happen when syncing the playback position of an episode with no valid length, such as a live stream played over Google Cast [#5638](https://github.com/Automattic/pocket-casts-ios/pull/5638)
@@ -15,6 +17,8 @@
 - Sign in faster with a large library and smart playlists on a new install [#5646](https://github.com/Automattic/pocket-casts-ios/pull/5646)
 - Load the episode counts and artwork of smart playlists on the Playlists tab faster in large libraries, and keep the app responsive while they load [#5632](https://github.com/Automattic/pocket-casts-ios/pull/5632)
 - Show the full Smart Folders description, including the warning that existing folders are replaced, at the largest text sizes [#5675](https://github.com/Automattic/pocket-casts-ios/pull/5675)
+- Show What's New message descriptions in the secondary text color, so the heading stands out [#5681](https://github.com/Automattic/pocket-casts-ios/pull/5681)
+- Fix a crash that could happen when opening Starred, such as from a link, while it was still loading [#5696](https://github.com/Automattic/pocket-casts-ios/pull/5696)
 
 8.25
 -----
