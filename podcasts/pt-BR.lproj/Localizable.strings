@@ -2150,9 +2150,9 @@ Isso que é compromisso!</string>
     <key>playback_2026_banner_description</key>
     <string>Confira suas estatísticas de reprodução, que tipo de ouvinte você é e muito mais.</string>
     <key>playback_2026_banner_title</key>
-    <string>Chegou a retrospectiva de 2026!</string>
+    <string>Chegou o %1$@!</string>
     <key>playback_2026_sheet_button</key>
-    <string>Ver minha retrospectiva de 2026</string>
+    <string>Ver meu %1$@</string>
     <key>playback_2026_sheet_description</key>
     <string>O que você ouviu. Os podcasts que você amou. E o seu diferencial como ouvinte. Confira seu ano no Pocket Casts.</string>
     <key>playback_effect_all_podcasts</key>
