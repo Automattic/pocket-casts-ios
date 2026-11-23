@@ -17,7 +17,7 @@ public class DataManager {
     private let upNextManager = UpNextDataManager()
     private let upNextChangesManager = UpNextChangesDataManager()
     private let playlistManager = PlaylistDataManager()
-    private let episodeManager = EpisodeDataManager()
+    private let episodeManager: EpisodeDataManager
     private let userEpisodeManager = UserEpisodeDataManager()
     private let folderManager = FolderDataManager()
     private lazy var endOfYearManager = EndOfYearDataManager()
@@ -71,10 +71,11 @@ public class DataManager {
     }
 
     /// Creates a DataManager using the given `GRDBQueue`.
-    public init(dbQueue: GRDBQueue) {
+    public init(dbQueue: GRDBQueue, userDefaults: UserDefaults = .standard) {
         self.dbQueue = dbQueue
 
         self.databaseWasCreated = DatabaseHelper.setup(queue: dbQueue)
+        episodeManager = EpisodeDataManager(databaseWasCreated: databaseWasCreated, userDefaults: userDefaults)
 
         autoAddCandidates = AutoAddCandidatesDataManager(dbQueue: dbQueue)
         bookmarks = BookmarkDataManager(dbQueue: dbQueue)
@@ -90,6 +91,7 @@ public class DataManager {
         podcastManager.setup(dbQueue: dbQueue)
         folderManager.setup(dbQueue: dbQueue)
         upNextManager.setup(dbQueue: dbQueue)
+        episodeManager.setup(dbQueue: dbQueue)
     }
 
     convenience init(endOfYearManager: EndOfYearDataManager) {
@@ -117,9 +119,7 @@ public class DataManager {
                     try? db.executeUpdate("ALTER TABLE SJPodcast DROP COLUMN settings;", values: nil)
                     try? db.executeUpdate("ALTER TABLE SJEpisode DROP COLUMN metadata", values: nil)
                     try db.executeUpdate("DROP INDEX IF EXISTS episode_archived;", values: nil)
-                    try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_download_task_id ON SJEpisode (downloadTaskId);", values: nil)
                     try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_non_null_download_task_id ON SJEpisode(downloadTaskId) WHERE downloadTaskId IS NOT NULL;", values: nil)
-                    try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_added_date ON SJEpisode (addedDate);", values: nil)
                 } catch {
                 }
             }
@@ -613,6 +613,10 @@ public class DataManager {
         episodeManager.bulkSave(episodes: episodes, dbQueue: dbQueue)
     }
 
+    public func insertMissing(episodes: [Episode]) {
+        episodeManager.insertMissing(episodes: episodes, dbQueue: dbQueue)
+    }
+
     public func bulkSetStarred(starred: Bool, episodes: [Episode], updateSyncStatus: Bool) {
         episodeManager.bulkSetStarred(starred: starred, episodes: episodes, updateSyncFlag: updateSyncStatus, dbQueue: dbQueue)
     }
@@ -650,9 +654,6 @@ public class DataManager {
     }
 
     public func saveEpisode(playedUpTo: Double, episode: BaseEpisode, updateSyncFlag: Bool) {
-        let trace = TraceManager.shared.beginTracing(eventName: "DATABASE_EPISODE_POSITION_SAVE")
-        defer { TraceManager.shared.endTracing(trace: trace) }
-
         if let episode = episode as? Episode {
             episodeManager.saveEpisode(playedUpTo: playedUpTo, episode: episode, updateSyncFlag: updateSyncFlag, dbQueue: dbQueue)
         } else if let episode = episode as? UserEpisode {

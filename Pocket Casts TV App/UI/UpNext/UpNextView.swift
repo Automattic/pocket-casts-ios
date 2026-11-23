@@ -6,7 +6,7 @@ struct UpNextView: View {
     @Environment(AppCoordinator.self) var coordinator
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
 
-    @State private var model: UpNextViewModel
+    @Bindable var model: UpNextViewModel
     @State private var path = StackPath()
 
     @Namespace private var rowNamespace
@@ -14,10 +14,6 @@ struct UpNextView: View {
 
     @State private var lastFocus: String?
     @FocusState private var currentFocus: String?
-
-    init(model: UpNextViewModel) {
-        _model = State(wrappedValue: model)
-    }
 
     var body: some View {
         ZStack {

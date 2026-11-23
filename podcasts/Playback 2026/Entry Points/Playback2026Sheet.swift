@@ -36,6 +36,7 @@ struct Playback2026Sheet: View {
         .applyDefaultThemeOptions()
         .onAppear {
             Playback2026.hasShownSheet = true
+            Playback2026Analytics.track(.endOfYearModalShown)
         }
     }
 }

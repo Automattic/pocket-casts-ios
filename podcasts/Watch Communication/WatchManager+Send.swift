@@ -24,6 +24,19 @@ extension WatchManager {
             return
         }
 
+        let logRequestMessage = [WatchConstants.Messages.messageType: WatchConstants.Messages.LogFileRequest.type]
+
+        if FeatureFlag.watchLogFileTransfer.enabled {
+            session.sendMessage(logRequestMessage, replyHandler: nil) { error in
+                Self.logLogFileRequestError(error)
+            }
+            Task {
+                let log = await logCache.getCachedLog()
+                completion(log)
+            }
+            return
+        }
+
         // Hold a local reference so we don't potentially run into a deallocated `self` when the below blocks are run.
         Task { [weak self] in
             guard let self else { return }
@@ -43,7 +56,6 @@ extension WatchManager {
             await logTaskManager.setTask(task)
 
             // if we get here then it's likely we'll be able to ask the watch for a log file, so let's try
-            let logRequestMessage = [WatchConstants.Messages.messageType: WatchConstants.Messages.LogFileRequest.type]
             session.sendMessage(logRequestMessage, replyHandler: { [weak self] response in
                 Task { [weak self, completionHandler] in
                     await self?.logTaskManager.cancelCurrentTask()
@@ -63,17 +75,21 @@ extension WatchManager {
                 Task { [weak self, completionHandler] in
                     await self?.logTaskManager.cancelCurrentTask()
 
-                    // To avoid spamming the logs, we'll only log errors unrelated to unreachable
-                    let nsError = error as NSError
-                    if nsError.domain == WCErrorDomain,
-                       nsError.code != WCError.Code.notReachable.rawValue {
-                        FileLog.shared.addMessage("WatchManager: Failed log collection \(error)")
-                    }
+                    Self.logLogFileRequestError(error)
 
                     let cachedLog = await self?.logCache.getCachedLog()
                     await completionHandler.callCompletionIfNeeded(with: cachedLog)
                 }
             }
+        }
+    }
+
+    private static func logLogFileRequestError(_ error: Error) {
+        // To avoid spamming the logs, we'll only log errors unrelated to unreachable
+        let nsError = error as NSError
+        if nsError.domain == WCErrorDomain,
+           nsError.code != WCError.Code.notReachable.rawValue {
+            FileLog.shared.addMessage("WatchManager: Failed log collection \(error)")
         }
     }
 

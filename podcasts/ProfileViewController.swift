@@ -424,6 +424,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         if row == .endOfYearPrompt {
             Analytics.track(.endOfYearProfileCardShown, properties: ["current_year": EndOfYear.currentYear.literalValue])
         }
+        if row == .playback2026Banner {
+            Playback2026Analytics.track(.endOfYearProfileCardShown)
+        }
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -489,7 +492,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             let bookmarksController = BookmarksProfileListController()
             navigationController?.pushViewController(bookmarksController, animated: true)
         case .playback2026Banner:
-            Playback2026.start(from: self)
+            Playback2026Analytics.track(.endOfYearProfileCardTapped)
+            Playback2026.start(from: self, source: .profile)
         }
     }
 

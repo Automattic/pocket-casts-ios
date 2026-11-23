@@ -8,7 +8,7 @@ class SyncTask: ApiBaseTask, @unchecked Sendable {
 
     lazy var importQueue: OperationQueue = {
         let queue = OperationQueue()
-        queue.maxConcurrentOperationCount = 5
+        queue.maxConcurrentOperationCount = 6
 
         return queue
     }()
@@ -54,15 +54,20 @@ class SyncTask: ApiBaseTask, @unchecked Sendable {
         return request
     }
 
+    /// Whether the next sync is a full sync, which imports every podcast from the server
+    static func isFullSyncPending(defaults: UserDefaults = .standard) -> Bool {
+        defaults.string(forKey: ServerConstants.UserDefaults.lastModifiedServerDate)?.isEmpty ?? true
+    }
+
     private func performSync(token: String) {
-        if let lastServerModified = UserDefaults.standard.string(forKey: ServerConstants.UserDefaults.lastModifiedServerDate), !lastServerModified.isEmpty {
+        if Self.isFullSyncPending() {
+            performFullSync(token: token)
+        } else {
             if ServerSettings.homeGridNeedsRefresh() {
                 performHomeGridRefresh()
             }
 
             performIncrementalSync(token: token)
-        } else {
-            performFullSync(token: token)
         }
     }
 
@@ -176,9 +181,6 @@ class SyncTask: ApiBaseTask, @unchecked Sendable {
             status = .cancelled
             return
         }
-
-        let trace = TraceManager.shared.beginTracing(eventName: "SERVER_INCREMENTAL_SYNC")
-        defer { TraceManager.shared.endTracing(trace: trace) }
 
         let episodesToSync = DataManager.shared.unsyncedEpisodes(limit: ServerConstants.Limits.maxEpisodesToSync)
         guard let dataToSend = createIncrementalSyncData(episodesToSync: episodesToSync) else { return }

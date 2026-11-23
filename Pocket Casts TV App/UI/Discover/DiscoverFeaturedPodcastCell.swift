@@ -20,7 +20,7 @@ struct DiscoverFeaturedPodcastCell: View {
         case goPodcast
     }
 
-    @State var showNowPlayingPlayer: Bool = false
+    @State private var showNowPlayingPlayer: Bool = false
 
     enum Layout {
         static let imageSize = CGFloat(420)

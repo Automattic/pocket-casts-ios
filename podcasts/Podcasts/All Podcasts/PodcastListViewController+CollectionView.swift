@@ -258,3 +258,14 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
         return isAnimatingBannerAd ? .zero : size
     }
 }
+
+extension PodcastListViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        let size: PodcastThumbnailSize = Settings.libraryType == .list ? .list : .grid
+        for indexPath in indexPaths {
+            if let podcastUuid = itemAt(indexPath: indexPath)?.podcast?.uuid {
+                ImageManager.shared.prefetchImage(podcastUuid: podcastUuid, size: size)
+            }
+        }
+    }
+}

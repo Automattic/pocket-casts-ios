@@ -310,10 +310,13 @@ class IconSelectorCell: ThemeableCell, UICollectionViewDataSource, UICollectionV
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: themeAbstractCellId, for: indexPath) as! ThemeAbstractCell
 
-        cell.imageView.layer.cornerRadius = 18.95
-        cell.shadowView.layer.cornerRadius = 18.95
-        cell.underShadowView.layer.cornerRadius = 18.95
-        cell.selectionView.layer.cornerRadius = 26
+        let iconCornerRadius = (cellWidth - 16) * 0.26
+        for view in [cell.imageView, cell.shadowView, cell.underShadowView] as [UIView] {
+            view.layer.cornerRadius = iconCornerRadius
+            view.layer.cornerCurve = .continuous
+        }
+        cell.selectionView.layer.cornerRadius = iconCornerRadius + 8
+        cell.selectionView.layer.cornerCurve = .continuous
 
         let iconType = IconType(rawValue: indexPath.row) ?? .primary
         cell.nameLabel.text = iconType.description
