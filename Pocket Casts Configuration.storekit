@@ -17,61 +17,60 @@
 
   ],
   "settings" : {
+    "_askToBuyEnabled" : false,
+    "_billingGracePeriodEnabled" : false,
+    "_billingIssuesEnabled" : false,
     "_compatibilityTimeRate" : {
       "3" : 5
     },
+    "_disableDialogs" : false,
     "_failTransactionsEnabled" : false,
     "_locale" : "en_US",
+    "_renewalBillingIssuesEnabled" : false,
     "_storefront" : "USA",
     "_storeKitErrors" : [
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Load Products"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Purchase"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Verification"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "App Store Sync"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Subscription Status"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "App Transaction"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Manage Subscriptions Sheet"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Refund Request Sheet"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Offer Code Redeem Sheet"
       }
     ],
     "_timeRate" : 1000
   },
+  "subscriptionBundleGroups" : [
+
+  ],
   "subscriptionGroups" : [
     {
       "id" : "D129D5D3",
@@ -84,6 +83,15 @@
           "adHocOffers" : [
 
           ],
+          "billingPlans" : [
+            {
+              "billingPlanType" : "BILLED_UPFRONT",
+              "commitmentDisplayPrice" : "39.99",
+              "displayPrice" : "39.99",
+              "internalID" : "5E622E62",
+              "isEnabled" : true
+            }
+          ],
           "codeOffers" : [
 
           ],
@@ -92,11 +100,23 @@
           "groupNumber" : 2,
           "internalID" : "C9B37131",
           "introductoryOffer" : {
-            "displayPrice" : "0.99",
+            "billingPlanType" : "BILLED_UPFRONT",
+            "displayPrice" : "19.99",
             "internalID" : "20314E17",
-            "paymentMode" : "free",
-            "subscriptionPeriod" : "P1M"
+            "numberOfPeriods" : 1,
+            "paymentMode" : "payUpFront",
+            "subscriptionPeriod" : "P1Y"
           },
+          "introductoryOffers" : [
+            {
+              "billingPlanType" : "BILLED_UPFRONT",
+              "displayPrice" : "19.99",
+              "internalID" : "20314E17",
+              "numberOfPeriods" : 1,
+              "paymentMode" : "payUpFront",
+              "subscriptionPeriod" : "P1Y"
+            }
+          ],
           "localizations" : [
             {
               "description" : "",
@@ -117,6 +137,15 @@
           "adHocOffers" : [
 
           ],
+          "billingPlans" : [
+            {
+              "billingPlanType" : "BILLED_UPFRONT",
+              "commitmentDisplayPrice" : "3.99",
+              "displayPrice" : "3.99",
+              "internalID" : "5C0082BD",
+              "isEnabled" : true
+            }
+          ],
           "codeOffers" : [
 
           ],
@@ -124,7 +153,9 @@
           "familyShareable" : false,
           "groupNumber" : 2,
           "internalID" : "267218F7",
-          "introductoryOffer" : null,
+          "introductoryOffers" : [
+
+          ],
           "localizations" : [
             {
               "description" : "",
@@ -145,6 +176,15 @@
           "adHocOffers" : [
 
           ],
+          "billingPlans" : [
+            {
+              "billingPlanType" : "BILLED_UPFRONT",
+              "commitmentDisplayPrice" : "99.99",
+              "displayPrice" : "99.99",
+              "internalID" : "80657535",
+              "isEnabled" : true
+            }
+          ],
           "codeOffers" : [
 
           ],
@@ -152,7 +192,9 @@
           "familyShareable" : false,
           "groupNumber" : 1,
           "internalID" : "FB9E06A9",
-          "introductoryOffer" : null,
+          "introductoryOffers" : [
+
+          ],
           "localizations" : [
             {
               "description" : "",
@@ -173,6 +215,15 @@
           "adHocOffers" : [
 
           ],
+          "billingPlans" : [
+            {
+              "billingPlanType" : "BILLED_UPFRONT",
+              "commitmentDisplayPrice" : "9.99",
+              "displayPrice" : "9.99",
+              "internalID" : "E6C2113E",
+              "isEnabled" : true
+            }
+          ],
           "codeOffers" : [
 
           ],
@@ -180,7 +231,9 @@
           "familyShareable" : false,
           "groupNumber" : 1,
           "internalID" : "98CA298A",
-          "introductoryOffer" : null,
+          "introductoryOffers" : [
+
+          ],
           "localizations" : [
             {
               "description" : "",
@@ -200,11 +253,22 @@
         {
           "adHocOffers" : [
             {
+              "billingPlanType" : "BILLED_UPFRONT",
               "internalID" : "0739BC93",
+              "numberOfPeriods" : 1,
               "offerID" : "com.pocketcasts.plus.yearly.referral.promo",
               "paymentMode" : "free",
               "referenceName" : "Referral Promotion",
               "subscriptionPeriod" : "P2M"
+            }
+          ],
+          "billingPlans" : [
+            {
+              "billingPlanType" : "BILLED_UPFRONT",
+              "commitmentDisplayPrice" : "39.99",
+              "displayPrice" : "39.99",
+              "internalID" : "6D089737",
+              "isEnabled" : true
             }
           ],
           "codeOffers" : [
@@ -215,11 +279,23 @@
           "groupNumber" : 2,
           "internalID" : "60AE4B60",
           "introductoryOffer" : {
+            "billingPlanType" : "BILLED_UPFRONT",
             "displayPrice" : "0.99",
             "internalID" : "1574FE23",
+            "numberOfPeriods" : 1,
             "paymentMode" : "free",
             "subscriptionPeriod" : "P2M"
           },
+          "introductoryOffers" : [
+            {
+              "billingPlanType" : "BILLED_UPFRONT",
+              "displayPrice" : "0.99",
+              "internalID" : "1574FE23",
+              "numberOfPeriods" : 1,
+              "paymentMode" : "free",
+              "subscriptionPeriod" : "P2M"
+            }
+          ],
           "localizations" : [
             {
               "description" : "",
@@ -249,6 +325,15 @@
           "adHocOffers" : [
 
           ],
+          "billingPlans" : [
+            {
+              "billingPlanType" : "BILLED_UPFRONT",
+              "commitmentDisplayPrice" : "39.99",
+              "displayPrice" : "39.99",
+              "internalID" : "ED944A9F",
+              "isEnabled" : true
+            }
+          ],
           "codeOffers" : [
 
           ],
@@ -257,11 +342,23 @@
           "groupNumber" : 1,
           "internalID" : "683D2155",
           "introductoryOffer" : {
+            "billingPlanType" : "BILLED_UPFRONT",
             "displayPrice" : "0.99",
             "internalID" : "91A70E60",
+            "numberOfPeriods" : 1,
             "paymentMode" : "free",
             "subscriptionPeriod" : "P2M"
           },
+          "introductoryOffers" : [
+            {
+              "billingPlanType" : "BILLED_UPFRONT",
+              "displayPrice" : "0.99",
+              "internalID" : "91A70E60",
+              "numberOfPeriods" : 1,
+              "paymentMode" : "free",
+              "subscriptionPeriod" : "P2M"
+            }
+          ],
           "localizations" : [
             {
               "description" : "",
@@ -285,8 +382,11 @@
     "id" : "98EEF22A",
     "privateKey" : "MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgoBfhzTMV9qRkLiy4sLLnqgmiCbvgo7zY8kK7FqT/t2WgCgYIKoZIzj0DAQehRANCAAR9Yn6Hd5E7Yr+9+AKZSgaWPa1mLrcUmyBxG5mamrr9bSE9JnRu7ppgLyhlh31jJfOyceR5hI5uzznYYmPvaRNg"
   },
+  "subscriptionSuiteGroups" : [
+
+  ],
   "version" : {
-    "major" : 4,
-    "minor" : 0
+    "major" : 6,
+    "minor" : 3
   }
 }

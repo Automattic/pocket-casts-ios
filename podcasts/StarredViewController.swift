@@ -101,7 +101,6 @@ class StarredViewController: PCViewController {
                     return
                 }
 
-                let oldData = self.episodes
                 var newData = [ListEpisode]()
                 for episode in episodes {
                     newData.append(ListEpisode(episode: episode, tintColor: AppTheme.appTintColor))
@@ -112,7 +111,7 @@ class StarredViewController: PCViewController {
                     strongSelf.loadingIndicator.stopAnimating()
                     strongSelf.starredTable.isHidden = (newData.isEmpty)
                     if animated {
-                        let changeSet = StagedChangeset(source: oldData, target: newData)
+                        let changeSet = StagedChangeset(source: strongSelf.episodes, target: newData)
                         strongSelf.starredTable.reload(using: changeSet, with: .none, setData: { data in
                             strongSelf.episodes = data
                         })
@@ -128,13 +127,12 @@ class StarredViewController: PCViewController {
     func refreshEpisodesFromDatabase(animated: Bool) {
         refreshQueue.addOperation { [weak self] in
             guard let self else { return }
-            let oldData = self.episodes
             let newData = self.episodesDataManager.starredEpisodes()
 
             DispatchQueue.main.sync {
                 self.starredTable.isHidden = (newData.isEmpty)
                 if animated {
-                    let changeSet = StagedChangeset(source: oldData, target: newData)
+                    let changeSet = StagedChangeset(source: self.episodes, target: newData)
                     self.starredTable.reload(using: changeSet, with: .none, setData: { data in
                         self.episodes = data
                     })
