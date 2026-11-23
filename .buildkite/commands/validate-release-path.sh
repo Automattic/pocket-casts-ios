@@ -76,13 +76,17 @@ grep -E 'Uploaded|Nothing to upload|missing debug information' "$LOG_DIR/sentry.
 grep -q 'Nothing to upload' "$LOG_DIR/sentry.log" && fail "sentry-cli uploaded nothing: this run proves no upload"
 
 echo "--- :sentry: Asserting Sentry has dSYM $UUID"
-http_code=$(curl -sS -o "$WORK/dsyms.json" -w '%{http_code}' \
-  -H "Authorization: Bearer $SENTRY_AUTH_TOKEN" \
-  "https://sentry.io/api/0/projects/a8c/pocket-casts-ios/files/dsyms/?query=$UUID")
-echo "Sentry API HTTP $http_code"
-if [[ "$http_code" == "200" ]]; then
-  grep -qi "$UUID" "$WORK/dsyms.json" || fail "Sentry does not list $UUID"
-  echo "Sentry lists debug file $UUID"
-else
-  echo "Could not query Sentry (HTTP $http_code); relying on the sentry-cli upload summary above"
-fi
+# Sentry assembles uploads asynchronously, so the file can take a few seconds to be listed.
+for attempt in $(seq 1 12); do
+  http_code=$(curl -sS -o "$WORK/dsyms.json" -w '%{http_code}' \
+    -H "Authorization: Bearer $SENTRY_AUTH_TOKEN" \
+    "https://sentry.io/api/0/projects/a8c/pocket-casts-ios/files/dsyms/?query=$UUID")
+  echo "Attempt $attempt: Sentry API HTTP $http_code"
+  [[ "$http_code" == "200" ]] || fail "could not query Sentry (HTTP $http_code)"
+  if grep -qi "$UUID" "$WORK/dsyms.json"; then
+    echo "Sentry lists debug file $UUID: $(cat "$WORK/dsyms.json")"
+    exit 0
+  fi
+  sleep 10
+done
+fail "Sentry does not list $UUID after 2 minutes"
