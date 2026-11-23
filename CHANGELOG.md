@@ -1,3 +1,7 @@
+8.27
+-----
+
+
 8.26
 -----
 - Add Playback 2026, your year in podcasts, with a Podcasts sheet and a Profile banner [#5568](https://github.com/Automattic/pocket-casts-ios/pull/5568) [#5567](https://github.com/Automattic/pocket-casts-ios/pull/5567)
