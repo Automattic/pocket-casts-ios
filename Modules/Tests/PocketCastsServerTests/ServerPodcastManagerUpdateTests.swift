@@ -66,4 +66,68 @@ final class ServerPodcastManagerUpdateTests: XCTestCase {
 
         XCTAssertEqual(podcast.latestEpisodeUuid, "new-2")
     }
+
+    func testUpdateClearsWasDeletedAndRepairsPlaceholderFields() throws {
+        let podcast = Podcast()
+        podcast.uuid = "podcast-recover-\(UUID().uuidString)"
+        podcast.subscribed = 0
+        podcast.addedDate = Date()
+        dataManager.save(podcast: podcast)
+
+        let recoverable = Episode()
+        recoverable.uuid = "recoverable-ep"
+        recoverable.podcast_id = 0
+        recoverable.podcastUuid = podcast.uuid
+        recoverable.addedDate = Date()
+        recoverable.title = "Placeholder Title"
+        recoverable.wasDeleted = true
+        recoverable.episodeStatus = 0
+        recoverable.playingStatus = 0
+        dataManager.save(episode: recoverable)
+
+        let genuinelyDeleted = Episode()
+        genuinelyDeleted.uuid = "genuinely-deleted-ep"
+        genuinelyDeleted.podcast_id = podcast.id
+        genuinelyDeleted.podcastUuid = podcast.uuid
+        genuinelyDeleted.addedDate = Date()
+        genuinelyDeleted.title = "Deleted By Creator"
+        genuinelyDeleted.wasDeleted = true
+        dataManager.save(episode: genuinelyDeleted)
+
+        let podcastInfo: [String: Any] = [
+            "podcast": [
+                "episodes": [
+                    [
+                        "uuid": "recoverable-ep",
+                        "title": "Restored Title",
+                        "url": "https://example.com/restored.mp3",
+                        "file_type": "audio/mp3",
+                        "file_size": Int64(12345),
+                        "duration": 600.0,
+                        "published": "2026-01-15T00:00:00Z"
+                    ]
+                ]
+            ]
+        ]
+
+        ServerPodcastManager.shared.update(podcast: podcast, podcastInfo: podcastInfo, lastModified: nil, addMissingEpisodes: false)
+
+        let updated = try XCTUnwrap(dataManager.findEpisode(uuid: "recoverable-ep"))
+        XCTAssertEqual(updated.id, recoverable.id)
+        XCTAssertFalse(updated.wasDeleted)
+        XCTAssertEqual(updated.podcast_id, podcast.id)
+        XCTAssertEqual(updated.episodeStatus, DownloadStatus.notDownloaded.rawValue)
+        XCTAssertEqual(updated.playingStatus, PlayingStatus.notPlayed.rawValue)
+        XCTAssertEqual(updated.title, "Restored Title")
+        XCTAssertEqual(updated.downloadUrl, "https://example.com/restored.mp3")
+        XCTAssertEqual(updated.fileType, "audio/mp3")
+        XCTAssertEqual(updated.sizeInBytes, 12345)
+        XCTAssertEqual(updated.duration, 600.0)
+
+        let stillDeleted = try XCTUnwrap(dataManager.findEpisode(uuid: "genuinely-deleted-ep"))
+        XCTAssertTrue(stillDeleted.wasDeleted)
+
+        let visibleEpisodes = dataManager.allEpisodes(forPodcastId: podcast.id)
+        XCTAssertEqual(visibleEpisodes.map(\.uuid), ["recoverable-ep"])
+    }
 }

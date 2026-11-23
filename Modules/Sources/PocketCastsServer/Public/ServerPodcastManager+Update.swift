@@ -141,6 +141,35 @@ extension ServerPodcastManager {
                     episodeChanged = true
                 }
 
+                if existingEpisode.wasDeleted {
+                    existingEpisode.wasDeleted = false
+                    if (existingEpisode.fileType ?? "").isEmpty, let fileType = episodeJson["file_type"] as? String {
+                        existingEpisode.fileType = fileType
+                    }
+                    if existingEpisode.sizeInBytes == 0, let fileSize = episodeJson["file_size"] as? Int64 {
+                        existingEpisode.sizeInBytes = fileSize
+                    }
+                    if existingEpisode.duration == 0, let duration = episodeJson["duration"] as? Double {
+                        existingEpisode.duration = duration
+                    }
+                    episodeChanged = true
+                }
+
+                if existingEpisode.podcast_id == 0 {
+                    existingEpisode.podcast_id = podcast.id
+                    episodeChanged = true
+                }
+
+                if existingEpisode.episodeStatus == 0 {
+                    existingEpisode.episodeStatus = DownloadStatus.notDownloaded.rawValue
+                    episodeChanged = true
+                }
+
+                if existingEpisode.playingStatus == 0 {
+                    existingEpisode.playingStatus = PlayingStatus.notPlayed.rawValue
+                    episodeChanged = true
+                }
+
                 if episodeChanged, newEpisode == nil {
                     DataManager.shared.save(episode: existingEpisode)
                 }

@@ -240,10 +240,28 @@ public class ServerPodcastManager: NSObject {
         // save the podcast so that it gets and ID
         DataManager.shared.save(podcast: podcast)
 
-        for episode in episodes {
-            episode.podcast_id = podcast.id
+        let existingEpisodes = DataManager.shared.findEpisodesWhere(customWhere: "podcastUuid = ?", arguments: [podcast.uuid])
+        if existingEpisodes.isEmpty {
+            for episode in episodes {
+                episode.podcast_id = podcast.id
+            }
+            DataManager.shared.bulkSave(episodes: episodes)
+        } else {
+            let existingByUuid = Dictionary(existingEpisodes.map { ($0.uuid, $0) }, uniquingKeysWith: { first, _ in first })
+            var episodesToSave = [Episode]()
+            episodesToSave.reserveCapacity(episodes.count)
+
+            for episode in episodes {
+                if let existing = existingByUuid[episode.uuid] {
+                    updateServerFields(of: existing, from: episode, podcastId: podcast.id)
+                    episodesToSave.append(existing)
+                } else {
+                    episode.podcast_id = podcast.id
+                    episodesToSave.append(episode)
+                }
+            }
+            DataManager.shared.bulkSave(episodes: episodesToSave)
         }
-        DataManager.shared.bulkSave(episodes: episodes)
 
         updateLatestEpisodeInfo(podcast: podcast, setDefaults: subscribe, autoDownloadLimit: autoDownloads)
 
@@ -261,34 +279,9 @@ public class ServerPodcastManager: NSObject {
               let uuid = firstEpisode["uuid"] as? String else { return nil }
 
         if let episode = DataManager.shared.findEpisode(uuid: uuid) {
-            if shouldUpdate {
+            if shouldUpdate || episode.wasDeleted {
                 let updatedEpisode = Episode.from(episodeJson: firstEpisode, podcastId: podcast.id, podcastUuid: podcast.uuid)
-
-                // Refresh server-driven fields while preserving user state (playback, downloads, etc.)
-                episode.title = updatedEpisode.title
-                episode.downloadUrl = updatedEpisode.downloadUrl
-                episode.fileType = updatedEpisode.fileType
-                episode.sizeInBytes = updatedEpisode.sizeInBytes
-                episode.duration = updatedEpisode.duration
-                episode.publishedDate = updatedEpisode.publishedDate
-                episode.episodeNumber = updatedEpisode.episodeNumber
-                episode.seasonNumber = updatedEpisode.seasonNumber
-                episode.episodeType = updatedEpisode.episodeType
-                episode.hasGeneratedTranscript = updatedEpisode.hasGeneratedTranscript
-                // Only overwrite when the response actually carries an HLS url — the server can omit
-                // alternate enclosures on an update, and we don't want to clear one a feed refresh set.
-                if let hlsUrl = updatedEpisode.hlsUrl, !hlsUrl.isEmpty {
-                    episode.hlsUrl = hlsUrl
-                }
-
-                if episode.addedDate == nil {
-                    episode.addedDate = updatedEpisode.addedDate
-                }
-
-                if episode.podcast_id == 0 {
-                    episode.podcast_id = podcast.id
-                }
-
+                updateServerFields(of: episode, from: updatedEpisode, podcastId: podcast.id)
                 DataManager.shared.save(episode: episode)
             }
             return episode
@@ -299,6 +292,43 @@ public class ServerPodcastManager: NSObject {
         DataManager.shared.save(episode: episode)
 
         return episode
+    }
+
+    private func updateServerFields(of episode: Episode, from updatedEpisode: Episode, podcastId: Int64) {
+        // Refresh server-driven fields while preserving user state (playback, downloads, etc.)
+        episode.title = updatedEpisode.title
+        episode.downloadUrl = updatedEpisode.downloadUrl
+        episode.fileType = updatedEpisode.fileType
+        episode.sizeInBytes = updatedEpisode.sizeInBytes
+        episode.duration = updatedEpisode.duration
+        episode.publishedDate = updatedEpisode.publishedDate
+        episode.episodeNumber = updatedEpisode.episodeNumber
+        episode.seasonNumber = updatedEpisode.seasonNumber
+        episode.episodeType = updatedEpisode.episodeType
+        episode.hasGeneratedTranscript = updatedEpisode.hasGeneratedTranscript
+        // Only overwrite when the response actually carries an HLS url — the server can omit
+        // alternate enclosures on an update, and we don't want to clear one a feed refresh set.
+        if let hlsUrl = updatedEpisode.hlsUrl, !hlsUrl.isEmpty {
+            episode.hlsUrl = hlsUrl
+        }
+
+        if episode.addedDate == nil {
+            episode.addedDate = updatedEpisode.addedDate
+        }
+
+        if episode.podcast_id == 0 {
+            episode.podcast_id = podcastId
+        }
+
+        episode.wasDeleted = false
+
+        if episode.episodeStatus == 0 {
+            episode.episodeStatus = updatedEpisode.episodeStatus
+        }
+
+        if episode.playingStatus == 0 {
+            episode.playingStatus = updatedEpisode.playingStatus
+        }
     }
 
     public func loadRecommendations(for podcastUUID: String, in region: String?) async throws -> PodcastCollection? {
