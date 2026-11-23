@@ -1,1 +1,1 @@
-pocketcasts,offline,pod,podcatcher,cast,netcast,stream,audio,video,tech,radio,relais,npr,twit
+podcast,podcasts,pod,podcatcher,cast,casts,netcast,stream,audio,video,tech,radio,relais,npr,twit
