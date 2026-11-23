@@ -13,11 +13,11 @@ fail() {
 }
 
 echo "--- :mag: Environment"
-echo "IMAGE_ID=${IMAGE_ID:-unset}"
-[[ "${IMAGE_ID:-}" == "xcode-27.2-v3" ]] || fail "expected IMAGE_ID=xcode-27.2-v3, got '${IMAGE_ID:-}'"
 xcodebuild -version
 ruby -v
 rbenv versions || true
+# The VM name is only visible in the agent's "Booted xcode-…" line; Ruby 3.4.13 is what v3 adds.
+ruby -v | grep -q '^ruby 3\.4\.13' || fail "expected Ruby 3.4.13 from the v3 image"
 
 echo "--- :beer: brew upgrade getsentry/tools/sentry-cli (informational, as in prototype-build.sh)"
 echo "which -a sentry-cli:"; which -a sentry-cli || echo "(none on PATH)"
