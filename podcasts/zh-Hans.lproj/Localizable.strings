@@ -29,12 +29,16 @@
     <string>取消多选</string>
     <key>accessibility_close_dialog</key>
     <string>关闭对话框</string>
+    <key>accessibility_close_player</key>
+    <string>关闭播放器</string>
     <key>accessibility_deselect_episode</key>
     <string>取消选择剧集</string>
     <key>accessibility_disabled</key>
     <string>已禁用</string>
     <key>accessibility_dismiss</key>
     <string>忽略</string>
+    <key>accessibility_episode_actions</key>
+    <string>剧集操作</string>
     <key>accessibility_episode_playback</key>
     <string>剧集回放</string>
     <key>accessibility_follow_podcast</key>
@@ -47,6 +51,10 @@
     <string>轻点两次以为剧集加星标</string>
     <key>accessibility_hint_unstar</key>
     <string>轻点两次以删除剧集的星标</string>
+    <key>accessibility_mini_player</key>
+    <string>播放器</string>
+    <key>accessibility_mini_player_hint</key>
+    <string>轻触以打开全尺寸播放器</string>
     <key>accessibility_more_actions</key>
     <string>更多操作</string>
     <key>accessibility_patron_only</key>
@@ -65,8 +73,12 @@
     <string>播放列表图片</string>
     <key>accessibility_plus_only</key>
     <string>已锁定， Plus 功能</string>
+    <key>accessibility_podcast_artwork</key>
+    <string>播客插图</string>
     <key>accessibility_profile_settings</key>
     <string>Pocket Casts 设置</string>
+    <key>accessibility_remove_recent_search</key>
+    <string>将 %1$@ 从最近搜索中移除</string>
     <key>accessibility_select_episode</key>
     <string>选择剧集</string>
     <key>accessibility_show_filter_details</key>
@@ -77,6 +89,8 @@
     <string>排序和选项</string>
     <key>accessibility_unfollow_podcast</key>
     <string>取消关注 %1$@</string>
+    <key>accessibility_up_next_list</key>
+    <string>“接下来播放”列表</string>
     <key>account</key>
     <string>帐户</string>
     <key>account_change_email</key>
@@ -341,7 +355,11 @@
     <string>书签</string>
     <key>bookmark_delete_warning_body</key>
     <string>确定删除这些书签？书签一经删除不可恢复！</string>
+    <key>bookmark_delete_warning_body_singular</key>
+    <string>是否确定要删除此书签？此操作无法撤销！</string>
     <key>bookmark_delete_warning_title</key>
+    <string>删除书签？</string>
+    <key>bookmark_delete_warning_title_singular</key>
     <string>删除书签？</string>
     <key>bookmark_details_title</key>
     <string>书签</string>
@@ -694,6 +712,8 @@ Pocket Casts Plus</string>
     <string>摇晃设备会使睡眠计时器重新启动</string>
     <key>discover</key>
     <string>发现</string>
+    <key>discover_all_categories</key>
+    <string>所有分类</string>
     <key>discover_all_episodes</key>
     <string>所有剧集</string>
     <key>discover_all_podcasts</key>
@@ -870,6 +890,8 @@ Pocket Casts Plus</string>
     <string>搜索失败</string>
     <key>discover_search_failed_msg</key>
     <string>检查您的互联网连接。</string>
+    <key>discover_select_a_category</key>
+    <string>选择分类</string>
     <key>discover_select_region</key>
     <string>选择“内容区域”</string>
     <key>discover_show_all</key>
@@ -2125,6 +2147,14 @@ Pocket Casts。</string>
     <string>更多精彩播客，更多欢乐时光</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>相比于 2024 年，您的收听时长飙升 %1$@</string>
+    <key>playback_2026_banner_description</key>
+    <string>欢迎查看您的收听统计数据、了解您所属的听众类型，并探索更多内容。</string>
+    <key>playback_2026_banner_title</key>
+    <string>2026 年播放记录现已上线！</string>
+    <key>playback_2026_sheet_button</key>
+    <string>查看我的 2026 年播放记录</string>
+    <key>playback_2026_sheet_description</key>
+    <string>您收听过的内容。 您喜爱的播客。 以及您作为听众的与众不同之处。 您的 Pocket Casts 年度回顾已上线。</string>
     <key>playback_effect_all_podcasts</key>
     <string>所有播客</string>
     <key>playback_effect_this_podcast</key>
@@ -2561,6 +2591,8 @@ Pocket Casts。</string>
     <string>%1$@ 集已存档</string>
     <key>podcast_archived_msg</key>
     <string>此播客的所有 %1$@ 集均已存档</string>
+    <key>podcast_archived_msg_singular</key>
+    <string>此播客的唯一一集已存档</string>
     <key>podcast_count_plural_format</key>
     <string>%1$@ 个播客</string>
     <key>podcast_count_singular</key>
@@ -2754,6 +2786,14 @@ Pocket Casts。</string>
     <string>名称</string>
     <key>podcasts_list</key>
     <string>列表</string>
+    <key>podcasts_played_podcasts</key>
+    <string>已播放的播客</string>
+    <key>podcasts_played_podcasts_description</key>
+    <string>隐藏已无可听内容的播客，即所有剧集均已播放过或已存档的播客。 每当有新剧集上线时，它们就会重新出现。</string>
+    <key>podcasts_played_podcasts_hide</key>
+    <string>隐藏</string>
+    <key>podcasts_played_podcasts_show</key>
+    <string>显示</string>
     <key>podcasts_plural</key>
     <string>播客</string>
     <key>podcasts_share</key>
@@ -3267,6 +3307,8 @@ Pocket Casts。</string>
     <string>在浏览器中打开链接</string>
     <key>settings_general_play_back_actions</key>
     <string>额外播放操作</string>
+    <key>settings_general_play_back_actions_subtitle_device</key>
+    <string>在您的锁定屏幕中添加“星标”选项。</string>
     <key>settings_general_player_header</key>
     <string>播放器</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3417,6 +3459,8 @@ Pocket Casts。</string>
     <string>常见播客主机</string>
     <key>settings_status_host_description</key>
     <string>播客作者在不受 Pocket Casts 管理的各种托管提供商中托管剧集文件。</string>
+    <key>settings_status_host_failure_message_device</key>
+    <string>最常见的原因是您的设备或网络上配置了广告拦截器。 您需要取消屏蔽此域名才能下载播客。 请注意，Pocket Casts 既不托管播客，也不选择播客的托管位置，这由节目作者决定，不受我们的控制。</string>
     <key>settings_status_internet</key>
     <string>互联网</string>
     <key>settings_status_internet_description</key>
@@ -3429,6 +3473,8 @@ Pocket Casts。</string>
     <string>该服务用于查找新剧集。</string>
     <key>settings_status_run</key>
     <string>立即运行</string>
+    <key>settings_status_service_ad_blocker_help_singular_device</key>
+    <string>最常见的原因是您的设备或网络上配置了广告拦截器。 您需要取消屏蔽域名 %1$@</string>
     <key>settings_storage</key>
     <string>存储和数据使用情况</string>
     <key>settings_storage_data_warning</key>
@@ -3439,6 +3485,8 @@ Pocket Casts。</string>
     <string>移动数据</string>
     <key>settings_storage_usage</key>
     <string>使用情况</string>
+    <key>settings_storage_usage_footer_device</key>
+    <string>这可能与您的 %1$@ 设置中显示的存储空间有所不同。 您的设备会自动管理缓存的数据，并在需要时释放这些数据。</string>
     <key>settings_third_party_analytics</key>
     <string>第三方分析</string>
     <key>settings_title</key>
@@ -3477,6 +3525,8 @@ Pocket Casts。</string>
     <string>设置账户</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>摇晃重启睡眠计时器</string>
+    <key>shake_to_restart_sleep_timer_description_device</key>
+    <string>如果打开，则当您摇晃设备时，睡眠计时器将重启。</string>
     <key>share</key>
     <string>共享</string>
     <key>share_clip</key>

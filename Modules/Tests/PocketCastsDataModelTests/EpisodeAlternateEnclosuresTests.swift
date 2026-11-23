@@ -88,7 +88,7 @@ final class EpisodeAlternateEnclosuresTests: XCTestCase {
             ]
         ]
 
-        let episode = Episode.from(episodeJson: json, podcastId: 1, podcastUuid: "podcast-uuid", isoFormatter: ISO8601DateFormatter())
+        let episode = Episode.from(episodeJson: json, podcastId: 1, podcastUuid: "podcast-uuid")
 
         XCTAssertEqual(episode.hlsUrl, "https://example.com/stream.m3u8")
     }
@@ -99,7 +99,7 @@ final class EpisodeAlternateEnclosuresTests: XCTestCase {
             "url": "https://example.com/episode.mp3"
         ]
 
-        let episode = Episode.from(episodeJson: json, podcastId: 1, podcastUuid: "podcast-uuid", isoFormatter: ISO8601DateFormatter())
+        let episode = Episode.from(episodeJson: json, podcastId: 1, podcastUuid: "podcast-uuid")
 
         XCTAssertNil(episode.hlsUrl)
     }

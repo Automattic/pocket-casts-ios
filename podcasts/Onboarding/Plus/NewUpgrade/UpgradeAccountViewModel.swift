@@ -57,20 +57,40 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
         return ABTestProvider.shared.variation(for: .pocketcastsNewOnboardingIOSABTest) == .treatment
     }
 
-    var isFreeTrialAvailable: Bool {
-        guard pricingInfo.hasOffer, let product = pricingInfo.products.first(where: {$0.identifier == selectedProduct}) else {
-            return false
+    /// The offer for the currently selected product, if there is one
+    var selectedOffer: PlusPricingInfoModel.ProductOfferInfo? {
+        guard pricingInfo.hasOffer else {
+            return nil
         }
-        guard let offer = product.offer else {
-            return false
+        return pricingInfo.products.first(where: { $0.identifier == selectedProduct })?.offer
+    }
+
+    var isFreeTrialAvailable: Bool {
+        selectedOffer?.type == .freeTrial
+    }
+
+    var isDiscountOfferAvailable: Bool {
+        selectedOffer?.type == .discount
+    }
+
+    var discountPercent: String {
+        selectedOffer?.discountPercent ?? ""
+    }
+
+    var discountDuration: String {
+        selectedOffer?.spelledOutDuration ?? ""
+    }
+
+    var terms: AttributedString {
+        guard let selectedOffer, selectedOffer.type == .discount else {
+            return L10n.termsAndConditions
         }
 
-        return offer.type == .freeTrial
+        return AttributedString(selectedOffer.terms + ".\n") + L10n.termsAndConditions
     }
 
     var timelineEvents: [TimelineEvent] {
-        guard let product = pricingInfo.products.first(where: {$0.identifier == selectedProduct}),
-              let offer = product.offer, offer.type == .freeTrial,
+        guard let offer = selectedOffer, offer.type == .freeTrial,
               let offerEndDate = offer.offerEndDate,
               let oneWeekBeforeDate = offerEndDate.sevenDaysAgo()
         else {
@@ -129,7 +149,7 @@ class UpgradeAccountViewModel: PlusPurchaseModel {
     }
 
     var title: String {
-        return customTitle ?? upgradeTier.header
+        return customTitle ?? (isDiscountOfferAvailable ? L10n.discountOfferUpgradeTitle(discountPercent, upgradeTier.tier.displayNameShort, discountDuration) : upgradeTier.header)
     }
 
     func purchaseTapped() {

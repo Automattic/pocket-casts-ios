@@ -9,11 +9,7 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
     @Environment(AppCoordinator.self) var coordinator
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
 
-    @State private var model: ViewModel
-
-    init(model: ViewModel = PodcastsViewModel()) {
-        self.model = model
-    }
+    @Bindable var model: ViewModel
 
     let gridColumns: [GridItem] = (0..<6).map { _ in
         GridItem(.fixed(Layout.gridSize), spacing: 48)
@@ -34,7 +30,7 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
         .task {
             await model.load()
             Analytics.track(.podcastsListShown, properties: [
-                "sort_order": "name",
+                "sort_order": model.sortOrder,
                 "number_of_podcasts": model.items.filter { $0.podcast != nil }.count,
                 "number_of_folders": model.items.filter { $0.folder != nil }.count
             ])
@@ -51,9 +47,13 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
         NavigationStack(path: $path) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 40) {
-                    Text(L10n.tvTabPodcasts)
-                        .font(.title2)
-                        .foregroundStyle(Color.pcTextPrimary)
+                    HStack(alignment: .center, spacing: 8) {
+                        Text(L10n.tvTabPodcasts)
+                            .font(.title2)
+                            .foregroundStyle(Color.pcTextPrimary)
+                        Spacer()
+                        sortMenu
+                    }
                     podcastGrid
                 }
             }
@@ -72,6 +72,28 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
                 tabRouter.selectedTab = .home
             }
         }
+    }
+
+    private var sortMenu: some View {
+        Menu {
+            Section(L10n.sortBy) {
+                ForEach(LibrarySort.podcastsListOptions, id: \.self) { order in
+                    Button {
+                        model.setSortOrder(order)
+                    } label: {
+                        if model.sortOrder == order {
+                            Label(order.description, systemImage: "checkmark")
+                        } else {
+                            Text(order.description)
+                        }
+                    }
+                }
+            }
+        } label: {
+            Image(systemName: "arrow.up.arrow.down")
+                .accessibilityLabel(L10n.sortBy)
+        }
+        .buttonStyle(CircleButtonStyle())
     }
 
     @Namespace private var podcastGridNamespace

@@ -179,18 +179,46 @@ class IAPHelper: NSObject {
         return formattedPrice ?? ""
     }
 
-    public func getWeeklyPrice(for identifier: IAPProductID) -> String {
+    public func getWeeklyPrice(for identifier: IAPProductID, applyDiscount: Bool) -> String {
         guard let product = getProduct(for: identifier),
             let weekly = getWeeklyReferencePrice(for: identifier) else {
             return ""
         }
-
+        var priceRatio: Double = 1
+        if applyDiscount, let discountRatio = introductoryDiscountPriceRatio(for: product) {
+            priceRatio = discountRatio
+        }
         let numberFormatter = NumberFormatter()
         numberFormatter.formatterBehavior = .behavior10_4
         numberFormatter.numberStyle = .currency
         numberFormatter.locale = product.priceLocale
-        let formattedPrice = numberFormatter.string(from: NSNumber(value: weekly))
+        let formattedPrice = numberFormatter.string(from: NSNumber(value: weekly * priceRatio))
         return formattedPrice ?? ""
+    }
+
+    public func getDiscountPercent(for identifier: IAPProductID) -> String {
+        guard let product = getProduct(for: identifier),
+              let priceRatio = introductoryDiscountPriceRatio(for: product) else {
+            return ""
+        }
+        return (1.0 - priceRatio).localized(.percent)
+    }
+
+    /// The ratio between a pay up front introductory offer price and the regular price for the same length of time.
+    /// For example, a $19.99 offer for 1 year on a $39.99/year product returns ~0.5.
+    /// - Returns: A value between 0 and 1, or nil if the product has no pay up front introductory offer
+    private func introductoryDiscountPriceRatio(for product: SKProduct) -> Double? {
+        guard let offer = product.introductoryPrice,
+              offer.paymentMode == .payUpFront,
+              let productPeriod = product.subscriptionPeriod,
+              let productYears = productPeriod.durationInYears,
+              let offerYears = offer.subscriptionPeriod.durationInYears.map({ $0 * Double(max(offer.numberOfPeriods, 1)) }),
+              productYears > 0, offerYears > 0, product.price.doubleValue > 0 else {
+            return nil
+        }
+        let regularPriceForOfferDuration = product.price.doubleValue * (offerYears / productYears)
+        let ratio = offer.price.doubleValue / regularPriceForOfferDuration
+        return min(max(ratio, 0), 1)
     }
 
     public func getMonthlyPrice(for identifier: IAPProductID) -> String {
@@ -336,6 +364,15 @@ extension IAPHelper {
         }
 
         return offer.subscriptionPeriod.localizedPeriodString()
+    }
+
+    /// Returns the offer duration with the number spelled out, for example "one year"
+    func localizedOfferDurationSpelledOut(_ identifier: IAPProductID) -> String? {
+        guard let offer = getFreeTrialOffer(identifier) else {
+            return nil
+        }
+
+        return offer.subscriptionPeriod.localizedPeriodStringSpelledOut()
     }
 
     func localizedFreeTrialDurationAdjective(_ identifier: IAPProductID) -> String? {
@@ -574,6 +611,46 @@ extension IAPHelper: SKPaymentTransactionObserver {
 private extension SKProductSubscriptionPeriod {
     /// Converts the period into a localized readable format, ie: 3 days, 1 month, 1 year, etc.
     /// - Returns: Localized formatted version of the subscription period
+    /// The approximate length of the period in years
+    var durationInYears: Double? {
+        let periodsPerYear: Double
+        switch unit {
+        case .day:
+            periodsPerYear = 365
+        case .week:
+            periodsPerYear = 52
+        case .month:
+            periodsPerYear = 12
+        case .year:
+            periodsPerYear = 1
+        @unknown default:
+            return nil
+        }
+        return Double(numberOfUnits) / periodsPerYear
+    }
+
+    /// The period with the number spelled out, for example "one year" or "six months"
+    func localizedPeriodStringSpelledOut() -> String? {
+        var components = DateComponents()
+        switch unit {
+        case .day:
+            components.day = numberOfUnits
+        case .week:
+            components.weekOfMonth = numberOfUnits
+        case .month:
+            components.month = numberOfUnits
+        case .year:
+            components.year = numberOfUnits
+        @unknown default:
+            return nil
+        }
+
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .spellOut
+        formatter.maximumUnitCount = 1
+        return formatter.string(from: components)
+    }
+
     func localizedPeriodString() -> String? {
         let calendarUnit: NSCalendar.Unit
         switch unit {
@@ -628,7 +705,7 @@ private extension SKProductSubscriptionPeriod {
         components.calendar = Calendar.current
         components.setValue(self.numberOfUnits, for: calendarUnit)
 
-        return Calendar.current.date(byAdding: components, to: Date.now, wrappingComponents: true)
+        return Calendar.current.date(byAdding: components, to: Date.now, wrappingComponents: false)
     }
 }
 

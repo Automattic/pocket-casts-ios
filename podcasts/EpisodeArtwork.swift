@@ -81,7 +81,7 @@ final class EpisodeArtwork {
 
     func imageFromCache(episodeUuid: String) async -> UIImage? {
         return await withCheckedContinuation { continuation in
-            imageManager.subscribedPodcastsCache.retrieveImage(forKey: episodeUuid) { result in
+            imageManager.subscribedPodcastsCache.retrieveImage(forKey: episodeUuid, options: imageManager.podcastImageOptions) { result in
                 guard !Task.isCancelled else {
                     continuation.resume(returning: nil)
                     return
