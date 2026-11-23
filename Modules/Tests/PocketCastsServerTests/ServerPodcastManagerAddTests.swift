@@ -177,6 +177,167 @@ final class ServerPodcastManagerAddTests: XCTestCase {
         XCTAssertEqual(recovered.playingStatus, PlayingStatus.notPlayed.rawValue)
         XCTAssertEqual(recovered.title, "Recovered Episode")
     }
+
+    func testAddingAPodcastRepointsEpisodesKeptFromADeletedPodcast() throws {
+        let podcastUuid = "podcast-readded-\(UUID().uuidString)"
+
+        // An episode the user played, left behind when its podcast row was deleted
+        let kept = Episode()
+        kept.uuid = "ep-kept"
+        kept.podcastUuid = podcastUuid
+        kept.podcast_id = 999_999
+        kept.title = "Kept Episode"
+        kept.episodeStatus = DownloadStatus.notDownloaded.rawValue
+        kept.playingStatus = PlayingStatus.inProgress.rawValue
+        kept.playedUpTo = 42
+        kept.addedDate = Date()
+        dataManager.save(episode: kept)
+
+        let podcastInfo: [String: Any] = [
+            "podcast": [
+                "uuid": podcastUuid,
+                "title": "Podcast",
+                "episodes": [
+                    ["uuid": "ep-kept", "title": "Kept Episode", "published": "2026-01-01T00:00:00Z"],
+                    ["uuid": "ep-new", "title": "New Episode", "published": "2026-02-01T00:00:00Z"]
+                ]
+            ]
+        ]
+
+        let added = expectation(description: "added")
+        ServerPodcastManager.shared.addFromJson(podcastUuid: podcastUuid, lastModified: nil, podcastInfo: podcastInfo, subscribe: false, autoDownloads: 0, fromSync: true) { _ in
+            added.fulfill()
+        }
+        wait(for: [added], timeout: 10)
+
+        let podcast = try XCTUnwrap(dataManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true))
+        let rows = dataManager.findEpisodesWhere(customWhere: "uuid = ?", arguments: ["ep-kept"])
+        XCTAssertEqual(rows.map(\.id), [kept.id])
+
+        let recovered = try XCTUnwrap(rows.first)
+        XCTAssertEqual(recovered.podcast_id, podcast.id)
+        XCTAssertEqual(recovered.playingStatus, PlayingStatus.inProgress.rawValue)
+        XCTAssertEqual(recovered.playedUpTo, 42)
+
+        let visibleEpisodes = dataManager.allEpisodes(forPodcastId: podcast.id)
+        XCTAssertEqual(visibleEpisodes.map(\.uuid).sorted(), ["ep-kept", "ep-new"])
+    }
+
+    func testAddMissingPodcastAndEpisodeDropsPlaceholderThatDuplicatesAVisibleEpisode() throws {
+        let podcast = savePodcast()
+        let episodeUuid = "ep-duplicated-\(UUID().uuidString)"
+
+        // Before #5701 was fixed, a placeholder and a visible copy of it were both saved.
+        // The placeholder gets the lower id, so `findEpisode(uuid:)` returns it.
+        let placeholder = savePlaceholder(id: 1, uuid: episodeUuid, podcastUuid: podcast.uuid)
+        let visible = saveVisibleEpisode(id: 2, uuid: episodeUuid, podcast: podcast)
+        XCTAssertEqual(dataManager.findEpisode(uuid: episodeUuid)?.id, placeholder.id)
+
+        addMissingPodcastAndEpisode(episodeUuid: episodeUuid, podcastUuid: podcast.uuid)
+
+        let rows = dataManager.findEpisodesWhere(customWhere: "uuid = ?", arguments: [episodeUuid])
+        XCTAssertEqual(rows.map(\.id), [visible.id])
+        XCTAssertEqual(rows.first?.wasDeleted, false)
+        XCTAssertEqual(dataManager.allEpisodes(forPodcastId: podcast.id).map(\.uuid), [episodeUuid])
+    }
+
+    func testAddMissingPodcastAndEpisodeKeepsDuplicatePlaceholderThatHoldsUserState() throws {
+        let podcast = savePodcast()
+        let episodeUuid = "ep-duplicated-state-\(UUID().uuidString)"
+
+        let placeholder = savePlaceholder(id: 1, uuid: episodeUuid, podcastUuid: podcast.uuid) { episode in
+            // Synced progress landed on the placeholder, since uuid lookups returned it
+            episode.playingStatus = PlayingStatus.inProgress.rawValue
+            episode.playedUpTo = 120
+        }
+        let visible = saveVisibleEpisode(id: 2, uuid: episodeUuid, podcast: podcast)
+
+        addMissingPodcastAndEpisode(episodeUuid: episodeUuid, podcastUuid: podcast.uuid)
+
+        let rows = dataManager.findEpisodesWhere(customWhere: "uuid = ?", arguments: [episodeUuid])
+        XCTAssertEqual(rows.map(\.id), [placeholder.id])
+        XCTAssertFalse(rows.contains { $0.id == visible.id })
+
+        let survivor = try XCTUnwrap(rows.first)
+        XCTAssertFalse(survivor.wasDeleted)
+        XCTAssertEqual(survivor.podcast_id, podcast.id)
+        XCTAssertEqual(survivor.playingStatus, PlayingStatus.inProgress.rawValue)
+        XCTAssertEqual(survivor.playedUpTo, 120)
+        XCTAssertEqual(survivor.episodeStatus, DownloadStatus.notDownloaded.rawValue)
+        XCTAssertEqual(dataManager.allEpisodes(forPodcastId: podcast.id).map(\.uuid), [episodeUuid])
+    }
+
+    // MARK: - Helpers
+
+    private func savePodcast() -> Podcast {
+        let podcast = Podcast()
+        podcast.uuid = "podcast-\(UUID().uuidString)"
+        podcast.subscribed = 0
+        podcast.addedDate = Date()
+        dataManager.save(podcast: podcast)
+        return podcast
+    }
+
+    /// Saves a row shaped like the ones playlist sync saves for episodes it hasn't loaded yet.
+    @discardableResult
+    private func savePlaceholder(id: Int64, uuid: String, podcastUuid: String, configure: (Episode) -> Void = { _ in }) -> Episode {
+        let episode = Episode()
+        episode.id = id
+        episode.uuid = uuid
+        episode.podcastUuid = podcastUuid
+        episode.podcast_id = 0
+        episode.title = "Placeholder"
+        episode.wasDeleted = true
+        episode.episodeStatus = 0
+        episode.playingStatus = 0
+        episode.addedDate = Date()
+        configure(episode)
+        dataManager.save(episode: episode)
+        return episode
+    }
+
+    @discardableResult
+    private func saveVisibleEpisode(id: Int64, uuid: String, podcast: Podcast) -> Episode {
+        let episode = Episode()
+        episode.id = id
+        episode.uuid = uuid
+        episode.podcastUuid = podcast.uuid
+        episode.podcast_id = podcast.id
+        episode.title = "Visible"
+        episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
+        episode.playingStatus = PlayingStatus.notPlayed.rawValue
+        episode.addedDate = Date()
+        dataManager.save(episode: episode)
+        return episode
+    }
+
+    private func addMissingPodcastAndEpisode(episodeUuid: String, podcastUuid: String) {
+        AddTestsMockURLProtocol.responseJson = [
+            "podcast": [
+                "uuid": podcastUuid,
+                "title": "Podcast",
+                "episodes": [
+                    [
+                        "uuid": episodeUuid,
+                        "title": "Server Episode",
+                        "url": "https://example.com/episode.mp3",
+                        "published": "2026-01-05T00:00:00Z"
+                    ]
+                ]
+            ]
+        ]
+        URLProtocol.registerClass(AddTestsMockURLProtocol.self)
+        defer {
+            URLProtocol.unregisterClass(AddTestsMockURLProtocol.self)
+            AddTestsMockURLProtocol.responseJson = nil
+        }
+
+        let completed = expectation(description: "addMissingPodcastAndEpisode")
+        ServerPodcastManager.shared.addMissingPodcastAndEpisode(episodeUuid: episodeUuid, podcastUuid: podcastUuid, shouldUpdateEpisode: false) { _ in
+            completed.fulfill()
+        }
+        wait(for: [completed], timeout: 10)
+    }
 }
 
 private final class AddTestsMockURLProtocol: URLProtocol {

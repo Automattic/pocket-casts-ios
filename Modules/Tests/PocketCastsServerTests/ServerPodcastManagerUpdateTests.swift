@@ -130,4 +130,54 @@ final class ServerPodcastManagerUpdateTests: XCTestCase {
         let visibleEpisodes = dataManager.allEpisodes(forPodcastId: podcast.id)
         XCTAssertEqual(visibleEpisodes.map(\.uuid), ["recoverable-ep"])
     }
+
+    func testUpdateDropsPlaceholderThatDuplicatesAVisibleEpisode() throws {
+        let podcast = Podcast()
+        podcast.uuid = "podcast-duplicate-\(UUID().uuidString)"
+        podcast.subscribed = 0
+        podcast.addedDate = Date()
+        dataManager.save(podcast: podcast)
+
+        // Before #5701 was fixed, a placeholder and a visible copy of it were both saved.
+        // The placeholder gets the lower id, so `findEpisode(uuid:)` returns it.
+        let placeholder = Episode()
+        placeholder.id = 1
+        placeholder.uuid = "duplicated-ep"
+        placeholder.podcastUuid = podcast.uuid
+        placeholder.podcast_id = 0
+        placeholder.addedDate = Date()
+        placeholder.title = "Placeholder"
+        placeholder.wasDeleted = true
+        placeholder.episodeStatus = 0
+        placeholder.playingStatus = 0
+        dataManager.save(episode: placeholder)
+
+        let visible = Episode()
+        visible.id = 2
+        visible.uuid = "duplicated-ep"
+        visible.podcastUuid = podcast.uuid
+        visible.podcast_id = podcast.id
+        visible.addedDate = Date()
+        visible.title = "Visible"
+        visible.episodeStatus = DownloadStatus.notDownloaded.rawValue
+        visible.playingStatus = PlayingStatus.notPlayed.rawValue
+        dataManager.save(episode: visible)
+        XCTAssertEqual(dataManager.findEpisode(uuid: "duplicated-ep")?.id, placeholder.id)
+
+        let podcastInfo: [String: Any] = [
+            "podcast": [
+                "episodes": [
+                    ["uuid": "duplicated-ep", "title": "Server Title", "published": "2026-01-15T00:00:00Z"]
+                ]
+            ]
+        ]
+
+        ServerPodcastManager.shared.update(podcast: podcast, podcastInfo: podcastInfo, lastModified: nil, addMissingEpisodes: false)
+
+        let rows = dataManager.findEpisodesWhere(customWhere: "uuid = ?", arguments: ["duplicated-ep"])
+        XCTAssertEqual(rows.map(\.id), [visible.id])
+        XCTAssertEqual(rows.first?.wasDeleted, false)
+        XCTAssertEqual(rows.first?.title, "Server Title")
+        XCTAssertEqual(dataManager.allEpisodes(forPodcastId: podcast.id).map(\.uuid), ["duplicated-ep"])
+    }
 }

@@ -103,7 +103,7 @@ extension ServerPodcastManager {
 
             // for existing episodes, update the fields we want to pick up when they change
             let newEpisode = newEpisodes[uuid]
-            if let existingEpisode = newEpisode ?? DataManager.shared.findEpisode(uuid: uuid) {
+            if let existingEpisode = newEpisode ?? findEpisodeDroppingDuplicatePlaceholders(uuid: uuid) {
                 var episodeChanged = false
                 if let title = episodeJson["title"] as? String, existingEpisode.title != title {
                     existingEpisode.title = title
@@ -141,8 +141,8 @@ extension ServerPodcastManager {
                     episodeChanged = true
                 }
 
+                // A placeholder was saved without these, and a refresh doesn't otherwise touch them.
                 if existingEpisode.wasDeleted {
-                    existingEpisode.wasDeleted = false
                     if (existingEpisode.fileType ?? "").isEmpty, let fileType = episodeJson["file_type"] as? String {
                         existingEpisode.fileType = fileType
                     }
@@ -152,21 +152,9 @@ extension ServerPodcastManager {
                     if existingEpisode.duration == 0, let duration = episodeJson["duration"] as? Double {
                         existingEpisode.duration = duration
                     }
-                    episodeChanged = true
                 }
 
-                if existingEpisode.podcast_id == 0 {
-                    existingEpisode.podcast_id = podcast.id
-                    episodeChanged = true
-                }
-
-                if existingEpisode.episodeStatus == 0 {
-                    existingEpisode.episodeStatus = DownloadStatus.notDownloaded.rawValue
-                    episodeChanged = true
-                }
-
-                if existingEpisode.playingStatus == 0 {
-                    existingEpisode.playingStatus = PlayingStatus.notPlayed.rawValue
+                if repairPlaceholderState(of: existingEpisode, podcastId: podcast.id) {
                     episodeChanged = true
                 }
 
