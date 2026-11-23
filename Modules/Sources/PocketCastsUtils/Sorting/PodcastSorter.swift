@@ -61,11 +61,7 @@ public enum PodcastSorter {
 
 private extension String {
     func trimmingThePrefix() -> String {
-        guard let range = range(of: "^the ", options: [.regularExpression, .caseInsensitive]) else {
-            return self
-        }
-
-        return String(self[range.upperBound...])
+        prefix(4).lowercased() == "the " ? String(dropFirst(4)) : self
     }
 }
 
@@ -74,18 +70,21 @@ private extension String {
  - Returns Pinyin string
  */
 extension String {
-    func convertToPinyinIfNeeded() -> String {
-        let range = NSRange(location: 0, length: self.utf16.count)
-        let regex = try! NSRegularExpression(pattern: "[\\u4e00-\\u9fff]+")
-        let hasChineseCharacter = regex.firstMatch(in: self, options: [], range: range) != nil
+    private static let pinyinCache = Mutex([String: String]())
 
-        if hasChineseCharacter {
-            let mutableString = NSMutableString(string: self) as CFMutableString
-            CFStringTransform(mutableString, nil, kCFStringTransformToLatin, false)
-            CFStringTransform(mutableString, nil, kCFStringTransformStripDiacritics, false)
-            return mutableString as String
-        } else {
+    func convertToPinyinIfNeeded() -> String {
+        guard unicodeScalars.contains(where: { (0x4E00...0x9FFF).contains($0.value) }) else {
             return self
         }
+        if let pinyin = Self.pinyinCache.withLock({ $0[self] }) {
+            return pinyin
+        }
+
+        let mutableString = NSMutableString(string: self) as CFMutableString
+        CFStringTransform(mutableString, nil, kCFStringTransformToLatin, false)
+        CFStringTransform(mutableString, nil, kCFStringTransformStripDiacritics, false)
+        let pinyin = mutableString as String
+        Self.pinyinCache.withLock { $0[self] = pinyin }
+        return pinyin
     }
 }

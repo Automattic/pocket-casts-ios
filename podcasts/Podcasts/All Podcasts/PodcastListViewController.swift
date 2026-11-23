@@ -41,6 +41,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
     var gridLayout: LibraryType = Settings.libraryType
 
     var isEditingOrder = false
+    var hasReorderedItems = false
     var savedRightBarButtonItem: UIBarButtonItem?
 
     private var lastWillLayoutWidth: CGFloat = 0
@@ -104,6 +105,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         setupSearchBar()
         setupRefreshControl()
 
+        podcastsCollectionView.prefetchDataSource = self
         podcastsCollectionView.dragDelegate = self
         podcastsCollectionView.dropDelegate = self
         podcastsCollectionView.dragInteractionEnabled = false

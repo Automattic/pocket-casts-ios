@@ -42,7 +42,11 @@ class EpisodeArtworkViewModel {
 
 struct EpisodeArtworkView: View {
 
-    @State var model: EpisodeArtworkViewModel
+    @State private var model: EpisodeArtworkViewModel
+
+    init(episode: BaseEpisode, size: PodcastThumbnailSize = .page, showEpisodeNotesImage: Bool) {
+        self._model = State(wrappedValue: EpisodeArtworkViewModel(episode: episode, size: size, showEpisodeNotesImage: showEpisodeNotesImage))
+    }
 
     var body: some View {
         ZStack {

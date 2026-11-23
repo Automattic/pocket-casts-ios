@@ -1,7 +1,29 @@
+8.26
+-----
+- Add Playback 2026, your year in podcasts, with a Podcasts sheet and a Profile banner [#5568](https://github.com/Automattic/pocket-casts-ios/pull/5568) [#5567](https://github.com/Automattic/pocket-casts-ios/pull/5567)
+- Fix a crash that could happen when changing the Discover region [#5682](https://github.com/Automattic/pocket-casts-ios/pull/5682)
+- Scroll the Podcasts grid, lists and playlists more smoothly: podcast artwork is now decoded in the background instead of while scrolling [#5656](https://github.com/Automattic/pocket-casts-ios/pull/5656)
+- Use less storage for podcast artwork in the iPad grid, and remove artwork sizes the app no longer uses [#5647](https://github.com/Automattic/pocket-casts-ios/pull/5647)
+- Fix a crash that could happen when syncing the playback position of an episode with no valid length, such as a live stream played over Google Cast [#5638](https://github.com/Automattic/pocket-casts-ios/pull/5638)
+- Sign in faster with a large library: each podcast's played, archived and starred episodes now load alongside the podcast instead of one podcast at a time [#5643](https://github.com/Automattic/pocket-casts-ios/pull/5643)
+- Stop checking the newest episode's file of every podcast you follow, which sent hundreds of requests to podcast hosts and ad trackers when signing in [#5644](https://github.com/Automattic/pocket-casts-ios/pull/5644)
+- Fix a crash that could happen while updating the home screen shortcuts as playback changes [#5637](https://github.com/Automattic/pocket-casts-ios/pull/5637)
+- Fix a crash that could happen in the background when the Apple Watch app didn't answer a request for its logs [#5624](https://github.com/Automattic/pocket-casts-ios/pull/5624)
+- Fix the app freezing for up to 30 seconds while Siri's "Surprise Me!" shortcut picks an episode, for accounts with a long listening history [#5635](https://github.com/Automattic/pocket-casts-ios/pull/5635)
+- Fix the app icons ignoring the Dark, Tinted and Clear Home Screen styles on iOS 26 and later [#5636](https://github.com/Automattic/pocket-casts-ios/pull/5636)
+- Use less battery while the app is open, especially when it's idle on screen [#5627](https://github.com/Automattic/pocket-casts-ios/pull/5627)
+- Sign in faster with a large library on a new install, writing less than half as much to storage, by saving new episodes next to each other in the database [#5625](https://github.com/Automattic/pocket-casts-ios/pull/5625)
+- Fix the sign-up link and the "Your shows, on any device!" notification showing the create-account screen when you're already signed in. They now open the Profile tab [#5435](https://github.com/Automattic/pocket-casts-ios/pull/5435)
+- Sign in faster with a large library and smart playlists on a new install [#5646](https://github.com/Automattic/pocket-casts-ios/pull/5646)
+- Load the episode counts and artwork of smart playlists on the Playlists tab faster in large libraries, and keep the app responsive while they load [#5632](https://github.com/Automattic/pocket-casts-ios/pull/5632)
+- Show What's New message descriptions in the secondary text color, so the heading stands out [#5681](https://github.com/Automattic/pocket-casts-ios/pull/5681)
+
 8.25
 -----
-- Check for new episodes 1 second after opening the app instead of 2 [#5583](https://github.com/Automattic/pocket-casts-ios/pull/5583)
-- Apply episodes played, starred or unarchived on other devices faster when syncing a large library [#5581](https://github.com/Automattic/pocket-casts-ios/pull/5581)
+- Fix the episode details screen showing the podcast cover when episode artwork is enabled and available [#5430](https://github.com/Automattic/pocket-casts-ios/pull/5430)
+- Sort podcasts and folders by name faster, especially in libraries with Chinese titles [#5601](https://github.com/Automattic/pocket-casts-ios/pull/5601)
+- Fix tapping Done after Edit Podcasts switching Sort By to Drag and Drop when no podcast was reordered [#5563](https://github.com/Automattic/pocket-casts-ios/pull/5563)
+- Sync up to 2x faster, especially in large libraries: new episodes are saved in batches with fewer indexes to update, changes from other devices are applied and sent without scanning every episode, episode dates are parsed much faster, Up Next syncs after the podcasts are imported on a first sign-in, the refresh starts 1 second after opening the app instead of 2, and the app stays responsive while importing many podcasts. New Releases, Downloads and search inside a podcast also load faster [#5572](https://github.com/Automattic/pocket-casts-ios/pull/5572) [#5581](https://github.com/Automattic/pocket-casts-ios/pull/5581) [#5582](https://github.com/Automattic/pocket-casts-ios/pull/5582) [#5583](https://github.com/Automattic/pocket-casts-ios/pull/5583) [#5584](https://github.com/Automattic/pocket-casts-ios/pull/5584) [#5591](https://github.com/Automattic/pocket-casts-ios/pull/5591) [#5595](https://github.com/Automattic/pocket-casts-ios/pull/5595) [#5596](https://github.com/Automattic/pocket-casts-ios/pull/5596) [#5598](https://github.com/Automattic/pocket-casts-ios/pull/5598) [#5599](https://github.com/Automattic/pocket-casts-ios/pull/5599)
 - Fix text being cut off, split mid-word or overlapping at the largest text sizes in the Account and Profile headers, the share sheet, the Up Next now-playing card, Create Folder and Recent searches [#5553](https://github.com/Automattic/pocket-casts-ios/pull/5553) [#5545](https://github.com/Automattic/pocket-casts-ios/pull/5545) [#5556](https://github.com/Automattic/pocket-casts-ios/pull/5556) [#5540](https://github.com/Automattic/pocket-casts-ios/pull/5540) [#5544](https://github.com/Automattic/pocket-casts-ios/pull/5544) [#5554](https://github.com/Automattic/pocket-casts-ios/pull/5554)
 - Fix settings toggle and button labels in right-to-left languages: they now follow the leading edge, and "Refresh All Podcast Artwork" is no longer cut off [#5546](https://github.com/Automattic/pocket-casts-ios/pull/5546)
 - Fix the mini player's progress bar and times being mirrored in right-to-left languages while the full player's are not, and show the remaining time in the mini player on iPhone [#5539](https://github.com/Automattic/pocket-casts-ios/pull/5539)
@@ -18,7 +40,8 @@
 - Add an option to hide played podcasts from the Podcasts tab, in the "…" menu [#5543](https://github.com/Automattic/pocket-casts-ios/pull/5543)
 - Fix the Profile header splitting the email address mid-word at accessibility text sizes on iPad; the header now stacks [#5544](https://github.com/Automattic/pocket-casts-ios/pull/5544)
 - Fix a crash when VoiceOver or another accessibility service reads the player's progress slider while the playback time is negative or unknown [#5561](https://github.com/Automattic/pocket-casts-ios/pull/5561)
-- Save new episodes much faster after a refresh in large libraries [#5572](https://github.com/Automattic/pocket-casts-ios/pull/5572)
+- [tvOS] Fix playlist rows refresh when showing details [#5630](https://github.com/Automattic/pocket-casts-ios/pull/5630)
+- [tvOS] Refresh podcasts when returning to the app after 1 minute or more away [#5629](https://github.com/Automattic/pocket-casts-ios/pull/5629)
 
 8.24
 -----

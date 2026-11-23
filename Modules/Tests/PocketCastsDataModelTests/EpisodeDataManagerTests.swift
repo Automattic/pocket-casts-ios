@@ -252,6 +252,42 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
         }
     }
 
+    func testUnsyncedEpisodesReturnsEachEpisodeOnceNewestFirstUpToTheLimit() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let now = Date()
+
+            for (index, uuid) in ["oldest", "middle", "newest"].enumerated() {
+                let episode = Episode()
+                episode.uuid = uuid
+                episode.podcastUuid = podcast.uuid
+                episode.podcast_id = podcast.id
+                episode.addedDate = now
+                episode.publishedDate = now.addingTimeInterval(TimeInterval(index * 60))
+                episode.playingStatusModified = 1
+                episode.playedUpToModified = 1
+                episode.archivedModified = 1
+                dataManager.save(episode: episode)
+            }
+
+            XCTAssertEqual(dataManager.unsyncedEpisodes(limit: 10).map(\.uuid), ["newest", "middle", "oldest"])
+            XCTAssertEqual(dataManager.unsyncedEpisodes(limit: 2).map(\.uuid), ["newest", "middle"])
+        }
+    }
+
+    func testUnsyncedEpisodesQueryReadsTheEpisodeTableOnce() throws {
+        try runWithDataManager { dataManager in
+            let plan = try dataManager.dbQueue.dbPool.read { db in
+                try Row.fetchAll(db, sql: "EXPLAIN QUERY PLAN \(EpisodeDataManager.unsyncedEpisodesQuery(limit: 2000))")
+                    .map { $0["detail"] as String }
+            }
+            let description = plan.joined(separator: "\n")
+
+            XCTAssertEqual(plan.filter { $0.hasPrefix("SCAN") }, ["SCAN \(DataManager.episodeTableName)"], description)
+            XCTAssertFalse(description.contains("episode_pub_date"), description)
+        }
+    }
+
     // MARK: - delete Tests
 
     func testDeleteRemovesEpisode() throws {
@@ -290,12 +326,15 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
     func testMarkAllEpisodePlaybackHistorySyncedUpdatesSyncStatus() throws {
         try runWithDataManager { dataManager in
             let podcast = self.createTestPodcast(dataManager: dataManager)
-            let episode = self.createTestEpisode(podcast: podcast, dataManager: dataManager)
+            let unsynced = self.createTestEpisode(podcast: podcast, dataManager: dataManager)
+            unsynced.lastPlaybackInteractionSyncStatus = SyncStatus.notSynced.rawValue
+            dataManager.save(episode: unsynced)
+            let synced = self.createTestEpisode(podcast: podcast, dataManager: dataManager)
 
             dataManager.markAllEpisodePlaybackHistorySynced()
 
-            let found = dataManager.findEpisode(uuid: episode.uuid)
-            XCTAssertEqual(found?.lastPlaybackInteractionSyncStatus, SyncStatus.synced.rawValue, "Should mark as synced")
+            XCTAssertEqual(dataManager.findEpisode(uuid: unsynced.uuid)?.lastPlaybackInteractionSyncStatus, SyncStatus.synced.rawValue, "Should mark as synced")
+            XCTAssertEqual(dataManager.findEpisode(uuid: synced.uuid)?.lastPlaybackInteractionSyncStatus, SyncStatus.synced.rawValue, "Should stay synced")
         }
     }
 
@@ -1348,6 +1387,185 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
         }
     }
 
+    func testBulkSaveAssignsIdsToNewEpisodesAndUpdatesExistingEpisodes() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let existingEpisode = self.createTestEpisode(uuid: "existing", podcast: podcast, title: "Original", dataManager: dataManager)
+            let existingId = existingEpisode.id
+            existingEpisode.title = "Updated"
+
+            let newEpisodes = (0..<3).map { index in
+                let episode = Episode()
+                episode.uuid = "new-\(index)"
+                episode.podcastUuid = podcast.uuid
+                episode.podcast_id = podcast.id
+                episode.title = "New \(index)"
+                episode.addedDate = Date()
+                return episode
+            }
+
+            dataManager.bulkSave(episodes: [existingEpisode] + newEpisodes)
+
+            let foundExisting = dataManager.findEpisode(uuid: "existing")
+            XCTAssertEqual(existingEpisode.id, existingId, "Existing episode should keep its ID")
+            XCTAssertEqual(foundExisting?.id, existingId, "Existing episode should be updated in place")
+            XCTAssertEqual(foundExisting?.title, "Updated", "Existing episode should be updated")
+
+            XCTAssertFalse(newEpisodes.contains { $0.id == 0 }, "New episodes should get an ID")
+            XCTAssertEqual(Set(newEpisodes.map(\.id)).count, newEpisodes.count, "New episodes should get distinct IDs")
+            for episode in newEpisodes {
+                let found = dataManager.findEpisode(uuid: episode.uuid)
+                XCTAssertEqual(found?.id, episode.id, "New episode should be saved with its ID")
+                XCTAssertEqual(found?.title, episode.title, "New episode should be saved")
+            }
+
+            XCTAssertEqual(dataManager.allEpisodes(forPodcastId: podcast.id).count, 4, "Existing episode should not be duplicated")
+        }
+    }
+
+    func testBulkSaveInsertsEpisodeWithAnIdThatIsNotInTheDatabase() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+
+            let episode = Episode()
+            episode.id = 42
+            episode.uuid = "preset-id"
+            episode.podcastUuid = podcast.uuid
+            episode.podcast_id = podcast.id
+            episode.addedDate = Date()
+
+            dataManager.bulkSave(episodes: [episode])
+
+            XCTAssertEqual(dataManager.findEpisode(uuid: "preset-id")?.id, 42, "Episode should be saved with its ID")
+        }
+    }
+
+    func testSaveAndBulkSaveInsertNewEpisodesWithoutAnUpdate() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let existingEpisode = self.createTestEpisode(uuid: "existing", podcast: podcast, dataManager: dataManager)
+            existingEpisode.title = "Updated"
+
+            func newEpisode(uuid: String) -> Episode {
+                let episode = Episode()
+                episode.uuid = uuid
+                episode.podcastUuid = podcast.uuid
+                episode.podcast_id = podcast.id
+                episode.addedDate = Date()
+                return episode
+            }
+
+            var statements = [String]()
+            try dataManager.dbQueue.dbPool.writeWithoutTransaction { db in
+                db.trace { event in
+                    if case let .statement(statement) = event {
+                        statements.append(statement.sql)
+                    }
+                }
+            }
+
+            dataManager.save(episode: newEpisode(uuid: "new-single"))
+            dataManager.bulkSave(episodes: [existingEpisode, newEpisode(uuid: "new-bulk-0"), newEpisode(uuid: "new-bulk-1")])
+
+            let inserts = statements.filter { $0.hasPrefix("INSERT INTO \"\(DataManager.episodeTableName)\"") }
+            let updates = statements.filter { $0.hasPrefix("UPDATE \"\(DataManager.episodeTableName)\"") }
+            XCTAssertEqual(inserts.count, 3, "Each new episode should be inserted once")
+            XCTAssertEqual(updates.count, 1, "Only the existing episode should be updated")
+            XCTAssertEqual(dataManager.findEpisode(uuid: "existing")?.title, "Updated")
+            XCTAssertNotNil(dataManager.findEpisode(uuid: "new-single"))
+        }
+    }
+
+    func testInsertMissingSkipsEpisodesThatAlreadyExist() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+
+            func newEpisode(uuid: String, title: String) -> Episode {
+                let episode = Episode()
+                episode.uuid = uuid
+                episode.podcastUuid = podcast.uuid
+                episode.podcast_id = podcast.id
+                episode.title = title
+                episode.addedDate = Date()
+                return episode
+            }
+
+            let missing = newEpisode(uuid: "missing", title: "Missing")
+            let insertedMeanwhile = newEpisode(uuid: "inserted-meanwhile", title: "From the update")
+            let duplicate = newEpisode(uuid: "missing", title: "Duplicate")
+            self.createTestEpisode(uuid: "inserted-meanwhile", podcast: podcast, title: "From sync", dataManager: dataManager)
+
+            dataManager.insertMissing(episodes: [missing, insertedMeanwhile, duplicate])
+
+            let episodes = dataManager.allEpisodes(forPodcastId: podcast.id)
+            XCTAssertEqual(episodes.map(\.uuid).sorted(), ["inserted-meanwhile", "missing"], "Each uuid should be saved once")
+            XCTAssertEqual(dataManager.findEpisode(uuid: "inserted-meanwhile")?.title, "From sync", "An episode that already exists should be left as it is")
+            XCTAssertEqual(dataManager.findEpisode(uuid: "missing")?.id, missing.id, "The missing episode should be saved with its ID")
+            XCTAssertEqual(insertedMeanwhile.id, 0, "A skipped episode should not get an ID")
+            XCTAssertEqual(duplicate.id, 0, "A skipped episode should not get an ID")
+        }
+    }
+
+    func testInsertMissingSavesTheOtherEpisodesWhenOneInsertFails() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+
+            try dataManager.dbQueue.dbPool.write { db in
+                try db.execute(sql: """
+                CREATE TRIGGER failInsert BEFORE INSERT ON \(DataManager.episodeTableName)
+                WHEN NEW.uuid = 'failing'
+                BEGIN SELECT RAISE(ABORT, 'Insert failed'); END
+                """)
+            }
+
+            let episodes = ["before", "failing", "after"].map { uuid in
+                let episode = Episode()
+                episode.uuid = uuid
+                episode.podcastUuid = podcast.uuid
+                episode.podcast_id = podcast.id
+                episode.addedDate = Date()
+                return episode
+            }
+
+            dataManager.insertMissing(episodes: episodes)
+
+            XCTAssertEqual(dataManager.allEpisodes(forPodcastId: podcast.id).map(\.uuid).sorted(), ["after", "before"], "Only the failing episode should be missing")
+            XCTAssertEqual(episodes[1].id, 0, "The episode that failed to insert should not keep an ID")
+        }
+    }
+
+    func testInsertMissingSavesEveryChunk() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+
+            func newEpisode(uuid: String) -> Episode {
+                let episode = Episode()
+                episode.uuid = uuid
+                episode.podcastUuid = podcast.uuid
+                episode.podcast_id = podcast.id
+                episode.addedDate = Date()
+                return episode
+            }
+
+            // Two and a half chunks, then the first episode again, which lands in the last chunk
+            let chunkSize = EpisodeDataManager.Constants.Limits.insertMissingChunkSize
+            let episodes = (0..<(chunkSize * 2 + chunkSize / 2)).map { newEpisode(uuid: "episode-\($0)") }
+            let duplicate = newEpisode(uuid: "episode-0")
+
+            let commits = EpisodeInsertCommitCounter()
+            dataManager.dbQueue.dbPool.writeWithoutTransaction { db in
+                db.add(transactionObserver: commits)
+            }
+
+            dataManager.insertMissing(episodes: episodes + [duplicate])
+
+            XCTAssertEqual(commits.count, 3, "Each chunk should be saved in its own write")
+            XCTAssertEqual(Set(dataManager.allEpisodes(forPodcastId: podcast.id).map(\.uuid)), Set(episodes.map(\.uuid)), "Every chunk should be saved")
+            XCTAssertEqual(dataManager.allEpisodes(forPodcastId: podcast.id).count, episodes.count, "Each uuid should be saved once")
+            XCTAssertEqual(duplicate.id, 0, "An episode saved by an earlier chunk should be skipped")
+        }
+    }
+
     // MARK: - Helper method override for additional properties
 
     @discardableResult
@@ -1383,5 +1601,31 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
         episode.lastDownloadAttemptDate = lastDownloadAttemptDate
         dataManager.save(episode: episode)
         return episode
+    }
+}
+
+/// Counts the committed transactions that inserted episodes.
+private final class EpisodeInsertCommitCounter: TransactionObserver {
+    private(set) var count = 0
+    private var inserted = false
+
+    func observes(eventsOfKind eventKind: DatabaseEventKind) -> Bool {
+        if case .insert(tableName: let tableName) = eventKind {
+            return tableName.caseInsensitiveCompare(DataManager.episodeTableName) == .orderedSame
+        }
+        return false
+    }
+
+    func databaseDidChange(with event: DatabaseEvent) {
+        inserted = true
+    }
+
+    func databaseDidCommit(_ db: Database) {
+        if inserted { count += 1 }
+        inserted = false
+    }
+
+    func databaseDidRollback(_ db: Database) {
+        inserted = false
     }
 }

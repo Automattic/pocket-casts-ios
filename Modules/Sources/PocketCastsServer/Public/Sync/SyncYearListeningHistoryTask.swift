@@ -191,8 +191,12 @@ class PodcastExistsHelper {
 }
 
 public class YearListeningHistory {
+    /// Syncs the listening history of `year` and of the year before, concurrently, and returns
+    /// once both are done: whether both succeeded.
     public static func sync(_ year: Int) -> Bool {
         var syncResults: [Bool] = []
+        // The two years finish on their own threads.
+        let syncResultsLock = NSLock()
         let yearsToSync: [Int32] = [Int32(year), Int32(year - 1)]
 
         let dispatchGroup = DispatchGroup()
@@ -204,13 +208,14 @@ public class YearListeningHistory {
 
                 syncYearListeningHistory.start()
 
-                syncResults.append(syncYearListeningHistory.success)
-
                 let syncRatings = RetrieveRatingsTask()
 
                 syncRatings.start()
 
-                syncResults.append(syncRatings.success)
+                syncResultsLock.withLock {
+                    syncResults.append(syncYearListeningHistory.success)
+                    syncResults.append(syncRatings.success)
+                }
 
                 dispatchGroup.leave()
             }

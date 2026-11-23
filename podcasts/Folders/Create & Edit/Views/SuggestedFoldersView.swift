@@ -86,11 +86,12 @@ struct SuggestedFoldersView: View {
     }
 
     var mainBody: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 12) {
             Group {
                 Text(L10n.suggestedFoldersTitle)
                     .textStyle(PrimaryText())
                     .font(.largeTitle.bold())
+                    .fixedSize(horizontal: false, vertical: true)
                 Text(model.userHasExistingFolders ? L10n.suggestedFoldersDescriptionWithExistingFolders : L10n.suggestedFoldersDescription)
                     .textStyle(SecondaryText())
                     .font(.body)
@@ -111,6 +112,7 @@ struct SuggestedFoldersView: View {
                 Text(model.userHasExistingFolders ? L10n.suggestedFoldersReplaceConfirmationButton : L10n.suggestedFoldersUseSuggestedFolders)
                     .textStyle(RoundedButton())
             }
+            Color.clear.frame(height: 2)
             if model.userHasSubscription {
                 Button {
                     track(.suggestedFoldersCreateCustomFolderTapped)
@@ -118,6 +120,7 @@ struct SuggestedFoldersView: View {
                 } label: {
                     Text(L10n.suggestedFoldersCreateCustomFolder)
                         .textStyle(BorderButton())
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             } else {
                 Button {
@@ -126,11 +129,12 @@ struct SuggestedFoldersView: View {
                 } label: {
                     Text(L10n.suggestedFoldersCreateCustomFolder)
                         .textStyle(BorderButton())
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             }
-            Spacer()
         }
         .padding(.horizontal, Constants.margin)
+        .padding(.vertical)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             track(.suggestedFoldersPageShown)
@@ -161,8 +165,9 @@ struct SuggestedFoldersView: View {
             track(.suggestedFoldersReplaceFoldersConfirmTapped)
             onCompletion(.applySuggestedFolders(model.folders))
         })
-        .presentationDetents([.fraction(0.4)])
-            .presentationDragIndicator(.visible)
+        .scrolledFittedPresentationDetent()
+        .applyDefaultThemeOptions()
+        .presentationDragIndicator(.visible)
     }
 
     private func track(_ event: AnalyticsEvent) {
