@@ -33,9 +33,22 @@ extension MiniPlayerViewController {
         }
     }
 
+    /// Hides the mini player for as long as a screen keeps the tab bar hidden, then shows it again.
+    func setHiddenWithTabBar(_ hidden: Bool, animated: Bool) {
+        isHiddenWithTabBar = hidden
+        if hidden {
+            hideMiniPlayer(animated, isTransient: true)
+        } else {
+            showMiniPlayer()
+        }
+    }
+
     func showMiniPlayer() {
         // only show if something is playing
         if PlaybackManager.shared.currentEpisode == nil { return }
+
+        // a screen that hid the tab bar (e.g. for multi-select) shows the mini player again when it's done
+        if isHiddenWithTabBar { return }
 
         if LiquidGlass.isEnabled, #available(iOS 26.0, *) {
             guard let tabBarController = hostTabBarController, tabBarController.bottomAccessory == nil else { return }
