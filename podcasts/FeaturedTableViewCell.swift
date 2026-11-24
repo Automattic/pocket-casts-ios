@@ -29,6 +29,12 @@ class FeaturedTableViewCell: UITableViewCell {
         separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
     }
 
+    override func safeAreaInsetsDidChange() {
+        super.safeAreaInsetsDidChange()
+
+        featuredView.contentInsets = UIEdgeInsets(top: 0, left: safeAreaInsets.left, bottom: 0, right: safeAreaInsets.right)
+    }
+
     override func prepareForReuse() {
         super.prepareForReuse()
 
