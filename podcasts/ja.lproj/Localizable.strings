@@ -2150,9 +2150,9 @@ Pocket Casts を最大限に活用しましょう。</string>
     <key>playback_2026_banner_description</key>
     <string>リスニング統計や、あなたがどんなリスナーかを確認できます。</string>
     <key>playback_2026_banner_title</key>
-    <string>プレイバック2026が登場 !</string>
+    <string>%1$@が登場 !</string>
     <key>playback_2026_sheet_button</key>
-    <string>自分のプレイバック2026を表示</string>
+    <string>自分の%1$@を表示</string>
     <key>playback_2026_sheet_description</key>
     <string>あなたが聴いたコンテンツ。 お気に入りのポッドキャスト。 あなたならではのリスニングスタイル。 Pocket Casts でのあなたの1年間がここに。</string>
     <key>playback_effect_all_podcasts</key>

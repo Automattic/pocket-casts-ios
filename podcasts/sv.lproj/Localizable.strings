@@ -2150,9 +2150,9 @@ Det är engagemang!</string>
     <key>playback_2026_banner_description</key>
     <string>Upptäck din lyssningsstatistik, vilken typ av lyssnare du är och mycket annat.</string>
     <key>playback_2026_banner_title</key>
-    <string>Uppspelning 2026 är här!</string>
+    <string>%1$@ är här!</string>
     <key>playback_2026_sheet_button</key>
-    <string>Visa Min uppspelning 2026</string>
+    <string>Visa min %1$@</string>
     <key>playback_2026_sheet_description</key>
     <string>Vad du lyssnade på. Podcasts du älskade. Och det som utmärker dig som lyssnare. Ditt år med Pocket Casts är här.</string>
     <key>playback_effect_all_podcasts</key>
