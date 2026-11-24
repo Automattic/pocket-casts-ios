@@ -20,6 +20,8 @@ TEST_COLLECTOR_PLUGIN_VERSION="1.11.0"
 
 RUN_FASTLANE_TESTS=false
 if [[ "${BUILDKITE_PULL_REQUEST:-false}" =~ ^[0-9]+$ ]]; then
+    # `pr_changed_files --stdout` exits 255 with empty output on errors.
+    # Running the fastlane tests in that case beats failing the pipeline upload on an empty `if:`.
     RUN_FASTLANE_TESTS=$(pr_changed_files --stdout --any-match 'fastlane/*' '*.rb' 'Gemfile' 'Gemfile.lock' '.ruby-version') || RUN_FASTLANE_TESTS=true
 fi
 
