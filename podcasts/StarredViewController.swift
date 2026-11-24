@@ -97,6 +97,7 @@ class StarredViewController: PCViewController {
                     DispatchQueue.main.sync {
                         self.loadingIndicator.stopAnimating()
                     }
+                    self.refreshEpisodesFromDatabase(animated: animated)
 
                     return
                 }
