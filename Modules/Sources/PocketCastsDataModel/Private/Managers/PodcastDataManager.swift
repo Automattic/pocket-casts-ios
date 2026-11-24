@@ -85,18 +85,29 @@ class PodcastDataManager {
         dbQueue.read { db in
             do {
                 var values: [Any]?
-                var whereClause = "WHERE p.subscribed = 1"
+                var whereClause = "WHERE subscribed = 1"
                 if let inFolderUuid {
-                    whereClause += " AND p.folderUuid = ?"
+                    whereClause += " AND folderUuid = ?"
                     values = [inFolderUuid]
                 }
-                let query = "SELECT DISTINCT p.id, p.* FROM \(DataManager.podcastTableName) p LEFT JOIN \(DataManager.episodeTableName) e ON p.id = e.podcast_id AND e.id = (SELECT e.id FROM \(DataManager.episodeTableName) e WHERE e.podcast_id = p.id AND e.playingStatus != 3 AND e.archived = 0 ORDER BY e.publishedDate DESC LIMIT 1) \(whereClause) ORDER BY CASE WHEN e.publishedDate IS NULL THEN 1 ELSE 0 END, e.publishedDate DESC, p.latestEpisodeDate DESC"
-                let resultSet = try db.executeQuery(query, values: values)
-
-                while resultSet.next() {
-                    let podcast = self.createPodcastFrom(resultSet: resultSet)
-                    allPodcasts.append(podcast)
+                let podcastRows = try db.executeQuery("SELECT * FROM \(DataManager.podcastTableName) \(whereClause)", values: values)
+                while podcastRows.next() {
+                    allPodcasts.append(self.createPodcastFrom(resultSet: podcastRows))
                 }
+
+                var newestByPodcastId = [Int64: Double]()
+                let episodeRows = try db.executeQuery("SELECT +podcast_id AS podcast_id, MAX(publishedDate) AS newest FROM \(DataManager.episodeTableName) WHERE playingStatus != \(PlayingStatus.completed.rawValue) AND archived = 0 GROUP BY +podcast_id", values: nil)
+                while episodeRows.next() {
+                    guard let value = episodeRows.object(forColumn: "newest") as? Double else { continue }
+                    newestByPodcastId[episodeRows.longLongInt(forColumn: "podcast_id")] = value
+                }
+
+                allPodcasts = allPodcasts.enumerated().sorted { first, second in
+                    let firstPodcast = first.element, secondPodcast = second.element
+                    return Self.isOrderedFirst(newestByPodcastId[firstPodcast.id], newestByPodcastId[secondPodcast.id])
+                        ?? Self.isOrderedFirst(firstPodcast.latestEpisodeDate, secondPodcast.latestEpisodeDate)
+                        ?? (first.offset < second.offset)
+                }.map(\.element)
             } catch {
                 FileLog.shared.addMessage("PodcastDataManager.allPodcastsOrderedByNewestEpisodes error: \(error)")
             }
@@ -593,6 +604,19 @@ class PodcastDataManager {
             }
         } catch {
             FileLog.shared.addMessage("PodcastDataManager.cachePodcasts(ids:) error: \(error)")
+        }
+    }
+
+    private static func isOrderedFirst<T: Comparable>(_ first: T?, _ second: T?) -> Bool? {
+        switch (first, second) {
+        case let (first?, second?):
+            return first == second ? nil : first > second
+        case (.some, .none):
+            return true
+        case (.none, .some):
+            return false
+        case (.none, .none):
+            return nil
         }
     }
 
