@@ -929,6 +929,74 @@ final class PodcastDataManagerTests: DataManagerTestCase {
         }
     }
 
+    func testAllPodcastsOrderedByLastPlayedEpisodesUsesTheMostRecentPlayEvenWhenArchived() throws {
+        try runWithDataManager { dataManager in
+            let now = Date()
+            let day: TimeInterval = 86400
+
+            let playedToday = self.createTestPodcast(title: "Played today", dataManager: dataManager)
+            self.createTestEpisode(podcast: playedToday, lastPlaybackInteractionDate: now, dataManager: dataManager)
+            self.createTestEpisode(podcast: playedToday, lastPlaybackInteractionDate: now.addingTimeInterval(-30 * day), dataManager: dataManager)
+
+            let archivedYesterday = self.createTestPodcast(title: "Archived yesterday", dataManager: dataManager)
+            self.createTestEpisode(podcast: archivedYesterday, archived: true, lastPlaybackInteractionDate: now.addingTimeInterval(-day), dataManager: dataManager)
+
+            let lastWeek = self.createTestPodcast(title: "Last week", dataManager: dataManager)
+            self.createTestEpisode(podcast: lastWeek, lastPlaybackInteractionDate: now.addingTimeInterval(-7 * day), dataManager: dataManager)
+            self.createTestEpisode(podcast: lastWeek, lastPlaybackInteractionDate: nil, dataManager: dataManager)
+
+            let neverPlayed = self.createTestPodcast(title: "Never played", dataManager: dataManager)
+            self.createTestEpisode(podcast: neverPlayed, dataManager: dataManager)
+            _ = self.createTestPodcast(title: "No episodes", dataManager: dataManager)
+
+            let unsubscribed = self.createTestPodcast(title: "Unsubscribed", subscribed: 0, dataManager: dataManager)
+            self.createTestEpisode(podcast: unsubscribed, lastPlaybackInteractionDate: now, dataManager: dataManager)
+
+            let titles = dataManager.allPodcastsOrderedByLastPlayedEpisodes().map(\.title)
+            XCTAssertEqual(Array(titles.prefix(3)), ["Played today", "Archived yesterday", "Last week"])
+            XCTAssertEqual(Set(titles.dropFirst(3)), ["Never played", "No episodes"])
+        }
+    }
+
+    func testAllPodcastsOrderedByLastPlayedEpisodesMatchesTheQueryItReplaces() throws {
+        try runWithDataManager { dataManager in
+            let now = Date()
+            let folder = self.createTestFolder(uuid: "folder", dataManager: dataManager)
+            folder.sortType = FolderSort.recentlyPlayed.rawValue
+            dataManager.save(folder: folder)
+
+            for index in 0..<60 {
+                let podcast = self.createTestPodcast(title: "Podcast \(index)", subscribed: index % 9 == 0 ? 0 : 1, folderUuid: index % 4 == 0 ? folder.uuid : nil, dataManager: dataManager)
+                for episodeIndex in 0..<(index % 5) {
+                    self.createTestEpisode(
+                        podcast: podcast,
+                        archived: (index + episodeIndex) % 4 == 0,
+                        lastPlaybackInteractionDate: (index + episodeIndex) % 3 == 0 ? nil : now.addingTimeInterval(-Double((index * 37) % 60 * 10 + episodeIndex * 2) * 3600),
+                        dataManager: dataManager
+                    )
+                }
+            }
+
+            func replacedQuery(folderUuid: String?) throws -> [(uuid: String, played: Bool)] {
+                try dataManager.dbQueue.dbPool.read { db in
+                    let folderClause = folderUuid == nil ? "" : " AND p.folderUuid = ?"
+                    let sql = "SELECT DISTINCT p.id, p.*, e.lastPlaybackInteractionDate AS played FROM SJPodcast p LEFT JOIN SJEpisode e ON p.id = e.podcast_id AND e.id = (SELECT e.id FROM SJEpisode e WHERE e.podcast_id = p.id ORDER BY e.lastPlaybackInteractionDate DESC LIMIT 1) WHERE p.subscribed = 1\(folderClause) ORDER BY CASE WHEN e.lastPlaybackInteractionDate IS NULL THEN 1 ELSE 0 END, e.lastPlaybackInteractionDate DESC"
+                    return try Row.fetchAll(db, sql: sql, arguments: folderUuid.map { [$0] } ?? []).map { ($0["uuid"] as String, ($0["played"] as Double?) != nil) }
+                }
+            }
+
+            for (actual, expected) in [
+                (dataManager.allPodcastsOrderedByLastPlayedEpisodes(), try replacedQuery(folderUuid: nil)),
+                (dataManager.allPodcastsInFolder(folder: folder), try replacedQuery(folderUuid: folder.uuid))
+            ] {
+                let played = expected.filter(\.played).map(\.uuid)
+                XCTAssertGreaterThan(played.count, 5)
+                XCTAssertEqual(Array(actual.map(\.uuid).prefix(played.count)), played)
+                XCTAssertEqual(Set(actual.map(\.uuid).dropFirst(played.count)), Set(expected.filter { !$0.played }.map(\.uuid)))
+            }
+        }
+    }
+
     // MARK: - save Tests (PersistableRecord API)
 
     func testSaveInsertsNewPodcastWithAllFields() throws {
