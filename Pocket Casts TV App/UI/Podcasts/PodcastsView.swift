@@ -53,8 +53,11 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
                             .foregroundStyle(Color.pcTextPrimary)
                         Spacer()
                         sortMenu
+                    }.if(model.items.count < 6) { content in
+                        content.focusSection()
                     }
                     podcastGrid
+                        .focusSection()
                 }
             }
         }
