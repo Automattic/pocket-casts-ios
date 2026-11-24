@@ -77,6 +77,8 @@
     <string>Podcastomslag</string>
     <key>accessibility_profile_settings</key>
     <string>Pocket Casts-inställningar</string>
+    <key>accessibility_remove_recent_search</key>
+    <string>Ta bort %1$@ från senaste sökningar</string>
     <key>accessibility_select_episode</key>
     <string>Välj avsnitt</string>
     <key>accessibility_show_filter_details</key>
@@ -2145,6 +2147,14 @@ Det är engagemang!</string>
     <string>Fler podcasts, mer glädje</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>Jämfört med 2024 har din lyssningstid skjutit i höjden med %1$@</string>
+    <key>playback_2026_banner_description</key>
+    <string>Upptäck din lyssningsstatistik, vilken typ av lyssnare du är och mycket annat.</string>
+    <key>playback_2026_banner_title</key>
+    <string>%1$@ är här!</string>
+    <key>playback_2026_sheet_button</key>
+    <string>Visa min %1$@</string>
+    <key>playback_2026_sheet_description</key>
+    <string>Vad du lyssnade på. Podcasts du älskade. Och det som utmärker dig som lyssnare. Ditt år med Pocket Casts är här.</string>
     <key>playback_effect_all_podcasts</key>
     <string>Alla podcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -2581,6 +2591,8 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>%1$@ arkiverat</string>
     <key>podcast_archived_msg</key>
     <string>Alla %1$@ avsnitt av den här podcasten har arkiverats</string>
+    <key>podcast_archived_msg_singular</key>
+    <string>Det enda avsnittet av den här podcasten har arkiverats</string>
     <key>podcast_count_plural_format</key>
     <string>%1$@ podcasts</string>
     <key>podcast_count_singular</key>
@@ -2774,6 +2786,14 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Namn</string>
     <key>podcasts_list</key>
     <string>Lista</string>
+    <key>podcasts_played_podcasts</key>
+    <string>Uppspelade podcasts</string>
+    <key>podcasts_played_podcasts_description</key>
+    <string>Döljer podcasts utan något kvar att lyssna på, där varje avsnitt har spelats upp eller arkiverats. De dyker upp igen när ett nytt avsnitt kommer.</string>
+    <key>podcasts_played_podcasts_hide</key>
+    <string>Dölj</string>
+    <key>podcasts_played_podcasts_show</key>
+    <string>Visa</string>
     <key>podcasts_plural</key>
     <string>Podcasts</string>
     <key>podcasts_share</key>

@@ -169,6 +169,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         updateDisplayedData()
         updateWhatsNewButton()
+        checkPlayback2026Eligibility()
 
         Analytics.track(.profileShown)
     }
@@ -264,6 +265,16 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
             self.isRefreshAnimating = false
             self.updateLastRefreshDetails()
+            self.checkPlayback2026Eligibility()
+        }
+    }
+
+    private func checkPlayback2026Eligibility() {
+        guard Playback2026.isAvailable, !Playback2026.isEligible else { return }
+        Task {
+            if await Playback2026.checkEligibility() {
+                updateDisplayedData()
+            }
         }
     }
 
@@ -531,7 +542,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             data[0].insert(.informationalBanner, at: 0)
         }
 
-        if Playback2026.isAvailable {
+        if Playback2026.isAvailable, Playback2026.isEligible {
             data[0].insert(.playback2026Banner, at: 0)
         }
 
