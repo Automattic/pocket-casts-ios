@@ -25,7 +25,7 @@ struct Playback2026Sheet: View {
                     .lineSpacing(2)
                     .fixedSize(horizontal: false, vertical: true)
 
-                Button(L10n.playback2026SheetButton, action: onViewPlayback)
+                Button(L10n.playback2026SheetButton(Playback2026.name), action: onViewPlayback)
                     .buttonStyle(RoundedButtonStyle(theme: theme, backgroundColor: Color(hex: "E00035")))
                     .frame(minHeight: 56)
             }

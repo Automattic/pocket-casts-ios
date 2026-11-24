@@ -77,6 +77,8 @@
     <string>ポッドキャストのアートワーク</string>
     <key>accessibility_profile_settings</key>
     <string>Pocket Casts の設定</string>
+    <key>accessibility_remove_recent_search</key>
+    <string>最近の検索から%1$@を削除</string>
     <key>accessibility_select_episode</key>
     <string>エピソードを選択</string>
     <key>accessibility_show_filter_details</key>
@@ -2145,6 +2147,14 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>より多くのポッドキャスト、より多くの喜び</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>2024年と比較して、聴取時間が%1$@ 急増しました</string>
+    <key>playback_2026_banner_description</key>
+    <string>リスニング統計や、あなたがどんなリスナーかを確認できます。</string>
+    <key>playback_2026_banner_title</key>
+    <string>%1$@が登場 !</string>
+    <key>playback_2026_sheet_button</key>
+    <string>自分の%1$@を表示</string>
+    <key>playback_2026_sheet_description</key>
+    <string>あなたが聴いたコンテンツ。 お気に入りのポッドキャスト。 あなたならではのリスニングスタイル。 Pocket Casts でのあなたの1年間がここに。</string>
     <key>playback_effect_all_podcasts</key>
     <string>すべてのポッドキャスト</string>
     <key>playback_effect_this_podcast</key>
@@ -2581,6 +2591,8 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>%1$@件がアーカイブ済み</string>
     <key>podcast_archived_msg</key>
     <string>このポッドキャストの%1$@件のエピソードがすべてアーカイブされました</string>
+    <key>podcast_archived_msg_singular</key>
+    <string>このポッドキャストの唯一のエピソードがアーカイブされました</string>
     <key>podcast_count_plural_format</key>
     <string>%1$@件のポッドキャスト</string>
     <key>podcast_count_singular</key>
@@ -2774,6 +2786,14 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>名前</string>
     <key>podcasts_list</key>
     <string>リスト</string>
+    <key>podcasts_played_podcasts</key>
+    <string>再生したポッドキャスト</string>
+    <key>podcasts_played_podcasts_description</key>
+    <string>すべてのエピソードが再生またはアーカイブされて聴くコンテンツが残っていないポッドキャストを非表示にします。 新しいエピソードが届くと再び表示されます。</string>
+    <key>podcasts_played_podcasts_hide</key>
+    <string>非表示</string>
+    <key>podcasts_played_podcasts_show</key>
+    <string>表示</string>
     <key>podcasts_plural</key>
     <string>ポッドキャスト</string>
     <key>podcasts_share</key>

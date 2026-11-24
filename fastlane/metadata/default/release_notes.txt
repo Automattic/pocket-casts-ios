@@ -1,1 +1,3 @@
-Never fear, a new feature is here! We took a poll in our virtual office about what gestures we most use on our devices and the results are in! Coming in a hot third behind shaking it out of frustration, and having to swipe back because you tapped on the wrong thing is… PULL TO REFRESH. Based on our super accurate definitely not made up scientific results we decided to add the ability to refresh your podcasts from both the podcasts and the profile screen!
+All caught up? A new option in the Podcasts tab’s settings hides the podcasts you’ve already played.
+
+We also made a round of fixes for the largest text sizes, VoiceOver and right-to-left languages. And a podcast with one archived episode no longer claims that “All 1 episodes” are archived.

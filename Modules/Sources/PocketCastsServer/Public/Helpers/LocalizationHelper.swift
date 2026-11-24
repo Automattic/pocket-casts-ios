@@ -1,14 +1,22 @@
 import Foundation
+import PocketCastsUtils
 
 public class LocalizationHelper {
-    public static var provider: InternationalizationProvider?
+    /// Replaced on the main thread when the Discover region changes (and on a background queue at
+    /// launch) while API requests read it on background threads to add their headers.
+    private static let lockedProvider = Mutex<InternationalizationProvider?>(nil)
+
+    public static var provider: InternationalizationProvider? {
+        get { lockedProvider.value }
+        set { lockedProvider.value = newValue }
+    }
 
     public static func update(userRegion: String) {
         provider = InternationalizationProvider(userRegion: userRegion)
     }
 }
 
-public struct InternationalizationProvider {
+public struct InternationalizationProvider: Sendable {
     public let userRegion: String?
     public let appLanguage: String
     public let allowedHosts: Set<String>

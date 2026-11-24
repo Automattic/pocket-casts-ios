@@ -77,6 +77,8 @@
     <string>Imatge del pòdcast</string>
     <key>accessibility_profile_settings</key>
     <string>Configuració de Pocket Casts</string>
+    <key>accessibility_remove_recent_search</key>
+    <string>Treu %1$@ de les cerques recents</string>
     <key>accessibility_select_episode</key>
     <string>Tria l'episodi</string>
     <key>accessibility_show_filter_details</key>
@@ -2139,6 +2141,14 @@ Això sí que és compromís!</string>
     <string>Més pòdcasts, més alegria</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>Comparat amb el 2024, el teu temps d'escolta s'ha disparat un %1$@</string>
+    <key>playback_2026_banner_description</key>
+    <string>Descobreix les teves estadístiques d'escolta, quin tipus d'oient ets i més coses.</string>
+    <key>playback_2026_banner_title</key>
+    <string>Ja és aquí el %1$@!</string>
+    <key>playback_2026_sheet_button</key>
+    <string>Mostra el meu %1$@</string>
+    <key>playback_2026_sheet_description</key>
+    <string>El que has escoltat. Els pòdcasts que t'han encantat. I el que et fa diferent com a oient. Ja és aquí el teu any a Pocket Casts.</string>
     <key>playback_effect_all_podcasts</key>
     <string>Tots els pòdcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -2575,6 +2585,8 @@ Prova d'ajustar les regles, o desa aquesta llista de reproducció per a futurs e
     <string>%1$@ arxivats</string>
     <key>podcast_archived_msg</key>
     <string>S'han arxivat tots els %1$@ episodis d'aquest pòdcast</string>
+    <key>podcast_archived_msg_singular</key>
+    <string>L'únic episodi d'aquest pòdcast s'ha arxivat</string>
     <key>podcast_count_plural_format</key>
     <string>%1$@ pòdcasts</string>
     <key>podcast_count_singular</key>
@@ -2767,6 +2779,14 @@ Si vols noves idees, ves a la pestanya Descobreix.</string>
     <string>Nom</string>
     <key>podcasts_list</key>
     <string>Llista</string>
+    <key>podcasts_played_podcasts</key>
+    <string>Pòdcasts escoltats</string>
+    <key>podcasts_played_podcasts_description</key>
+    <string>Amaga els pòdcasts que ja no tenen res per escoltar, és a dir, els que tenen tots els episodis reproduïts o arxivats. Tornen a aparèixer quan arriba un episodi nou.</string>
+    <key>podcasts_played_podcasts_hide</key>
+    <string>Amaga</string>
+    <key>podcasts_played_podcasts_show</key>
+    <string>Mostra</string>
     <key>podcasts_plural</key>
     <string>Pòdcasts</string>
     <key>podcasts_share</key>
