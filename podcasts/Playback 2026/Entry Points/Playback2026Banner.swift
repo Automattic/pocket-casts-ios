@@ -6,7 +6,7 @@ struct Playback2026Banner: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(L10n.playback2026BannerTitle)
+            Text(L10n.playback2026BannerTitle(Playback2026.name))
                 .font(size: 18, style: .title3, weight: .bold, maxSizeCategory: .extraExtraLarge)
                 .tracking(-0.36)
             Text(L10n.playback2026BannerDescription)

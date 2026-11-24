@@ -15,6 +15,9 @@ enum Playback2026 {
 
     static let year = 2026
 
+    /// The feature name, which isn't translated.
+    static let name = "Playback 2026"
+
     /// Whether the user played an episode past five minutes this year on this device, the rule
     /// Playback 2025 used. `false` until ``checkEligibility()`` finds it, then it stays `true`.
     private(set) static var isEligible = false

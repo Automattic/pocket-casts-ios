@@ -2144,9 +2144,9 @@ Això sí que és compromís!</string>
     <key>playback_2026_banner_description</key>
     <string>Descobreix les teves estadístiques d'escolta, quin tipus d'oient ets i més coses.</string>
     <key>playback_2026_banner_title</key>
-    <string>Ja és aquí el Playback 2026!</string>
+    <string>Ja és aquí el %1$@!</string>
     <key>playback_2026_sheet_button</key>
-    <string>Mostra el meu Playback 2026</string>
+    <string>Mostra el meu %1$@</string>
     <key>playback_2026_sheet_description</key>
     <string>El que has escoltat. Els pòdcasts que t'han encantat. I el que et fa diferent com a oient. Ja és aquí el teu any a Pocket Casts.</string>
     <key>playback_effect_all_podcasts</key>
