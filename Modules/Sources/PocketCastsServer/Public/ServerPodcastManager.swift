@@ -19,6 +19,8 @@ public class ServerPodcastManager: NSObject {
         return queue
     }()
 
+    let latestEpisodeInfoLock = NSLock()
+
     private let urlConnection = URLConnection(handler: URLSession.shared)
 
     // MARK: - Podcast add functions

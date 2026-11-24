@@ -240,11 +240,15 @@ extension ServerPodcastManager {
         let latestEpisodes = podcast.latestEpisodes(limit: max(autoDownloadLimit, 1))
         guard let latestEpisode = latestEpisodes.first else { return }
 
-        // no need to re-save one we already have
-        if !setDefaults, podcast.latestEpisodeUuid == latestEpisode.uuid { return }
+        let shouldSave = latestEpisodeInfoLock.withLock {
+            // no need to re-save one we already have
+            if !setDefaults, podcast.latestEpisodeUuid == latestEpisode.uuid { return false }
 
-        podcast.latestEpisodeDate = latestEpisode.publishedDate
-        podcast.latestEpisodeUuid = latestEpisode.uuid
+            podcast.latestEpisodeDate = latestEpisode.publishedDate
+            podcast.latestEpisodeUuid = latestEpisode.uuid
+            return true
+        }
+        guard shouldSave else { return }
         DataManager.shared.save(podcast: podcast)
 
         if setDefaults {
