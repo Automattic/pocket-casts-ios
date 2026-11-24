@@ -72,9 +72,6 @@ final class SmartPlaylistQueryPlanTests: DataManagerTestCase {
         unplayed.filterFinished = false
 
         for playlist in [inProgress(), unplayed] {
-            try FeatureFlagOverrideStore().override(FeatureFlag.efficientPlaylistQueries, withValue: false)
-            XCTAssertTrue(try plan(PlaylistQueryBuilder.query(clause: .allEpisodeCount, for: playlist)).contains("SCAN episode USING INDEX episode_uuid"))
-
             try FeatureFlagOverrideStore().override(FeatureFlag.efficientPlaylistQueries, withValue: true)
             for clause in [PlaylistQueryBuilder.SelectClause.allEpisodeCount, .episodeCount] {
                 let plan = try plan(PlaylistQueryBuilder.query(clause: clause, for: playlist))
@@ -84,28 +81,36 @@ final class SmartPlaylistQueryPlanTests: DataManagerTestCase {
         }
     }
 
-    func testFirstDistinctEpisodesReadTheTableForInProgressAndStarred() throws {
+    func testUnplayedAndInProgressPlaylistsReadOnlyTheUnarchivedEpisodes() throws {
+        let unplayed = EpisodeFilter.makeDefault()
+        unplayed.filterPartiallyPlayed = false
+        unplayed.filterFinished = false
+        unplayed.filterDownloaded = false
+
+        let notDownloadedInProgress = inProgress()
+        notDownloadedInProgress.filterDownloaded = false
+
+        for playlist in [unplayed, notDownloadedInProgress] {
+            for clause in [PlaylistQueryBuilder.SelectClause.allEpisodeCount, .episodeCount, .episode, .firstDistinctEpisodes] {
+                let plan = try plan(PlaylistQueryBuilder.query(clause: clause, for: playlist, limit: clause == .firstDistinctEpisodes ? 4 : 1000))
+                XCTAssertTrue(plan.contains("USING INDEX episode_unarchived"), plan)
+                XCTAssertFalse(plan.contains("USING INDEX episode_episodeStatus"), plan)
+            }
+        }
+    }
+
+    func testFirstDistinctEpisodesDoNotWalkThePublishedDateIndexForInProgressAndStarred() throws {
         let starred = EpisodeFilter.makeDefault()
         starred.filterStarred = true
 
         for playlist in [inProgress(), starred] {
-            let query = { PlaylistQueryBuilder.query(clause: .firstDistinctEpisodes, for: playlist, limit: 4) }
-
-            try FeatureFlagOverrideStore().override(FeatureFlag.efficientPlaylistQueries, withValue: false)
-            XCTAssertTrue(try plan(query()).contains("SCAN episode USING INDEX episode_pub_date"))
-
             try FeatureFlagOverrideStore().override(FeatureFlag.efficientPlaylistQueries, withValue: true)
-            XCTAssertFalse(try plan(query()).contains("USING INDEX episode_pub_date"))
+            XCTAssertFalse(try plan(PlaylistQueryBuilder.query(clause: .firstDistinctEpisodes, for: playlist, limit: 4)).contains("USING INDEX episode_pub_date"))
         }
     }
 
-    func testFirstDistinctEpisodesKeepThePublishedDateIndexForUnplayedAndRecentEpisodes() throws {
+    func testFirstDistinctEpisodesKeepThePublishedDateIndexForRecentEpisodes() throws {
         try FeatureFlagOverrideStore().override(FeatureFlag.efficientPlaylistQueries, withValue: true)
-
-        let unplayed = EpisodeFilter.makeDefault()
-        unplayed.filterPartiallyPlayed = false
-        unplayed.filterFinished = false
-        XCTAssertTrue(try plan(PlaylistQueryBuilder.query(clause: .firstDistinctEpisodes, for: unplayed, limit: 4)).contains("SCAN episode USING INDEX episode_pub_date"))
 
         let recentInProgress = inProgress()
         recentInProgress.filterHours = 24 * 31
