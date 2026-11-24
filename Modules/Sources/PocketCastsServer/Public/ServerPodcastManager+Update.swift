@@ -236,6 +236,10 @@ extension ServerPodcastManager {
         }
     }
 
+    func latestEpisodeUuid(of podcast: Podcast) -> String? {
+        latestEpisodeInfoLock.withLock { podcast.latestEpisodeUuid }
+    }
+
     public func updateLatestEpisodeInfo(podcast: Podcast, setDefaults: Bool, autoDownloadLimit: Int = 1) {
         let savedEpisodes: [Episode]? = latestEpisodeInfoLock.withLock {
             let latestEpisodes = podcast.latestEpisodes(limit: max(autoDownloadLimit, 1))
