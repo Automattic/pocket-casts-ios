@@ -3,6 +3,7 @@ import PocketCastsDataModel
 
 fileprivate enum Layout {
     static let gridSize = CGFloat(250)
+    static let gridCount = 6
 }
 
 struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
@@ -11,7 +12,7 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
 
     @Bindable var model: ViewModel
 
-    let gridColumns: [GridItem] = (0..<6).map { _ in
+    let gridColumns: [GridItem] = (0..<Layout.gridCount).map { _ in
         GridItem(.fixed(Layout.gridSize), spacing: 48)
     }
 
@@ -53,7 +54,7 @@ struct PodcastsView<ViewModel: PodcastsViewModelProtocol>: View {
                             .foregroundStyle(Color.pcTextPrimary)
                         Spacer()
                         sortMenu
-                    }.if(model.items.count < 6) { content in
+                    }.if(model.items.count < Layout.gridCount) { content in
                         content.focusSection()
                     }
                     podcastGrid
