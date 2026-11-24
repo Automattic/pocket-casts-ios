@@ -23,6 +23,7 @@ struct NameFolderView: View {
                 Text(L10n.name.localizedUppercase)
                     .textStyle(SecondaryText())
                     .font(.subheadline)
+                    .dynamicTypeSize(...DynamicTypeSize.large)
                     .onChange(of: model.name) { _, newValue in model.validateFolderName(newValue) }
                 TextField(L10n.folderName, text: $model.name)
                     .focusMe(state: $focusOnTextField)
@@ -39,6 +40,7 @@ struct NameFolderView: View {
             .padding()
             .background(theme.primaryUi01)
         }
+        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
         .navigationTitle(L10n.folderNameTitle)
         // At the accessibility text sizes the field can need scrolling to stay above the keyboard,
         // which leaves a large title resting under the back button. An inline title has no such state.
