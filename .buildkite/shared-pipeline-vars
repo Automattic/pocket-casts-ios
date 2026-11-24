@@ -14,13 +14,13 @@ fi
 XCODE_VERSION=$(sed -E 's/^~> ?//' "$XCODE_VERSION_FILE")
 RUBY_VERSION="$(cat .ruby-version)"
 
-CI_TOOLKIT_PLUGIN_VERSION="7.1.1"
+CI_TOOLKIT_PLUGIN_VERSION="8.0.1"
 
 TEST_COLLECTOR_PLUGIN_VERSION="1.11.0"
 
 RUN_FASTLANE_TESTS=false
 if [[ "${BUILDKITE_PULL_REQUEST:-false}" =~ ^[0-9]+$ ]]; then
-    RUN_FASTLANE_TESTS=$(pr_changed_files --stdout --any-match 'fastlane/*' '*.rb' 'Gemfile' 'Gemfile.lock' '.ruby-version')
+    RUN_FASTLANE_TESTS=$(pr_changed_files --stdout --any-match 'fastlane/*' '*.rb' 'Gemfile' 'Gemfile.lock' '.ruby-version') || RUN_FASTLANE_TESTS=true
 fi
 
 export IMAGE_ID="xcode-$XCODE_VERSION"
