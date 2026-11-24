@@ -1,5 +1,6 @@
 8.27
 -----
+- Load the smart playlists of a very large library faster, such as Unplayed with Not Downloaded, and open the Playlists tab sooner [#5713](https://github.com/Automattic/pocket-casts-ios/pull/5713) [#5712](https://github.com/Automattic/pocket-casts-ios/pull/5712)
 
 
 8.26
