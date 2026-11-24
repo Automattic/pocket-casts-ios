@@ -1,5 +1,6 @@
 8.27
 -----
+- Sort the library by recently played faster in a very large library [#5715](https://github.com/Automattic/pocket-casts-ios/pull/5715)
 
 
 8.26
