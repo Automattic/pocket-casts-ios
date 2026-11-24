@@ -1,6 +1,7 @@
 8.27
 -----
 - Fix the back button covering the Name your folder title at the largest text sizes on iPhone Duo [#5672](https://github.com/Automattic/pocket-casts-ios/pull/5672)
+- Fix choosing Add Bookmark in Headphone Controls on a free account not showing the Plus upsell [#5718](https://github.com/Automattic/pocket-casts-ios/pull/5718)
 
 8.26
 -----
