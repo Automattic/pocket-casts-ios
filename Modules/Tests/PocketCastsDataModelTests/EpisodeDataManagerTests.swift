@@ -679,6 +679,52 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
         }
     }
 
+    // MARK: - Unarchive protects against auto-archive
+
+    func testBulkUnarchiveSetsArchiveInteractionDate() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let episode = self.createTestEpisode(uuid: "ep-1", podcast: podcast, archived: true, dataManager: dataManager)
+
+            dataManager.bulkUnarchive(episodes: [episode], updateSyncFlag: false)
+
+            let found = dataManager.findEpisode(uuid: episode.uuid)
+            XCTAssertNotNil(found?.lastArchiveInteractionDate)
+            XCTAssertGreaterThan(found?.lastArchiveInteractionDate?.timeIntervalSince1970 ?? 0, 1)
+        }
+    }
+
+    func testUnarchiveExcludesEpisodeFromLimitWhenPodcastHasLimit() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            podcast.overrideGlobalArchive = true
+            podcast.autoArchiveEpisodeLimit = 2
+            dataManager.save(podcast: podcast)
+            let single = self.createTestEpisode(uuid: "ep-1", podcast: podcast, archived: true, dataManager: dataManager)
+            let bulk = self.createTestEpisode(uuid: "ep-2", podcast: podcast, archived: true, dataManager: dataManager)
+
+            dataManager.saveEpisode(archived: false, episode: single, updateSyncFlag: false)
+            dataManager.bulkUnarchive(episodes: [bulk], updateSyncFlag: false)
+
+            XCTAssertTrue(dataManager.findEpisode(uuid: single.uuid)?.excludeFromEpisodeLimit ?? false)
+            XCTAssertTrue(dataManager.findEpisode(uuid: bulk.uuid)?.excludeFromEpisodeLimit ?? false)
+        }
+    }
+
+    func testUnarchiveDoesNotExcludeEpisodeFromLimitWithoutOverride() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            podcast.overrideGlobalArchive = false
+            podcast.autoArchiveEpisodeLimit = 2
+            dataManager.save(podcast: podcast)
+            let episode = self.createTestEpisode(uuid: "ep-1", podcast: podcast, archived: true, dataManager: dataManager)
+
+            dataManager.saveEpisode(archived: false, episode: episode, updateSyncFlag: false)
+
+            XCTAssertFalse(dataManager.findEpisode(uuid: episode.uuid)?.excludeFromEpisodeLimit ?? true)
+        }
+    }
+
     // MARK: - saveEpisode(archived:) Tests
 
     func testSaveEpisodeArchivedUpdatesArchiveStatus() throws {

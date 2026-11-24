@@ -35,12 +35,12 @@ enum ArchiveHelper {
 
         if afterPlayedTime > 0 {
             let playedRemoveTime = Date().addingTimeInterval(-afterPlayedTime)
-            var playedRemoveQuery = "podcast_id == ? AND archived = 0 AND playingStatus = 3 AND lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate < ?"
+            var playedRemoveQuery = "podcast_id == ? AND archived = 0 AND playingStatus = 3 AND lastPlaybackInteractionDate IS NOT NULL AND lastPlaybackInteractionDate < ? AND (lastArchiveInteractionDate IS NULL OR lastArchiveInteractionDate < ?)"
             if !archiveStarred {
                 playedRemoveQuery += " AND keepEpisode <> 1"
             }
 
-            removeEpisodesMatchingQuery(playedRemoveQuery, arguments: [podcast.id, playedRemoveTime])
+            removeEpisodesMatchingQuery(playedRemoveQuery, arguments: [podcast.id, playedRemoveTime, playedRemoveTime])
         }
 
         if afterInactiveTime > 0 {

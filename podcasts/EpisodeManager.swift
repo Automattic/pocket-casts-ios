@@ -213,13 +213,6 @@ class EpisodeManager: NSObject {
     class func unarchiveEpisode(episode: Episode, fireNotification: Bool, userInitiated: Bool = true) {
         DataManager.shared.saveEpisode(archived: false, episode: episode, updateSyncFlag: SyncManager.isUserLoggedIn())
 
-        // if this podcast has an episode limit, flag this episode as being manually excluded from that limit
-        if let parentPodcast = episode.parentPodcast() {
-            if parentPodcast.autoArchivePlayedAfter > 0 {
-                DataManager.shared.saveEpisode(excludeFromEpisodeLimit: true, episode: episode)
-            }
-        }
-
         if fireNotification {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeArchiveStatusChanged, object: episode.uuid)
         }

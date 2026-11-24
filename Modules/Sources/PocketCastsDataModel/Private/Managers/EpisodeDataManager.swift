@@ -735,6 +735,16 @@ class EpisodeDataManager {
         var fields = ["archived", "lastArchiveInteractionDate"]
         var values = [episode.archived, now] as [Any]
 
+        if !archived {
+            var exclude = false
+            dbQueue.read { db in exclude = shouldExcludeFromEpisodeLimit(episode, db: db) }
+            if exclude {
+                episode.excludeFromEpisodeLimit = true
+                fields.append("excludeFromEpisodeLimit")
+                values.append(true)
+            }
+        }
+
         if updateSyncFlag {
             episode.archivedModified = DBUtils.currentUTCTimeInMillis()
             fields.append("archivedModified")
@@ -743,6 +753,16 @@ class EpisodeDataManager {
         values.append(episode.id)
 
         save(fields: fields, values: values, dbQueue: dbQueue)
+    }
+
+    private func shouldExcludeFromEpisodeLimit(_ episode: Episode, db: any PCDatabase) -> Bool {
+        let query = "SELECT 1 FROM \(DataManager.podcastTableName) WHERE id = ? AND overrideGlobalArchive = 1 AND episodeKeepSetting > 0"
+        do {
+            return try db.executeQuery(query, values: [episode.podcast_id]).next()
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.shouldExcludeFromEpisodeLimit error: \(error)")
+            return false
+        }
     }
 
     func saveEpisode(excludeFromEpisodeLimit: Bool, episode: Episode, dbQueue: GRDBQueue) {
@@ -1034,12 +1054,15 @@ class EpisodeDataManager {
                     fields.append("archived")
                     values.append(false)
 
+                    fields.append("lastArchiveInteractionDate")
+                    values.append(Date())
+
                     if updateSyncFlag {
                         fields.append("archivedModified")
                         values.append(DBUtils.currentUTCTimeInMillis())
                     }
 
-                    if let podcastAutoArchiveLimit = episode.parentPodcast()?.autoArchiveEpisodeLimit, podcastAutoArchiveLimit > 0 {
+                    if shouldExcludeFromEpisodeLimit(episode, db: db) {
                         fields.append("excludeFromEpisodeLimit")
                         values.append(true)
                     }
