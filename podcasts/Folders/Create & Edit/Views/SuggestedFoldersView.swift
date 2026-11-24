@@ -86,52 +86,26 @@ struct SuggestedFoldersView: View {
     }
 
     var mainBody: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Group {
-                Text(L10n.suggestedFoldersTitle)
-                    .textStyle(PrimaryText())
-                    .font(.largeTitle.bold())
+        // The title, description and folders scroll together, so the description is never
+        // squeezed to make room for the folders at the larger text sizes.
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
                 Text(model.userHasExistingFolders ? L10n.suggestedFoldersDescriptionWithExistingFolders : L10n.suggestedFoldersDescription)
                     .textStyle(SecondaryText())
                     .font(.body)
+                    .fixedSize(horizontal: false, vertical: true)
+                foldersView
             }
-            foldersView
-                .padding(.horizontal, -Constants.margin)
-                // hack to allow the scroll indicator to be visible without overlapping the content
-                .contentMargins(.horizontal, Constants.margin, for: .scrollContent)
-            Button {
-                if model.showConfirmation {
-                    track(.suggestedFoldersReplaceFoldersTapped)
-                    applySuggestedFoldersConfirmation.toggle()
-                } else {
-                    track(.suggestedFoldersUseSuggestedFoldersTapped)
-                    onCompletion(.applySuggestedFolders(model.folders))
-                }
-            } label: {
-                Text(model.userHasExistingFolders ? L10n.suggestedFoldersReplaceConfirmationButton : L10n.suggestedFoldersUseSuggestedFolders)
-                    .textStyle(RoundedButton())
-            }
-            if model.userHasSubscription {
-                Button {
-                    track(.suggestedFoldersCreateCustomFolderTapped)
-                    createFolderActive = true
-                } label: {
-                    Text(L10n.suggestedFoldersCreateCustomFolder)
-                        .textStyle(BorderButton())
-                }
-            } else {
-                Button {
-                    track(.suggestedFoldersCreateCustomFolderTapped)
-                    onCompletion(.createdManualFolder(""))
-                } label: {
-                    Text(L10n.suggestedFoldersCreateCustomFolder)
-                        .textStyle(BorderButton())
-                }
-            }
-            Spacer()
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, Constants.margin)
         }
-        .padding(.horizontal, Constants.margin)
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            actionButtons
+                .padding(Constants.margin)
+                .background(theme.primaryUi01)
+        }
         .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle(L10n.suggestedFoldersTitle)
         .onAppear {
             track(.suggestedFoldersPageShown)
         }
@@ -150,6 +124,43 @@ struct SuggestedFoldersView: View {
         }
     }
 
+    private var actionButtons: some View {
+        VStack(spacing: 8) {
+            Button {
+                if model.showConfirmation {
+                    track(.suggestedFoldersReplaceFoldersTapped)
+                    applySuggestedFoldersConfirmation.toggle()
+                } else {
+                    track(.suggestedFoldersUseSuggestedFoldersTapped)
+                    onCompletion(.applySuggestedFolders(model.folders))
+                }
+            } label: {
+                Text(model.userHasExistingFolders ? L10n.suggestedFoldersReplaceConfirmationButton : L10n.suggestedFoldersUseSuggestedFolders)
+                    .textStyle(RoundedButton())
+            }
+            Color.clear.frame(height: 2)
+            if model.userHasSubscription {
+                Button {
+                    track(.suggestedFoldersCreateCustomFolderTapped)
+                    createFolderActive = true
+                } label: {
+                    Text(L10n.suggestedFoldersCreateCustomFolder)
+                        .textStyle(BorderButton())
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            } else {
+                Button {
+                    track(.suggestedFoldersCreateCustomFolderTapped)
+                    onCompletion(.createdManualFolder(""))
+                } label: {
+                    Text(L10n.suggestedFoldersCreateCustomFolder)
+                        .textStyle(BorderButton())
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+        }
+    }
+
     var foldersView: some View {
         GridFoldersView(folders: model.folders, source: .unknown)
     }
@@ -161,8 +172,9 @@ struct SuggestedFoldersView: View {
             track(.suggestedFoldersReplaceFoldersConfirmTapped)
             onCompletion(.applySuggestedFolders(model.folders))
         })
-        .presentationDetents([.fraction(0.4)])
-            .presentationDragIndicator(.visible)
+        .scrolledFittedPresentationDetent()
+        .applyDefaultThemeOptions()
+        .presentationDragIndicator(.visible)
     }
 
     private func track(_ event: AnalyticsEvent) {

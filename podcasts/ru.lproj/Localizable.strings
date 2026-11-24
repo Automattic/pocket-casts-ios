@@ -77,6 +77,8 @@
     <string>Тема подкаста</string>
     <key>accessibility_profile_settings</key>
     <string>Настройки Pocket Casts</string>
+    <key>accessibility_remove_recent_search</key>
+    <string>Удалить %1$@ из недавних поисковых запросов</string>
     <key>accessibility_select_episode</key>
     <string>Выбрать выпуск</string>
     <key>accessibility_show_filter_details</key>
@@ -2145,6 +2147,14 @@ Pocket Casts на полную мощность.</string>
     <string>Больше подкастов, больше радости</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>По сравнению с 2024 годом вы посвятили прослушиванию на %1$@ больше времени!</string>
+    <key>playback_2026_banner_description</key>
+    <string>Просмотрите свою статистику прослушивания, узнайте, что отличает вас как слушателя, и многое другое.</string>
+    <key>playback_2026_banner_title</key>
+    <string>%1$@ уже здесь!</string>
+    <key>playback_2026_sheet_button</key>
+    <string>Просмотреть мой %1$@</string>
+    <key>playback_2026_sheet_description</key>
+    <string>Что вы слушали. Подкасты, которые вам понравились. И то, что отличает вас как слушателя. Вы провели с Pocket Casts целый год.</string>
     <key>playback_effect_all_podcasts</key>
     <string>Все подкасты</string>
     <key>playback_effect_this_podcast</key>
@@ -2581,6 +2591,8 @@ Pocket Casts на полную мощность.</string>
     <string>Архивировано выпусков: %1$@</string>
     <key>podcast_archived_msg</key>
     <string>Все выпуски (%1$@) этого подкаста архивированы</string>
+    <key>podcast_archived_msg_singular</key>
+    <string>Единственный выпуск этого подкаста архивирован</string>
     <key>podcast_count_plural_format</key>
     <string>Подкастов: %1$@</string>
     <key>podcast_count_singular</key>
@@ -2774,6 +2786,14 @@ Pocket Casts на полную мощность.</string>
     <string>Имя</string>
     <key>podcasts_list</key>
     <string>Список</string>
+    <key>podcasts_played_podcasts</key>
+    <string>Прослушанные подкасты</string>
+    <key>podcasts_played_podcasts_description</key>
+    <string>Скрывает подкасты, в которых все выпуски уже прослушаны или архивированы. Они появляются снова при выходе нового выпуска.</string>
+    <key>podcasts_played_podcasts_hide</key>
+    <string>Скрыть</string>
+    <key>podcasts_played_podcasts_show</key>
+    <string>Показать</string>
     <key>podcasts_plural</key>
     <string>Подкасты</string>
     <key>podcasts_share</key>

@@ -60,6 +60,10 @@ class FeatureFlagTests: XCTestCase {
         try? store.override(flag, withValue: false)
         XCTAssertFalse(store.isOverridden(flag))
     }
+
+    func testPlayback2026RemoteKeyMatchesAndroid() {
+        XCTAssertEqual(FeatureFlag.playback2026.remoteKey, "playback_2026")
+    }
 }
 
 enum MockFeatureFlag: OverrideableFlag {
