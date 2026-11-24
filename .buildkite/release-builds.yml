@@ -14,8 +14,7 @@ steps:
 
   - label: "🛠 Release Build (${RELEASE_PLATFORM})"
     key: release_build
-    # Temporary: drop RBENV_VERSION once .ruby-version is 3.4.13 (AINFRA-3864); the Linux agents lack it until AINFRA-3889/3890/3891.
-    command: RBENV_VERSION=3.4.13 .buildkite/commands/release-build.sh "${RELEASE_VERSION}" "${RELEASE_PLATFORM}"
+    command: .buildkite/commands/release-build.sh "${RELEASE_VERSION}" "${RELEASE_PLATFORM}"
     priority: 1
     plugins: [$CI_TOOLKIT]
     artifact_paths:
@@ -26,7 +25,7 @@ steps:
 
   - label: ":testflight: Release Upload (${RELEASE_PLATFORM})"
     depends_on: release_build
-    command: RBENV_VERSION=3.4.13 .buildkite/commands/release-upload.sh "${RELEASE_VERSION}" "${BETA_RELEASE}" "${RELEASE_PLATFORM}" "${NOTIFY_SLACK}" "${CREATE_GITHUB_RELEASE}"
+    command: .buildkite/commands/release-upload.sh "${RELEASE_VERSION}" "${BETA_RELEASE}" "${RELEASE_PLATFORM}" "${NOTIFY_SLACK}" "${CREATE_GITHUB_RELEASE}"
     priority: 1
     plugins: [$CI_TOOLKIT]
     notify:
