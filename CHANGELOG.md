@@ -1,6 +1,6 @@
 8.27
 -----
-
+- Fix a crash that could happen while refreshing podcasts [#5711](https://github.com/Automattic/pocket-casts-ios/pull/5711)
 
 8.26
 -----

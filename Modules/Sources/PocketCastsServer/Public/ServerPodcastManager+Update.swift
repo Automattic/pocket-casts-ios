@@ -236,16 +236,24 @@ extension ServerPodcastManager {
         }
     }
 
+    func latestEpisodeUuid(of podcast: Podcast) -> String? {
+        latestEpisodeInfoLock.withLock { podcast.latestEpisodeUuid }
+    }
+
     public func updateLatestEpisodeInfo(podcast: Podcast, setDefaults: Bool, autoDownloadLimit: Int = 1) {
-        let latestEpisodes = podcast.latestEpisodes(limit: max(autoDownloadLimit, 1))
-        guard let latestEpisode = latestEpisodes.first else { return }
+        let savedEpisodes: [Episode]? = latestEpisodeInfoLock.withLock {
+            let latestEpisodes = podcast.latestEpisodes(limit: max(autoDownloadLimit, 1))
+            guard let latestEpisode = latestEpisodes.first else { return nil }
 
-        // no need to re-save one we already have
-        if !setDefaults, podcast.latestEpisodeUuid == latestEpisode.uuid { return }
+            // no need to re-save one we already have
+            if !setDefaults, podcast.latestEpisodeUuid == latestEpisode.uuid { return nil }
 
-        podcast.latestEpisodeDate = latestEpisode.publishedDate
-        podcast.latestEpisodeUuid = latestEpisode.uuid
-        DataManager.shared.save(podcast: podcast)
+            podcast.latestEpisodeDate = latestEpisode.publishedDate
+            podcast.latestEpisodeUuid = latestEpisode.uuid
+            DataManager.shared.save(podcast: podcast)
+            return latestEpisodes
+        }
+        guard let latestEpisodes = savedEpisodes else { return }
 
         if setDefaults {
             setDefaultsAndLoadMetadataForNewlyAddedPodcast(podcast, latestEpisodes: latestEpisodes, autoDownload: autoDownloadLimit > 0)
