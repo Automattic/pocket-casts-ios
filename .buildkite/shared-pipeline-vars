@@ -38,6 +38,6 @@ echo "-> Should run Fastlane tests: $RUN_FASTLANE_TESTS"
 # One variable per job type: `false` runs the step, anything else is the reason to skip it. The pipeline uses them as `skip: "$SKIP_…"`.
 for job_type in build ios-tests tvos-build localization themes; do
     skip_var="SKIP_$(echo "$job_type" | tr 'a-z-' 'A-Z_')"
-    export "$skip_var=$("$SCRIPT_DIR/commands/should-skip-job.sh" --job-type "$job_type")"
+    export "$skip_var=$("$SCRIPT_DIR/commands/should-skip-job.sh" "$job_type")"
     echo "$skip_var=${!skip_var}"
 done
