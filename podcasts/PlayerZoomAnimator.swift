@@ -259,10 +259,13 @@ final class PlayerZoomAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         guard
             let fromView = fromVC.viewIfLoaded,
             let mini = miniVC.viewIfLoaded,
+            mini.window != nil,
             let miniArtwork = miniVC.podcastArtwork,
             let fromArtwork = fromVC.nowPlayingItem.artworkImageView
         else {
-            // This should never happen — fall back to a basic fade-out.
+            // Either the views are missing, which should never happen, or the mini player
+            // is hidden and out of the window (playback ended on iPad), so there is nothing
+            // to zoom into — fall back to a basic fade-out.
             guard let fromView = fromVC.viewIfLoaded else {
                 context.completeTransition(true)
                 return
