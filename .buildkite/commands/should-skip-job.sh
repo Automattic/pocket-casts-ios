@@ -38,11 +38,6 @@ case "$job" in
     ;;
 esac
 
-# Include both sides of renames without changing the checkout's Git config.
-config_index=${GIT_CONFIG_COUNT:-0}
-export GIT_CONFIG_COUNT=$((config_index + 1))
-export "GIT_CONFIG_KEY_${config_index}=diff.renames" "GIT_CONFIG_VALUE_${config_index}=false"
-
 if [[ ${#REQUIRED_PATTERNS[@]} -gt 0 ]]; then
   # An empty/failed diff must run the check too, not look like "no matching inputs".
   pr_changed_files || run_job
