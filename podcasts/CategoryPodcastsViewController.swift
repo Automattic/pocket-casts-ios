@@ -18,6 +18,8 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
     @IBOutlet var noNetworkView: UIView!
     @IBOutlet var loadingIndicator: UIActivityIndicatorView!
 
+    private lazy var noNetworkHeightConstraint = view.heightAnchor.constraint(greaterThanOrEqualTo: noNetworkView.heightAnchor)
+
     weak var delegate: DiscoverDelegate?
 
     var serverHandler: DiscoverServerHandling = DiscoverServerHandler.shared
@@ -132,11 +134,14 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
 
         serverHandler.discoverCategoryDetails(source: source, authenticated: nil, completion: { [weak self] categoryDetails in
             DispatchQueue.main.async {
-                guard let strongSelf = self, let podcasts = categoryDetails?.podcasts else {
+                guard let strongSelf = self else { return }
+
+                strongSelf.loadingIndicator.stopAnimating()
+                guard let podcasts = categoryDetails?.podcasts else {
+                    strongSelf.handleLoadFailed()
                     return
                 }
 
-                strongSelf.loadingIndicator.stopAnimating()
                 strongSelf.podcasts = Array(podcasts.dropFirst(strongSelf.skipCount))
                 strongSelf.promotion = categoryDetails?.promotion
                 strongSelf.podcastsTable.reloadData()
@@ -151,6 +156,7 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
 
     private func handleLoadFailed() {
         noNetworkView.isHidden = false
+        noNetworkHeightConstraint.isActive = true
     }
 
     func registerDiscoverDelegate(_ delegate: DiscoverDelegate) {

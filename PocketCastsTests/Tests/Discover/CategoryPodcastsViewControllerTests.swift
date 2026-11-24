@@ -1,3 +1,5 @@
+import Combine
+import PocketCastsDataModel
 import XCTest
 @testable import podcasts
 @testable import PocketCastsServer
@@ -83,4 +85,76 @@ final class CategoryPodcastsViewControllerTests: XCTestCase {
             "CategoryPodcastsViewController should keep skipCount at 0 when item has no summaryItemCount"
         )
     }
+
+    // MARK: - Bug Fix: PCIOS-1368
+
+    func testFailedLoadStopsSpinnerAndShowsNoNetworkView() {
+        var category = DiscoverCategory(id: 1, name: "Fiction")
+        category.source = "https://example.com/fiction"
+        let viewController = CategoryPodcastsViewController(category: category, region: "us")
+        let serverHandler = FailingDiscoverServerHandler()
+        let delegate = StubDiscoverDelegate()
+        viewController.serverHandler = serverHandler
+        viewController.registerDiscoverDelegate(delegate)
+        viewController.loadViewIfNeeded()
+
+        let item = DiscoverItem(id: "category-1", title: "Fiction", type: "category_podcast_list", source: category.source, regions: ["us"], categoryID: 1)
+        viewController.populateFrom(item: item, region: "us", category: category)
+
+        let drained = expectation(description: "main queue drained")
+        DispatchQueue.main.async { drained.fulfill() }
+        wait(for: [drained], timeout: 1)
+
+        XCTAssertEqual(serverHandler.categoryDetailsRequestCount, 1)
+        XCTAssertFalse(viewController.loadingIndicator.isAnimating)
+        XCTAssertFalse(viewController.noNetworkView.isHidden)
+    }
+}
+
+private final class FailingDiscoverServerHandler: DiscoverServerHandling {
+    private(set) var categoryDetailsRequestCount = 0
+
+    func discoverPodcastList(source: String, authenticated: Bool?, completion: @escaping (PodcastList?) -> Void) {
+        completion(nil)
+    }
+
+    func discoverPodcastCollection(source: String, authenticated: Bool?, completion: @escaping (PodcastCollection?) -> Void) {
+        completion(nil)
+    }
+
+    func discoverCategories(source: String, authenticated: Bool?) async -> [DiscoverCategory] {
+        []
+    }
+
+    func discoverCategories(source: String, authenticated: Bool?, completion: @escaping ([DiscoverCategory]?) -> Void) {
+        completion(nil)
+    }
+
+    func discoverCategoryDetails(source: String, authenticated: Bool?, completion: @escaping (DiscoverCategoryDetails?) -> Void) {
+        categoryDetailsRequestCount += 1
+        completion(nil)
+    }
+
+    func discoverItem<T>(_ source: String?, authenticated: Bool, type: T.Type) -> AnyPublisher<T, Error> where T: Decodable {
+        Empty().eraseToAnyPublisher()
+    }
+}
+
+private final class StubDiscoverDelegate: DiscoverDelegate {
+    func show(podcastInfo: PodcastInfo, placeholderImage: UIImage?, isFeatured: Bool, listUuid: String?) {}
+    func show(discoverPodcast: DiscoverPodcast, placeholderImage: UIImage?, isFeatured: Bool, listUuid: String?) {}
+    func show(podcast: Podcast) {}
+    func showExpanded(item: DiscoverItem, category: DiscoverCategory?) {}
+    func showExpanded(item: DiscoverItem, podcasts: [DiscoverPodcast], podcastCollection: PodcastCollection?) {}
+    func showExpanded(item: DiscoverItem, podcasts: [DiscoverPodcast], podcastCollection: PodcastCollection?, datetime: String?) {}
+    func showExpanded(item: DiscoverItem, episodes: [DiscoverEpisode], podcastCollection: PodcastCollection?) {}
+    func replaceRegionCode(string: String?) -> String? { string }
+    func replaceRegionName(string: String) -> String { string }
+    func isSubscribed(podcast: DiscoverPodcast) -> Bool { false }
+    func subscribe(podcast: DiscoverPodcast) {}
+    func navController() -> UINavigationController? { nil }
+    func show(discoverEpisode: DiscoverEpisode, podcast: Podcast) {}
+    func failedToLoadEpisode() {}
+    func navigateTo(category: String) {}
+    func navigateTo(listID: String) {}
 }
