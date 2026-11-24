@@ -22,7 +22,7 @@ struct NameFolderView: View {
                 Text(L10n.name.localizedUppercase)
                     .textStyle(SecondaryText())
                     .font(.subheadline)
-                    .dynamicTypeSize(...DynamicTypeSize.large)
+                    .dynamicTypeSize(...DynamicTypeSize.xLarge)
                     .onChange(of: model.name) { _, newValue in model.validateFolderName(newValue) }
                 TextField(L10n.folderName, text: $model.name)
                     .focusMe(state: $focusOnTextField)
@@ -39,7 +39,7 @@ struct NameFolderView: View {
             .padding()
             .background(theme.primaryUi01)
         }
-        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
+        .dynamicTypeSize(...DynamicTypeSize.accessibility1)
         .navigationTitle(L10n.folderNameTitle)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
