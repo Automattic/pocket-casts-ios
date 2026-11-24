@@ -8,8 +8,7 @@ env:
 
 steps:
   - label: Build and Test
-    # Temporary: drop RBENV_VERSION once .ruby-version is 3.4.13 (AINFRA-3864); the Linux agents lack it until AINFRA-3889/3890/3891.
-    command: RBENV_VERSION=3.4.13 .buildkite/commands/build.sh
+    command: .buildkite/commands/build.sh
     agents:
       queue: mac
     plugins:
@@ -24,7 +23,7 @@ steps:
     steps:
       - label: "Build tvOS (App Store Connect)"
         key: build_tvos_app_store
-        command: RBENV_VERSION=3.4.13 .buildkite/commands/build-tvos-app-store.sh
+        command: .buildkite/commands/build-tvos-app-store.sh
         agents:
           queue: mac
         plugins: [$CI_TOOLKIT]
@@ -41,7 +40,7 @@ steps:
         depends_on:
           - build_tvos_app_store
           - upload_tvos_testflight_input
-        command: RBENV_VERSION=3.4.13 .buildkite/commands/upload-tvos-app-store.sh
+        command: .buildkite/commands/upload-tvos-app-store.sh
         agents:
           queue: mac
         plugins: [$CI_TOOLKIT]
@@ -86,7 +85,6 @@ steps:
 
       - label: ":sleuth_or_spy: Lint Localized Strings Format"
         command: |
-          export RBENV_VERSION=3.4.13
           if .buildkite/commands/should-skip-job.sh --job-type localization; then
             exit 0
           fi
@@ -105,7 +103,7 @@ steps:
     steps:
       - label: Prototype Build - Build
         key: build_prototype
-        command: RBENV_VERSION=3.4.13 .buildkite/commands/prototype-build.sh
+        command: .buildkite/commands/prototype-build.sh
         agents:
           queue: mac
         plugins: [$CI_TOOLKIT]
@@ -116,7 +114,7 @@ steps:
 
       - label: Prototype Build - Upload
         depends_on: build_prototype
-        command: RBENV_VERSION=3.4.13 .buildkite/commands/prototype-upload.sh
+        command: .buildkite/commands/prototype-upload.sh
         agents:
           queue: mac
         plugins: [$CI_TOOLKIT]
