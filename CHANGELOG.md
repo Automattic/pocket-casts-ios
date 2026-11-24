@@ -1,5 +1,6 @@
 8.27
 -----
+- Sort the library by episode release date faster in a very large library [#5714](https://github.com/Automattic/pocket-casts-ios/pull/5714)
 
 
 8.26
