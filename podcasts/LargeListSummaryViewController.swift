@@ -36,6 +36,17 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
 
     @IBOutlet var largeListCollectionViewHeight: NSLayoutConstraint!
 
+    private var hasFailedToLoad = false {
+        didSet {
+            guard hasFailedToLoad != oldValue else { return }
+            largeListCollectionViewHeight.constant = collectionViewHeight
+        }
+    }
+
+    private var collectionViewHeight: CGFloat {
+        hasFailedToLoad ? 0 : cellWidth + cellExtraHeight
+    }
+
     var padding: CGFloat? {
         didSet {
             view.setNeedsLayout()
@@ -90,7 +101,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         if lastLayedOutWidth != view.bounds.width || lastLayedOutInsets != horizontalInsets {
             lastLayedOutWidth = view.bounds.width
             lastLayedOutInsets = horizontalInsets
-            largeListCollectionViewHeight.constant = cellWidth + cellExtraHeight
+            largeListCollectionViewHeight.constant = collectionViewHeight
             collectionView.collectionViewLayout.invalidateLayout()
             collectionView.layoutIfNeeded()
             updateInsets()
@@ -188,6 +199,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
     func populateFrom(item: DiscoverItem, region: String?, category: DiscoverCategory?) {
         podcasts = []
         collectionView.reloadData()
+        hasFailedToLoad = false
 
         guard let source = item.source else { return }
         guard let title = item.title?.localized else { return }
@@ -211,7 +223,11 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         switch item.cellType() {
         case .largeListWithPodcast:
             serverHandler.discoverPodcastCollection(source: source, authenticated: item.authenticated, completion: { [weak self] podcastCollection in
-                guard let strongSelf = self, let discoverPodcast = podcastCollection?.podcasts else { return }
+                guard let strongSelf = self else { return }
+                guard let discoverPodcast = podcastCollection?.podcasts else {
+                    DispatchQueue.main.async { strongSelf.hasFailedToLoad = true }
+                    return
+                }
 
                 strongSelf.appendPodcasts(discoverPodcast, item: item)
                 strongSelf.datetime = podcastCollection?.datetime
@@ -225,7 +241,11 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
             })
         default:
             serverHandler.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
-                guard let strongSelf = self, let discoverPodcast = podcastList?.podcasts else { return }
+                guard let strongSelf = self else { return }
+                guard let discoverPodcast = podcastList?.podcasts else {
+                    DispatchQueue.main.async { strongSelf.hasFailedToLoad = true }
+                    return
+                }
 
                 strongSelf.appendPodcasts(discoverPodcast, item: item)
                 strongSelf.datetime = podcastList?.datetime
@@ -275,7 +295,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
 
     func updateSize() {
         lastLayedOutWidth = 0
-        largeListCollectionViewHeight.constant = cellWidth + cellExtraHeight
+        largeListCollectionViewHeight.constant = collectionViewHeight
         view.setNeedsLayout()
     }
 }
