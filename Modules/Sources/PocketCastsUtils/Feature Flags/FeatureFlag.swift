@@ -270,9 +270,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show the Played Podcasts option in the Podcasts tab, which hides podcasts with nothing left to listen to
     case hidePlayedPodcasts
 
-    /// On a first sign-in, sync Up Next after the full sync imports the podcasts, instead of downloading each Up Next podcast first
-    case syncUpNextAfterFullSync
-
     /// Save the episodes a podcast update finds missing in transactions of up to 100, instead of one by one
     case saveMissingEpisodesInOneTransaction
 
@@ -479,8 +476,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .playback2026:
             BuildEnvironment.current == .debug
         case .hidePlayedPodcasts:
-            true
-        case .syncUpNextAfterFullSync:
             true
         case .saveMissingEpisodesInOneTransaction:
             true

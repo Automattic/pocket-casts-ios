@@ -121,7 +121,7 @@ class RefreshOperation: Operation, @unchecked Sendable {
 
     /// `UpNextSyncTask` and `SyncTask`, in the order they run
     static func upNextAndSyncTasks(upNextSyncTask: UpNextSyncTask, syncTask: SyncTask, isFullSyncPending: Bool, isUpNextEmpty: Bool) -> [ApiBaseTask] {
-        if FeatureFlag.syncUpNextAfterFullSync.enabled, isFullSyncPending, isUpNextEmpty {
+        if isFullSyncPending, isUpNextEmpty {
             return [syncTask, upNextSyncTask]
         }
         return [upNextSyncTask, syncTask]
