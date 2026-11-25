@@ -32,29 +32,29 @@
                     <rect key="frame" x="177.5" y="323.5" width="20" height="20"/>
                 </activityIndicatorView>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ecb-EP-Q01" userLabel="No Network View" customClass="ThemeableView" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="233.5" width="375" height="200"/>
+                    <rect key="frame" x="0.0" y="169.5" width="375" height="328"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="discover_nointernet" translatesAutoresizingMaskIntoConstraints="NO" id="rQX-3Y-Hyf">
-                            <rect key="frame" x="146" y="10" width="83" height="77"/>
+                            <rect key="frame" x="146" y="74" width="83" height="77"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="83" id="9zx-5O-3Ej"/>
                                 <constraint firstAttribute="height" constant="77" id="eny-JM-7RK"/>
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Internets!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ukb-I3-tRU" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="138" y="107" width="99" height="21"/>
+                            <rect key="frame" x="138" y="171" width="99" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.30196078430000001" green="0.33725490200000002" blue="0.36078431370000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please check your Internet connection." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sr5-qv-9X8" customClass="ThemeableLabel" customModule="podcasts" customModuleProvider="target">
-                            <rect key="frame" x="61.5" y="138" width="252" height="17"/>
+                            <rect key="frame" x="61.5" y="202" width="252" height="17"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.30196078430000001" green="0.33725490200000002" blue="0.36078431370000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S35-9j-Eau">
-                            <rect key="frame" x="155.5" y="165" width="64" height="30"/>
+                            <rect key="frame" x="155.5" y="229" width="64" height="30"/>
                             <state key="normal" title="Try Again"/>
                             <connections>
                                 <action selector="tryAgainTapped:" destination="-1" eventType="touchUpInside" id="Alt-uO-nxA"/>
@@ -67,10 +67,10 @@
                         <constraint firstItem="rQX-3Y-Hyf" firstAttribute="centerX" secondItem="Ecb-EP-Q01" secondAttribute="centerX" id="Is0-Kx-MTg"/>
                         <constraint firstItem="S35-9j-Eau" firstAttribute="centerX" secondItem="Ecb-EP-Q01" secondAttribute="centerX" id="aY7-eP-Pwv"/>
                         <constraint firstItem="Ukb-I3-tRU" firstAttribute="centerX" secondItem="Ecb-EP-Q01" secondAttribute="centerX" id="eMS-lv-R6Y"/>
-                        <constraint firstAttribute="height" constant="200" id="egm-Zs-7dL"/>
+                        <constraint firstAttribute="height" constant="328" id="egm-Zs-7dL"/>
                         <constraint firstItem="Sr5-qv-9X8" firstAttribute="top" secondItem="Ukb-I3-tRU" secondAttribute="bottom" constant="10" id="i4E-UX-0qA"/>
                         <constraint firstItem="Sr5-qv-9X8" firstAttribute="centerX" secondItem="Ecb-EP-Q01" secondAttribute="centerX" id="sZQ-kz-eFj"/>
-                        <constraint firstItem="rQX-3Y-Hyf" firstAttribute="top" secondItem="Ecb-EP-Q01" secondAttribute="top" constant="10" id="u7a-6a-Dxz"/>
+                        <constraint firstItem="rQX-3Y-Hyf" firstAttribute="top" secondItem="Ecb-EP-Q01" secondAttribute="top" constant="74" id="u7a-6a-Dxz"/>
                         <constraint firstItem="S35-9j-Eau" firstAttribute="top" secondItem="Sr5-qv-9X8" secondAttribute="bottom" constant="10" id="y7C-vr-XlS"/>
                     </constraints>
                 </view>
