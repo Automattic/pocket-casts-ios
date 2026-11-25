@@ -10,7 +10,8 @@ final class EpisodeIndexesTests: DataManagerTestCase {
         "episode_podcast_id",
         "episode_pub_date",
         "episode_episodeStatus",
-        "episode_non_null_download_task_id"
+        "episode_non_null_download_task_id",
+        "episode_unarchived_playing_status"
     ]
 
     func testEpisodeIndexes() throws {

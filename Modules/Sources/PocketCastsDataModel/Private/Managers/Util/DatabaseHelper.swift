@@ -970,5 +970,15 @@ class DatabaseHelper {
                 return
             }
         }
+
+        if schemaVersion < 79 {
+            do {
+                try db.executeUpdate("CREATE INDEX IF NOT EXISTS episode_unarchived_playing_status ON SJEpisode (playingStatus) WHERE archived = 0;", values: nil)
+                schemaVersion = 79
+            } catch {
+                failedAt(79)
+                return
+            }
+        }
     }
 }
