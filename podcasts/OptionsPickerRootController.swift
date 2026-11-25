@@ -37,6 +37,7 @@ class OptionsPickerRootController: UIViewController, UISheetPresentationControll
         let colors = colors ?? Colors(theme: themeOverride ?? Theme.shared.activeTheme)
 
         view.clipsToBounds = true
+        view.maximumContentSizeCategory = .accessibilityExtraExtraLarge
         self.themeOverride = themeOverride
         self.iconTintStyle = iconTintStyle
 
@@ -172,7 +173,11 @@ class OptionsPickerRootController: UIViewController, UISheetPresentationControll
 
     /// The height needed to show every option without scrolling, capped at `maxHeight`.
     func preferredSheetHeight(limitedTo maxHeight: CGFloat, traitCollection: UITraitCollection) -> CGFloat {
-        let width = view.bounds.width > 0 ? view.bounds.width : 320
+        let safeAreaWidth = view.bounds.inset(by: view.safeAreaInsets).width
+        let width = safeAreaWidth > 0 ? safeAreaWidth : 320
+        for case let actionView as MultipleActionView in stackView.arrangedSubviews {
+            actionView.updateArrangement(forWidth: width)
+        }
         let contentHeight = stackView.systemLayoutSizeFitting(
             CGSize(width: width, height: UIView.layoutFittingCompressedSize.height),
             withHorizontalFittingPriority: .required,

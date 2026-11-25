@@ -177,7 +177,7 @@ class DescriptiveActionView: UIView {
 
     private func updateSize() {
         let iconMetric = UIFontMetrics(forTextStyle: .largeTitle)
-        let iconSize = max(39, iconMetric.scaledValue(for: 39))
+        let iconSize = max(39, iconMetric.scaledValue(for: 39, compatibleWith: traitCollection))
         iconView?.updateSizeConstraints(to: iconSize)
     }
 }
