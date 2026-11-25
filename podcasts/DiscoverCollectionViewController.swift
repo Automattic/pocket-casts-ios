@@ -160,73 +160,38 @@ class DiscoverCollectionViewController: PCViewController {
         }
     }
 
-    /// Shows a category's sections once its podcast list and promoted podcasts have loaded. Until then, the category
-    /// pills stay at the top with a spinner under them, or the no-network view if the list fails to load.
+    /// Shows the category pills with a spinner under them until the category's podcasts load, then its sections,
+    /// or the no-network view if they fail to load.
     func populateFrom(discoverLayout: DiscoverLayout?, loadingCategory category: DiscoverCategory, shouldInclude: @escaping (DiscoverItem) -> Bool) {
-        let server = DiscoverServerHandler.shared
-        let promotionSources = promotionSources(for: category, in: discoverLayout)
-
-        guard let source = replaceRegionCode(string: category.source),
-              ([source] + promotionSources).contains(where: { server.cachedResponse(for: $0) == nil }) else {
+        guard let source = replaceRegionCode(string: category.source), DiscoverServerHandler.shared.cachedResponse(for: source) == nil else {
             populateFrom(discoverLayout: discoverLayout, selectedCategory: category, shouldInclude: shouldInclude)
             return
         }
 
-        categoryLoadTask?.cancel()
-        selectedCategory = category
-        retryCategoryLoad = { [weak self] in
-            self?.populateFrom(discoverLayout: discoverLayout, loadingCategory: category, shouldInclude: shouldInclude)
-        }
-        showUnderCategories(.loading(nil))
-
+        showCategories(with: .loading(nil), discoverLayout: discoverLayout, category: category)
         categoryLoadTask = Task { [weak self] in
-            async let details = server.discoverCategoryDetails(source: source, authenticated: nil)
-            for promotionSource in promotionSources {
-                _ = await server.discoverPodcastList(source: promotionSource, authenticated: nil)
-            }
-            let isLoaded = await details?.podcasts != nil
+            let details = await DiscoverServerHandler.shared.discoverCategoryDetails(source: source, authenticated: nil)
             guard let self, !Task.isCancelled else { return }
 
-            if !isLoaded {
-                self.showUnderCategories(.noNetwork)
+            if details == nil {
+                self.showCategories(with: .noNetwork, discoverLayout: discoverLayout, category: category)
+                self.retryCategoryLoad = { [weak self] in
+                    self?.populateFrom(discoverLayout: discoverLayout, loadingCategory: category, shouldInclude: shouldInclude)
+                }
             } else {
                 self.populateFrom(discoverLayout: discoverLayout, selectedCategory: category, shouldInclude: shouldInclude)
             }
         }
     }
 
-    /// The sources of the podcasts a category shows above its list, such as a sponsored podcast.
-    private func promotionSources(for category: DiscoverCategory, in discoverLayout: DiscoverLayout?) -> [String] {
-        guard let discoverLayout, let items = discoverLayout.layout else { return [] }
+    /// Shows only the category pills, with `state` in a section under them.
+    private func showCategories(with state: CellType, discoverLayout: DiscoverLayout?, category: DiscoverCategory) {
+        populateFrom(discoverLayout: discoverLayout, selectedCategory: category, shouldInclude: { $0.cellType() == .categoriesSelector })
 
-        let region = Settings.discoverRegion(discoverLayout: discoverLayout)
-        return items
-            .filter { $0.categoryID == category.id && $0.cellType() == .singlePodcast && $0.regions.contains(region) }
-            .compactMap { replaceRegionCode(string: $0.source) }
-    }
-
-    /// Keeps the category pills and shows `state` in a section of its own under them.
-    private func showUnderCategories(_ state: CellType) {
-        let categories = dataSource.snapshot().itemIdentifiers.filter {
-            if case .item(let item) = $0 {
-                return item.cellType == .categoriesSelector
-            }
-            return false
-        }
-
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
-        snapshot.appendSections([0, 1])
-        snapshot.appendItems(categories, toSection: 0)
+        var snapshot = dataSource.snapshot()
+        snapshot.appendSections([1])
         snapshot.appendItems([state], toSection: 1)
         dataSource.apply(snapshot)
-    }
-
-    private func retryLoading() {
-        if let retryCategoryLoad {
-            retryCategoryLoad()
-        } else {
-            reloadData()
-        }
     }
 
     private func updateItemInSnapshot(item: DiscoverItem, isAuthenticated: Bool, region: String, selectedCategory: DiscoverCategory?) {
@@ -326,7 +291,11 @@ extension DiscoverCollectionViewController {
 
         let noNetworkRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { [weak self] cell, _, _ in
             cell.contentConfiguration = ContentUnavailableConfiguration.noNetwork { [weak self] in
-                self?.retryLoading()
+                if let retry = self?.retryCategoryLoad {
+                    retry()
+                } else {
+                    self?.reloadData()
+                }
             }
             cell.insetsLayoutMarginsFromSafeArea = false
         }

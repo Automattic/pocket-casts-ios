@@ -95,14 +95,6 @@ public class DiscoverServerHandler: DiscoverServerHandling {
         }
     }
 
-    public func discoverPodcastList(source: String, authenticated: Bool?) async -> PodcastList? {
-        await withCheckedContinuation { continuation in
-            discoverPodcastList(source: source, authenticated: authenticated) { result in
-                continuation.resume(returning: result)
-            }
-        }
-    }
-
     public func discoverCategories(source: String, authenticated: Bool?, completion: @escaping ([DiscoverCategory]?) -> Void) {
         discoverRequest(path: source, type: [DiscoverCategory].self, authenticated: authenticated) { categories, _ in
             completion(categories)
