@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SmartPlaylistCreationView: View {
     @EnvironmentObject var theme: Theme
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     let onTap: () -> Void
 
@@ -12,26 +13,31 @@ struct SmartPlaylistCreationView: View {
             onTap()
         }  label: {
             HStack(spacing: 12.0) {
-                Image("cs-sparkle-black")
-                    .renderingMode(.template)
-                    .resizable()
-                    .foregroundStyle(theme.primaryText01)
-                    .scaledToFit()
-                    .frame(width: iconSize, height: iconSize)
-                VStack(alignment: .leading, spacing: 2.0) {
-                    Text(L10n.playlistCreationCreateSmartPlaylistButtonTitle)
-                        .font(size: 15.0, style: .body, weight: .medium)
-                        .fixedSize(horizontal: false, vertical: true)
+                let layout = dynamicTypeSize.isAccessibilitySize
+                    ? AnyLayout(VStackLayout(alignment: .leading, spacing: 8.0))
+                    : AnyLayout(HStackLayout(spacing: 12.0))
+                layout {
+                    Image("cs-sparkle-black")
+                        .renderingMode(.template)
+                        .resizable()
                         .foregroundStyle(theme.primaryText01)
-                        .multilineTextAlignment(.leading)
-                    Text(L10n.playlistCreationCreateSmartPlaylistButtonSubtitle)
-                        .font(size: 13.0, style: .body, weight: .regular)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .foregroundStyle(theme.primaryText02)
-                        .multilineTextAlignment(.leading)
-                        .minimumScaleFactor(0.8)
+                        .scaledToFit()
+                        .frame(width: iconSize, height: iconSize)
+                    VStack(alignment: .leading, spacing: 2.0) {
+                        Text(L10n.playlistCreationCreateSmartPlaylistButtonTitle)
+                            .font(size: 15.0, style: .body, weight: .medium)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .foregroundStyle(theme.primaryText01)
+                            .multilineTextAlignment(.leading)
+                        Text(L10n.playlistCreationCreateSmartPlaylistButtonSubtitle)
+                            .font(size: 13.0, style: .body, weight: .regular)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .foregroundStyle(theme.primaryText02)
+                            .multilineTextAlignment(.leading)
+                    }
+                    .padding(.vertical, 2.0)
                 }
-                .padding(.vertical, 2.0)
+                .padding(.vertical, dynamicTypeSize.isAccessibilitySize ? 12.0 : 0.0)
                 Spacer()
                 Image("cs-chevron")
                     .renderingMode(.template)
