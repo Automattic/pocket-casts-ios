@@ -32,10 +32,7 @@ class PlaylistDetailFetchOperation: Operation, @unchecked Sendable {
 
             let newData = episodesDataManager.playlistEpisodes(for: playlist, shouldShowArchived: shouldShowArchived)
 
-            let archivedEpisodesCount = dataManager.playlistArchivedEpisodeCount(
-                for: playlist,
-                episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
-            )
+            let archivedEpisodesCount = loadArchivedEpisodesCount(hasEpisodes: !newData.isEmpty)
 
             if self.isCancelled { return }
 
@@ -46,5 +43,14 @@ class PlaylistDetailFetchOperation: Operation, @unchecked Sendable {
                 strongSelf.completion(newData, archivedEpisodesCount)
             }
         }
+    }
+
+    private func loadArchivedEpisodesCount(hasEpisodes: Bool) -> Int {
+        guard playlist.manual || !hasEpisodes else { return 0 }
+
+        return dataManager.playlistArchivedEpisodeCount(
+            for: playlist,
+            episodeUuidToAdd: playlist.episodeUuidToAddToQueries()
+        )
     }
 }
