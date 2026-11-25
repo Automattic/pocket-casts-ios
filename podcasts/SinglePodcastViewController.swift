@@ -49,6 +49,16 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
     private var region: String?
     private var category: DiscoverCategory?
 
+    private lazy var collapsedHeightConstraint = view.heightAnchor.constraint(equalToConstant: 0)
+
+    private var hasFailedToLoad = false {
+        didSet {
+            guard hasFailedToLoad != oldValue else { return }
+            view.isHidden = hasFailedToLoad
+            collapsedHeightConstraint.isActive = hasFailedToLoad
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         (view as? ThemeableView)?.style = .primaryUi02
@@ -88,15 +98,20 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
     // MARK: DiscoverSummaryProtocol
 
     func populateFrom(item: DiscoverItem, region: String?, category: DiscoverCategory?) {
+        hasFailedToLoad = false
+
         guard let source = item.source else { return }
 
         self.item = item
         self.region = region
         self.category = category
         serverHandler.discoverPodcastList(source: source, authenticated: item.authenticated, completion: { [weak self] podcastList in
-            guard let discoverPodcast = podcastList?.podcasts else { return }
+            guard let podcast = podcastList?.podcasts?.first else {
+                DispatchQueue.main.async { self?.hasFailedToLoad = true }
+                return
+            }
 
-            self?.podcast = discoverPodcast.first
+            self?.podcast = podcast
             self?.featuredDescription = podcastList?.description
             DispatchQueue.main.async {
                 self?.populate()
