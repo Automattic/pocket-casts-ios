@@ -14,21 +14,15 @@ extension Podcast: Sortable {
 
 class PodcastDataManager {
     private let cachedPodcasts = Mutex([String: Podcast]())
-    private let cacheObserver: PodcastCacheObserver?
+    private let cacheObserver = PodcastCacheObserver()
 
     init() {
-        cacheObserver = FeatureFlag.reloadOnlySavedPodcast.enabled ? PodcastCacheObserver() : nil
-        cacheObserver?.didCommit = { [weak self] db, ids in
+        cacheObserver.didCommit = { [weak self] db, ids in
             self?.cachePodcasts(ids: ids, db: db)
         }
     }
 
     func setup(dbQueue: GRDBQueue) {
-        guard let cacheObserver else {
-            cachePodcasts(dbQueue: dbQueue)
-            return
-        }
-
         dbQueue.dbPool.writeWithoutTransaction { db in
             db.remove(transactionObserver: cacheObserver)
             db.add(transactionObserver: cacheObserver)
@@ -371,7 +365,6 @@ class PodcastDataManager {
         } catch {
             FileLog.shared.addMessage("PodcastDataManager.save error: \(error)")
         }
-        refreshCacheAfterWrite(dbQueue: dbQueue)
     }
 
     func bulkSetFolderUuid(folderUuid: String, podcastUuids: [String], dbQueue: GRDBQueue) {
@@ -388,12 +381,10 @@ class PodcastDataManager {
                 FileLog.shared.addMessage("PodcastDataManager.bulkSetFolderUuid error: \(error)")
             }
         }
-        refreshCacheAfterWrite(dbQueue: dbQueue)
     }
 
     func updatePodcastFolder(podcastUuid: String, sortOrder: Int32, folderUuid: String?, dbQueue: GRDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET folderUuid = ?, sortOrder = ?, syncStatus = \(SyncStatus.notSynced.rawValue) WHERE uuid = ?", values: [folderUuid ?? NSNull(), sortOrder, podcastUuid], methodName: "PodcastDataManager.updatePodcastFolder", onQueue: dbQueue)
-        refreshCacheAfterWrite(dbQueue: dbQueue)
     }
 
     func savePushSetting(podcast: Podcast, pushEnabled: Bool, dbQueue: GRDBQueue) {
@@ -426,7 +417,6 @@ class PodcastDataManager {
 
     func delete(podcast: Podcast, dbQueue: GRDBQueue) {
         DataHelper.run(query: "DELETE FROM \(DataManager.podcastTableName) WHERE uuid = ?", values: [podcast.uuid], methodName: "PodcastDataManager.delete", onQueue: dbQueue)
-        refreshCacheAfterWrite(dbQueue: dbQueue)
     }
 
     func markAllSynced(dbQueue: GRDBQueue) {
@@ -440,8 +430,6 @@ class PodcastDataManager {
     func markAllUnsyncedWhereLastSyncAtNot(_ lastSyncAt: String, dbQueue: GRDBQueue) {
         let query = "UPDATE \(DataManager.podcastTableName) SET syncStatus = \(SyncStatus.notSynced.rawValue) WHERE subscribed = 1 AND fullSyncLastSyncAt <> ?"
         DataHelper.run(query: query, values: [lastSyncAt], methodName: "PodcastDataManager.markAllUnsyncedWhereLastSyncAtNot", onQueue: dbQueue)
-
-        refreshCacheAfterWrite(dbQueue: dbQueue)
     }
 
     func setPushForAllPodcasts(pushEnabled: Bool, dbQueue: GRDBQueue) {
@@ -467,8 +455,6 @@ class PodcastDataManager {
                 FileLog.shared.addMessage("PodcastDataManager.setOnAllPodcasts error: \(error)")
             }
         }
-
-        refreshCacheAfterWrite(dbQueue: dbQueue)
     }
 
     func setDownloadSettingForAllPodcasts(setting: AutoDownloadSetting, dbQueue: GRDBQueue) {
@@ -487,8 +473,6 @@ class PodcastDataManager {
                 FileLog.shared.addMessage("PodcastDataManager.setOnAllPodcasts error: \(error)")
             }
         }
-
-        refreshCacheAfterWrite(dbQueue: dbQueue)
     }
 
     func saveSortOrders(podcasts: [Podcast], dbQueue: GRDBQueue) {
@@ -501,20 +485,14 @@ class PodcastDataManager {
                 FileLog.shared.addMessage("PodcastDataManager.saveSortOrders error: \(error)")
             }
         }
-
-        refreshCacheAfterWrite(dbQueue: dbQueue)
     }
 
     func removeAllPodcastsFromFolder(folderUuid: String, dbQueue: GRDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET folderUuid = NULL, syncStatus = \(SyncStatus.notSynced.rawValue) WHERE folderUuid = ?", values: [folderUuid], methodName: "PodcastDataManager.removeAllPodcastsFromFolder", onQueue: dbQueue)
-
-        refreshCacheAfterWrite(dbQueue: dbQueue)
     }
 
     func removeAllPodcastsFromAllFolders(dbQueue: GRDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET folderUuid = NULL", values: nil, methodName: "PodcastDataManager.removeAllPodcastsFromAllFolders", onQueue: dbQueue)
-
-        refreshCacheAfterWrite(dbQueue: dbQueue)
     }
 
     func updateAllPodcastGrouping(to grouping: PodcastGrouping, dbQueue: GRDBQueue) {
@@ -536,23 +514,9 @@ class PodcastDataManager {
 
     private func saveSingleValue(name: String, value: Any?, podcastUuid: String, dbQueue: GRDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET \(name) = ? WHERE uuid = ?", values: [value ?? NSNull(), podcastUuid], methodName: "PodcastDataManager.saveSingleValue", onQueue: dbQueue)
-
-        refreshCacheAfterWrite(dbQueue: dbQueue)
     }
 
     // MARK: - Caching
-
-    /// Reloads the whole cache after a write, unless the cache observer already updated it.
-    private func refreshCacheAfterWrite(dbQueue: GRDBQueue) {
-        guard cacheObserver == nil else { return }
-        cachePodcasts(dbQueue: dbQueue)
-    }
-
-    private func cachePodcasts(dbQueue: GRDBQueue) {
-        dbQueue.read { db in
-            cachePodcasts(db: db)
-        }
-    }
 
     private func cachePodcasts(db: PCDatabase) {
         do {

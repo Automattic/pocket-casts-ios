@@ -270,9 +270,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show the Played Podcasts option in the Podcasts tab, which hides podcasts with nothing left to listen to
     case hidePlayedPodcasts
 
-    /// Update the podcast cache from the rows each write changes, instead of reloading every podcast after each write
-    case reloadOnlySavedPodcast
-
     /// On a first sign-in, sync Up Next after the full sync imports the podcasts, instead of downloading each Up Next podcast first
     case syncUpNextAfterFullSync
 
@@ -482,8 +479,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .playback2026:
             BuildEnvironment.current == .debug
         case .hidePlayedPodcasts:
-            true
-        case .reloadOnlySavedPodcast:
             true
         case .syncUpNextAfterFullSync:
             true
