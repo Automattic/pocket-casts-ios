@@ -18,8 +18,6 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
     @IBOutlet var noNetworkView: UIView!
     @IBOutlet var loadingIndicator: UIActivityIndicatorView!
 
-    private lazy var noNetworkHeightConstraint = view.heightAnchor.constraint(greaterThanOrEqualTo: noNetworkView.heightAnchor)
-
     weak var delegate: DiscoverDelegate?
 
     var serverHandler: DiscoverServerHandling = DiscoverServerHandler.shared
@@ -156,7 +154,6 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
 
     private func handleLoadFailed() {
         noNetworkView.isHidden = false
-        noNetworkHeightConstraint.isActive = true
     }
 
     func registerDiscoverDelegate(_ delegate: DiscoverDelegate) {

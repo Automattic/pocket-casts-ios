@@ -25,6 +25,8 @@ class DiscoverCollectionViewController: PCViewController {
     private(set) var discoverLayout: DiscoverLayout?
     fileprivate var selectedCategory: DiscoverCategory?
     private var loadingTasks: [String: Task<Void, Never>] = [:]
+    private var categoryLoadTask: Task<Void, Never>?
+    private var retryCategoryLoad: (() -> Void)?
 
     private(set) lazy var searchController: PCSearchBarController = {
         PCSearchBarController()
@@ -99,6 +101,8 @@ class DiscoverCollectionViewController: PCViewController {
     func populateFrom(discoverLayout: DiscoverLayout?, selectedCategory: DiscoverCategory? = nil, shouldInclude: ((DiscoverItem) -> Bool)? = nil) {
         self.selectedCategory = selectedCategory
         loadingContent = false
+        categoryLoadTask?.cancel()
+        retryCategoryLoad = nil
 
         guard let discoverLayout, let items = discoverLayout.layout, let _ = discoverLayout.regions else {
             handleLoadFailed()
@@ -153,6 +157,75 @@ class DiscoverCollectionViewController: PCViewController {
             if let snapshot {
                 dataSource.apply(snapshot)
             }
+        }
+    }
+
+    /// Shows a category's sections once its podcast list and promoted podcasts have loaded. Until then, the category
+    /// pills stay at the top with a spinner under them, or the no-network view if the list fails to load.
+    func populateFrom(discoverLayout: DiscoverLayout?, loadingCategory category: DiscoverCategory, shouldInclude: @escaping (DiscoverItem) -> Bool) {
+        let server = DiscoverServerHandler.shared
+        let promotionSources = promotionSources(for: category, in: discoverLayout)
+
+        guard let source = replaceRegionCode(string: category.source),
+              ([source] + promotionSources).contains(where: { server.cachedResponse(for: $0) == nil }) else {
+            populateFrom(discoverLayout: discoverLayout, selectedCategory: category, shouldInclude: shouldInclude)
+            return
+        }
+
+        categoryLoadTask?.cancel()
+        selectedCategory = category
+        retryCategoryLoad = { [weak self] in
+            self?.populateFrom(discoverLayout: discoverLayout, loadingCategory: category, shouldInclude: shouldInclude)
+        }
+        showUnderCategories(.loading(nil))
+
+        categoryLoadTask = Task { [weak self] in
+            async let details = server.discoverCategoryDetails(source: source, authenticated: nil)
+            for promotionSource in promotionSources {
+                _ = await server.discoverPodcastList(source: promotionSource, authenticated: nil)
+            }
+            let isLoaded = await details?.podcasts != nil
+            guard let self, !Task.isCancelled else { return }
+
+            if !isLoaded {
+                self.showUnderCategories(.noNetwork)
+            } else {
+                self.populateFrom(discoverLayout: discoverLayout, selectedCategory: category, shouldInclude: shouldInclude)
+            }
+        }
+    }
+
+    /// The sources of the podcasts a category shows above its list, such as a sponsored podcast.
+    private func promotionSources(for category: DiscoverCategory, in discoverLayout: DiscoverLayout?) -> [String] {
+        guard let discoverLayout, let items = discoverLayout.layout else { return [] }
+
+        let region = Settings.discoverRegion(discoverLayout: discoverLayout)
+        return items
+            .filter { $0.categoryID == category.id && $0.cellType() == .singlePodcast && $0.regions.contains(region) }
+            .compactMap { replaceRegionCode(string: $0.source) }
+    }
+
+    /// Keeps the category pills and shows `state` in a section of its own under them.
+    private func showUnderCategories(_ state: CellType) {
+        let categories = dataSource.snapshot().itemIdentifiers.filter {
+            if case .item(let item) = $0 {
+                return item.cellType == .categoriesSelector
+            }
+            return false
+        }
+
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        snapshot.appendSections([0, 1])
+        snapshot.appendItems(categories, toSection: 0)
+        snapshot.appendItems([state], toSection: 1)
+        dataSource.apply(snapshot)
+    }
+
+    private func retryLoading() {
+        if let retryCategoryLoad {
+            retryCategoryLoad()
+        } else {
+            reloadData()
         }
     }
 
@@ -253,7 +326,7 @@ extension DiscoverCollectionViewController {
 
         let noNetworkRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { [weak self] cell, _, _ in
             cell.contentConfiguration = ContentUnavailableConfiguration.noNetwork { [weak self] in
-                self?.reloadData()
+                self?.retryLoading()
             }
             cell.insetsLayoutMarginsFromSafeArea = false
         }
@@ -298,10 +371,19 @@ extension DiscoverCollectionViewController {
     }
 
     private func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
-        return UICollectionViewCompositionalLayout { [weak self] (_: Int,
+        return UICollectionViewCompositionalLayout { [weak self] (sectionIndex: Int,
                                                       _: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+            let height: NSCollectionLayoutDimension
+            if self?.discoverLayout == nil {
+                height = .fractionalHeight(0.8)
+            } else if sectionIndex > 0 {
+                // A category's loading or no-network state, in the space under the category pills
+                height = .fractionalHeight(0.6)
+            } else {
+                height = .estimated(100)
+            }
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                  heightDimension: self?.discoverLayout == nil ? .fractionalHeight(0.8) : .estimated(100))
+                                                  heightDimension: height)
 
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             let groupSize = NSCollectionLayoutSize(widthDimension: itemSize.widthDimension,

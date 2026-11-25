@@ -11,21 +11,19 @@ extension DiscoverCollectionViewController {
     ///   - items: Items to exclude from the reload process. These items will REMAIN in Discover
     ///   - category: The `DiscoverCategory` to add to the layout. This is sort of an artifical `DiscoverLayout`.
     func reload(except items: [DiscoverItem], category: DiscoverCategory?) {
-        let newLayout: DiscoverLayout?
-
-        if let category {
-            newLayout = modified(layout: discoverLayout, for: category, with: items)
-        } else {
-            newLayout = discoverLayout
-        }
-
-        populateFrom(discoverLayout: newLayout, selectedCategory: category, shouldInclude: { item in
+        let shouldInclude: (DiscoverItem) -> Bool = { item in
 
             // Filter out items that don't match the selected category
             let categoryFilter = (item.categoryID == category?.id) || items.contains(item)
 
             return categoryFilter && item.shouldShowAuthenticated() // We don't currently have authenticated category items, but handle them just in case
-        })
+        }
+
+        if let category {
+            populateFrom(discoverLayout: modified(layout: discoverLayout, for: category, with: items), loadingCategory: category, shouldInclude: shouldInclude)
+        } else {
+            populateFrom(discoverLayout: discoverLayout, selectedCategory: nil, shouldInclude: shouldInclude)
+        }
     }
 
     private func modified(layout: DiscoverLayout?, for category: DiscoverCategory, with items: [DiscoverItem]) -> DiscoverLayout? {
