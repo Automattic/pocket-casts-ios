@@ -4001,6 +4001,24 @@
 /* Pricing terms explaining that the user will have a discount in the first period then will pay full price, %1$@ is the full price, %2$@ the discount duration, %3$@ the date the user will pay full price */
 "pricing_terms_after_discount" = "Recurring payments at %1$@ after %2$@ (%3$@)";
 
+/* Title for a button that lets the user purchase a subscription with a discount offer, %1$@ is the localized discount percentage (50%) */
+"discount_offer_claim_button" = "Claim %1$@ off";
+
+/* Badge shown on the upgrade screen header when a limited time discount offer is available */
+"discount_offer_limited_time_badge" = "Limited time offer";
+
+/* Title of the upgrade screen when a discount offer is available, %1$@ is the localized discount percentage (50%), %2$@ is the subscription plan name (Plus or Patron), %3$@ is the localized offer duration with the number spelled out (one year) */
+"discount_offer_upgrade_title" = "%1$@ off %2$@ for %3$@";
+
+/* Badge shown on a subscription product with a discount offer, %1$@ is the localized discount percentage (50%) */
+"discount_offer_product_badge" = "%1$@ off";
+
+/* Discounted product price. The text between ~ characters is shown with a strikethrough and the ~ characters must be kept. %1$@ is the full price ($39.99), %2$@ is the discounted price ($19.99), %3$@ is the localized offer duration (1 year) */
+"discount_offer_period_price" = "~%1$@~ %2$@ for %3$@";
+
+/* Description of a discount offer on a subscription, %1$@ is the localized discount percentage (50%), %2$@ is the localized offer duration (1 year) */
+"discount_offer_description" = "%1$@ off for %2$@";
+
 /* Subscription pricing format, %1$@ is the price, %2$@ is the subscription period */
 "subscription_frequency_pricing_format" = "%1$@ per %2$@";
 
@@ -6080,8 +6098,8 @@
 /// Label of the Playback 2025 call to action buton
 "playback_2025_view_year" = "View My Playback 2025";
 
-/// Title of the Playback 2026 banner in the Profile tab
-"playback_2026_banner_title" = "Playback 2026 is here!";
+/* Title of the Playback 2026 banner in the Profile tab. %1$@ is the feature name, Playback 2026, which stays in English in every language. */
+"playback_2026_banner_title" = "%1$@ is here!";
 
 /// Description of the Playback 2026 banner in the Profile tab
 "playback_2026_banner_description" = "Discover your listening stats, which kind of listener you are, and more.";
@@ -6089,8 +6107,8 @@
 /// Description in the Playback 2026 announcement sheet
 "playback_2026_sheet_description" = "What you listened to. The podcasts you loved. And what sets you apart as a listener. Your year in Pocket Casts is here.";
 
-/// Label of the call to action button in the Playback 2026 announcement sheet
-"playback_2026_sheet_button" = "View My Playback 2026";
+/* Label of the call to action button in the Playback 2026 announcement sheet. %1$@ is the feature name, Playback 2026, which stays in English in every language. */
+"playback_2026_sheet_button" = "View My %1$@";
 
 /// Label of the Playback 2025 call to action buton
 "playback_2025_intro_message" = "Your year in podcasts, wrapped and ready to relive";

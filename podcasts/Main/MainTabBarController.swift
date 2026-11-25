@@ -1123,9 +1123,11 @@ private extension MainTabBarController {
     }
 
     func showPlayback2026SheetIfNeeded() {
-        guard !isShowingWhatsNew, AnnouncementFlow.current == .none, !isInitialOnboardingPending else { return }
+        Task {
+            guard await Playback2026.checkEligibility(), !isShowingWhatsNew, AnnouncementFlow.current == .none, !isInitialOnboardingPending else { return }
 
-        Playback2026.showSheetIfNeeded(in: self)
+            Playback2026.showSheetIfNeeded(in: self)
+        }
     }
 
     private var isInitialOnboardingPending: Bool {
@@ -1154,11 +1156,11 @@ private extension MainTabBarController {
 
 extension MainTabBarController {
 
-    func showNotificationsPermissions() {
+    func showNotificationsPermissions(isNewAccount: Bool) {
         // Present inline so it beats the `.onboardingFlowDidDismiss` EOY prompt; skip only when
         // another flow is already presenting, since we can't stack on it.
         guard presentedViewController == nil else { return }
-        present(NotificationsPermissionsViewModel.makeController(), animated: true)
+        present(NotificationsPermissionsViewModel.makeController(isNewAccount: isNewAccount), animated: true)
     }
 }
 

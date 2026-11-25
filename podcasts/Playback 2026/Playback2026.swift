@@ -1,10 +1,12 @@
 import UIKit
 import PlaybackKit
+import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
 
 enum Playback2026 {
-    /// The single check every entry point (Podcasts sheet, Profile banner) and the story flow use.
+    /// The feature flag, which the story flow checks. The Podcasts sheet and the Profile banner
+    /// also need ``isEligible``.
     static var isAvailable: Bool {
         FeatureFlag.playback2026.enabled
     }
@@ -12,6 +14,23 @@ enum Playback2026 {
     // MARK: - Entry points
 
     static let year = 2026
+
+    /// The feature name, which isn't translated.
+    static let name = "Playback 2026"
+
+    /// Whether the user played an episode past five minutes this year on this device, the rule
+    /// Playback 2025 used. `false` until ``checkEligibility()`` finds it, then it stays `true`.
+    private(set) static var isEligible = false
+
+    /// Reads the database off the main thread when the user isn't eligible yet.
+    @MainActor
+    static func checkEligibility() async -> Bool {
+        guard isAvailable else { return false }
+        if !isEligible, await Task.detached(priority: .utility, operation: { DataManager.shared.isEligibleForEndOfYearStories(in: year) }).value {
+            isEligible = true
+        }
+        return isEligible
+    }
 
     /// Opens the stories at once. The listening history is read while the intro plays
     /// (``Playback2026ViewController``); if the user moves on before it is there, the intro shows
@@ -48,14 +67,18 @@ enum Playback2026 {
     /// Syncs the listening history of the year and the year before when signed in (so the stats,
     /// and the comparison with last year, include episodes played on other devices; the local
     /// history is used if it fails) and builds the payload from it, with the listener archetype
-    /// the server works out, asked for meanwhile.
+    /// the server works out, asked for meanwhile. Opened again while the sync runs, it waits for
+    /// that sync instead of starting another.
     nonisolated static func makePayload() async -> PlaybackPayload {
         let archetype = Task { await fetchArchetype() }
+        await historySync.run()
+        let fetchedArchetype = await archetype.value
         return await Task.detached(priority: .userInitiated) {
-            syncListeningHistoryIfNeeded()
-            return Playback2026Payload.make(year: year, archetype: await archetype.value)
+            Playback2026Payload.make(year: year, archetype: fetchedArchetype)
         }.value
     }
+
+    nonisolated private static let historySync = Playback2026HistorySync { syncListeningHistoryIfNeeded() }
 
     /// `nil` when the server can't be reached: the stories show their default archetype.
     nonisolated private static func fetchArchetype() async -> Playback2026Archetype? {
@@ -95,8 +118,8 @@ enum Playback2026 {
         set { UserDefaults.standard.set(newValue, forKey: hasShownSheetKey) }
     }
 
-    static func shouldShowSheet(isAvailable: Bool = Playback2026.isAvailable, hasShownSheet: Bool = Playback2026.hasShownSheet) -> Bool {
-        isAvailable && !hasShownSheet
+    static func shouldShowSheet(isAvailable: Bool = Playback2026.isAvailable, isEligible: Bool = Playback2026.isEligible, hasShownSheet: Bool = Playback2026.hasShownSheet) -> Bool {
+        isAvailable && isEligible && !hasShownSheet
     }
 
     static func showSheetIfNeeded(in viewController: UIViewController) {

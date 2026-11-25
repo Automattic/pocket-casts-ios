@@ -1,6 +1,7 @@
 import Combine
 import Foundation
 import PocketCastsDataModel
+import PocketCastsUtils
 
 @Observable
 class FolderDetailViewModel {
@@ -17,35 +18,56 @@ class FolderDetailViewModel {
 
     var state: State = .loading
 
+    private(set) var sortOrder: LibrarySort
+
+    @ObservationIgnored private var fetchTask: Task<Void, Never>?
+
     init(folder: Folder, dataManager: DataManager = DataManager.shared) {
         self.folder = folder
         self.dataManager = dataManager
+        self.sortOrder = Self.sortOrder(for: folder)
+    }
+
+    /// `folder.sortType` is stored using the old `LibrarySort.Old` raw-value scheme (1/2/5/6/7).
+    private static func sortOrder(for folder: Folder) -> LibrarySort {
+        LibrarySort(oldValue: Int(folder.sortType)) ?? .dateAddedNewestToOldest
     }
 
     func load() {
-        Task {
-            let podcasts = dataManager.allPodcastsInFolder(folder: folder)
-            await MainActor.run {
-                self.podcasts = podcasts
-                self.state = podcasts.isEmpty ? .empty : .ready
-                Analytics.track(.folderShown, properties: [
-                    "number_of_podcasts": podcasts.count,
-                    "sort_order": Self.sortOrderAnalyticsValue(for: folder)
-                ])
-            }
+        reloadPodcasts { [weak self] podcasts in
+            guard let self else { return }
+            Analytics.track(.folderShown, properties: [
+                "number_of_podcasts": podcasts.count,
+                "sort_order": self.sortOrder
+            ])
         }
     }
 
-    /// Mirrors iOS `Folder.librarySort().analyticsDescription`. `folder.sortType` is stored
-    /// using the old `LibrarySort.Old` raw-value scheme (1/2/5/6/7), not `LibrarySort`'s native values.
-    private static func sortOrderAnalyticsValue(for folder: Folder) -> String {
-        switch Int(folder.sortType) {
-        case 1: return "date_added"
-        case 2: return "name"
-        case 5: return "episode_release_date"
-        case 6: return "drag_and_drop"
-        case 7: return "episode_recently_played"
-        default: return "date_added"
+    /// Persists the sort order on the folder (synced, same as the iOS app), then reloads the podcasts.
+    func setSortOrder(_ order: LibrarySort) {
+        guard order != sortOrder else { return }
+        folder.sortType = Int32(order.old.rawValue)
+        folder.syncModified = TimeFormatter.currentUTCTimeInMillis()
+        dataManager.save(folder: folder)
+        sortOrder = order
+        Analytics.track(.folderSortByChanged, properties: ["sort_order": order])
+        reloadPodcasts()
+    }
+
+    /// Cancels any reload still in flight, so a slower fetch for an older sort order
+    /// can't finish last and overwrite the newer results.
+    private func reloadPodcasts(completion: (([Podcast]) -> Void)? = nil) {
+        fetchTask?.cancel()
+        fetchTask = Task { [weak self] in
+            guard let self else { return }
+            let podcasts = self.dataManager.allPodcastsInFolder(folder: self.folder)
+            await MainActor.run {
+                // Cancellation happens on the main thread, so this check can't miss a newer reload.
+                guard !Task.isCancelled else { return }
+                self.podcasts = podcasts
+                self.state = podcasts.isEmpty ? .empty : .ready
+                completion?(podcasts)
+            }
         }
     }
 }
