@@ -68,7 +68,9 @@ class ImageManager {
         #else
         let path = (NSHomeDirectory() as NSString).appendingPathComponent("Documents/artworkv3")
         #endif
-        let cache = ImageManager.makeCache(name: "subscribedPodcastsCache", directory: URL(fileURLWithPath: path))
+        let url = URL(fileURLWithPath: path)
+        let cache = ImageManager.makeCache(name: "subscribedPodcastsCache", directory: url)
+        Self.excludeFromBackup(url)
         #if os(tvOS)
         cache.diskStorage.config.sizeLimit = UInt(200.megabytes)
         #else
@@ -560,6 +562,21 @@ class ImageManager {
 
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastImageReCacheRequired)
         })
+    }
+
+    // MARK: - Backup
+
+    private static func excludeFromBackup(_ url: URL) {
+        guard (try? url.resourceValues(forKeys: [.isExcludedFromBackupKey]))?.isExcludedFromBackup != true else { return }
+
+        var url = url
+        var values = URLResourceValues()
+        values.isExcludedFromBackup = true
+        do {
+            try url.setResourceValues(values)
+        } catch {
+            FileLog.shared.addMessage("ImageManager: failed to exclude \(url.lastPathComponent) from backup: \(error)")
+        }
     }
 
     // MARK: - Subscription Bundle Image
