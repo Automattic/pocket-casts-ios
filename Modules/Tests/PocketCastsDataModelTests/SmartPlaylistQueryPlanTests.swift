@@ -112,7 +112,57 @@ final class SmartPlaylistQueryPlanTests: DataManagerTestCase {
         XCTAssertTrue(try plan(PlaylistQueryBuilder.query(clause: .firstDistinctEpisodes, for: recentInProgress, limit: 4)).contains("SEARCH episode USING INDEX episode_pub_date (publishedDate>?)"))
     }
 
+    func testRecentPlaylistsWithUnplayedEpisodesReadThePublishedDateIndexWhenThePlayStatusIsIndexed() throws {
+        try indexUnarchivedEpisodesByPlayStatus()
+
+        let recentUnplayed = EpisodeFilter.makeDefault()
+        recentUnplayed.filterPartiallyPlayed = false
+        recentUnplayed.filterFinished = false
+        recentUnplayed.filterHours = 24 * 7
+
+        let newReleases = EpisodeFilter.makeDefault()
+        newReleases.filterFinished = false
+        newReleases.filterHours = 24 * 14
+
+        for playlist in [recentUnplayed, newReleases] {
+            for flag in [false, true] {
+                try FeatureFlagOverrideStore().override(FeatureFlag.efficientPlaylistQueries, withValue: flag)
+                let queries = [
+                    PlaylistQueryBuilder.query(clause: .allEpisodeCount, for: playlist),
+                    PlaylistQueryBuilder.query(clause: .firstDistinctEpisodes, for: playlist, limit: 4),
+                    PlaylistQueryBuilder.query(clause: .episode, for: playlist, limit: 1000),
+                    "SELECT * FROM SJEpisode WHERE \(PlaylistQueryBuilder.queryFor(filter: playlist, episodeUuidToAdd: nil, limit: 5))"
+                ]
+                for query in queries {
+                    let plan = try plan(query)
+                    XCTAssertTrue(plan.contains("USING INDEX episode_pub_date (publishedDate>?)"), plan)
+                    XCTAssertFalse(plan.contains("episode_unarchived_playing_status"), plan)
+                }
+            }
+        }
+    }
+
+    func testOnlyRecentPlaylistsWithUnplayedEpisodesSkipThePlayStatusIndex() {
+        let recentInProgress = inProgress()
+        recentInProgress.filterHours = 24 * 31
+
+        let unplayed = EpisodeFilter.makeDefault()
+        unplayed.filterPartiallyPlayed = false
+        unplayed.filterFinished = false
+
+        for playlist in [recentInProgress, unplayed] {
+            XCTAssertFalse(PlaylistQueryBuilder.query(clause: .episode, for: playlist, limit: 1000).contains("+episode.playingStatus"))
+            XCTAssertFalse(PlaylistQueryBuilder.queryFor(filter: playlist, episodeUuidToAdd: nil, limit: 5).contains("+playingStatus"))
+        }
+    }
+
     // MARK: - Helpers
+
+    private func indexUnarchivedEpisodesByPlayStatus() throws {
+        try dataManager.dbQueue.dbPool.write { db in
+            try db.execute(sql: "CREATE INDEX IF NOT EXISTS episode_unarchived_playing_status ON SJEpisode (playingStatus) WHERE archived = 0")
+        }
+    }
 
     private func counts(for playlist: EpisodeFilter, flag: Bool) throws -> [Int] {
         try FeatureFlagOverrideStore().override(FeatureFlag.efficientPlaylistQueries, withValue: flag)

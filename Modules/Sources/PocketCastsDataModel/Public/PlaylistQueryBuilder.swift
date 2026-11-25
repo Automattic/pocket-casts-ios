@@ -677,6 +677,10 @@ public class PlaylistQueryBuilder {
         return excludesUnplayed || playlist.filterStarred
     }
 
+    private static func readsPublishedDateIndex(_ playlist: EpisodeFilter) -> Bool {
+        playlist.filterUnplayed && playlist.filterHours > 0
+    }
+
     private static func add(smartRulesFor playlist: EpisodeFilter) -> QueryResult {
         var queryString = ""
         var haveStartedWhere = false
@@ -738,19 +742,20 @@ public class PlaylistQueryBuilder {
         haveStartedWhere: inout Bool
     ) {
         if !(playlist.filterUnplayed && playlist.filterPartiallyPlayed && playlist.filterFinished), playlist.filterUnplayed || playlist.filterPartiallyPlayed || playlist.filterFinished {
+            let column = readsPublishedDateIndex(playlist) ? "+episode.playingStatus" : "episode.playingStatus"
             queryString += "("
             if playlist.filterUnplayed {
-                queryString += "episode.playingStatus = \(PlayingStatus.notPlayed.rawValue) "
+                queryString += "\(column) = \(PlayingStatus.notPlayed.rawValue) "
             }
             if playlist.filterPartiallyPlayed {
                 if playlist.filterUnplayed { queryString += "OR " }
 
-                queryString += "episode.playingStatus = \(PlayingStatus.inProgress.rawValue) "
+                queryString += "\(column) = \(PlayingStatus.inProgress.rawValue) "
             }
             if playlist.filterFinished {
                 if playlist.filterUnplayed || playlist.filterPartiallyPlayed { queryString += "OR " }
 
-                queryString += "episode.playingStatus = \(PlayingStatus.completed.rawValue)"
+                queryString += "\(column) = \(PlayingStatus.completed.rawValue)"
             }
 
             queryString += ") "
@@ -899,19 +904,20 @@ public class PlaylistQueryBuilder {
         var haveStartedWhere = false
         // Playing Status
         if !(filter.filterUnplayed && filter.filterPartiallyPlayed && filter.filterFinished), filter.filterUnplayed || filter.filterPartiallyPlayed || filter.filterFinished {
+            let column = readsPublishedDateIndex(filter) ? "+playingStatus" : "playingStatus"
             queryString += "("
             if filter.filterUnplayed {
-                queryString += "playingStatus = \(PlayingStatus.notPlayed.rawValue) "
+                queryString += "\(column) = \(PlayingStatus.notPlayed.rawValue) "
             }
             if filter.filterPartiallyPlayed {
                 if filter.filterUnplayed { queryString += "OR " }
 
-                queryString += "playingStatus = \(PlayingStatus.inProgress.rawValue) "
+                queryString += "\(column) = \(PlayingStatus.inProgress.rawValue) "
             }
             if filter.filterFinished {
                 if filter.filterUnplayed || filter.filterPartiallyPlayed { queryString += "OR " }
 
-                queryString += "playingStatus = \(PlayingStatus.completed.rawValue)"
+                queryString += "\(column) = \(PlayingStatus.completed.rawValue)"
             }
 
             queryString += ") "
