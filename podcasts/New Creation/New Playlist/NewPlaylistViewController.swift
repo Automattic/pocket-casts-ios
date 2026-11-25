@@ -162,29 +162,41 @@ class NewPlaylistViewController: PCViewController {
 
         view.backgroundColor = AppTheme.viewBackgroundColor
 
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.keyboardDismissMode = .interactive
+        view.addSubview(scrollView)
+
         textFieldBorderView = ThemeableSelectionView()
-        view.addSubview(textFieldBorderView)
+        scrollView.addSubview(textFieldBorderView)
 
         playlistNameTextField = ThemeableTextField()
-        view.addSubview(playlistNameTextField)
+        scrollView.addSubview(playlistNameTextField)
 
         saveButton = UIButton(type: .custom)
-        view.addSubview(saveButton)
+        scrollView.addSubview(saveButton)
 
         var constraints = [
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
+            scrollView.contentLayoutGuide.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
+
             textFieldBorderView.topAnchor.constraint(equalTo: playlistNameTextField.topAnchor, constant: -8.0),
             textFieldBorderView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16.0),
             textFieldBorderView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16.0),
             textFieldBorderView.bottomAnchor.constraint(equalTo: playlistNameTextField.bottomAnchor, constant: 8),
             textFieldBorderView.heightAnchor.constraint(greaterThanOrEqualToConstant: 56),
 
-            playlistNameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            playlistNameTextField.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 16),
             playlistNameTextField.leadingAnchor.constraint(equalTo: textFieldBorderView.leadingAnchor, constant: 16.0),
             playlistNameTextField.trailingAnchor.constraint(equalTo: textFieldBorderView.trailingAnchor, constant: -16.0),
 
             saveButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             saveButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            saveButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 56)
+            saveButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 56),
+            saveButton.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -16)
         ]
 
         if creationType == .default {
@@ -196,7 +208,7 @@ class NewPlaylistViewController: PCViewController {
             self.addChild(themedVC)
             let creationView = themedVC.view!
             creationView.translatesAutoresizingMaskIntoConstraints = false
-            view.insertSubview(creationView, belowSubview: saveButton)
+            scrollView.insertSubview(creationView, belowSubview: saveButton)
             themedVC.didMove(toParent: self)
             self.creationView = creationView
 
