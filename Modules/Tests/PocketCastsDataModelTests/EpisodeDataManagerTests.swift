@@ -288,6 +288,67 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
         }
     }
 
+    // MARK: - New Releases Tests
+
+    func testFindNewReleaseEpisodesReturnsRecentUnplayedEpisodesNewestFirst() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let unsubscribed = self.createTestPodcast(subscribed: 0, dataManager: dataManager)
+            let now = Date()
+            let notPlayed = PlayingStatus.notPlayed.rawValue
+
+            _ = self.createTestEpisode(uuid: "older", podcast: podcast, publishedDate: now.addingTimeInterval(-2 * 24 * 3600), playingStatus: notPlayed, dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "newer", podcast: podcast, publishedDate: now.addingTimeInterval(-3600), playingStatus: notPlayed, dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "in progress", podcast: podcast, publishedDate: now, playingStatus: PlayingStatus.inProgress.rawValue, dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "archived", podcast: podcast, publishedDate: now, playingStatus: notPlayed, archived: true, dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "deleted", podcast: podcast, publishedDate: now, playingStatus: notPlayed, wasDeleted: true, dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "too old", podcast: podcast, publishedDate: now.addingTimeInterval(-15 * 24 * 3600), playingStatus: notPlayed, dataManager: dataManager)
+            _ = self.createTestEpisode(uuid: "unsubscribed", podcast: unsubscribed, publishedDate: now, playingStatus: notPlayed, dataManager: dataManager)
+
+            XCTAssertEqual(dataManager.findNewReleaseEpisodes(limit: 10).map(\.uuid), ["newer", "older"])
+            XCTAssertEqual(dataManager.findNewReleaseEpisodes(limit: 1).map(\.uuid), ["newer"])
+        }
+    }
+
+    func testFindNewVideoReleaseEpisodesReturnsOnlyVideos() throws {
+        try runWithDataManager { dataManager in
+            let podcast = self.createTestPodcast(dataManager: dataManager)
+            let notPlayed = PlayingStatus.notPlayed.rawValue
+
+            let video = self.createTestEpisode(uuid: "video", podcast: podcast, playingStatus: notPlayed, dataManager: dataManager)
+            video.fileType = "video/mp4"
+            dataManager.save(episode: video)
+            let hls = self.createTestEpisode(uuid: "hls", podcast: podcast, publishedDate: Date().addingTimeInterval(-60), playingStatus: notPlayed, dataManager: dataManager)
+            hls.hlsUrl = "https://example.com/stream.m3u8"
+            dataManager.save(episode: hls)
+            let audio = self.createTestEpisode(uuid: "audio", podcast: podcast, playingStatus: notPlayed, dataManager: dataManager)
+            audio.fileType = "audio/mp3"
+            dataManager.save(episode: audio)
+
+            XCTAssertEqual(dataManager.findNewVideoReleaseEpisodes(limit: 10).map(\.uuid), ["video", "hls"])
+        }
+    }
+
+    func testNewReleaseQueriesReadThePublishedDateIndexWhenThePlayStatusIsIndexed() throws {
+        try runWithDataManager { dataManager in
+            try dataManager.dbQueue.dbPool.write { db in
+                try db.execute(sql: "CREATE INDEX IF NOT EXISTS episode_unarchived_playing_status ON \(DataManager.episodeTableName) (playingStatus) WHERE archived = 0")
+            }
+
+            for videoOnly in [false, true] {
+                let arguments: StatementArguments = videoOnly ? [0, "video/mp4", 12] : [0, 12]
+                let plan = try dataManager.dbQueue.dbPool.read { db in
+                    try Row.fetchAll(db, sql: "EXPLAIN QUERY PLAN \(EpisodeDataManager.newReleaseEpisodesQuery(videoOnly: videoOnly))", arguments: arguments)
+                        .map { $0["detail"] as String }
+                        .joined(separator: "\n")
+                }
+
+                XCTAssertTrue(plan.contains("USING INDEX episode_pub_date (publishedDate>?)"), plan)
+                XCTAssertFalse(plan.contains("episode_unarchived_playing_status"), plan)
+            }
+        }
+    }
+
     // MARK: - delete Tests
 
     func testDeleteRemovesEpisode() throws {

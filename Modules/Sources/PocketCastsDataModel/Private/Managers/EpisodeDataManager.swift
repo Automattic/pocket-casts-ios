@@ -237,38 +237,30 @@ class EpisodeDataManager {
     }
 
     func findNewReleaseEpisodes(limit: Int, dbQueue: GRDBQueue) -> [Episode] {
-        let twoWeeksInSeconds: TimeInterval = 14 * 24 * 60 * 60
-        let twoWeeksAgo = Date(timeIntervalSinceNow: -twoWeeksInSeconds).timeIntervalSince1970
-        let query = """
-        SELECT episode.* FROM \(DataManager.episodeTableName) episode
-        JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id
-        WHERE podcast.subscribed = 1
-        AND episode.playingStatus = \(PlayingStatus.notPlayed.rawValue)
-        AND episode.wasDeleted = 0
-        AND episode.archived = 0
-        AND episode.publishedDate > ?
-        ORDER BY episode.publishedDate DESC, episode.addedDate DESC
-        LIMIT ?
-        """
-        return loadMultiple(query: query, values: [twoWeeksAgo, limit], dbQueue: dbQueue)
+        loadMultiple(query: Self.newReleaseEpisodesQuery(videoOnly: false), values: [Self.twoWeeksAgo(), limit], dbQueue: dbQueue)
     }
 
     func findNewVideoReleaseEpisodes(limit: Int, dbQueue: GRDBQueue) -> [Episode] {
-        let twoWeeksInSeconds: TimeInterval = 14 * 24 * 60 * 60
-        let twoWeeksAgo = Date(timeIntervalSinceNow: -twoWeeksInSeconds).timeIntervalSince1970
-        let query = """
+        loadMultiple(query: Self.newReleaseEpisodesQuery(videoOnly: true), values: [Self.twoWeeksAgo(), "video/mp4", limit], dbQueue: dbQueue)
+    }
+
+    static func newReleaseEpisodesQuery(videoOnly: Bool) -> String {
+        """
         SELECT episode.* FROM \(DataManager.episodeTableName) episode
         JOIN \(DataManager.podcastTableName) podcast ON episode.podcast_id = podcast.id
         WHERE podcast.subscribed = 1
-        AND episode.playingStatus = \(PlayingStatus.notPlayed.rawValue)
+        AND +episode.playingStatus = \(PlayingStatus.notPlayed.rawValue)
         AND episode.wasDeleted = 0
         AND episode.archived = 0
         AND episode.publishedDate > ?
-        AND (episode.fileType = ? OR (episode.hlsUrl IS NOT NULL))
+        \(videoOnly ? "AND (episode.fileType = ? OR (episode.hlsUrl IS NOT NULL))" : "")
         ORDER BY episode.publishedDate DESC, episode.addedDate DESC
         LIMIT ?
         """
-        return loadMultiple(query: query, values: [twoWeeksAgo, "video/mp4", limit], dbQueue: dbQueue)
+    }
+
+    private static func twoWeeksAgo() -> TimeInterval {
+        Date(timeIntervalSinceNow: -14 * 24 * 60 * 60).timeIntervalSince1970
     }
 
     func allUpNextEpisodes(dbQueue: GRDBQueue) -> [Episode] {
