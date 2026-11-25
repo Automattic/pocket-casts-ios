@@ -2,6 +2,7 @@
 -----
 - Fix the back button covering the Name your folder title at the largest text sizes on iPhone Duo [#5672](https://github.com/Automattic/pocket-casts-ios/pull/5672)
 - Fix the layout control covering the Layout label in the Podcasts options menu at the largest text sizes on narrow screens [#5671](https://github.com/Automattic/pocket-casts-ios/pull/5671)
+- Fix Log in asking you to check your username and password when sign-in failed because of a server error [#5721](https://github.com/Automattic/pocket-casts-ios/pull/5721)
 
 8.26
 -----
