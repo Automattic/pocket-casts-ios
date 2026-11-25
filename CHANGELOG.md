@@ -4,7 +4,6 @@
 
 8.26
 -----
-- Open the Playlists tab and smart playlists faster again in large libraries, after 8.25 made them slower [#5722](https://github.com/Automattic/pocket-casts-ios/pull/5722)
 - Add Playback 2026, your year in podcasts, with a Podcasts sheet and a Profile banner [#5568](https://github.com/Automattic/pocket-casts-ios/pull/5568) [#5567](https://github.com/Automattic/pocket-casts-ios/pull/5567)
 - Fix a crash that could happen when changing the Discover region [#5682](https://github.com/Automattic/pocket-casts-ios/pull/5682)
 - Scroll the Podcasts grid, lists and playlists more smoothly: podcast artwork is now decoded in the background instead of while scrolling [#5656](https://github.com/Automattic/pocket-casts-ios/pull/5656)
@@ -28,6 +27,7 @@
 - Show What's New message descriptions in the secondary text color, so the heading stands out [#5681](https://github.com/Automattic/pocket-casts-ios/pull/5681)
 - [tvOS] Add a sort button to podcasts and folders, with the same options as the iOS app [#5680](https://github.com/Automattic/pocket-casts-ios/pull/5680) [#5699](https://github.com/Automattic/pocket-casts-ios/pull/5699)
 - Fix a crash that could happen when opening Starred, such as from a link, while it was still loading [#5696](https://github.com/Automattic/pocket-casts-ios/pull/5696)
+- Open the Playlists tab and smart playlists faster again in large libraries, after 8.25 made them slower [#5722](https://github.com/Automattic/pocket-casts-ios/pull/5722)
 
 8.25
 -----
