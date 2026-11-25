@@ -267,11 +267,7 @@ final class SyncSigninViewModel: ObservableObject {
                         "error_code": (error ?? .UNKNOWN).rawValue
                     ])
 
-                    if let err = error, err != .UNKNOWN, !err.localizedDescription.isEmpty {
-                        self.errorMessage = err.localizedDescription
-                    } else {
-                        self.errorMessage = L10n.syncAccountError
-                    }
+                    self.errorMessage = Self.errorMessage(for: error)
 
                     self.isSigningIn = false
                     self.progressAlert?.hideAlert(false)
@@ -299,6 +295,13 @@ final class SyncSigninViewModel: ObservableObject {
                 self.isSigningIn = false
             }
         }
+    }
+
+    static func errorMessage(for error: APIError?) -> String {
+        if let error, error != .UNKNOWN, !error.localizedDescription.isEmpty {
+            return error.localizedDescription
+        }
+        return L10n.accountSsoFailed
     }
 
     private func syncCompleted() {
