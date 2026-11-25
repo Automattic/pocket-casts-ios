@@ -167,14 +167,14 @@ class DiscoverPodcastTableCell: ThemeableCell {
 
     func updateSize() {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
-        let imageSize = max(52, metric.scaledValue(for: 52))
+        let imageSize = max(52, metric.scaledValue(for: 52, compatibleWith: traitCollection))
 
         podcastImage.updateSizeConstraints(to: imageSize)
 
-        let iconSize = max(24, metric.scaledValue(for: 24))
+        let iconSize = max(24, metric.scaledValue(for: 24, compatibleWith: traitCollection))
         subscribeButton.updateSizeConstraints(to: iconSize)
 
-        podcastImageLeadingConstraint.constant = max(32, metric.scaledValue(for: 32))
+        podcastImageLeadingConstraint.constant = max(32, metric.scaledValue(for: 32, compatibleWith: traitCollection))
 
         podcastTitle.updateNumberOfLines(regular: 1, accessibility: 3)
         podcastAuthor.updateNumberOfLines(regular: 1, accessibility: 3)

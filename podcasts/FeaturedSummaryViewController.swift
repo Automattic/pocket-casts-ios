@@ -18,7 +18,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
     private var maxCellWidth = 400 as CGFloat
     private var cellHeight: CGFloat {
-        return DiscoverFeaturedView.scaledHeight
+        return DiscoverFeaturedView.scaledHeight()
     }
 
     private var listType: String = ""
