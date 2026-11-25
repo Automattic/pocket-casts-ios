@@ -295,6 +295,9 @@ public enum FeatureFlag: String, CaseIterable {
     /// When a podcast is followed, send a HEAD request for its newest episode to update the episode's file type and size
     case newPodcastMetadataRequest
 
+    /// Round the introductory offer discount percentage shown on the upgrade screens to the nearest multiple of 5%
+    case roundDiscountPercent
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -499,6 +502,8 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .newPodcastMetadataRequest:
             false
+        case .roundDiscountPercent:
+            true
         }
     }
 
