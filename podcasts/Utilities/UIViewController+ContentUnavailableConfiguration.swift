@@ -19,8 +19,13 @@ extension UIViewController {
         configView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(configView)
 
+        let centerYConstraint = configView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        centerYConstraint.priority = .defaultLow
+
         NSLayoutConstraint.activate([
-            configView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            centerYConstraint,
+            configView.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor),
+            configView.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor),
             configView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             configView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
