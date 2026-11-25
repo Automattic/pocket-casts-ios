@@ -54,6 +54,11 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     weak var hostTabBarController: UITabBarController?
 
+    /// True while a screen keeps the tab bar and the mini player hidden together, e.g. during
+    /// multi-select. `showMiniPlayer()` does nothing while it's set, so playback changes or
+    /// returning to the app can't bring the mini player back over that screen's own bottom bar.
+    var isHiddenWithTabBar = false
+
     var upNextViewController: UpNextViewController?
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
@@ -744,7 +749,10 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             return controller
         }
 
-        return nil
+        // As the tab bar's bottom accessory the view isn't always in a window: on iPad the tab bar
+        // takes it out as soon as the mini player is hidden, even with the full screen player still
+        // open (e.g. when playback ends with an empty Up Next).
+        return hostTabBarController as? MainTabBarController
     }
 
     func miniPlayerShowing() -> Bool {

@@ -1,5 +1,12 @@
+8.27
+-----
+- Fix the back button covering the Name your folder title at the largest text sizes on iPhone Duo [#5672](https://github.com/Automattic/pocket-casts-ios/pull/5672)
+- Fix the layout control covering the Layout label in the Podcasts options menu at the largest text sizes on narrow screens [#5671](https://github.com/Automattic/pocket-casts-ios/pull/5671)
+
 8.26
 -----
+- Add Playback 2026, your year in podcasts, with a Podcasts sheet and a Profile banner [#5568](https://github.com/Automattic/pocket-casts-ios/pull/5568) [#5567](https://github.com/Automattic/pocket-casts-ios/pull/5567)
+- Fix a crash that could happen when changing the Discover region [#5682](https://github.com/Automattic/pocket-casts-ios/pull/5682)
 - Scroll the Podcasts grid, lists and playlists more smoothly: podcast artwork is now decoded in the background instead of while scrolling [#5656](https://github.com/Automattic/pocket-casts-ios/pull/5656)
 - Use less storage for podcast artwork in the iPad grid, and remove artwork sizes the app no longer uses [#5647](https://github.com/Automattic/pocket-casts-ios/pull/5647)
 - Fix a crash that could happen when syncing the playback position of an episode with no valid length, such as a live stream played over Google Cast [#5638](https://github.com/Automattic/pocket-casts-ios/pull/5638)
@@ -15,6 +22,13 @@
 - Sign in faster with a large library and smart playlists on a new install [#5646](https://github.com/Automattic/pocket-casts-ios/pull/5646)
 - Load the episode counts and artwork of smart playlists on the Playlists tab faster in large libraries, and keep the app responsive while they load [#5632](https://github.com/Automattic/pocket-casts-ios/pull/5632)
 - Stop pre-selecting Subscribe to our Newsletter after logging in to an account that has it turned off [#5674](https://github.com/Automattic/pocket-casts-ios/pull/5674)
+- Keep Share Podcasts in the Podcasts options menu when Played Podcasts hides every podcast [#5673](https://github.com/Automattic/pocket-casts-ios/pull/5673)
+- Fix the full screen player staying on screen and not closing on iPad after marking the episode as played or reaching its end with an empty Up Next [#5677](https://github.com/Automattic/pocket-casts-ios/pull/5677)
+- Show the full Smart Folders description, including the warning that existing folders are replaced, at the largest text sizes [#5675](https://github.com/Automattic/pocket-casts-ios/pull/5675)
+- Fix the mini player covering the multi-select bar after leaving the app and coming back [#5662](https://github.com/Automattic/pocket-casts-ios/pull/5662)
+- Show What's New message descriptions in the secondary text color, so the heading stands out [#5681](https://github.com/Automattic/pocket-casts-ios/pull/5681)
+- [tvOS] Add a sort button to podcasts and folders, with the same options as the iOS app [#5680](https://github.com/Automattic/pocket-casts-ios/pull/5680) [#5699](https://github.com/Automattic/pocket-casts-ios/pull/5699)
+- Fix a crash that could happen when opening Starred, such as from a link, while it was still loading [#5696](https://github.com/Automattic/pocket-casts-ios/pull/5696)
 
 8.25
 -----

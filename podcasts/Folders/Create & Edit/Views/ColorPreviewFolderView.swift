@@ -65,6 +65,7 @@ struct ColorPreviewFolderView: View {
             .background(theme.primaryUi01)
         }
         .navigationTitle(L10n.folderChooseColor)
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             Analytics.track(.folderCreateColorShown, properties: ["number_of_podcasts": model.selectedPodcastUuids.count])
         }

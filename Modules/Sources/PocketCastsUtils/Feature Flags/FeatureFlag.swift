@@ -264,7 +264,7 @@ public enum FeatureFlag: String, CaseIterable {
     case transcriptDebugOverlay
 
     /// Enable Playback 2026 (the yearly listening recap). Also the remote kill switch: turning it off in
-    /// Remote Config (`playback2026`) hides every entry point and exits a running flow
+    /// Remote Config (`playback_2026`) hides every entry point and exits a running flow
     case playback2026
 
     /// Show the Played Podcasts option in the Podcasts tab, which hides podcasts with nothing left to listen to
@@ -512,6 +512,8 @@ public enum FeatureFlag: String, CaseIterable {
             "end_of_year_2025"
         case .encourageAccountCreation:
             "encourage_account_creation_recurring"
+        case .playback2026:
+            "playback_2026"
         default:
             rawValue.lowerSnakeCased()
         }

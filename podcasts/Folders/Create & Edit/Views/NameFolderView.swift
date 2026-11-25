@@ -22,6 +22,7 @@ struct NameFolderView: View {
                 Text(L10n.name.localizedUppercase)
                     .textStyle(SecondaryText())
                     .font(.subheadline)
+                    .dynamicTypeSize(...DynamicTypeSize.xLarge)
                     .onChange(of: model.name) { _, newValue in model.validateFolderName(newValue) }
                 TextField(L10n.folderName, text: $model.name)
                     .focusMe(state: $focusOnTextField)
@@ -38,7 +39,9 @@ struct NameFolderView: View {
             .padding()
             .background(theme.primaryUi01)
         }
+        .dynamicTypeSize(...DynamicTypeSize.accessibility1)
         .navigationTitle(L10n.folderNameTitle)
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             // this appears to be a known issue with SwiftUI, in that it just passes this onto UIKit which can't set focus while a view is appearing, so here we artificially delay it
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {

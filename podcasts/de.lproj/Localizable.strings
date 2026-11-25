@@ -77,6 +77,8 @@
     <string>Podcast-Covers</string>
     <key>accessibility_profile_settings</key>
     <string>Einstellungen für Pocket Casts</string>
+    <key>accessibility_remove_recent_search</key>
+    <string>%1$@ aus aktuellen Suchen entfernen</string>
     <key>accessibility_select_episode</key>
     <string>Folge auswählen</string>
     <key>accessibility_show_filter_details</key>
@@ -2145,6 +2147,14 @@ Das ist Hingabe!</string>
     <string>Mehr Podcasts, mehr Spaß</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>Im Vergleich zu 2024 ist deine Audiozeit in die Höhe geschnellt – %1$@</string>
+    <key>playback_2026_banner_description</key>
+    <string>Entdecke deine Audiostatistiken, welche Art von Hörer du bist und vieles mehr.</string>
+    <key>playback_2026_banner_title</key>
+    <string>Deine %1$@ ist da!</string>
+    <key>playback_2026_sheet_button</key>
+    <string>Meine %1$@ anzeigen</string>
+    <key>playback_2026_sheet_description</key>
+    <string>Was du dir angehört hast. Deine Lieblingspodcasts. Und was dich als Hörer auszeichnet. Dein Jahresrückblick bei Pocket Casts ist da.</string>
     <key>playback_effect_all_podcasts</key>
     <string>Alle Podcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -2581,6 +2591,8 @@ Passe die Regeln an oder speichere diese Playlist für zukünftige passende Folg
     <string>%1$@ archiviert</string>
     <key>podcast_archived_msg</key>
     <string>Alle %1$@ Folgen dieses Podcasts wurden archiviert</string>
+    <key>podcast_archived_msg_singular</key>
+    <string>Die einzige Folge dieses Podcasts wurde archiviert</string>
     <key>podcast_count_plural_format</key>
     <string>%1$@ Podcasts</string>
     <key>podcast_count_singular</key>
@@ -2774,6 +2786,14 @@ Viele Anregungen findest du im Tab „Entdecken“.</string>
     <string>Name</string>
     <key>podcasts_list</key>
     <string>Liste</string>
+    <key>podcasts_played_podcasts</key>
+    <string>Wiedergegebene Podcasts</string>
+    <key>podcasts_played_podcasts_description</key>
+    <string>Blendet Podcasts aus, die du vollständig angehört hast und bei denen jede Folge abgespielt oder archiviert wurde. Sie werden wieder angezeigt, wenn eine neue Folge erscheint.</string>
+    <key>podcasts_played_podcasts_hide</key>
+    <string>Ausblenden</string>
+    <key>podcasts_played_podcasts_show</key>
+    <string>Anzeigen</string>
     <key>podcasts_plural</key>
     <string>Podcasts</string>
     <key>podcasts_share</key>
