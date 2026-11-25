@@ -270,9 +270,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show the Played Podcasts option in the Podcasts tab, which hides podcasts with nothing left to listen to
     case hidePlayedPodcasts
 
-    /// Save the episodes a podcast update finds missing in transactions of up to 100, instead of one by one
-    case saveMissingEpisodesInOneTransaction
-
     /// Give a new episode the ID after the largest one in the table instead of a random ID
     case sequentialEpisodeIds
 
@@ -476,8 +473,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .playback2026:
             BuildEnvironment.current == .debug
         case .hidePlayedPodcasts:
-            true
-        case .saveMissingEpisodesInOneTransaction:
             true
         case .sequentialEpisodeIds:
             true
