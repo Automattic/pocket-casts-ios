@@ -12,6 +12,7 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
     @State private var highlighted = false
 
     @ScaledMetricWithMaxSize(relativeTo: .body, maxSize: .xxLarge) private var imageSize = 56
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     init(bookmark: Bookmark, style: Style) {
         self.bookmark = bookmark
@@ -25,7 +26,9 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
             HStack(spacing: RowConstants.spacing) {
                 imageView
                 detailsView
-                playButtonView
+                if !dynamicTypeSize.isAccessibilitySize {
+                    playButtonView
+                }
             }
         } onSelectionToggled: {
             withAnimation {
@@ -96,6 +99,10 @@ struct BookmarkRow<Style: BookmarksStyle>: View {
                 .foregroundStyle(style.tertiaryText)
                 .font(style: .caption, weight: .semibold)
                 .lineLimit(1)
+
+            if dynamicTypeSize.isAccessibilitySize {
+                playButtonView
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
