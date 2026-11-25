@@ -23,10 +23,8 @@ class DiscoverCollectionViewController: PCViewController {
     private(set) var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
     private var loadingContent = false
     private(set) var discoverLayout: DiscoverLayout?
-    fileprivate var selectedCategory: DiscoverCategory?
+    private(set) var selectedCategory: DiscoverCategory?
     private var loadingTasks: [String: Task<Void, Never>] = [:]
-    private var categoryLoadTask: Task<Void, Never>?
-    private var retryCategoryLoad: (() -> Void)?
 
     private(set) lazy var searchController: PCSearchBarController = {
         PCSearchBarController()
@@ -101,8 +99,6 @@ class DiscoverCollectionViewController: PCViewController {
     func populateFrom(discoverLayout: DiscoverLayout?, selectedCategory: DiscoverCategory? = nil, shouldInclude: ((DiscoverItem) -> Bool)? = nil) {
         self.selectedCategory = selectedCategory
         loadingContent = false
-        categoryLoadTask?.cancel()
-        retryCategoryLoad = nil
 
         guard let discoverLayout, let items = discoverLayout.layout, let _ = discoverLayout.regions else {
             handleLoadFailed()
@@ -158,40 +154,6 @@ class DiscoverCollectionViewController: PCViewController {
                 dataSource.apply(snapshot)
             }
         }
-    }
-
-    /// Shows the category pills with a spinner under them until the category's podcasts load, then its sections,
-    /// or the no-network view if they fail to load.
-    func populateFrom(discoverLayout: DiscoverLayout?, loadingCategory category: DiscoverCategory, shouldInclude: @escaping (DiscoverItem) -> Bool) {
-        guard let source = replaceRegionCode(string: category.source), DiscoverServerHandler.shared.cachedResponse(for: source) == nil else {
-            populateFrom(discoverLayout: discoverLayout, selectedCategory: category, shouldInclude: shouldInclude)
-            return
-        }
-
-        showCategories(with: .loading(nil), discoverLayout: discoverLayout, category: category)
-        categoryLoadTask = Task { [weak self] in
-            let details = await DiscoverServerHandler.shared.discoverCategoryDetails(source: source, authenticated: nil)
-            guard let self, !Task.isCancelled else { return }
-
-            if details == nil {
-                self.showCategories(with: .noNetwork, discoverLayout: discoverLayout, category: category)
-                self.retryCategoryLoad = { [weak self] in
-                    self?.populateFrom(discoverLayout: discoverLayout, loadingCategory: category, shouldInclude: shouldInclude)
-                }
-            } else {
-                self.populateFrom(discoverLayout: discoverLayout, selectedCategory: category, shouldInclude: shouldInclude)
-            }
-        }
-    }
-
-    /// Shows only the category pills, with `state` in a section under them.
-    private func showCategories(with state: CellType, discoverLayout: DiscoverLayout?, category: DiscoverCategory) {
-        populateFrom(discoverLayout: discoverLayout, selectedCategory: category, shouldInclude: { $0.cellType() == .categoriesSelector })
-
-        var snapshot = dataSource.snapshot()
-        snapshot.appendSections([1])
-        snapshot.appendItems([state], toSection: 1)
-        dataSource.apply(snapshot)
     }
 
     private func updateItemInSnapshot(item: DiscoverItem, isAuthenticated: Bool, region: String, selectedCategory: DiscoverCategory?) {
@@ -291,11 +253,7 @@ extension DiscoverCollectionViewController {
 
         let noNetworkRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { [weak self] cell, _, _ in
             cell.contentConfiguration = ContentUnavailableConfiguration.noNetwork { [weak self] in
-                if let retry = self?.retryCategoryLoad {
-                    retry()
-                } else {
-                    self?.reloadData()
-                }
+                self?.retryLoading()
             }
             cell.insetsLayoutMarginsFromSafeArea = false
         }
@@ -340,19 +298,10 @@ extension DiscoverCollectionViewController {
     }
 
     private func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
-        return UICollectionViewCompositionalLayout { [weak self] (sectionIndex: Int,
+        return UICollectionViewCompositionalLayout { [weak self] (_: Int,
                                                       _: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-            let height: NSCollectionLayoutDimension
-            if self?.discoverLayout == nil {
-                height = .fractionalHeight(0.8)
-            } else if sectionIndex > 0 {
-                // A category's loading or no-network state, in the space under the category pills
-                height = .fractionalHeight(0.6)
-            } else {
-                height = .estimated(100)
-            }
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                  heightDimension: height)
+                                                  heightDimension: self?.discoverLayout == nil ? .fractionalHeight(0.8) : .estimated(100))
 
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             let groupSize = NSCollectionLayoutSize(widthDimension: itemSize.widthDimension,
