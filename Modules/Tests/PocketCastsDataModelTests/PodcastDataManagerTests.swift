@@ -1046,23 +1046,6 @@ final class PodcastDataManagerTests: DataManagerTestCase {
         }
     }
 
-    func testCacheFollowsWritesWithTheCacheObserverOff() throws {
-        try FeatureFlagOverrideStore().override(FeatureFlag.reloadOnlySavedPodcast, withValue: false)
-        defer { try? FeatureFlagOverrideStore().override(FeatureFlag.reloadOnlySavedPodcast, withValue: true) }
-
-        try runWithDataManager { dataManager in
-            let saved = self.createTestPodcast(uuid: "saved", title: "Saved", dataManager: dataManager)
-            let deleted = self.createTestPodcast(uuid: "deleted", title: "Deleted", dataManager: dataManager)
-
-            saved.title = "Saved Again"
-            dataManager.save(podcast: saved)
-            dataManager.delete(podcast: deleted)
-
-            XCTAssertEqual(dataManager.findPodcast(uuid: "saved")?.title, "Saved Again")
-            XCTAssertNil(dataManager.findPodcast(uuid: "deleted", includeUnsubscribed: true))
-        }
-    }
-
     func testSaveGeneratesIdIfZero() throws {
         try runWithDataManager { dataManager in
             let podcast = Podcast()

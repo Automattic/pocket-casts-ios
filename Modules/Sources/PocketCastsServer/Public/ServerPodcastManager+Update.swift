@@ -209,11 +209,7 @@ extension ServerPodcastManager {
 
             episode.hlsUrl = Episode.hlsUrl(fromEpisodeJson: episodeJson)
 
-            if FeatureFlag.saveMissingEpisodesInOneTransaction.enabled {
-                newEpisodes[uuid] = episode
-            } else {
-                DataManager.shared.save(episode: episode)
-            }
+            newEpisodes[uuid] = episode
         }
 
         if !newEpisodes.isEmpty {

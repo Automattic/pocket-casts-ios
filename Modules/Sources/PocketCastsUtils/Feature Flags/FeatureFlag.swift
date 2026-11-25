@@ -270,15 +270,6 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show the Played Podcasts option in the Podcasts tab, which hides podcasts with nothing left to listen to
     case hidePlayedPodcasts
 
-    /// Update the podcast cache from the rows each write changes, instead of reloading every podcast after each write
-    case reloadOnlySavedPodcast
-
-    /// On a first sign-in, sync Up Next after the full sync imports the podcasts, instead of downloading each Up Next podcast first
-    case syncUpNextAfterFullSync
-
-    /// Save the episodes a podcast update finds missing in transactions of up to 100, instead of one by one
-    case saveMissingEpisodesInOneTransaction
-
     /// Give a new episode the ID after the largest one in the table instead of a random ID
     case sequentialEpisodeIds
 
@@ -482,12 +473,6 @@ public enum FeatureFlag: String, CaseIterable {
         case .playback2026:
             BuildEnvironment.current == .debug
         case .hidePlayedPodcasts:
-            true
-        case .reloadOnlySavedPodcast:
-            true
-        case .syncUpNextAfterFullSync:
-            true
-        case .saveMissingEpisodesInOneTransaction:
             true
         case .sequentialEpisodeIds:
             true
