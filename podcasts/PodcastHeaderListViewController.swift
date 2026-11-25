@@ -39,6 +39,7 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
         }
 
         chartsTable.themeStyle = .primaryUi02
+        chartsTable.maximumContentSizeCategory = .accessibilityExtraExtraLarge
 
         chartsTable.register(UINib(nibName: "DiscoverPodcastTableCell", bundle: nil), forCellReuseIdentifier: PodcastHeaderListViewController.cellId)
         chartsTable.register(UINib(nibName: "FeaturedTableViewCell", bundle: nil), forCellReuseIdentifier: PodcastHeaderListViewController.featuredCellId)
@@ -71,7 +72,7 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
         if showFeaturedCell, indexPath.row == 0 {
-            return DiscoverFeaturedView.scaledHeight
+            return DiscoverFeaturedView.scaledHeight(compatibleWith: tableView.traitCollection)
         }
         return UITableView.automaticDimension
     }
@@ -80,7 +81,7 @@ class PodcastHeaderListViewController: PCViewController, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         let preferredBodySize = UIFontMetrics.default.scaledValue(for: 17)
         if showFeaturedCell, indexPath.row == 0 {
-            return DiscoverFeaturedView.scaledHeight
+            return DiscoverFeaturedView.scaledHeight(compatibleWith: tableView.traitCollection)
         }
         return max(UIFontMetrics.default.scaledValue(for: 65), preferredBodySize * 2)
     }

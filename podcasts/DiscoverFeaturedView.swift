@@ -6,9 +6,9 @@ import UIKit
 class DiscoverFeaturedView: ThemeableView {
 
     static let baseHeight: CGFloat = 182
-    static var scaledHeight: CGFloat {
+    static func scaledHeight(compatibleWith traitCollection: UITraitCollection? = nil) -> CGFloat {
         let metric = UIFontMetrics(forTextStyle: .title1)
-        return max(baseHeight, metric.scaledValue(for: DiscoverFeaturedView.baseHeight))
+        return max(baseHeight, metric.scaledValue(for: DiscoverFeaturedView.baseHeight, compatibleWith: traitCollection))
     }
 
     @IBOutlet var contentView: UIView!
