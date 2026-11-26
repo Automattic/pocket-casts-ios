@@ -210,7 +210,10 @@ class IAPHelper: NSObject {
         guard roundToNearestFive else {
             return discount.localized(.percent)
         }
-        let roundedPercent = (discount * 100.0 / 5.0).rounded() * 5.0
+        var roundedPercent = (discount * 100.0 / 5.0).rounded() * 5.0
+        if FeatureFlag.roundDiscountToFifty.enabled, roundedPercent > 40, roundedPercent < 60 {
+            roundedPercent = 50
+        }
         return (roundedPercent / 100.0).localized(.percent)
     }
 
