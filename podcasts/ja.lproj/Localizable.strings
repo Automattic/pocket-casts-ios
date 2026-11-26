@@ -710,6 +710,18 @@ Pocket Casts Plus</string>
     <string>Apple TV に接続</string>
     <key>device_shake_sleep_timer</key>
     <string>端末がシェイクされたためスリープタイマーが再開しました</string>
+    <key>discount_offer_claim_button</key>
+    <string>%1$@ オフを獲得</string>
+    <key>discount_offer_description</key>
+    <string>%1$@ オフ（%2$@）</string>
+    <key>discount_offer_limited_time_badge</key>
+    <string>期間限定オファー</string>
+    <key>discount_offer_period_price</key>
+    <string>~%1$@~ %2$@（%3$@）</string>
+    <key>discount_offer_product_badge</key>
+    <string>%1$@ オフ</string>
+    <key>discount_offer_upgrade_title</key>
+    <string>%2$@が%1$@ オフ（%3$@）</string>
     <key>discover</key>
     <string>ディスカバー</string>
     <key>discover_all_categories</key>
@@ -2149,6 +2161,10 @@ Pocket Casts を最大限に活用しましょう。</string>
     <string>2024年と比較して、聴取時間が%1$@ 急増しました</string>
     <key>playback_2026_banner_description</key>
     <string>リスニング統計や、あなたがどんなリスナーかを確認できます。</string>
+    <key>playback_2026_banner_title</key>
+    <string>%1$@が登場 !</string>
+    <key>playback_2026_sheet_button</key>
+    <string>自分の%1$@を表示</string>
     <key>playback_2026_sheet_description</key>
     <string>あなたが聴いたコンテンツ。 お気に入りのポッドキャスト。 あなたならではのリスニングスタイル。 Pocket Casts でのあなたの1年間がここに。</string>
     <key>playback_effect_all_podcasts</key>

@@ -710,6 +710,18 @@ Pocket Casts Plus</string>
     <string>Подключиться к Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>Таймер сна перезагружен из-за встряхивания устройства</string>
+    <key>discount_offer_claim_button</key>
+    <string>Получить скидку %1$@</string>
+    <key>discount_offer_description</key>
+    <string>Скидка %1$@ на %2$@</string>
+    <key>discount_offer_limited_time_badge</key>
+    <string>Ограниченное предложение</string>
+    <key>discount_offer_period_price</key>
+    <string>~%1$@~ %2$@ на %3$@</string>
+    <key>discount_offer_product_badge</key>
+    <string>Скидка %1$@</string>
+    <key>discount_offer_upgrade_title</key>
+    <string>%2$@ со скидкой %1$@ на %3$@</string>
     <key>discover</key>
     <string>Найти</string>
     <key>discover_all_categories</key>
@@ -2149,6 +2161,10 @@ Pocket Casts на полную мощность.</string>
     <string>По сравнению с 2024 годом вы посвятили прослушиванию на %1$@ больше времени!</string>
     <key>playback_2026_banner_description</key>
     <string>Просмотрите свою статистику прослушивания, узнайте, что отличает вас как слушателя, и многое другое.</string>
+    <key>playback_2026_banner_title</key>
+    <string>%1$@ уже здесь!</string>
+    <key>playback_2026_sheet_button</key>
+    <string>Просмотреть мой %1$@</string>
     <key>playback_2026_sheet_description</key>
     <string>Что вы слушали. Подкасты, которые вам понравились. И то, что отличает вас как слушателя. Вы провели с Pocket Casts целый год.</string>
     <key>playback_effect_all_podcasts</key>
