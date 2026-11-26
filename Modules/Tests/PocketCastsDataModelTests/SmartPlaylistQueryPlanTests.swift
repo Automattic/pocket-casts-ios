@@ -64,6 +64,34 @@ final class SmartPlaylistQueryPlanTests: DataManagerTestCase {
         XCTAssertEqual(dataManager.allPlaylistEpisodeCount(for: inProgress(), episodeUuidToAdd: nil), inProgressRows - 1)
     }
 
+    func testCountsCountAnEpisodeSavedTwiceOnceWhenBothCopiesMatch() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.efficientPlaylistQueries, withValue: true)
+        let notDownloaded = EpisodeFilter.makeDefault()
+        notDownloaded.filterDownloaded = false
+        let statuses = [DownloadStatus.notDownloaded, .queued, .downloading, .downloadFailed, .waitingForWifi].map { String($0.rawValue) }.joined(separator: ",")
+        let query = "SELECT COUNT(*) FROM SJEpisode WHERE podcast_id <> ? AND episodeStatus IN (\(statuses))"
+
+        // Episodes 3 and 6 are saved twice and both copies are not downloaded. Episode 11 is archived.
+        XCTAssertEqual(
+            dataManager.allPlaylistEpisodeCount(for: notDownloaded, episodeUuidToAdd: nil),
+            dataManager.count(query: query + " AND archived = 0", values: [unsubscribedPodcast.id]) - 2
+        )
+        XCTAssertEqual(
+            dataManager.allPlaylistEpisodeCount(for: notDownloaded, episodeUuidToAdd: nil, includingArchivedEpisodes: true),
+            dataManager.count(query: query, values: [unsubscribedPodcast.id]) - 3
+        )
+    }
+
+    func testCountsOfPlaylistsMatchingNoDuplicatedCopyKeepEveryRow() throws {
+        try FeatureFlagOverrideStore().override(FeatureFlag.efficientPlaylistQueries, withValue: true)
+        let downloaded = EpisodeFilter.makeDefault()
+        downloaded.filterNotDownloaded = false
+
+        let statuses = [DownloadStatus.downloaded, .queued, .downloading].map { String($0.rawValue) }.joined(separator: ",")
+        let rows = dataManager.count(query: "SELECT COUNT(*) FROM SJEpisode WHERE archived = 0 AND podcast_id <> ? AND episodeStatus IN (\(statuses))", values: [unsubscribedPodcast.id])
+        XCTAssertEqual(dataManager.allPlaylistEpisodeCount(for: downloaded, episodeUuidToAdd: nil), rows)
+    }
+
     // MARK: - Query plans
 
     func testCountsNeitherWalkTheUuidIndexNorSortTheEpisodes() throws {
@@ -78,7 +106,8 @@ final class SmartPlaylistQueryPlanTests: DataManagerTestCase {
             try FeatureFlagOverrideStore().override(FeatureFlag.efficientPlaylistQueries, withValue: true)
             for clause in [PlaylistQueryBuilder.SelectClause.allEpisodeCount, .episodeCount] {
                 let plan = try plan(PlaylistQueryBuilder.query(clause: clause, for: playlist))
-                XCTAssertFalse(plan.contains("SCAN episode USING INDEX episode_uuid"), plan)
+                XCTAssertFalse(plan.contains("episode_uuid"), plan)
+                XCTAssertFalse(plan.contains("SCAN SJEpisode"), plan)
                 XCTAssertFalse(plan.contains("ORDER BY"), plan)
             }
         }

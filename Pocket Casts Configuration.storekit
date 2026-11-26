@@ -25,9 +25,9 @@
     },
     "_disableDialogs" : false,
     "_failTransactionsEnabled" : false,
-    "_locale" : "en_US",
+    "_locale" : "pt_PT",
     "_renewalBillingIssuesEnabled" : false,
-    "_storefront" : "USA",
+    "_storefront" : "PRT",
     "_storeKitErrors" : [
       {
         "enabled" : false,
@@ -86,8 +86,8 @@
           "billingPlans" : [
             {
               "billingPlanType" : "BILLED_UPFRONT",
-              "commitmentDisplayPrice" : "39.99",
-              "displayPrice" : "39.99",
+              "commitmentDisplayPrice" : "44.99",
+              "displayPrice" : "44.99",
               "internalID" : "5E622E62",
               "isEnabled" : true
             }
@@ -95,13 +95,13 @@
           "codeOffers" : [
 
           ],
-          "displayPrice" : "39.99",
+          "displayPrice" : "44.99",
           "familyShareable" : false,
           "groupNumber" : 2,
           "internalID" : "C9B37131",
           "introductoryOffer" : {
             "billingPlanType" : "BILLED_UPFRONT",
-            "displayPrice" : "19.99",
+            "displayPrice" : "22.99",
             "internalID" : "20314E17",
             "numberOfPeriods" : 1,
             "paymentMode" : "payUpFront",
@@ -110,7 +110,7 @@
           "introductoryOffers" : [
             {
               "billingPlanType" : "BILLED_UPFRONT",
-              "displayPrice" : "19.99",
+              "displayPrice" : "22.99",
               "internalID" : "20314E17",
               "numberOfPeriods" : 1,
               "paymentMode" : "payUpFront",

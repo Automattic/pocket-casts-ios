@@ -4,7 +4,7 @@
 
 8.26
 -----
-- Add Playback 2026, your year in podcasts, with a Podcasts sheet and a Profile banner [#5568](https://github.com/Automattic/pocket-casts-ios/pull/5568) [#5567](https://github.com/Automattic/pocket-casts-ios/pull/5567)
+- Add Playback 2026, your year in podcasts, with a Podcasts sheet and a Profile banner [#5568](https://github.com/Automattic/pocket-casts-ios/pull/5568) [#5567](https://github.com/Automattic/pocket-casts-ios/pull/5567) [#5729](https://github.com/Automattic/pocket-casts-ios/pull/5729)
 - Fix a crash that could happen when changing the Discover region [#5682](https://github.com/Automattic/pocket-casts-ios/pull/5682)
 - Scroll the Podcasts grid, lists and playlists more smoothly: podcast artwork is now decoded in the background instead of while scrolling [#5656](https://github.com/Automattic/pocket-casts-ios/pull/5656)
 - Use less storage for podcast artwork in the iPad grid, and remove artwork sizes the app no longer uses [#5647](https://github.com/Automattic/pocket-casts-ios/pull/5647)
@@ -28,6 +28,8 @@
 - [tvOS] Add a sort button to podcasts and folders, with the same options as the iOS app [#5680](https://github.com/Automattic/pocket-casts-ios/pull/5680) [#5699](https://github.com/Automattic/pocket-casts-ios/pull/5699)
 - Fix a crash that could happen when opening Starred, such as from a link, while it was still loading [#5696](https://github.com/Automattic/pocket-casts-ios/pull/5696)
 - Open large smart playlists faster: their episodes no longer wait for a count of the archived ones [#5724](https://github.com/Automattic/pocket-casts-ios/pull/5724)
+- Fix playlist empty state shrinking [#5732](https://github.com/Automattic/pocket-casts-ios/pull/5732)
+- Load the episode counts and artwork on the Playlists tab sooner in large libraries [#5725](https://github.com/Automattic/pocket-casts-ios/pull/5725)
 
 8.25
 -----

@@ -289,11 +289,17 @@ public enum FeatureFlag: String, CaseIterable {
     /// In a full sync, save a playlist the server sent no episodes for (every smart playlist, and any empty manual one) without querying its local episodes
     case skipEmptyPlaylistQueriesInFullSync
 
-    /// Count smart playlists and pick their artwork without walking the episode table in index order, and load the Playlists tab's counts and artwork two queries at a time
+    /// Count smart playlists and pick their artwork without walking the episode table in index order, and load the Playlists tab's counts and artwork three queries at a time
     case efficientPlaylistQueries
 
     /// When a podcast is followed, send a HEAD request for its newest episode to update the episode's file type and size
     case newPodcastMetadataRequest
+
+    /// Round the introductory offer discount percentage shown on the upgrade screens to the nearest multiple of 5%
+    case roundDiscountPercent
+
+    /// Round the introductory offer discount percentage between 40 and 60 percent to be 50
+    case roundDiscountToFifty
 
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
@@ -499,6 +505,10 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .newPodcastMetadataRequest:
             false
+        case .roundDiscountPercent:
+            true
+        case .roundDiscountToFifty:
+            true
         }
     }
 
