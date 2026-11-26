@@ -23,7 +23,7 @@ class DiscoverCollectionViewController: PCViewController {
     private(set) var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
     private var loadingContent = false
     private(set) var discoverLayout: DiscoverLayout?
-    fileprivate var selectedCategory: DiscoverCategory?
+    private(set) var selectedCategory: DiscoverCategory?
     private var loadingTasks: [String: Task<Void, Never>] = [:]
 
     private(set) lazy var searchController: PCSearchBarController = {
@@ -253,7 +253,7 @@ extension DiscoverCollectionViewController {
 
         let noNetworkRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Item> { [weak self] cell, _, _ in
             cell.contentConfiguration = ContentUnavailableConfiguration.noNetwork { [weak self] in
-                self?.reloadData()
+                self?.retryLoading()
             }
             cell.insetsLayoutMarginsFromSafeArea = false
         }

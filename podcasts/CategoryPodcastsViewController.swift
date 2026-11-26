@@ -132,11 +132,14 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
 
         serverHandler.discoverCategoryDetails(source: source, authenticated: nil, completion: { [weak self] categoryDetails in
             DispatchQueue.main.async {
-                guard let strongSelf = self, let podcasts = categoryDetails?.podcasts else {
+                guard let strongSelf = self else { return }
+
+                strongSelf.loadingIndicator.stopAnimating()
+                guard let podcasts = categoryDetails?.podcasts else {
+                    strongSelf.handleLoadFailed()
                     return
                 }
 
-                strongSelf.loadingIndicator.stopAnimating()
                 strongSelf.podcasts = Array(podcasts.dropFirst(strongSelf.skipCount))
                 strongSelf.promotion = categoryDetails?.promotion
                 strongSelf.podcastsTable.reloadData()

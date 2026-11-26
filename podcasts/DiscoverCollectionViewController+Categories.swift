@@ -1,3 +1,4 @@
+import Foundation
 import PocketCastsServer
 import PocketCastsUtils
 
@@ -19,13 +20,50 @@ extension DiscoverCollectionViewController {
             newLayout = discoverLayout
         }
 
-        populateFrom(discoverLayout: newLayout, selectedCategory: category, shouldInclude: { item in
+        let shouldInclude: (DiscoverItem) -> Bool = { item in
 
             // Filter out items that don't match the selected category
             let categoryFilter = (item.categoryID == category?.id) || items.contains(item)
 
             return categoryFilter && item.shouldShowAuthenticated() // We don't currently have authenticated category items, but handle them just in case
-        })
+        }
+
+        guard let category, let source = replaceRegionCode(string: category.source), DiscoverServerHandler.shared.cachedResponse(for: source) == nil else {
+            populateFrom(discoverLayout: newLayout, selectedCategory: category, shouldInclude: shouldInclude)
+            return
+        }
+
+        // Until the category's podcasts load, show only the pills, with a spinner or the no-network view under them
+        showCategories(items, with: .loading(nil), layout: newLayout, category: category)
+        DiscoverServerHandler.shared.discoverCategoryDetails(source: source, authenticated: nil) { [weak self] details in
+            DispatchQueue.main.async {
+                guard let self, self.selectedCategory?.id == category.id else { return }
+
+                if details == nil {
+                    self.showCategories(items, with: .noNetwork, layout: newLayout, category: category)
+                } else {
+                    self.populateFrom(discoverLayout: newLayout, selectedCategory: category, shouldInclude: shouldInclude)
+                }
+            }
+        }
+    }
+
+    /// Loads the selected category again, or all of Discover when there's none.
+    func retryLoading() {
+        guard let selectedCategory else {
+            reloadData()
+            return
+        }
+
+        reload(except: discoverLayout?.layout?.filter { $0.cellType() == .categoriesSelector } ?? [], category: selectedCategory)
+    }
+
+    private func showCategories(_ categories: [DiscoverItem], with state: CellType, layout: DiscoverLayout?, category: DiscoverCategory) {
+        populateFrom(discoverLayout: layout, selectedCategory: category, shouldInclude: { categories.contains($0) })
+
+        var snapshot = dataSource.snapshot()
+        snapshot.appendItems([state])
+        dataSource.apply(snapshot)
     }
 
     private func modified(layout: DiscoverLayout?, for category: DiscoverCategory, with items: [DiscoverItem]) -> DiscoverLayout? {

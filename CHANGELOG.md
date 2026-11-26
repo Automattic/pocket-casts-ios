@@ -1,6 +1,7 @@
 8.27
 -----
 - Fix the back button covering the Name your folder title at the largest text sizes on iPhone Duo [#5672](https://github.com/Automattic/pocket-casts-ios/pull/5672)
+- Fix a Discover category's podcast list showing a spinner forever when it can't load, such as when offline. It now shows an error with a Try Again button [#5720](https://github.com/Automattic/pocket-casts-ios/pull/5720)
 - Fix the layout control covering the Layout label in the Podcasts options menu at the largest text sizes on narrow screens [#5671](https://github.com/Automattic/pocket-casts-ios/pull/5671)
 - Fix Starred showing a blank screen while offline instead of your starred episodes [#5719](https://github.com/Automattic/pocket-casts-ios/pull/5719)
 - Stop pre-selecting Subscribe to our Newsletter after logging in to an account that has it turned off [#5674](https://github.com/Automattic/pocket-casts-ios/pull/5674)
