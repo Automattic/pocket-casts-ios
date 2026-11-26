@@ -297,7 +297,7 @@ public enum FeatureFlag: String, CaseIterable {
 
     /// Round the introductory offer discount percentage shown on the upgrade screens to the nearest multiple of 5%
     case roundDiscountPercent
-    
+
     /// Round the introductory offer discount percentage between 40 and 60 percent to be 50
     case roundDiscountToFifty
 
