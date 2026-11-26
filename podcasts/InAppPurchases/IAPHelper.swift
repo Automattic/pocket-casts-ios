@@ -196,12 +196,22 @@ class IAPHelper: NSObject {
         return formattedPrice ?? ""
     }
 
-    public func getDiscountPercent(for identifier: IAPProductID) -> String {
+    /// The localized discount of the product's introductory offer, for example "50%".
+    /// - Parameters:
+    ///   - identifier: The product to get the discount for.
+    ///   - roundToNearestFive: When true, the discount is rounded to the nearest multiple of 5%, for example 47.4% becomes 45% and 47.5% becomes 50%.
+    /// - Returns: The localized percentage, or an empty string if the product has no pay up front introductory offer.
+    public func getDiscountPercent(for identifier: IAPProductID, roundToNearestFive: Bool = false) -> String {
         guard let product = getProduct(for: identifier),
               let priceRatio = introductoryDiscountPriceRatio(for: product) else {
             return ""
         }
-        return (1.0 - priceRatio).localized(.percent)
+        let discount = 1.0 - priceRatio
+        guard roundToNearestFive else {
+            return discount.localized(.percent)
+        }
+        let roundedPercent = (discount * 100.0 / 5.0).rounded() * 5.0
+        return (roundedPercent / 100.0).localized(.percent)
     }
 
     /// The ratio between a pay up front introductory offer price and the regular price for the same length of time.

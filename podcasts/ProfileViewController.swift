@@ -458,6 +458,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         tableView.deselectRow(at: indexPath, animated: true)
 
         let row = tableData[indexPath.section][indexPath.row]
+        if row == .playback2026Banner {
+            Playback2026Analytics.track(.endOfYearProfileCardTapped)
+        }
         navigateToRow(row)
     }
 
@@ -503,7 +506,6 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             let bookmarksController = BookmarksProfileListController()
             navigationController?.pushViewController(bookmarksController, animated: true)
         case .playback2026Banner:
-            Playback2026Analytics.track(.endOfYearProfileCardTapped)
             Playback2026.start(from: self, source: .profile)
         }
     }

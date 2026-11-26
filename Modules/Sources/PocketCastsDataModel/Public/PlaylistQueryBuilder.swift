@@ -410,12 +410,8 @@ public class PlaylistQueryBuilder {
 
         if FeatureFlag.efficientPlaylistQueries.enabled {
             return """
-            \(filtered),
-            duplicated AS (
-              SELECT uuid FROM \(DataManager.episodeTableName) GROUP BY uuid HAVING COUNT(*) > 1
-            )
-            SELECT (SELECT COUNT(*) FROM filtered)
-              - (SELECT COUNT(*) - COUNT(DISTINCT uuid) FROM filtered WHERE uuid IN (SELECT uuid FROM duplicated))
+            \(filtered)
+            SELECT COUNT(DISTINCT +uuid) FROM filtered
             """
         }
 
