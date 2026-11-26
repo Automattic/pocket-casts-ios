@@ -206,14 +206,14 @@ class IAPHelper: NSObject {
               let priceRatio = introductoryDiscountPriceRatio(for: product) else {
             return ""
         }
-        let discount = 1.0 - priceRatio
+        var discount = 1.0 - priceRatio
+        if FeatureFlag.roundDiscountToFifty.enabled, discount > 0.4, discount < 0.6 {
+            discount = 0.5
+        }
         guard roundToNearestFive else {
             return discount.localized(.percent)
         }
-        var roundedPercent = (discount * 100.0 / 5.0).rounded() * 5.0
-        if FeatureFlag.roundDiscountToFifty.enabled, roundedPercent > 40, roundedPercent < 60 {
-            roundedPercent = 50
-        }
+        let roundedPercent = (discount * 100.0 / 5.0).rounded() * 5.0
         return (roundedPercent / 100.0).localized(.percent)
     }
 
