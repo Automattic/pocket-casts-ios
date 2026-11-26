@@ -710,6 +710,18 @@ Pots desconnectar-te en qualsevol moment des d'Ajustos.</string>
     <string>Connecta a l'Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>El temporitzador de son s'ha reiniciat perquè s'ha remenat el dispositiu</string>
+    <key>discount_offer_claim_button</key>
+    <string>Aconsegueix un %1$@ de descompte</string>
+    <key>discount_offer_description</key>
+    <string>%1$@ de descompte durant %2$@</string>
+    <key>discount_offer_limited_time_badge</key>
+    <string>Oferta per temps limitat</string>
+    <key>discount_offer_period_price</key>
+    <string>~%1$@~ %2$@ durant %3$@</string>
+    <key>discount_offer_product_badge</key>
+    <string>%1$@ de descompte</string>
+    <key>discount_offer_upgrade_title</key>
+    <string>%1$@ de descompte en %2$@ durant %3$@</string>
     <key>discover</key>
     <string>Descobreix</string>
     <key>discover_all_categories</key>

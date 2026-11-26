@@ -710,6 +710,18 @@ Puoi disconnetterti in qualsiasi momento da Impostazioni.</string>
     <string>Connettiti ad Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>Autospegnimento riavviato a causa di un movimento del dispositivo</string>
+    <key>discount_offer_claim_button</key>
+    <string>Ottieni uno sconto del %1$@</string>
+    <key>discount_offer_description</key>
+    <string>Sconto del %1$@ per %2$@</string>
+    <key>discount_offer_limited_time_badge</key>
+    <string>Offerta a tempo limitato</string>
+    <key>discount_offer_period_price</key>
+    <string>~%1$@~ %2$@ per %3$@</string>
+    <key>discount_offer_product_badge</key>
+    <string>Sconto del %1$@</string>
+    <key>discount_offer_upgrade_title</key>
+    <string>Sconto del %1$@ su %2$@ per %3$@</string>
     <key>discover</key>
     <string>Scopri</string>
     <key>discover_all_categories</key>

@@ -710,6 +710,18 @@ Du kan när som helst koppla från Inställningar.</string>
     <string>Anslut till Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>Vilolägestimern återstartades när enheten skakades</string>
+    <key>discount_offer_claim_button</key>
+    <string>Få %1$@ rabatt</string>
+    <key>discount_offer_description</key>
+    <string>%1$@ rabatt i %2$@</string>
+    <key>discount_offer_limited_time_badge</key>
+    <string>Tidsbegränsat erbjudande</string>
+    <key>discount_offer_period_price</key>
+    <string>~%1$@~ %2$@ i %3$@</string>
+    <key>discount_offer_product_badge</key>
+    <string>%1$@ rabatt</string>
+    <key>discount_offer_upgrade_title</key>
+    <string>%1$@ rabatt på %2$@ i %3$@</string>
     <key>discover</key>
     <string>Upptäck</string>
     <key>discover_all_categories</key>

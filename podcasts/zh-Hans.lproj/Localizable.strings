@@ -710,6 +710,18 @@ Pocket Casts Plus</string>
     <string>连接到 Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>摇晃设备会使睡眠计时器重新启动</string>
+    <key>discount_offer_claim_button</key>
+    <string>领取 %1$@ 优惠</string>
+    <key>discount_offer_description</key>
+    <string>%1$@ 优惠，为期%2$@</string>
+    <key>discount_offer_limited_time_badge</key>
+    <string>限时优惠</string>
+    <key>discount_offer_period_price</key>
+    <string>~%1$@~ %2$@，为期%3$@</string>
+    <key>discount_offer_product_badge</key>
+    <string>%1$@ 优惠</string>
+    <key>discount_offer_upgrade_title</key>
+    <string>%2$@ 享 %1$@ 优惠，为期%3$@</string>
     <key>discover</key>
     <string>发现</string>
     <key>discover_all_categories</key>
