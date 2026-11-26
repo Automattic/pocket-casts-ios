@@ -41,6 +41,8 @@ enum Playback2026 {
     static func start(from viewController: UIViewController, source: Playback2026Analytics.Source) {
         guard isAvailable, viewController.presentedViewController == nil else { return }
 
+        hasShownSheet = true
+
         if !SyncManager.isUserLoggedIn() {
             isWaitingForSignIn = true
             let controller = OnboardingFlow.shared.begin(flow: .endOfYear, source: .endOfYear, traitCollection: viewController.traitCollection)

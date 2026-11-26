@@ -108,7 +108,7 @@ actor PlaylistMetadataLoader {
     private let readQueue: OperationQueue = {
         let queue = OperationQueue()
         queue.name = "PlaylistMetadataLoader"
-        queue.maxConcurrentOperationCount = 2
+        queue.maxConcurrentOperationCount = 3
         return queue
     }()
 

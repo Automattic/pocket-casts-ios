@@ -38,7 +38,7 @@ class PlusPricingInfoModel: ObservableObject {
                let price = purchaseHandler.localizedOfferPrice(product),
                let offerEndDateLocalized = purchaseHandler.offerEndDateLocalized(product),
                let offerEndDate = purchaseHandler.offerEndDate(product) {
-                let discountPercent = purchaseHandler.getDiscountPercent(for: product)
+                let discountPercent = purchaseHandler.getDiscountPercent(for: product, roundToNearestFive: FeatureFlag.roundDiscountPercent.enabled)
                 let spelledOutDuration = purchaseHandler.localizedOfferDurationSpelledOut(product) ?? duration
                 offer = ProductOfferInfo(type: type, duration: duration, spelledOutDuration: spelledOutDuration, price: price, rawPrice: rawPrice, offerEndDate: offerEndDate, offerEndDateLocalized: offerEndDateLocalized, discountPercent: discountPercent)
             }

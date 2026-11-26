@@ -710,6 +710,18 @@ Puedes desconectarte en cualquier momento desde Ajustes.</string>
     <string>Conectar a Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>El temporizador de suspensión se reinició porque se agitó el dispositivo</string>
+    <key>discount_offer_claim_button</key>
+    <string>Consigue un %1$@ de descuento</string>
+    <key>discount_offer_description</key>
+    <string>%1$@ de descuento durante %2$@</string>
+    <key>discount_offer_limited_time_badge</key>
+    <string>Oferta por tiempo limitado</string>
+    <key>discount_offer_period_price</key>
+    <string>~%1$@~ %2$@ durante %3$@</string>
+    <key>discount_offer_product_badge</key>
+    <string>%1$@ de descuento</string>
+    <key>discount_offer_upgrade_title</key>
+    <string>%1$@ de descuento en %2$@ durante %3$@</string>
     <key>discover</key>
     <string>Descubrir</string>
     <key>discover_all_categories</key>

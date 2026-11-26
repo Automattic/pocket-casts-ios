@@ -710,6 +710,18 @@ Pocket Casts Plus</string>
     <string>連結 Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>由於裝置晃動，故睡眠計時器已重新啟動</string>
+    <key>discount_offer_claim_button</key>
+    <string>領取 %1$@ 優惠</string>
+    <key>discount_offer_description</key>
+    <string>%1$@ 優惠，為期%2$@</string>
+    <key>discount_offer_limited_time_badge</key>
+    <string>限時優惠</string>
+    <key>discount_offer_period_price</key>
+    <string>~%1$@~ %2$@，為期%3$@</string>
+    <key>discount_offer_product_badge</key>
+    <string>%1$@ 優惠</string>
+    <key>discount_offer_upgrade_title</key>
+    <string>%2$@ 享 %1$@ 優惠，為期%3$@</string>
     <key>discover</key>
     <string>探索</string>
     <key>discover_all_categories</key>

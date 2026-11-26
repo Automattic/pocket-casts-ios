@@ -710,6 +710,18 @@ Pocket Casts Plus</string>
     <string>Подключиться к Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>Таймер сна перезагружен из-за встряхивания устройства</string>
+    <key>discount_offer_claim_button</key>
+    <string>Получить скидку %1$@</string>
+    <key>discount_offer_description</key>
+    <string>Скидка %1$@ на %2$@</string>
+    <key>discount_offer_limited_time_badge</key>
+    <string>Ограниченное предложение</string>
+    <key>discount_offer_period_price</key>
+    <string>~%1$@~ %2$@ на %3$@</string>
+    <key>discount_offer_product_badge</key>
+    <string>Скидка %1$@</string>
+    <key>discount_offer_upgrade_title</key>
+    <string>%2$@ со скидкой %1$@ на %3$@</string>
     <key>discover</key>
     <string>Найти</string>
     <key>discover_all_categories</key>

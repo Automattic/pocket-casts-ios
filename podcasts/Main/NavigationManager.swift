@@ -320,7 +320,7 @@ class NavigationManager {
         case NavigationManager.profileRowHelpKey:
             mainController?.navigateToProfile(row: .help, animated: animated)
         case NavigationManager.profileRowEndOfYearKey:
-            mainController?.navigateToProfile(row: .endOfYearPrompt, animated: animated)
+            mainController?.navigateToProfile(row: .playback2026Banner, animated: animated)
         default:
             break
         }
