@@ -710,6 +710,18 @@ Du kannst die Verbindung jederzeit in den Einstellungen trennen.</string>
     <string>Mit Apple TV verbinden</string>
     <key>device_shake_sleep_timer</key>
     <string>Die Schlummerfunktion wurde durch das Schütteln des Geräts neu gestartet</string>
+    <key>discount_offer_claim_button</key>
+    <string>%1$@ Rabatt sichern</string>
+    <key>discount_offer_description</key>
+    <string>%1$@ Rabatt für %2$@</string>
+    <key>discount_offer_limited_time_badge</key>
+    <string>Zeitlich begrenztes Angebot</string>
+    <key>discount_offer_period_price</key>
+    <string>~%1$@~ %2$@ für %3$@</string>
+    <key>discount_offer_product_badge</key>
+    <string>%1$@ Rabatt</string>
+    <key>discount_offer_upgrade_title</key>
+    <string>%1$@ Rabatt auf %2$@ für %3$@</string>
     <key>discover</key>
     <string>Entdecken</string>
     <key>discover_all_categories</key>
@@ -2149,6 +2161,10 @@ Das ist Hingabe!</string>
     <string>Im Vergleich zu 2024 ist deine Audiozeit in die Höhe geschnellt – %1$@</string>
     <key>playback_2026_banner_description</key>
     <string>Entdecke deine Audiostatistiken, welche Art von Hörer du bist und vieles mehr.</string>
+    <key>playback_2026_banner_title</key>
+    <string>Deine %1$@ ist da!</string>
+    <key>playback_2026_sheet_button</key>
+    <string>Meine %1$@ anzeigen</string>
     <key>playback_2026_sheet_description</key>
     <string>Was du dir angehört hast. Deine Lieblingspodcasts. Und was dich als Hörer auszeichnet. Dein Jahresrückblick bei Pocket Casts ist da.</string>
     <key>playback_effect_all_podcasts</key>

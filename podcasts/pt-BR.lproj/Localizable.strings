@@ -710,6 +710,18 @@ Você pode se desconectar a qualquer momento nas Configurações.</string>
     <string>Conectar ao Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>O temporizador reiniciou devido ao sacudir do dispositivo.</string>
+    <key>discount_offer_claim_button</key>
+    <string>Resgatar %1$@ de desconto</string>
+    <key>discount_offer_description</key>
+    <string>%1$@ de desconto por %2$@</string>
+    <key>discount_offer_limited_time_badge</key>
+    <string>Oferta por tempo limitado</string>
+    <key>discount_offer_period_price</key>
+    <string>~%1$@~ %2$@ por %3$@</string>
+    <key>discount_offer_product_badge</key>
+    <string>%1$@ de desconto</string>
+    <key>discount_offer_upgrade_title</key>
+    <string>%1$@ de desconto no %2$@ por %3$@</string>
     <key>discover</key>
     <string>Explorar</string>
     <key>discover_all_categories</key>
@@ -2149,6 +2161,10 @@ Isso que é compromisso!</string>
     <string>Em comparação com 2024, seu tempo de streaming disparou %1$@</string>
     <key>playback_2026_banner_description</key>
     <string>Confira suas estatísticas de reprodução, que tipo de ouvinte você é e muito mais.</string>
+    <key>playback_2026_banner_title</key>
+    <string>Chegou o %1$@!</string>
+    <key>playback_2026_sheet_button</key>
+    <string>Ver meu %1$@</string>
     <key>playback_2026_sheet_description</key>
     <string>O que você ouviu. Os podcasts que você amou. E o seu diferencial como ouvinte. Confira seu ano no Pocket Casts.</string>
     <key>playback_effect_all_podcasts</key>

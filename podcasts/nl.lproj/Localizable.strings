@@ -706,6 +706,18 @@ Je kunt op elk moment de verbinding met Instellingen verbreken.</string>
     <string>Verbinden met Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>De slaaptimer is opnieuw gestart omdat er met het apparaat is geschud</string>
+    <key>discount_offer_claim_button</key>
+    <string>%1$@ korting claimen</string>
+    <key>discount_offer_description</key>
+    <string>%1$@ korting voor %2$@</string>
+    <key>discount_offer_limited_time_badge</key>
+    <string>Tijdelijke aanbieding</string>
+    <key>discount_offer_period_price</key>
+    <string>~%1$@~ %2$@ voor %3$@</string>
+    <key>discount_offer_product_badge</key>
+    <string>%1$@ korting</string>
+    <key>discount_offer_upgrade_title</key>
+    <string>%1$@ korting op %2$@ voor %3$@</string>
     <key>discover</key>
     <string>Ontdek</string>
     <key>discover_all_categories</key>
@@ -2145,6 +2157,10 @@ Dat is waar we voor staan!</string>
     <string>Ten opzichte van 2024 is je luistertijd veel hoger %1$@</string>
     <key>playback_2026_banner_description</key>
     <string>Ontdek je luisterstatistieken, welk soort luisteraar je bent en meer.</string>
+    <key>playback_2026_banner_title</key>
+    <string>%1$@ staat voor je klaar!</string>
+    <key>playback_2026_sheet_button</key>
+    <string>Mijn %1$@ bekijken</string>
     <key>playback_2026_sheet_description</key>
     <string>Waar je naar geluisterd hebt. De podcasts waar je van hield. En wat jou als luisteraar onderscheidt. Je jaar in Pocket Casts is aangebroken.</string>
     <key>playback_effect_all_podcasts</key>

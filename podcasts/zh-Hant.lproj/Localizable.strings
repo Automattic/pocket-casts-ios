@@ -710,6 +710,18 @@ Pocket Casts Plus</string>
     <string>連結 Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>由於裝置晃動，故睡眠計時器已重新啟動</string>
+    <key>discount_offer_claim_button</key>
+    <string>領取 %1$@ 優惠</string>
+    <key>discount_offer_description</key>
+    <string>%1$@ 優惠，為期%2$@</string>
+    <key>discount_offer_limited_time_badge</key>
+    <string>限時優惠</string>
+    <key>discount_offer_period_price</key>
+    <string>~%1$@~ %2$@，為期%3$@</string>
+    <key>discount_offer_product_badge</key>
+    <string>%1$@ 優惠</string>
+    <key>discount_offer_upgrade_title</key>
+    <string>%2$@ 享 %1$@ 優惠，為期%3$@</string>
     <key>discover</key>
     <string>探索</string>
     <key>discover_all_categories</key>
@@ -2149,6 +2161,10 @@ Pocket Casts Plus</string>
     <string>比起 2024 年，你的收聽時間飆高了 %1$@</string>
     <key>playback_2026_banner_description</key>
     <string>探索你的收聽統計資料、你的聽眾類型等內容。</string>
+    <key>playback_2026_banner_title</key>
+    <string>%1$@ 來囉！</string>
+    <key>playback_2026_sheet_button</key>
+    <string>檢視我的 %1$@</string>
     <key>playback_2026_sheet_description</key>
     <string>你收聽的內容。 你最愛的 Podcast。 還有哪些特點讓你在聽眾群中獨樹一格。 你的 Pocket Casts 年度盛事來囉。</string>
     <key>playback_effect_all_podcasts</key>

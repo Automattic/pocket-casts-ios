@@ -708,6 +708,18 @@ Vous pouvez vous déconnecter à tout moment des réglages.</string>
     <string>Se connecter à l'Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>La mise en veille a été redémarrée en raison d’une secousse de l’appareil</string>
+    <key>discount_offer_claim_button</key>
+    <string>Obtenir %1$@ de réduction</string>
+    <key>discount_offer_description</key>
+    <string>%1$@ de réduction pendant %2$@</string>
+    <key>discount_offer_limited_time_badge</key>
+    <string>Offre à durée limitée</string>
+    <key>discount_offer_period_price</key>
+    <string>~%1$@~ %2$@ pendant %3$@</string>
+    <key>discount_offer_product_badge</key>
+    <string>-%1$@</string>
+    <key>discount_offer_upgrade_title</key>
+    <string>%1$@ de réduction sur %2$@ pendant %3$@</string>
     <key>discover</key>
     <string>Découvrir</string>
     <key>discover_all_categories</key>
@@ -2147,6 +2159,10 @@ MISES À JOUR</string>
     <string>Par rapport à 2024, votre temps d’écoute a explosé de %1$@</string>
     <key>playback_2026_banner_description</key>
     <string>Découvrez vos statistiques d’écoute, le type d’auditeur que vous êtes, et plus encore.</string>
+    <key>playback_2026_banner_title</key>
+    <string>%1$@ est arrivé !</string>
+    <key>playback_2026_sheet_button</key>
+    <string>Voir mon %1$@</string>
     <key>playback_2026_sheet_description</key>
     <string>Ce que vous avez écouté. Les podcasts que vous avez adorés. Et ce qui vous distingue en tant qu’auditeur. Votre année dans Pocket Casts est arrivée.</string>
     <key>playback_effect_all_podcasts</key>
