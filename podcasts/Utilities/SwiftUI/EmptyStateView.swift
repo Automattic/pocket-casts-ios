@@ -65,14 +65,16 @@ struct EmptyStateView<Title: View, Style: EmptyStateViewStyle>: View {
     }
 
     var body: some View {
-        ScrollView {
+        ViewThatFits(in: .vertical) {
             content
-        }.scrollBounceBehavior(.basedOnSize)
+            ScrollView {
+                content
+            }.scrollBounceBehavior(.basedOnSize)
+        }
     }
 
     private var content: some View {
         VStack(spacing: EmptyConstants.spacing) {
-            Spacer()
             if let icon {
                 icon()
                     .resizable()
@@ -103,7 +105,6 @@ struct EmptyStateView<Title: View, Style: EmptyStateViewStyle>: View {
             .foregroundStyle(style.button)
             .multilineTextAlignment(.center)
             .fixedSize(horizontal: false, vertical: true)
-            Spacer()
         }
         .frame(maxWidth: maxContentWidth)
         .padding(.horizontal, EmptyConstants.padding)
