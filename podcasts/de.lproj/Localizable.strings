@@ -2149,10 +2149,6 @@ Das ist Hingabe!</string>
     <string>Im Vergleich zu 2024 ist deine Audiozeit in die Höhe geschnellt – %1$@</string>
     <key>playback_2026_banner_description</key>
     <string>Entdecke deine Audiostatistiken, welche Art von Hörer du bist und vieles mehr.</string>
-    <key>playback_2026_banner_title</key>
-    <string>Deine %1$@ ist da!</string>
-    <key>playback_2026_sheet_button</key>
-    <string>Meine %1$@ anzeigen</string>
     <key>playback_2026_sheet_description</key>
     <string>Was du dir angehört hast. Deine Lieblingspodcasts. Und was dich als Hörer auszeichnet. Dein Jahresrückblick bei Pocket Casts ist da.</string>
     <key>playback_effect_all_podcasts</key>

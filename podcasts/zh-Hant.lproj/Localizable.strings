@@ -2149,10 +2149,6 @@ Pocket Casts Plus</string>
     <string>比起 2024 年，你的收聽時間飆高了 %1$@</string>
     <key>playback_2026_banner_description</key>
     <string>探索你的收聽統計資料、你的聽眾類型等內容。</string>
-    <key>playback_2026_banner_title</key>
-    <string>%1$@ 來囉！</string>
-    <key>playback_2026_sheet_button</key>
-    <string>檢視我的 %1$@</string>
     <key>playback_2026_sheet_description</key>
     <string>你收聽的內容。 你最愛的 Podcast。 還有哪些特點讓你在聽眾群中獨樹一格。 你的 Pocket Casts 年度盛事來囉。</string>
     <key>playback_effect_all_podcasts</key>

@@ -2145,10 +2145,6 @@ Dat is waar we voor staan!</string>
     <string>Ten opzichte van 2024 is je luistertijd veel hoger %1$@</string>
     <key>playback_2026_banner_description</key>
     <string>Ontdek je luisterstatistieken, welk soort luisteraar je bent en meer.</string>
-    <key>playback_2026_banner_title</key>
-    <string>%1$@ staat voor je klaar!</string>
-    <key>playback_2026_sheet_button</key>
-    <string>Mijn %1$@ bekijken</string>
     <key>playback_2026_sheet_description</key>
     <string>Waar je naar geluisterd hebt. De podcasts waar je van hield. En wat jou als luisteraar onderscheidt. Je jaar in Pocket Casts is aangebroken.</string>
     <key>playback_effect_all_podcasts</key>

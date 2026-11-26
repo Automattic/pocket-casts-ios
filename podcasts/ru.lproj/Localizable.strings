@@ -2149,10 +2149,6 @@ Pocket Casts на полную мощность.</string>
     <string>По сравнению с 2024 годом вы посвятили прослушиванию на %1$@ больше времени!</string>
     <key>playback_2026_banner_description</key>
     <string>Просмотрите свою статистику прослушивания, узнайте, что отличает вас как слушателя, и многое другое.</string>
-    <key>playback_2026_banner_title</key>
-    <string>%1$@ уже здесь!</string>
-    <key>playback_2026_sheet_button</key>
-    <string>Просмотреть мой %1$@</string>
     <key>playback_2026_sheet_description</key>
     <string>Что вы слушали. Подкасты, которые вам понравились. И то, что отличает вас как слушателя. Вы провели с Pocket Casts целый год.</string>
     <key>playback_effect_all_podcasts</key>
