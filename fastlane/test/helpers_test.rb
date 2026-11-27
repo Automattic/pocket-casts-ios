@@ -106,7 +106,7 @@ class FastlaneHelpersTest < Minitest::Test
     assert_raises(KeyError) { app_store_metadata_length_verdict('changelog.txt', 1) }
   end
 
-  # `RUN_FASTLANE_TESTS` enables this suite for any PR touching `fastlane/*`, which includes the metadata
+  # CI runs this suite for any PR touching `fastlane/*`, which includes the metadata
   # itself — so over-long copy fails on the PR that writes it, not mid-release.
   #
   # Budgets are asserted, not just maximums: a budget only warns from the release lane, and a warning

@@ -37,6 +37,7 @@ steps:
           - artifacts/*.app.dSYM.zip
 
       - input: "Upload tvOS to TestFlight"
+        if: "'$SKIP_TVOS_BUILD' == 'false'"
         prompt: "Upload the tvOS build to TestFlight?"
         key: upload_tvos_testflight_input
 
@@ -81,7 +82,7 @@ steps:
           queue: mac
 
       - label: ":fastlane: fastlane Helper Tests"
-        if: ${RUN_FASTLANE_TESTS:-false}
+        skip: "$SKIP_FASTLANE_TESTS"
         command: ruby fastlane/test/helpers_test.rb
         agents:
           queue: default
@@ -99,6 +100,7 @@ steps:
         plugins: [$CI_TOOLKIT]
 
   - input: Deploy Prototype Build
+    if: "'$SKIP_BUILD' == 'false'"
     prompt: Share a Prototype Build via Firebase App Distribution?
     key: prototype_triggered
 

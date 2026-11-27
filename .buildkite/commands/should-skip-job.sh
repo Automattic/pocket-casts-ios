@@ -3,23 +3,28 @@
 # Usage: should-skip-job.sh <job>
 # Prints the reason to skip the job, or `false` to run it. Exits 0 either way, and 15 for invalid arguments.
 # `shared-pipeline-vars` exports the result as SKIP_<JOB TYPE>, used as the step's `skip:` (`false` runs the step).
-# Only webhook PR builds skip jobs. POCKET_CASTS_CI_FULL_BUILD=1 forces a full run.
+# Only webhook PR builds filter changed files. POCKET_CASTS_CI_FULL_BUILD=1 forces a full run.
 
 run_job() { echo false; exit 0; }
 
 job="${1:-}"
 case "$job" in
-  build|ios-tests|tvos-build|localization|themes) ;;
+  build|ios-tests|tvos-build|localization|themes|fastlane-tests) ;;
   *) echo "Unknown job type: $job" >&2; exit 15 ;;
 esac
-if [[ "${POCKET_CASTS_CI_FULL_BUILD:-}" == 1 || "${BUILDKITE_SOURCE:-}" != webhook ||
-      ! "${BUILDKITE_PULL_REQUEST:-}" =~ ^[0-9]+$ ]]; then
+[[ "${POCKET_CASTS_CI_FULL_BUILD:-}" != 1 ]] || run_job
+if [[ ! "${BUILDKITE_PULL_REQUEST:-}" =~ ^[0-9]+$ ]]; then
+  if [[ "$job" == fastlane-tests ]]; then
+    echo "Fastlane helper tests only run on pull requests"
+    exit 0
+  fi
   run_job
 fi
+[[ "${BUILDKITE_SOURCE:-}" == webhook ]] || run_job
 
 # Preserve the existing documentation/tooling exclusions for app builds.
 SKIP_PATTERNS=(
-  '*.md' '*.po' '*.pot' '*.txt' '.gitignore' 'config/Version.xcconfig'
+  '*.md' '*.po' '*.pot' 'podcasts/Resources/release_notes.txt' '.gitignore' 'config/Version.xcconfig'
   'fastlane/*' 'Gemfile' 'Gemfile.lock' 'docs/*'
 )
 REQUIRED_PATTERNS=()
@@ -30,11 +35,18 @@ case "$job" in
     SKIP_PATTERNS+=('PocketCastsTests/*' 'Modules/Tests/*')
     ;;
   localization)
-    REQUIRED_PATTERNS=('*.strings' '*.stringsdict')
+    # lint_localized_strings_format installs gems and runs the Fastfile's GlotPress lane.
+    REQUIRED_PATTERNS=(
+      '*.strings' '*.stringsdict' 'fastlane/Fastfile' 'fastlane/Appfile' 'fastlane/lib/*'
+      'Gemfile' 'Gemfile.lock' '.ruby-version' '.xcode-version' '.buildkite/*'
+    )
     ;;
   themes)
     # env -i uses only the script, CSV and system Ruby from the selected image.
     REQUIRED_PATTERNS=('scripts/themes/*' '.buildkite/*' '.xcode-version')
+    ;;
+  fastlane-tests)
+    REQUIRED_PATTERNS=('fastlane/*' '*.rb' 'Gemfile' 'Gemfile.lock' '.ruby-version' '.buildkite/*')
     ;;
 esac
 
