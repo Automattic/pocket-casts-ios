@@ -162,8 +162,7 @@ class WatchSyncManager {
     private func handleLogin() {
         FileLog.shared.addMessage("Login successful")
         checkSubscriptionStatus()
-        NotificationCenter.default.post(name: WatchConstants.Notifications.loginStatusUpdated, object: nil)
-        NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
+        notifyLoginStatusChanged()
     }
 
     @MainActor
@@ -176,6 +175,11 @@ class WatchSyncManager {
             FileLog.shared.addMessage("FAILED Login - no message")
         }
         SyncManager.signout()
+        notifyLoginStatusChanged()
+    }
+
+    /// Reloads the watch UI after a login, failed login or sign out. `SyncManager.signout` doesn't post these itself.
+    private func notifyLoginStatusChanged() {
         NotificationCenter.default.post(name: WatchConstants.Notifications.loginStatusUpdated, object: nil)
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
     }
@@ -218,9 +222,7 @@ class WatchSyncManager {
             FileLog.shared.addMessage("Logging out as phone has logged out ")
             SyncManager.signout()
             WKApplication.shared().visibleInterfaceController?.popToRootController()
-            // signout doesn't notify the watch UI, so post the same notifications as a login or failed login
-            NotificationCenter.default.post(name: WatchConstants.Notifications.loginStatusUpdated, object: nil)
-            NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
+            notifyLoginStatusChanged()
         case .logIn, .switchAccount:
             login()
         case .recheckSubscription:
