@@ -31,6 +31,14 @@ class DiscoverPeekViewController: UIViewController, UICollectionViewDelegate {
         UIEdgeInsets(top: 0, left: view.layoutMargins.left, bottom: 0, right: view.layoutMargins.right)
     }
 
+    var leadingHorizontalInset: CGFloat {
+        collectionView.isRightToLeft ? horizontalInsets.right : horizontalInsets.left
+    }
+
+    var trailingHorizontalInset: CGFloat {
+        collectionView.isRightToLeft ? horizontalInsets.left : horizontalInsets.right
+    }
+
     /// The width inside the horizontal insets, which the cells are sized to.
     var insetWidth: CGFloat {
         view.bounds.inset(by: horizontalInsets).width
@@ -57,18 +65,19 @@ class DiscoverPeekViewController: UIViewController, UICollectionViewDelegate {
 
         guard let currentScrollOffset else { return }
         let target = targetContentOffset.pointee
-        let leadingInset = scrollView.contentInset.left
-        let currentScrollDistance = target.x - currentScrollOffset.x
+        let leadingInset = collectionView.leadingContentInset
+        let currentX = collectionView.leadingAlignedOffsetX(currentScrollOffset.x)
+        let currentScrollDistance = collectionView.leadingAlignedOffsetX(target.x) - currentX
         let coefficent = Int(max(-1, min(currentScrollDistance / scrollThreshold, 1)))
-        let currentIndex = Int(round((currentScrollOffset.x + leadingInset) / pageStride))
+        let currentIndex = Int(round((currentX + leadingInset) / pageStride))
         let adjacentItemIndex = currentIndex + coefficent
         let adjacentItemIndexFloat = CGFloat(adjacentItemIndex)
         let adjacentItemOffsetX = adjacentItemIndexFloat * pageStride - leadingInset
-        targetContentOffset.pointee = CGPoint(x: adjacentItemOffsetX, y: target.y)
+        targetContentOffset.pointee = CGPoint(x: collectionView.leadingAlignedOffsetX(adjacentItemOffsetX), y: target.y)
     }
 
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let currentPage = Int(ceil(collectionView.contentOffset.x / collectionView.frame.width)) + 1
+        let currentPage = Int(ceil(collectionView.leadingAlignedOffsetX(collectionView.contentOffset.x) / collectionView.frame.width)) + 1
         guard currentPage != self.currentPage else {
             return
         }

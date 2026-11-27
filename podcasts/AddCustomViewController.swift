@@ -72,7 +72,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
 
     @IBOutlet var colorPickerView: UICollectionView! {
         didSet {
-            colorPickerView.contentInset = UIEdgeInsets(top: 0, left: 13, bottom: 0, right: 0)
+            colorPickerView.setContentInsets(leading: 13, trailing: 0)
             colorPickerView.register(UINib(nibName: "CustomStorageColorCell", bundle: nil), forCellWithReuseIdentifier: AddCustomViewController.colorCellId)
         }
     }
@@ -209,7 +209,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelTapped))
             navigationItem.leftBarButtonItem = cancelButton
 
-            colorPickerView.selectItem(at: IndexPath(item: selectedColorIndex, section: 0), animated: false, scrollPosition: .left)
+            colorPickerView.selectItem(at: IndexPath(item: selectedColorIndex, section: 0), animated: false, scrollPosition: colorPickerView.leadingScrollPosition)
             view.backgroundColor = AppTheme.uploadProgressBackgroundColor
 
             nameTextfield.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
@@ -276,7 +276,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
                 self.artwork = image
                 self.selectedColorIndex = 0
                 self.colorPickerView.reloadData()
-                self.colorPickerView.selectItem(at: IndexPath(item: self.selectedColorIndex, section: 0), animated: false, scrollPosition: .left)
+                self.colorPickerView.selectItem(at: IndexPath(item: self.selectedColorIndex, section: 0), animated: false, scrollPosition: self.colorPickerView.leadingScrollPosition)
                 self.setupUserAccess()
             }
         })
@@ -400,7 +400,7 @@ class AddCustomViewController: PCViewController, UITextFieldDelegate {
             } else {
                 selectedColorIndex = 0
             }
-            colorPickerView.selectItem(at: IndexPath(item: selectedColorIndex, section: 0), animated: false, scrollPosition: .left)
+            colorPickerView.selectItem(at: IndexPath(item: selectedColorIndex, section: 0), animated: false, scrollPosition: colorPickerView.leadingScrollPosition)
         }
     }
 

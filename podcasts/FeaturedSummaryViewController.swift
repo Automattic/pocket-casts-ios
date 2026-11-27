@@ -78,6 +78,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
             featuredCollectionView.reloadData()
 
             updatePageCount()
+            scroll(toPage: max(pageControl.currentPage, 0), animated: false)
         }
     }
 
@@ -249,6 +250,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
             // Update and reload
             self.updatePageCount()
             self.featuredCollectionView.reloadData()
+            self.featuredCollectionView.scrollToLeadingEdge()
         }
     }
 
@@ -259,8 +261,13 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
     // MARK: - TinyPageControl delegate
 
     func pageDidChange(_ newPage: Int) {
+        scroll(toPage: newPage, animated: true)
+    }
+
+    private func scroll(toPage newPage: Int, animated: Bool) {
+        featuredCollectionView.layoutIfNeeded()
         let offset = CGFloat(newPage) * featuredCollectionView.bounds.width
-        featuredCollectionView.setContentOffset(CGPoint(x: offset, y: 0), animated: true)
+        featuredCollectionView.setContentOffset(CGPoint(x: featuredCollectionView.leadingAlignedOffsetX(offset), y: 0), animated: animated)
     }
 
     private func updatePageCount() {
@@ -273,7 +280,7 @@ class FeaturedSummaryViewController: SimpleNotificationsViewController, GridLayo
 
     private func updateCurrentPage() {
         guard featuredCollectionView.frame.width != .zero else { return }
-        let currentPage = Int(round(featuredCollectionView.contentOffset.x / featuredCollectionView.frame.width))
+        let currentPage = Int(round(featuredCollectionView.leadingAlignedOffsetX(featuredCollectionView.contentOffset.x) / featuredCollectionView.frame.width))
 
         if currentPage == pageControl.currentPage { return }
         pageControl.currentPage = currentPage

@@ -48,12 +48,12 @@ class ThemeableCollectionView: UICollectionView, AutoScrollCollectionViewDelegat
     @objc func scrolltoNextItem() {
         guard isAutoScrollAllowed, bounds.width > 0 else { return }
 
-        let nextIndex = Int(round(contentOffset.x / bounds.width)) + 1
+        let nextIndex = Int(round(leadingAlignedOffsetX(contentOffset.x) / bounds.width)) + 1
         let indexPath = IndexPath(item: nextIndex, section: 0)
         if nextIndex < numberOfItems(inSection: 0) {
-            scrollToItem(at: indexPath, at: .left, animated: true)
+            scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         } else if numberOfItems(inSection: 0) > 0 {
-            scrollToItem(at: IndexPath(item: 0, section: 0), at: .left, animated: false)
+            scrollToItem(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: false)
         }
     }
 
