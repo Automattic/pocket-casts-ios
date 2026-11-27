@@ -150,6 +150,14 @@ class SourceInterfaceModel: ObservableObject {
 
     func refreshAccountTapped() {
         WKInterfaceDevice.current().play(.success)
+
+        // A signed-in watch only needs a fresh subscription status. Signing out first would leave it
+        // signed out whenever the login that follows fails, e.g. away from the phone or with no connection.
+        if SyncManager.isUserLoggedIn() {
+            WatchSyncManager.shared.checkSubscriptionStatus()
+            return
+        }
+
         SyncManager.signout()
         WatchSyncManager.shared.loginAndRefreshIfRequired()
     }

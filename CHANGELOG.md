@@ -6,6 +6,7 @@
 - Stop pre-selecting Subscribe to our Newsletter after logging in to an account that has it turned off [#5674](https://github.com/Automattic/pocket-casts-ios/pull/5674)
 - Fix the mini player showing up empty on iPhone Duo after folding or unfolding with the full-screen player open [#5669](https://github.com/Automattic/pocket-casts-ios/pull/5669)
 - Leave podcast artwork out of iCloud and device backups, since it can be downloaded again. For large libraries this makes the app's backup hundreds of MB smaller [#5631](https://github.com/Automattic/pocket-casts-ios/pull/5631)
+- Fix the Apple Watch staying locked as Plus only after buying Plus on the iPhone, or keeping the previous account's Plus after switching accounts [#5516](https://github.com/Automattic/pocket-casts-ios/pull/5516)
 
 8.26
 -----
