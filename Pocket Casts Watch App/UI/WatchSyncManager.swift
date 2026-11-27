@@ -218,6 +218,9 @@ class WatchSyncManager {
             FileLog.shared.addMessage("Logging out as phone has logged out ")
             SyncManager.signout()
             WKApplication.shared().visibleInterfaceController?.popToRootController()
+            // signout doesn't notify the watch UI, so post the same notifications as a login or failed login
+            NotificationCenter.default.post(name: WatchConstants.Notifications.loginStatusUpdated, object: nil)
+            NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
         case .logIn, .switchAccount:
             login()
         case .recheckSubscription:
