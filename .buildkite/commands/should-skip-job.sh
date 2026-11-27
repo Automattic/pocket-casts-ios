@@ -38,7 +38,7 @@ case "$job" in
     # lint_localized_strings_format installs gems and runs the Fastfile's GlotPress lane.
     REQUIRED_PATTERNS=(
       '*.strings' '*.stringsdict' 'fastlane/Fastfile' 'fastlane/Appfile' 'fastlane/lib/*'
-      'Gemfile' 'Gemfile.lock' '.ruby-version' '.xcode-version' '.buildkite/*'
+      'Gemfile' 'Gemfile.lock' '.bundle/config' '.ruby-version' '.xcode-version' '.buildkite/*'
     )
     ;;
   themes)
