@@ -5,7 +5,7 @@ import PocketCastsServer
 /// The feed's rows, the dots on Profile pointing at them, and "Read all" all work from the same
 /// list of messages, so a dot never counts a message the feed leaves out.
 extension WhatsNewManager {
-    /// The catalog's messages the feed lists for this user, most recently published first.
+    /// The messages the feed lists for this user, in catalog order.
     func feedMessages(targeting: WhatsNewMessageFilter = .current) -> [WhatsNewMessage] {
         WhatsNewFeedViewModel.feedMessages(from: catalog?.messages ?? [], targeting: targeting)
     }

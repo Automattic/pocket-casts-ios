@@ -1,5 +1,6 @@
 8.27
 -----
+- Keep pinned messages at the top of What’s New [#5737](https://github.com/Automattic/pocket-casts-ios/pull/5737)
 - Fix the back button covering the Name your folder title at the largest text sizes on iPhone Duo [#5672](https://github.com/Automattic/pocket-casts-ios/pull/5672)
 - Fix the layout control covering the Layout label in the Podcasts options menu at the largest text sizes on narrow screens [#5671](https://github.com/Automattic/pocket-casts-ios/pull/5671)
 - Fix Starred showing a blank screen while offline instead of your starred episodes [#5719](https://github.com/Automattic/pocket-casts-ios/pull/5719)

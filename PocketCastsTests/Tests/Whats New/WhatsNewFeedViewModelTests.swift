@@ -12,10 +12,12 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
     /// letting whatever the test host is signed in as decide which of them reach the feed.
     private let targeting = WhatsNewMessageFilter(audience: .free, appVersion: Version("8.10"), includesPolls: true)
 
-    func testItemsAreMostRecentlyPublishedFirst() {
-        let viewModel = WhatsNewFeedViewModel(messages: messages.shuffled(), targeting: targeting)
+    func testItemsKeepCatalogOrder() {
+        let catalog = WhatsNewCatalog.mock(publishedDaysAgo: [8, 1, 27])
 
-        XCTAssertEqual(viewModel.items.map(\.publishedAt), messages.map(\.publishedAt).sorted(by: >))
+        let viewModel = WhatsNewFeedViewModel(messages: catalog.messages, targeting: targeting)
+
+        XCTAssertEqual(viewModel.items.map(\.id), catalog.messages.map(\.id))
     }
 
     /// The label and the icon are this app's, picked from the type rather than published with the
@@ -212,7 +214,7 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
 
         await viewModel.refresh()
 
-        XCTAssertEqual(viewModel.items.map(\.title), ["Folders for everyone", "Sort your Up Next"])
+        XCTAssertEqual(viewModel.items.map(\.title), ["Sort your Up Next", "Folders for everyone"])
     }
 
     /// A refresh publishes the catalog again, which mustn't undo what was read.
@@ -418,8 +420,8 @@ final class WhatsNewFeedViewModelTests: XCTestCase {
 
         await viewModel.load()
 
-        XCTAssertEqual(viewModel.items.map(\.title), ["Introducing Playlists", "Sort your Up Next"])
-        XCTAssertEqual(viewModel.items.map(\.isUnread), [true, false])
+        XCTAssertEqual(viewModel.items.map(\.title), ["Sort your Up Next", "Introducing Playlists"])
+        XCTAssertEqual(viewModel.items.map(\.isUnread), [false, true])
     }
 
     /// A user updating into the feed has no start date, so every message is new to them.

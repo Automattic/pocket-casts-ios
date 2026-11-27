@@ -2,7 +2,7 @@ import PocketCastsServer
 import PocketCastsUtils
 import SwiftUI
 
-/// The What's New feed: every message published for this user, most recently published first.
+/// The What's New feed shows eligible messages in catalog order.
 struct WhatsNewFeedView: View {
     @EnvironmentObject private var theme: Theme
     @ObservedObject var viewModel: WhatsNewFeedViewModel

@@ -26,7 +26,7 @@ struct WhatsNewFeedItem: Identifiable, Hashable {
     }
 }
 
-/// The messages the What's New feed shows, most recently published first.
+/// The messages the What's New feed shows in catalog order.
 ///
 /// A message this build can't make sense of never decodes, and one that isn't aimed at this user
 /// never reaches the list, so no row opens onto an empty screen — or marks itself read on the way
@@ -142,11 +142,9 @@ final class WhatsNewFeedViewModel: ObservableObject {
         manager?.markAsResponded(toPoll: poll.pollId)
     }
 
-    /// The messages the feed lists out of `messages`, most recently published first.
+    /// Keep the catalog's order when selecting the messages to display.
     static func feedMessages(from messages: [WhatsNewMessage], targeting: WhatsNewMessageFilter) -> [WhatsNewMessage] {
-        messages
-            .filter { targeting.includes($0) }
-            .sorted { $0.publishedAt > $1.publishedAt }
+        messages.filter { targeting.includes($0) }
     }
 
     private func markAsRead(_ ids: [WhatsNewFeedItem.ID]) {
