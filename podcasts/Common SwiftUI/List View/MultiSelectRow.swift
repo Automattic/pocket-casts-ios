@@ -18,14 +18,18 @@ struct MultiSelectRow<Content: View>: View {
 
     @ScaledMetricWithMaxSize(relativeTo: .body, maxSize: .xxLarge) private var multiSelectButtonSize = 24
     @ScaledMetricWithMaxSize(relativeTo: .body, maxSize: .xxLarge) private var checkSize = 20
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     private let selectButtonSpacing = 15.0
 
     private let style = Style()
 
     var body: some View {
+        let selectButtonInset = showSelectButton ? multiSelectButtonSize + selectButtonSpacing : 0
+
         content()
-            .offset(x: showSelectButton ? multiSelectButtonSize + selectButtonSpacing : 0)
+            .padding(.leading, dynamicTypeSize.isAccessibilitySize ? selectButtonInset : 0)
+            .offset(x: dynamicTypeSize.isAccessibilitySize ? 0 : selectButtonInset)
             .overlay(alignment: .leading) {
                 if showSelectButton {
                     buttonView.buttonize {
