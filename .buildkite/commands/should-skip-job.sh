@@ -1,78 +1,63 @@
 #!/bin/bash -eu
 
-# Usage: should-skip-job.sh --job-type [build|localization]
-# --job-type build: For jobs building an app binary, e.g. Build, Prototype Builds…
-#     Skip when changes are limited to documentation, tooling, and non-code files
-# --job-type localization: For jobs that only need to run when localization files have changed
-#     Skip when NO localization files have changed
-#
-# Return codes:
-# 0 - Job should be skipped (script also handles displaying the message and annotation)
-# 1 - Job should not be skipped
-# 15 - Error in script parameters
+# Usage: should-skip-job.sh <job>
+# Prints the reason to skip the job, or `false` to run it. Exits 0 either way, and 15 for invalid arguments.
+# `shared-pipeline-vars` exports the result as SKIP_<JOB TYPE>, used as the step's `skip:` (`false` runs the step).
+# Only webhook PR builds filter changed files. POCKET_CASTS_CI_FULL_BUILD=1 forces a full run.
 
-COMMON_PATTERNS=(
-  "*.md"
-  "*.po"
-  "*.pot"
-  "*.txt"
-  ".gitignore"
-  "config/Version.xcconfig"
-  "fastlane/**"
-  "Gemfile"
-  "Gemfile.lock"
-)
+run_job() { echo false; exit 0; }
 
-LOCALIZATION_PATTERNS=(
-  "**/*.strings"
-  "**/*.stringsdict"
-)
-
-# Define constants for job types
-BUILD="build"
-LOCALIZATION="localization"
-
-# Check if arguments are valid
-if [ -z "${1:-}" ] || [ "$1" != "--job-type" ] || [ -z "${2:-}" ]; then
-  echo "Error: Must specify --job-type [$BUILD|$LOCALIZATION]"
-  buildkite-agent step cancel
-  exit 15
+job="${1:-}"
+case "$job" in
+  build|ios-tests|tvos-build|localization|themes|fastlane-tests) ;;
+  *) echo "Unknown job type: $job" >&2; exit 15 ;;
+esac
+[[ "${POCKET_CASTS_CI_FULL_BUILD:-}" != 1 ]] || run_job
+if [[ ! "${BUILDKITE_PULL_REQUEST:-}" =~ ^[0-9]+$ ]]; then
+  if [[ "$job" == fastlane-tests ]]; then
+    echo "Fastlane helper tests only run on pull requests"
+    exit 0
+  fi
+  run_job
 fi
+[[ "${BUILDKITE_SOURCE:-}" == webhook ]] || run_job
 
-# Function to display skip message and create annotation
-show_skip_message() {
-  local job_type=$1
-  local message="Skipped ${BUILDKITE_LABEL:-Job} - no relevant files changed"
-  local context="skip-$(echo "${BUILDKITE_LABEL:-$job_type}" | sed -E -e 's/[^[:alnum:]]+/-/g' | tr A-Z a-z)"
-  
-  echo "$message" | buildkite-agent annotate --style "info" --context "$context"
-  echo "$message"
-}
-
-job_type="$2"
-case "$job_type" in
-  $LOCALIZATION)
-    # Check if any localization files have changed
-    # Return true (skip) if NO localization files have changed
-    if ! pr_changed_files --any-match "${LOCALIZATION_PATTERNS[@]}"; then
-      show_skip_message "$job_type"
-      exit 0
-    fi
-    exit 1
+# Preserve the existing documentation/tooling exclusions for app builds.
+SKIP_PATTERNS=(
+  '*.md' '*.po' '*.pot' 'podcasts/Resources/release_notes.txt' '.gitignore' 'config/Version.xcconfig'
+  'fastlane/*' 'Gemfile' 'Gemfile.lock' 'docs/*'
+)
+REQUIRED_PATTERNS=()
+case "$job" in
+  ios-tests) SKIP_PATTERNS+=('Pocket Casts TV App/*') ;;
+  tvos-build)
+    # tvOS shares production sources with iOS, but its archive doesn't build tests.
+    SKIP_PATTERNS+=('PocketCastsTests/*' 'Modules/Tests/*')
     ;;
-  $BUILD)
-    # We should skip if changes are limited to documentation, tooling, and non-code files
-    # We'll let the job run (won't skip) if PR includes changes in localization files though
-    PATTERNS=("${COMMON_PATTERNS[@]}")
-    if pr_changed_files --all-match "${PATTERNS[@]}"; then
-      show_skip_message "$job_type"
-      exit 0
-    fi
-    exit 1
+  localization)
+    # lint_localized_strings_format installs gems and runs the Fastfile's GlotPress lane.
+    REQUIRED_PATTERNS=(
+      '*.strings' '*.stringsdict' 'fastlane/Fastfile' 'fastlane/Appfile' 'fastlane/lib/*'
+      'Gemfile' 'Gemfile.lock' '.bundle/config' '.ruby-version' '.xcode-version' '.buildkite/*'
+    )
     ;;
-  *)
-    echo "Error: Job type must be either '$BUILD' or '$LOCALIZATION'"
-    buildkite-agent step cancel
-    exit 15
+  themes)
+    # env -i uses only the script, CSV and system Ruby from the selected image.
+    REQUIRED_PATTERNS=('scripts/themes/*' '.buildkite/*' '.xcode-version')
+    ;;
+  fastlane-tests)
+    REQUIRED_PATTERNS=('fastlane/*' '*.rb' 'Gemfile' 'Gemfile.lock' '.ruby-version' '.buildkite/*')
     ;;
 esac
+
+if [[ ${#REQUIRED_PATTERNS[@]} -gt 0 ]]; then
+  # An empty/failed diff must run the check too, not look like "no matching inputs".
+  pr_changed_files || run_job
+  relevant=$(pr_changed_files --stdout --any-match "${REQUIRED_PATTERNS[@]}") || run_job
+  [[ "$relevant" == false ]] || run_job
+else
+  # Empty diffs, errors and unknown paths run builds: skipping requires success.
+  pr_changed_files --all-match "${SKIP_PATTERNS[@]}" || run_job
+fi
+
+echo "No relevant files changed"
