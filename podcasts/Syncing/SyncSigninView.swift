@@ -293,7 +293,6 @@ final class SyncSigninViewModel: ObservableObject {
 
                 RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
                 Settings.promotionFinishedAcknowledged = true
-                Settings.setLoginDetailsUpdated()
 
                 NotificationCenter.postOnMainThread(notification: .userSignedIn)
                 self.isSigningIn = false
@@ -320,6 +319,8 @@ final class SyncSigninViewModel: ObservableObject {
         ServerSettings.clearLastSyncTime()
         ServerSettings.setSyncingEmail(email: username)
 
+        // Set before posting so the state WatchManager sends on login change tells the watch to fetch the new login details
+        Settings.setLoginDetailsUpdated()
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
 
         Analytics.track(.userSignedIn, properties: ["source": "password"])

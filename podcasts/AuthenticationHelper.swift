@@ -79,11 +79,12 @@ class AuthenticationHelper {
             ServerSettings.setSyncingEmail(email: response.email)
         }
 
+        // Set before posting so the state WatchManager sends on login change tells the watch to fetch the new login details
+        Settings.setLoginDetailsUpdated()
         NotificationCenter.postOnMainThread(notification: .userLoginDidChange)
 
         RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
         Settings.promotionFinishedAcknowledged = true
-        Settings.setLoginDetailsUpdated()
     }
 
     // MARK: Code Login - For tv login using a QR Code
