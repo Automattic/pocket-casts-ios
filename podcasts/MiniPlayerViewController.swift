@@ -54,6 +54,11 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     weak var hostTabBarController: UITabBarController?
 
+    /// True while a screen keeps the tab bar and the mini player hidden together, e.g. during
+    /// multi-select. `showMiniPlayer()` does nothing while it's set, so playback changes or
+    /// returning to the app can't bring the mini player back over that screen's own bottom bar.
+    var isHiddenWithTabBar = false
+
     var upNextViewController: UpNextViewController?
 
     private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
@@ -73,6 +78,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     private var titleVibrancy: UIVisualEffectView?
     private var timeLeftVibrancy: UIVisualEffectView?
     private var largeRow: UIStackView?
+    private var largeTimeRow: UIStackView?
     private var largeInfoStack: UIStackView?
     private var subtitleLabel: UILabel?
     private var elapsedLabel: UILabel?
@@ -215,6 +221,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         bottomRow.axis = .horizontal
         bottomRow.alignment = .center
         bottomRow.spacing = 6
+        bottomRow.semanticContentAttribute = .playback
 
         progressView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         progressView.setContentHuggingPriority(.defaultLow, for: .horizontal)
@@ -268,10 +275,15 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         }
     }
 
-    /// The large screen layout is used when the accessory is hosted in a regular width window.
+    /// The large screen layout is used when the accessory is hosted in a regular width window
+    /// and is wide enough to fit it.
     private var wantsLargeLayout: Bool {
-        forcedLargeLayout ?? (hostTabBarController != nil && view.window?.traitCollection.horizontalSizeClass == .regular)
+        forcedLargeLayout ?? (hostTabBarController != nil
+            && view.window?.traitCollection.horizontalSizeClass == .regular
+            && view.bounds.width >= Self.largeLayoutMinimumWidth)
     }
+
+    private static let largeLayoutMinimumWidth: CGFloat = 560
 
     override func updateViewConstraints() {
         if #available(iOS 26.0, *), let glassProgressView {
@@ -304,7 +316,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         guard hostTabBarController != nil,
               view.window?.traitCollection.horizontalSizeClass == .regular,
               accessoryWindowWidth > 0 else { return }
-        let constraint = view.widthAnchor.constraint(equalToConstant: min(780, max(accessoryWindowWidth - 32, 560)))
+        let constraint = view.widthAnchor.constraint(equalToConstant: min(780, max(accessoryWindowWidth - 32, Self.largeLayoutMinimumWidth)))
         constraint.priority = UILayoutPriority(999)
         constraint.isActive = true
         accessoryWidthConstraint = constraint
@@ -313,18 +325,18 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        if let windowWidth = view.window?.bounds.width, windowWidth != accessoryWindowWidth {
+        if let windowWidth = view.window?.bounds.width, windowWidth != accessoryWindowWidth || wantsLargeLayout != isLargeLayoutApplied {
             view.setNeedsUpdateConstraints()
         }
 
-        guard !isLargeLayoutApplied, let timeLeftHost = timeLeftHostingController?.view else {
+        guard !isLargeLayoutApplied, let timeLeftHost = timeLeftHostingController?.view, let glassButtonStack else {
             return
         }
 
-        let timeLeftMaxX = timeLeftHost.convert(timeLeftHost.bounds, to: view).maxX
-        let buttonSkipMinX = skipBackBtn.convert(skipBackBtn.bounds, to: view).minX
+        let timeLeftFrame = timeLeftHost.convert(timeLeftHost.bounds, to: view)
+        let buttonsFrame = glassButtonStack.convert(glassButtonStack.bounds, to: view).insetBy(dx: 12, dy: 0)
 
-        timeLeftHost.alpha = timeLeftMaxX > buttonSkipMinX + 12 ? 0 : 1
+        timeLeftHost.alpha = timeLeftFrame.intersects(buttonsFrame) ? 0 : 1
     }
 
     /// Builds the views that only the large screen layout shows. The views both layouts
@@ -359,18 +371,25 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             wrapper.setContentCompressionResistancePriority(.required, for: .horizontal)
         }
 
+        let timeRow = UIStackView(arrangedSubviews: [elapsedVibrancy, remainingVibrancy])
+        timeRow.axis = .horizontal
+        timeRow.alignment = .center
+        timeRow.spacing = 8
+        timeRow.semanticContentAttribute = .playback
+        largeTimeRow = timeRow
+
         let transcript = makeTrailingButton(image: UIImage(named: "transcript")?.withRenderingMode(.alwaysTemplate), label: L10n.transcript, action: #selector(transcriptTapped))
         let bookmark = makeTrailingButton(image: Self.bookmarkGlyph(), label: L10n.addBookmark, action: #selector(bookmarkTapped))
         transcriptButton = transcript
 
         // The artwork, the title, the playback buttons and the progress bar are shared with the
         // compact layout and inserted by `applyLayoutVariant`.
-        let row = UIStackView(arrangedSubviews: [infoStack, elapsedVibrancy, remainingVibrancy, transcript, bookmark])
+        let row = UIStackView(arrangedSubviews: [infoStack, timeRow, transcript, bookmark])
         row.translatesAutoresizingMaskIntoConstraints = false
         row.axis = .horizontal
         row.alignment = .center
         row.spacing = 8
-        row.setCustomSpacing(18, after: remainingVibrancy)
+        row.setCustomSpacing(18, after: timeRow)
         row.setCustomSpacing(4, after: transcript)
         largeRow = row
 
@@ -435,10 +454,17 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     /// Moves the views both layouts share into the compact or the large screen layout.
     @available(iOS 26.0, *)
     private func applyLayoutVariant(isLarge: Bool) {
-        guard let glassButtonStack, let compactTextStack, let compactBottomRow, let largeRow, let largeInfoStack,
+        guard let glassButtonStack, let compactTextStack, let compactBottomRow, let largeRow, let largeTimeRow, let largeInfoStack,
               let titleVibrancy, let timeLeftVibrancy, let glassProgressView else { return }
         let isInstalled = largeRow.superview != nil || compactTextStack.superview != nil
         guard isLarge != isLargeLayoutApplied || !isInstalled else { return }
+
+        // `PlayerZoomAnimator` blanks the mini player's direct subviews while the full screen player is
+        // open and restores them when it closes. The two layouts have different direct subviews, so a
+        // switch while the player is open (folding or unfolding) has to carry that state over, or the
+        // layout that was blanked stays blank the next time it is installed.
+        let installedRoot: UIView = isLargeLayoutApplied ? largeRow : compactTextStack
+        let contentAlpha = isInstalled ? installedRoot.alpha : 1
 
         isLargeLayoutApplied = isLarge
         NSLayoutConstraint.deactivate(compactConstraints + largeConstraints)
@@ -460,7 +486,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             largeInfoStack.insertArrangedSubview(titleVibrancy, at: 0)
             largeRow.insertArrangedSubview(podcastArtwork, at: 0)
             largeRow.insertArrangedSubview(glassButtonStack, at: 2)
-            largeRow.insertArrangedSubview(glassProgressView, at: 4)
+            largeTimeRow.insertArrangedSubview(glassProgressView, at: 1)
             largeRow.setCustomSpacing(10, after: podcastArtwork)
             checkTranscriptAvailability()
             largeRow.setCustomSpacing(12, after: largeInfoStack)
@@ -482,6 +508,10 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             view.addSubview(glassButtonStack)
             NSLayoutConstraint.activate(compactConstraints)
         }
+
+        let compactRoots: [UIView] = [podcastArtwork, compactTextStack, glassButtonStack]
+        largeRow.alpha = isLarge ? contentAlpha : 1
+        compactRoots.forEach { $0.alpha = isLarge ? 1 : contentAlpha }
 
         skipBackBtnWidthConstraint.constant = buttonWidth
         playPauseBtnWidthConstraint.constant = buttonWidth
@@ -730,7 +760,10 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
             return controller
         }
 
-        return nil
+        // As the tab bar's bottom accessory the view isn't always in a window: on iPad the tab bar
+        // takes it out as soon as the mini player is hidden, even with the full screen player still
+        // open (e.g. when playback ends with an empty Up Next).
+        return hostTabBarController as? MainTabBarController
     }
 
     func miniPlayerShowing() -> Bool {

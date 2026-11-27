@@ -11,6 +11,8 @@ class PodcastGridCell: UICollectionViewCell {
     @IBOutlet var badgeView: GridBadgeView!
     @IBOutlet var supporterHeart: PodcastHeartView!
 
+    static let playedAlpha: CGFloat = 0.4
+
     private var podcastUuid: String?
     private var badgeType = BadgeType.off
 
@@ -32,7 +34,7 @@ class PodcastGridCell: UICollectionViewCell {
         shadowView.layer.cornerRadius = 4
     }
 
-    func populateFrom(podcast: Podcast, badgeType: BadgeType, libraryType: LibraryType) {
+    func populateFrom(podcast: Podcast, badgeType: BadgeType, libraryType: LibraryType, isPlayed: Bool = false) {
         self.badgeType = badgeType
         podcastUuid = podcast.uuid
 
@@ -42,6 +44,8 @@ class PodcastGridCell: UICollectionViewCell {
         setColors(podcast: podcast)
 
         podcastName.accessibilityLabel = podcast.title
+        podcastName.accessibilityValue = isPlayed ? L10n.statusPlayed : nil
+        contentView.alpha = isPlayed ? Self.playedAlpha : 1
 
         updateBadge(podcast: podcast, badgeType: badgeType, libraryType: libraryType)
 

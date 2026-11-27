@@ -76,6 +76,7 @@ class StarredViewController: PCViewController {
 
         refreshQueue.maxConcurrentOperationCount = 1
         self.title = L10n.statusStarred
+        (view as? ThemeableView)?.style = .primaryUi02
         setupNavBar()
         insetAdjuster.setupInsetAdjustmentsForMiniPlayer(scrollView: starredTable)
         if SyncManager.isUserLoggedIn() {
@@ -96,11 +97,11 @@ class StarredViewController: PCViewController {
                     DispatchQueue.main.sync {
                         self.loadingIndicator.stopAnimating()
                     }
+                    self.refreshEpisodesFromDatabase(animated: animated)
 
                     return
                 }
 
-                let oldData = self.episodes
                 var newData = [ListEpisode]()
                 for episode in episodes {
                     newData.append(ListEpisode(episode: episode, tintColor: AppTheme.appTintColor))
@@ -111,7 +112,7 @@ class StarredViewController: PCViewController {
                     strongSelf.loadingIndicator.stopAnimating()
                     strongSelf.starredTable.isHidden = (newData.isEmpty)
                     if animated {
-                        let changeSet = StagedChangeset(source: oldData, target: newData)
+                        let changeSet = StagedChangeset(source: strongSelf.episodes, target: newData)
                         strongSelf.starredTable.reload(using: changeSet, with: .none, setData: { data in
                             strongSelf.episodes = data
                         })
@@ -127,13 +128,12 @@ class StarredViewController: PCViewController {
     func refreshEpisodesFromDatabase(animated: Bool) {
         refreshQueue.addOperation { [weak self] in
             guard let self else { return }
-            let oldData = self.episodes
             let newData = self.episodesDataManager.starredEpisodes()
 
             DispatchQueue.main.sync {
                 self.starredTable.isHidden = (newData.isEmpty)
                 if animated {
-                    let changeSet = StagedChangeset(source: oldData, target: newData)
+                    let changeSet = StagedChangeset(source: self.episodes, target: newData)
                     self.starredTable.reload(using: changeSet, with: .none, setData: { data in
                         self.episodes = data
                     })

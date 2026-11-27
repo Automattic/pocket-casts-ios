@@ -29,14 +29,20 @@
     <string>Multiselect annuleren</string>
     <key>accessibility_close_dialog</key>
     <string>Dialoogvenster sluiten</string>
+    <key>accessibility_close_player</key>
+    <string>Speler sluiten</string>
     <key>accessibility_deselect_episode</key>
     <string>Aflevering deselecteren</string>
     <key>accessibility_disabled</key>
     <string>Uitschakelen</string>
     <key>accessibility_dismiss</key>
     <string>Negeren</string>
+    <key>accessibility_episode_actions</key>
+    <string>Afleveringacties</string>
     <key>accessibility_episode_playback</key>
     <string>Aflevering afspelen</string>
+    <key>accessibility_follow_podcast</key>
+    <string>%1$@ volgen</string>
     <key>accessibility_hide_filter_details</key>
     <string>Tik om filtergegevens te verbergen</string>
     <key>accessibility_hint_player_navigate_to_podcast_label</key>
@@ -45,6 +51,10 @@
     <string>Tik tweemaal om aflevering aan favorieten toe te voegen</string>
     <key>accessibility_hint_unstar</key>
     <string>Tik tweemaal om aflevering uit favorieten te verwijderen</string>
+    <key>accessibility_mini_player</key>
+    <string>Speler</string>
+    <key>accessibility_mini_player_hint</key>
+    <string>Tik om de speler op volledige grootte te openen</string>
     <key>accessibility_more_actions</key>
     <string>Meer acties</string>
     <key>accessibility_patron_only</key>
@@ -63,8 +73,12 @@
     <string>Afbeelding van playlist</string>
     <key>accessibility_plus_only</key>
     <string>Vergrendeld, functie voor Plus</string>
+    <key>accessibility_podcast_artwork</key>
+    <string>Podcast-artwork</string>
     <key>accessibility_profile_settings</key>
     <string>Pocket Casts-instellingen</string>
+    <key>accessibility_remove_recent_search</key>
+    <string>Verwijder %1$@ uit recente zoekopdrachten</string>
     <key>accessibility_select_episode</key>
     <string>Aflevering selecteren</string>
     <key>accessibility_show_filter_details</key>
@@ -73,6 +87,8 @@
     <string>Tik om account te bekijken of in te stellen</string>
     <key>accessibility_sort_and_options</key>
     <string>Sorteren en opties</string>
+    <key>accessibility_up_next_list</key>
+    <string>Lijst Hierna</string>
     <key>account</key>
     <string>Account</string>
     <key>account_change_email</key>
@@ -335,8 +351,12 @@ Download de app voor de volledige ervaring!</string>
     <string>Bladwijzer</string>
     <key>bookmark_delete_warning_body</key>
     <string>Weet je zeker dat je deze bladwijzers wilt verwijderen? Dit kan niet ongedaan gemaakt worden!</string>
+    <key>bookmark_delete_warning_body_singular</key>
+    <string>Weet je zeker dat je deze bladwijzer wilt verwijderen? Dit kan niet ongedaan gemaakt worden!</string>
     <key>bookmark_delete_warning_title</key>
     <string>Bladwijzers verwijderen?</string>
+    <key>bookmark_delete_warning_title_singular</key>
+    <string>Bladwijzer verwijderen?</string>
     <key>bookmark_details_title</key>
     <string>Bladwijzer</string>
     <key>bookmark_edit_transcript_subtitle</key>
@@ -686,8 +706,22 @@ Je kunt op elk moment de verbinding met Instellingen verbreken.</string>
     <string>Verbinden met Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>De slaaptimer is opnieuw gestart omdat er met het apparaat is geschud</string>
+    <key>discount_offer_claim_button</key>
+    <string>%1$@ korting claimen</string>
+    <key>discount_offer_description</key>
+    <string>%1$@ korting voor %2$@</string>
+    <key>discount_offer_limited_time_badge</key>
+    <string>Tijdelijke aanbieding</string>
+    <key>discount_offer_period_price</key>
+    <string>~%1$@~ %2$@ voor %3$@</string>
+    <key>discount_offer_product_badge</key>
+    <string>%1$@ korting</string>
+    <key>discount_offer_upgrade_title</key>
+    <string>%1$@ korting op %2$@ voor %3$@</string>
     <key>discover</key>
     <string>Ontdek</string>
+    <key>discover_all_categories</key>
+    <string>Alle categorieën</string>
     <key>discover_all_episodes</key>
     <string>Alle afleveringen</string>
     <key>discover_all_podcasts</key>
@@ -752,6 +786,8 @@ Je kunt op elk moment de verbinding met Instellingen verbreken.</string>
     <string>Tv en film</string>
     <key>discover_change_region</key>
     <string>Regio wijzigen, huidige %1$@</string>
+    <key>discover_clear_category</key>
+    <string>Categorie wissen</string>
     <key>discover_episode_fail_to_load</key>
     <string>De aflevering kan niet worden geladen</string>
     <key>discover_featured</key>
@@ -862,6 +898,8 @@ Je kunt op elk moment de verbinding met Instellingen verbreken.</string>
     <string>Zoekopdracht mislukt</string>
     <key>discover_search_failed_msg</key>
     <string>Controleer je internetverbinding.</string>
+    <key>discover_select_a_category</key>
+    <string>Een categorie selecteren</string>
     <key>discover_select_region</key>
     <string>Selecteer contentregio</string>
     <key>discover_show_all</key>
@@ -1341,6 +1379,8 @@ waar je naar hebt geluisterd was
     <string>Map aanmaken</string>
     <key>folder_create_new</key>
     <string>Nieuwe map aanmaken</string>
+    <key>folder_create_skip</key>
+    <string>Overslaan</string>
     <key>folder_delete</key>
     <string>Map verwijderen</string>
     <key>folder_delete_prompt_msg</key>
@@ -1960,6 +2000,10 @@ UPDATES</string>
     <string>Speel afleveringen op willekeurige volgorde af met Pocket Casts Plus en meer</string>
     <key>paywall_dynamic_headline_watch</key>
     <string>Luister vanaf je horloge met Pocket Casts Plus, en meer</string>
+    <key>pcasts_import_message</key>
+    <string>Hiermee worden je podcasts en instellingen vervangen door de inhoud van dit bestand en wordt Pocket Casts gesloten.</string>
+    <key>pcasts_import_title</key>
+    <string>Podcasts en instellingen importeren</string>
     <key>phone</key>
     <string>Telefoon</string>
     <key>play</key>
@@ -2111,6 +2155,14 @@ Dat is waar we voor staan!</string>
     <string>Meer podcasts, meer plezier</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>Ten opzichte van 2024 is je luistertijd veel hoger %1$@</string>
+    <key>playback_2026_banner_description</key>
+    <string>Ontdek je luisterstatistieken, welk soort luisteraar je bent en meer.</string>
+    <key>playback_2026_banner_title</key>
+    <string>%1$@ staat voor je klaar!</string>
+    <key>playback_2026_sheet_button</key>
+    <string>Mijn %1$@ bekijken</string>
+    <key>playback_2026_sheet_description</key>
+    <string>Waar je naar geluisterd hebt. De podcasts waar je van hield. En wat jou als luisteraar onderscheidt. Je jaar in Pocket Casts is aangebroken.</string>
     <key>playback_effect_all_podcasts</key>
     <string>Alle podcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -2257,6 +2309,10 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>Podcasts doorbladeren</string>
     <key>playlist_manual_create_error_message</key>
     <string>Er is iets fout gegaan bij het aanmaken van je afspeellijst.</string>
+    <key>playlist_manual_empty_state_subtitle</key>
+    <string>Kies afleveringen uit de podcasts die je volgt. Of veeg naar links bij elke aflevering om het toe te voegen terwijl je gaat.</string>
+    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
+    <string>Zoek een podcast die je leuk vindt en veeg vervolgens naar links bij elke aflevering om deze toe te voegen.</string>
     <key>playlist_manual_empty_state_title</key>
     <string>Begin met het bouwen van je playlist</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
@@ -2281,6 +2337,8 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>Huidige Hierna vervangen?</string>
     <key>playlist_play_all_sheet_button_title</key>
     <string>Vervangen en afspelen</string>
+    <key>playlist_play_all_sheet_description</key>
+    <string>Als je dit afspeelt, wordt je huidige Hierna vervangen. Bewaar het als een afspeellijst om dit te behouden.</string>
     <key>playlist_play_all_sheet_title</key>
     <string>Je Hierna vervangen?</string>
     <key>playlist_play_all_sheet_toggle</key>
@@ -2517,8 +2575,6 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>Pocket Casts Plus</string>
     <key>pocket_casts_plus_short</key>
     <string>Plus</string>
-    <key>pocket_casts_welcome_newsletter_title</key>
-    <string>Meld je aan voor de nieuwsbrief</string>
     <key>podcast_access_ended</key>
     <string>Toegang beëindigd: %1$@</string>
     <key>podcast_access_ends</key>
@@ -2541,6 +2597,8 @@ Pas de regels aan of sla deze playlist op voor toekomstige afleveringen.</string
     <string>%1$@ gearchiveerd</string>
     <key>podcast_archived_msg</key>
     <string>Alle %1$@ de afleveringen van deze podcast zijn gearchiveerd</string>
+    <key>podcast_archived_msg_singular</key>
+    <string>De enige aflevering van deze podcast is gearchiveerd</string>
     <key>podcast_count_plural_format</key>
     <string>%1$@ podcasts</string>
     <key>podcast_count_singular</key>
@@ -2734,6 +2792,14 @@ Als je op zoek bent naar inspiratie, probeer dan het tabblad Ontdekken.</string>
     <string>Naam</string>
     <key>podcasts_list</key>
     <string>Lijst</string>
+    <key>podcasts_played_podcasts</key>
+    <string>Afgespeelde podcasts</string>
+    <key>podcasts_played_podcasts_description</key>
+    <string>Verbergt podcasts waarvan je niks meer hoeft te luisteren, waarvan elke aflevering is afgespeeld of gearchiveerd. Ze verschijnen opnieuw wanneer een nieuwe aflevering online komt.</string>
+    <key>podcasts_played_podcasts_hide</key>
+    <string>Verbergen</string>
+    <key>podcasts_played_podcasts_show</key>
+    <string>Tonen</string>
     <key>podcasts_plural</key>
     <string>Podcasts</string>
     <key>podcasts_share</key>
@@ -3245,8 +3311,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Links openen in browser</string>
     <key>settings_general_play_back_actions</key>
     <string>Extra afspeelacties</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Voegt aan het vergrendelscherm van je telefoon een optie voor afleveringen als favoriet markeren toe.</string>
+    <key>settings_general_play_back_actions_subtitle_device</key>
+    <string>Voegt aan het vergrendelscherm een optie voor afleveringen als favoriet markeren toe.</string>
     <key>settings_general_player_header</key>
     <string>SPELER</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3397,8 +3463,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Veelgebruikte Podcast-hosts</string>
     <key>settings_status_host_description</key>
     <string>Schrijvers van podcasts hosten afleveringbestanden in verschillende providers die niet worden beheerd door Pocket Casts.</string>
-    <key>settings_status_host_failure_message</key>
-    <string>De meestvoorkomende oorzaak is dat je een adblocker hebt geconfigureerd op je telefoon of netwerk. Je moet dit domein deblokkeren om podcasts te downloaden. Pocket Casts host niet of kiest niet waar podcasts worden gehost, dat is aan de schrijver van de show en hier hebben we geen invloed op.</string>
+    <key>settings_status_host_failure_message_device</key>
+    <string>De meestvoorkomende oorzaak is dat je een adblocker hebt geconfigureerd op je apparaat of netwerk. Je moet dit domein deblokkeren om podcasts te downloaden. Pocket Casts host niet of kiest niet waar podcasts worden gehost, dat is aan de schrijver van de show en hier hebben we geen invloed op.</string>
     <key>settings_status_internet</key>
     <string>Internet</string>
     <key>settings_status_internet_description</key>
@@ -3411,8 +3477,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>De service die wordt gebruikt om nieuwe afleveringen te vinden.</string>
     <key>settings_status_run</key>
     <string>Nu uitvoeren</string>
-    <key>settings_status_service_ad_blocker_help_singular</key>
-    <string>De meestvoorkomende oorzaak is dat je een adblocker hebt geconfigureerd op je telefoon of netwerk. Je moet het domein %1$@ deblokkeren </string>
+    <key>settings_status_service_ad_blocker_help_singular_device</key>
+    <string>De meestvoorkomende oorzaak is dat je een adblocker hebt geconfigureerd op je apparaat of netwerk. Je moet het domein %1$@ deblokkeren </string>
     <key>settings_storage</key>
     <string>Gebruik van opslag en data</string>
     <key>settings_storage_data_warning</key>
@@ -3423,8 +3489,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>MOBIELE DATA</string>
     <key>settings_storage_usage</key>
     <string>Gebruik</string>
-    <key>settings_storage_usage_footer</key>
-    <string>Dit kan verschillen van de opslag die wordt weergegeven in je iPhone-instellingen. iOS beheert gecachete gegevens automatisch en maakt deze vrij wanneer dat nodig is.</string>
+    <key>settings_storage_usage_footer_device</key>
+    <string>Dit kan afwijken van de opslagruimte die wordt weergegeven in je %1$@ instellingen. Je apparaat beheert gecachete gegevens automatisch en maakt ze vrij wanneer dat nodig is.</string>
     <key>settings_third_party_analytics</key>
     <string>Analyses van derden</string>
     <key>settings_title</key>
@@ -3463,8 +3529,8 @@ Hier is een gastenpas van %1$@ voor Pocket Casts Plus, mijn favoriete podcastspe
     <string>Account instellen</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>Schudden om slaaptimer te opnieuw op te starten</string>
-    <key>shake_to_restart_sleep_timer_description</key>
-    <string>Indien ingeschakeld, wordt de slaaptimer opnieuw opgestart als je met je telefoon schudt.</string>
+    <key>shake_to_restart_sleep_timer_description_device</key>
+    <string>Indien ingeschakeld, wordt de slaaptimer opnieuw opgestart als je met je apparaat schudt.</string>
     <key>share</key>
     <string>Delen</string>
     <key>share_clip</key>
@@ -4264,6 +4330,8 @@ Tik op de onderstaande knop om opnieuw in te loggen bij je Pocket Casts-account.
     <string>Speel eenvoudig een willekeurige aflevering af zonder de volgorde van je wachtrij te veranderen.</string>
     <key>up_next_shuffle_announcement_title</key>
     <string>Maak kennis met shuffle</string>
+    <key>up_next_shuffle_button</key>
+    <string>Shuffle</string>
     <key>up_next_shuffle_toast_message</key>
     <string>Shuffle staat aan. De afleveringen worden in willekeurige volgorde afgespeeld.</string>
     <key>up_next_sort_duration_tooltip_body</key>
@@ -4416,22 +4484,8 @@ Je kunt geen verkeerde keuze maken. 🙂</string>
     <string>Niets in Hierna</string>
     <key>week</key>
     <string>week</string>
-    <key>welcome_discover_button</key>
-    <string>Vind mijn volgende podcast</string>
-    <key>welcome_discover_description</key>
-    <string>Vind geheime en trending podcasts in onze handmatig samengestelde Ontdekkingspagina.</string>
-    <key>welcome_discover_title</key>
-    <string>Ontdek iets nieuws</string>
     <key>welcome_import_button</key>
     <string>Podcasts importeren</string>
-    <key>welcome_import_description</key>
-    <string>Afkomstig van een andere app? Neem je podcasts overal mee naartoe.</string>
-    <key>welcome_import_title</key>
-    <string>Importeer je podcasts</string>
-    <key>welcome_new_account_title</key>
-    <string>Welkom, laten we je aan het luisteren zetten!</string>
-    <key>welcome_plus_title</key>
-    <string>Bedankt, laten we je aan het luisteren zetten!</string>
     <key>whats_new</key>
     <string>Wat is nieuw</string>
     <key>whats_new_blog_more_link_text</key>

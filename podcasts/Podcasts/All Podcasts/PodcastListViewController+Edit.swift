@@ -13,7 +13,9 @@ extension PodcastListViewController {
     }
 
     @objc func saveEditingTapped() {
-        saveSortOrder()
+        if hasReorderedItems {
+            saveSortOrder()
+        }
         setEditingOrder(false)
     }
 
@@ -48,6 +50,7 @@ extension PodcastListViewController {
     }
 
     private func exitEditMode() {
+        hasReorderedItems = false
         podcastsCollectionView.dragInteractionEnabled = false
         podcastsCollectionView.allowsSelection = true
         setHidesEnclosingTabBar(false, animated: true)
@@ -118,6 +121,7 @@ extension PodcastListViewController: UICollectionViewDragDelegate, UICollectionV
             gridItems.insert(moved, at: destinationIndexPath.item)
             collectionView.moveItem(at: sourceIndexPath, to: destinationIndexPath)
         }
+        hasReorderedItems = true
         coordinator.drop(dropItem.dragItem, toItemAt: destinationIndexPath)
         Analytics.track(.podcastsListReordered)
     }

@@ -73,7 +73,7 @@ class GridHelper {
         }
 
         if  largerSizes.contains(collectionView.traitCollection.preferredContentSizeCategory) {
-            divideBy = floor(divideBy / 2)
+            divideBy = ceil(divideBy * 2 / 3)
         }
 
         let availableWidth = viewWidth - (spacing * (divideBy-1))

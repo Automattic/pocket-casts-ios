@@ -117,17 +117,20 @@ extension AppDelegate {
         super.restoreUserActivityState(activity)
     }
 
-    func application(_ application: UIApplication, handle: INIntent, completionHandler: (INIntentResponse) -> Void) {
+    func application(_ application: UIApplication, handle: INIntent, completionHandler: @escaping (INIntentResponse) -> Void) {
         if let handle = handle as? INPlayMediaIntent {
             FileLog.shared.addMessage("Handling Siri PlayMediaIntent: \(handle.identifier ?? "unknown")")
-            let responseCode = handlePlayMediaIntent(intent: handle)
+            Task { @MainActor in
+                let responseCode = await handlePlayMediaIntent(intent: handle)
 
-            let response = INPlayMediaIntentResponse(code: responseCode, userActivity: nil)
-            completionHandler(response)
+                let response = INPlayMediaIntentResponse(code: responseCode, userActivity: nil)
+                completionHandler(response)
+            }
         }
     }
 
-    func handlePlayMediaIntent(intent: INPlayMediaIntent) -> INPlayMediaIntentResponseCode {
+    @MainActor
+    func handlePlayMediaIntent(intent: INPlayMediaIntent) async -> INPlayMediaIntentResponseCode {
         var thisIntent = intent
         var responseCode: INPlayMediaIntentResponseCode = .continueInApp
 
@@ -139,7 +142,7 @@ extension AppDelegate {
 
         if let identifier = thisIntent.mediaItems?.first?.identifier {
             if identifier == Constants.SiriActions.playSuggestedId {
-                responseCode = SiriShortcutsManager.shared.playSuggested()
+                responseCode = await SiriShortcutsManager.shared.playSuggested()
             } else if identifier == Constants.SiriActions.playUpNextId {
                 responseCode = SiriShortcutsManager.shared.playUpNext()
             } else if identifier == Constants.SiriActions.playPodcastId {

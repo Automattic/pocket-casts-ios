@@ -76,4 +76,22 @@ class HomeGridDataHelperTests: XCTestCase {
         XCTAssertEqual(gridItems[8].folder?.name, folderNames[6])
         XCTAssertEqual(gridItems[9].folder?.name, folderNames[7])
     }
+
+    func testMergeKeepsHiddenItemsInPlace() {
+        let merged = HomeGridDataHelper.merge(reorderedVisibleItems: ["c", "a"], into: ["a", "hidden", "c"], id: { $0 })
+
+        XCTAssertEqual(merged, ["c", "hidden", "a"])
+    }
+
+    func testMergeWithoutHiddenItemsUsesVisibleOrder() {
+        let merged = HomeGridDataHelper.merge(reorderedVisibleItems: ["c", "b", "a"], into: ["a", "b", "c"], id: { $0 })
+
+        XCTAssertEqual(merged, ["c", "b", "a"])
+    }
+
+    func testMergeAppendsVisibleItemsMissingFromAllItems() {
+        let merged = HomeGridDataHelper.merge(reorderedVisibleItems: ["new", "a"], into: ["a", "hidden"], id: { $0 })
+
+        XCTAssertEqual(merged, ["new", "hidden", "a"])
+    }
 }

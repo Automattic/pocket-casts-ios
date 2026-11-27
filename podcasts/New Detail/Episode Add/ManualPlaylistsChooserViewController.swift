@@ -14,6 +14,7 @@ class ManualPlaylistsChooserViewController: PCViewController {
     /// The list currently shown in the table. Equal to `allManualPlaylists` unless a search is filtering it.
     private var manualPlaylists: [EpisodeFilter] = []
     private var initialSelectedPlaylists: Set<String> = []
+    private var selectedEpisodesCountByPlaylist: [String: Int] = [:]
     private var newSelectedPlaylists: Set<String> = []
     private var searchController: PCSearchBarController?
     private let episodes: [Episode]
@@ -149,22 +150,12 @@ class ManualPlaylistsChooserViewController: PCViewController {
         allManualPlaylists = dataManager.allManualPlaylists(includeDeleted: false)
         manualPlaylists = allManualPlaylists
 
-        if episodes.count == 1, let episode = episodes.first {
-            let uuids = dataManager.manualPlaylistUUIDs(for: episode.uuid)
-            initialSelectedPlaylists = Set(uuids)
-        } else {
-            // For bulk episodes, find playlists that contain ALL selected episodes
-            var playlistsContainingAllEpisodes: Set<String> = []
-            for playlist in allManualPlaylists {
-                let allEpisodesInPlaylist = episodes.allSatisfy { episode in
-                    dataManager.manualPlaylistUUIDs(for: episode.uuid).contains(playlist.uuid)
-                }
-                if allEpisodesInPlaylist {
-                    playlistsContainingAllEpisodes.insert(playlist.uuid)
-                }
+        for episode in episodes {
+            for uuid in dataManager.manualPlaylistUUIDs(for: episode.uuid) {
+                selectedEpisodesCountByPlaylist[uuid, default: 0] += 1
             }
-            initialSelectedPlaylists = playlistsContainingAllEpisodes
         }
+        initialSelectedPlaylists = Set(selectedEpisodesCountByPlaylist.filter { $0.value == episodes.count }.keys)
         newSelectedPlaylists = initialSelectedPlaylists
     }
 
@@ -312,7 +303,7 @@ extension ManualPlaylistsChooserViewController: UITableViewDelegate, UITableView
                 isSelected: isSelected,
                 canBeDisabled: !episodeIsInPlaylist,
                 analyticsSource: analyticsSource,
-                additionalEpisodesCount: episodes.count
+                additionalEpisodesCount: episodes.count - selectedEpisodesCountByPlaylist[playlist.uuid, default: 0]
             )
         }
         return cell

@@ -28,6 +28,8 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         return container
     }()
 
+    private var largeScreenBackgroundConstraints: [NSLayoutConstraint] = []
+
     private lazy var largeScreenBackgroundMask: CAGradientLayer = {
         let mask = CAGradientLayer()
         mask.colors = [UIColor.black.cgColor, UIColor.black.cgColor, UIColor.clear.cgColor]
@@ -303,20 +305,30 @@ class GeneratedTranscriptsPremiumOverlay: UIViewController, AnalyticsSourceProvi
         scrollView.contentInset.bottom = bottomInset
         scrollView.verticalScrollIndicatorInsets.bottom = bottomInset
 
+        alignLargeScreenBackgroundCopy()
         updateLargeScreenBackgroundCopy()
     }
 
     override func didMove(toParent parent: UIViewController?) {
         super.didMove(toParent: parent)
 
-        guard let largeScreenBackground, parent != nil, view.superview != nil else { return }
+        alignLargeScreenBackgroundCopy()
+    }
 
-        NSLayoutConstraint.activate([
-            largeScreenBackgroundCopy.leadingAnchor.constraint(equalTo: largeScreenBackground.leadingAnchor),
-            largeScreenBackgroundCopy.topAnchor.constraint(equalTo: largeScreenBackground.topAnchor),
-            largeScreenBackgroundCopy.widthAnchor.constraint(equalTo: largeScreenBackground.widthAnchor),
-            largeScreenBackgroundCopy.heightAnchor.constraint(equalTo: largeScreenBackground.heightAnchor)
-        ])
+    /// Lines the copy up with the background it copies whenever they're in the same window.
+    private func alignLargeScreenBackgroundCopy() {
+        guard let largeScreenBackground, let window = view.window, largeScreenBackground.window === window,
+              largeScreenBackgroundConstraints.first?.isActive != true else { return }
+
+        if largeScreenBackgroundConstraints.isEmpty {
+            largeScreenBackgroundConstraints = [
+                largeScreenBackgroundCopy.leadingAnchor.constraint(equalTo: largeScreenBackground.leadingAnchor),
+                largeScreenBackgroundCopy.topAnchor.constraint(equalTo: largeScreenBackground.topAnchor),
+                largeScreenBackgroundCopy.widthAnchor.constraint(equalTo: largeScreenBackground.widthAnchor),
+                largeScreenBackgroundCopy.heightAnchor.constraint(equalTo: largeScreenBackground.heightAnchor)
+            ]
+        }
+        NSLayoutConstraint.activate(largeScreenBackgroundConstraints)
     }
 
     /// Fades the copy out under the description like the solid color and its gradient do.

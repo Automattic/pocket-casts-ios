@@ -14,16 +14,25 @@ extension Podcast: Sortable {
 
 class PodcastDataManager {
     private let cachedPodcasts = Mutex([String: Podcast]())
+    private let cacheObserver = PodcastCacheObserver()
+
+    init() {
+        cacheObserver.didCommit = { [weak self] db, ids in
+            self?.cachePodcasts(ids: ids, db: db)
+        }
+    }
 
     func setup(dbQueue: GRDBQueue) {
-        cachePodcasts(dbQueue: dbQueue)
+        dbQueue.dbPool.writeWithoutTransaction { db in
+            db.remove(transactionObserver: cacheObserver)
+            db.add(transactionObserver: cacheObserver)
+            cachePodcasts(db: GRDBDatabase(database: db))
+        }
     }
 
     // MARK: - Queries
 
-    func allPodcasts(includeUnsubscribed: Bool, reloadFromDatabase: Bool, dbQueue: GRDBQueue) -> [Podcast] {
-        if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
-
+    func allPodcasts(includeUnsubscribed: Bool, dbQueue: GRDBQueue) -> [Podcast] {
         var allPodcasts = [Podcast]()
         cachedPodcasts.withLock { cachedPodcasts in
             for podcast in cachedPodcasts.values {
@@ -35,9 +44,7 @@ class PodcastDataManager {
         return allPodcasts
     }
 
-    func allPodcastsOrderedByAddedDate(reloadFromDatabase: Bool, dbQueue: GRDBQueue) -> [Podcast] {
-        if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
-
+    func allPodcastsOrderedByAddedDate(dbQueue: GRDBQueue) -> [Podcast] {
         var allPodcasts = [Podcast]()
         cachedPodcasts.withLock { cachedPodcasts in
             for podcast in cachedPodcasts.values {
@@ -52,9 +59,7 @@ class PodcastDataManager {
         })
     }
 
-    func allPodcastsOrderedByTitle(reloadFromDatabase: Bool, dbQueue: GRDBQueue) -> [Podcast] {
-        if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
-
+    func allPodcastsOrderedByTitle(dbQueue: GRDBQueue) -> [Podcast] {
         var allPodcasts = [Podcast]()
         cachedPodcasts.withLock { cachedPodcasts in
             for podcast in cachedPodcasts.values {
@@ -69,9 +74,7 @@ class PodcastDataManager {
         })
     }
 
-    func allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: Bool, inFolderUuid: String? = nil, dbQueue: GRDBQueue) -> [Podcast] {
-        if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
-
+    func allPodcastsOrderedByNewestEpisodes(inFolderUuid: String? = nil, dbQueue: GRDBQueue) -> [Podcast] {
         var allPodcasts = [Podcast]()
         dbQueue.read { db in
             do {
@@ -96,9 +99,7 @@ class PodcastDataManager {
         return allPodcasts
     }
 
-    func allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: Bool, inFolderUuid: String? = nil, dbQueue: GRDBQueue) -> [Podcast] {
-        if reloadFromDatabase { cachePodcasts(dbQueue: dbQueue) }
-
+    func allPodcastsOrderedByLastPlayedEpisodes(inFolderUuid: String? = nil, dbQueue: GRDBQueue) -> [Podcast] {
         var allPodcasts = [Podcast]()
         dbQueue.read { db in
             do {
@@ -175,12 +176,12 @@ class PodcastDataManager {
 
         // newest episode release date is a special case we handle at the database level
         if sortOrder == .episodeDateNewestToOldest {
-            return allPodcastsOrderedByNewestEpisodes(reloadFromDatabase: false, inFolderUuid: folder.uuid, dbQueue: dbQueue)
+            return allPodcastsOrderedByNewestEpisodes(inFolderUuid: folder.uuid, dbQueue: dbQueue)
         }
 
         // newest episode release date is a special case we handle at the database level
         if sortOrder == .recentlyPlayed {
-            return allPodcastsOrderedByLastPlayedEpisodes(reloadFromDatabase: false, inFolderUuid: folder.uuid, dbQueue: dbQueue)
+            return allPodcastsOrderedByLastPlayedEpisodes(inFolderUuid: folder.uuid, dbQueue: dbQueue)
         }
 
         // the other 3 cases we do in memory
@@ -319,6 +320,37 @@ class PodcastDataManager {
         return counts
     }
 
+    func playedPodcastUuids(dbQueue: GRDBQueue) -> Set<String> {
+        var uuids = Set<String>()
+        dbQueue.read { db in
+            do {
+                let query = """
+                SELECT p.uuid as uuid FROM \(DataManager.podcastTableName) p
+                WHERE p.subscribed = 1
+                AND EXISTS (
+                    SELECT 1 FROM \(DataManager.episodeTableName) e
+                    WHERE e.podcast_id = p.id AND +e.playingStatus = \(PlayingStatus.completed.rawValue)
+                )
+                AND NOT EXISTS (
+                    SELECT 1 FROM \(DataManager.episodeTableName) e
+                    WHERE e.podcast_id = p.id AND +e.archived = 0 AND +e.playingStatus IN (\(PlayingStatus.notPlayed.rawValue), \(PlayingStatus.inProgress.rawValue))
+                )
+                """
+                let rs = try db.executeQuery(query, values: nil)
+
+                while rs.next() {
+                    guard let uuid = rs.string(forColumn: "uuid") else { continue }
+
+                    uuids.insert(uuid)
+                }
+            } catch {
+                FileLog.shared.addMessage("PodcastDataManager.playedPodcastUuids error: \(error)")
+            }
+        }
+
+        return uuids
+    }
+
     // MARK: - Updates
 
     func save(podcast: Podcast, dbQueue: GRDBQueue) {
@@ -333,7 +365,6 @@ class PodcastDataManager {
         } catch {
             FileLog.shared.addMessage("PodcastDataManager.save error: \(error)")
         }
-        cachePodcasts(dbQueue: dbQueue)
     }
 
     func bulkSetFolderUuid(folderUuid: String, podcastUuids: [String], dbQueue: GRDBQueue) {
@@ -350,12 +381,10 @@ class PodcastDataManager {
                 FileLog.shared.addMessage("PodcastDataManager.bulkSetFolderUuid error: \(error)")
             }
         }
-        cachePodcasts(dbQueue: dbQueue)
     }
 
     func updatePodcastFolder(podcastUuid: String, sortOrder: Int32, folderUuid: String?, dbQueue: GRDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET folderUuid = ?, sortOrder = ?, syncStatus = \(SyncStatus.notSynced.rawValue) WHERE uuid = ?", values: [folderUuid ?? NSNull(), sortOrder, podcastUuid], methodName: "PodcastDataManager.updatePodcastFolder", onQueue: dbQueue)
-        cachePodcasts(dbQueue: dbQueue)
     }
 
     func savePushSetting(podcast: Podcast, pushEnabled: Bool, dbQueue: GRDBQueue) {
@@ -388,7 +417,6 @@ class PodcastDataManager {
 
     func delete(podcast: Podcast, dbQueue: GRDBQueue) {
         DataHelper.run(query: "DELETE FROM \(DataManager.podcastTableName) WHERE uuid = ?", values: [podcast.uuid], methodName: "PodcastDataManager.delete", onQueue: dbQueue)
-        cachePodcasts(dbQueue: dbQueue)
     }
 
     func markAllSynced(dbQueue: GRDBQueue) {
@@ -402,8 +430,6 @@ class PodcastDataManager {
     func markAllUnsyncedWhereLastSyncAtNot(_ lastSyncAt: String, dbQueue: GRDBQueue) {
         let query = "UPDATE \(DataManager.podcastTableName) SET syncStatus = \(SyncStatus.notSynced.rawValue) WHERE subscribed = 1 AND fullSyncLastSyncAt <> ?"
         DataHelper.run(query: query, values: [lastSyncAt], methodName: "PodcastDataManager.markAllUnsyncedWhereLastSyncAtNot", onQueue: dbQueue)
-
-        cachePodcasts(dbQueue: dbQueue)
     }
 
     func setPushForAllPodcasts(pushEnabled: Bool, dbQueue: GRDBQueue) {
@@ -429,8 +455,6 @@ class PodcastDataManager {
                 FileLog.shared.addMessage("PodcastDataManager.setOnAllPodcasts error: \(error)")
             }
         }
-
-        cachePodcasts(dbQueue: dbQueue)
     }
 
     func setDownloadSettingForAllPodcasts(setting: AutoDownloadSetting, dbQueue: GRDBQueue) {
@@ -449,8 +473,6 @@ class PodcastDataManager {
                 FileLog.shared.addMessage("PodcastDataManager.setOnAllPodcasts error: \(error)")
             }
         }
-
-        cachePodcasts(dbQueue: dbQueue)
     }
 
     func saveSortOrders(podcasts: [Podcast], dbQueue: GRDBQueue) {
@@ -463,20 +485,14 @@ class PodcastDataManager {
                 FileLog.shared.addMessage("PodcastDataManager.saveSortOrders error: \(error)")
             }
         }
-
-        cachePodcasts(dbQueue: dbQueue)
     }
 
     func removeAllPodcastsFromFolder(folderUuid: String, dbQueue: GRDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET folderUuid = NULL, syncStatus = \(SyncStatus.notSynced.rawValue) WHERE folderUuid = ?", values: [folderUuid], methodName: "PodcastDataManager.removeAllPodcastsFromFolder", onQueue: dbQueue)
-
-        cachePodcasts(dbQueue: dbQueue)
     }
 
     func removeAllPodcastsFromAllFolders(dbQueue: GRDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET folderUuid = NULL", values: nil, methodName: "PodcastDataManager.removeAllPodcastsFromAllFolders", onQueue: dbQueue)
-
-        cachePodcasts(dbQueue: dbQueue)
     }
 
     func updateAllPodcastGrouping(to grouping: PodcastGrouping, dbQueue: GRDBQueue) {
@@ -498,31 +514,49 @@ class PodcastDataManager {
 
     private func saveSingleValue(name: String, value: Any?, podcastUuid: String, dbQueue: GRDBQueue) {
         DataHelper.run(query: "UPDATE \(DataManager.podcastTableName) SET \(name) = ? WHERE uuid = ?", values: [value ?? NSNull(), podcastUuid], methodName: "PodcastDataManager.saveSingleValue", onQueue: dbQueue)
-
-        cachePodcasts(dbQueue: dbQueue)
     }
 
     // MARK: - Caching
 
-    private func cachePodcasts(dbQueue: GRDBQueue) {
-        let trace = TraceManager.shared.beginTracing(eventName: "DATABASE_PODCAST_CACHE")
-        defer { TraceManager.shared.endTracing(trace: trace) }
+    private func cachePodcasts(db: PCDatabase) {
+        do {
+            let resultSet = try db.executeQuery("SELECT * from \(DataManager.podcastTableName)", values: nil)
 
-        dbQueue.read { db in
-            do {
-                let resultSet = try db.executeQuery("SELECT * from \(DataManager.podcastTableName)", values: nil)
-
-                var newPodcasts = [String: Podcast]()
-                while resultSet.next() {
-                    let podcast = self.createPodcastFrom(resultSet: resultSet)
-                    newPodcasts[podcast.uuid] = podcast
-                }
-                cachedPodcasts.withLock { cachedPodcasts in
-                    cachedPodcasts = newPodcasts
-                }
-            } catch {
-                FileLog.shared.addMessage("PodcastDataManager.cachePodcasts error: \(error)")
+            var newPodcasts = [String: Podcast]()
+            while resultSet.next() {
+                let podcast = createPodcastFrom(resultSet: resultSet)
+                newPodcasts[podcast.uuid] = podcast
             }
+            cachedPodcasts.withLock { cachedPodcasts in
+                cachedPodcasts = newPodcasts
+            }
+        } catch {
+            FileLog.shared.addMessage("PodcastDataManager.cachePodcasts error: \(error)")
+        }
+    }
+
+    /// Reloads the podcast rows a committed transaction changed, and removes the deleted ones.
+    private func cachePodcasts(ids: Set<Int64>, db: Database) {
+        do {
+            let idList = ids.map(String.init).joined(separator: ",")
+            let resultSet = try GRDBDatabase(database: db).executeQuery("SELECT * from \(DataManager.podcastTableName) WHERE id IN (\(idList))", values: nil)
+
+            var changedPodcasts = [Podcast]()
+            while resultSet.next() {
+                changedPodcasts.append(createPodcastFrom(resultSet: resultSet))
+            }
+            let deletedIds = ids.subtracting(changedPodcasts.map(\.id))
+
+            cachedPodcasts.withLock { cachedPodcasts in
+                if !deletedIds.isEmpty {
+                    cachedPodcasts = cachedPodcasts.filter { !deletedIds.contains($0.value.id) }
+                }
+                for podcast in changedPodcasts {
+                    cachedPodcasts[podcast.uuid] = podcast
+                }
+            }
+        } catch {
+            FileLog.shared.addMessage("PodcastDataManager.cachePodcasts(ids:) error: \(error)")
         }
     }
 
@@ -542,5 +576,31 @@ class PodcastDataManager {
         guard let title1 = p1.title, let title2 = p2.title else { return false }
 
         return PodcastSorter.titleSort(title1: title1, title2: title2)
+    }
+}
+
+/// Collects the podcast rows each transaction changes, and reports them on the writer queue once the transaction commits.
+private final class PodcastCacheObserver: TransactionObserver {
+    var didCommit: ((Database, Set<Int64>) -> Void)?
+    private var changedIds = Set<Int64>()
+
+    func observes(eventsOfKind eventKind: DatabaseEventKind) -> Bool {
+        eventKind.tableName.caseInsensitiveCompare(DataManager.podcastTableName) == .orderedSame
+    }
+
+    func databaseDidChange(with event: DatabaseEvent) {
+        changedIds.insert(event.rowID)
+    }
+
+    func databaseDidCommit(_ db: Database) {
+        guard !changedIds.isEmpty else { return }
+
+        let ids = changedIds
+        changedIds.removeAll()
+        didCommit?(db, ids)
+    }
+
+    func databaseDidRollback(_ db: Database) {
+        changedIds.removeAll()
     }
 }

@@ -120,9 +120,9 @@ class DiscoverPodcastTableCell: ThemeableCell {
     }
 
     @IBAction func subscribeTapped(_ sender: AnyObject) {
-        subscribeButton.currentlyOn = true
+        guard !subscribeButton.currentlyOn, let discoverPodcast else { return }
 
-        guard let discoverPodcast else { return }
+        subscribeButton.currentlyOn = true
 
         if discoverPodcast.iTunesOnly() {
             ServerPodcastManager.shared.subscribeFromItunesId(Int(discoverPodcast.iTunesId!)!, completion: nil)

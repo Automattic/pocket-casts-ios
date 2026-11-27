@@ -29,12 +29,16 @@
     <string>Cancelar multisseleção</string>
     <key>accessibility_close_dialog</key>
     <string>Fechar janela</string>
+    <key>accessibility_close_player</key>
+    <string>Fechar reprodutor</string>
     <key>accessibility_deselect_episode</key>
     <string>Remover seleção de episódio</string>
     <key>accessibility_disabled</key>
     <string>Desativado</string>
     <key>accessibility_dismiss</key>
     <string>Dispensar</string>
+    <key>accessibility_episode_actions</key>
+    <string>Ações do episódio</string>
     <key>accessibility_episode_playback</key>
     <string>Reprodução do episódio</string>
     <key>accessibility_follow_podcast</key>
@@ -47,6 +51,10 @@
     <string>Toque duas vezes para favoritar o episódio</string>
     <key>accessibility_hint_unstar</key>
     <string>Toque duas vezes para remover o episódio dos favoritos</string>
+    <key>accessibility_mini_player</key>
+    <string>Reprodutor</string>
+    <key>accessibility_mini_player_hint</key>
+    <string>Toque para abrir o reprodutor no tamanho original</string>
     <key>accessibility_more_actions</key>
     <string>Mais ações</string>
     <key>accessibility_patron_only</key>
@@ -65,8 +73,12 @@
     <string>Imagem da playlist</string>
     <key>accessibility_plus_only</key>
     <string>Bloqueado: recurso Plus</string>
+    <key>accessibility_podcast_artwork</key>
+    <string>Arte do podcast</string>
     <key>accessibility_profile_settings</key>
     <string>Configurações do Pocket Casts</string>
+    <key>accessibility_remove_recent_search</key>
+    <string>Remover %1$@ das pesquisas recentes</string>
     <key>accessibility_select_episode</key>
     <string>Selecionar episódio</string>
     <key>accessibility_show_filter_details</key>
@@ -77,6 +89,8 @@
     <string>Ordem e opções</string>
     <key>accessibility_unfollow_podcast</key>
     <string>Deixar de seguir %1$@</string>
+    <key>accessibility_up_next_list</key>
+    <string>Lista de Próximos</string>
     <key>account</key>
     <string>Conta</string>
     <key>account_change_email</key>
@@ -341,8 +355,12 @@ Faça download do aplicativo para ter uma experiência completa!</string>
     <string>Favorito</string>
     <key>bookmark_delete_warning_body</key>
     <string>Tem certeza de que deseja excluir esses favoritos? Essa ação não pode ser desfeita.</string>
+    <key>bookmark_delete_warning_body_singular</key>
+    <string>Tem certeza de que deseja excluir esse favorito? Essa ação não pode ser desfeita.</string>
     <key>bookmark_delete_warning_title</key>
     <string>Excluir favoritos?</string>
+    <key>bookmark_delete_warning_title_singular</key>
+    <string>Excluir favorito?</string>
     <key>bookmark_details_title</key>
     <string>Marcar como favorito</string>
     <key>bookmark_edit_transcript_subtitle</key>
@@ -692,8 +710,22 @@ Você pode se desconectar a qualquer momento nas Configurações.</string>
     <string>Conectar ao Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>O temporizador reiniciou devido ao sacudir do dispositivo.</string>
+    <key>discount_offer_claim_button</key>
+    <string>Resgatar %1$@ de desconto</string>
+    <key>discount_offer_description</key>
+    <string>%1$@ de desconto por %2$@</string>
+    <key>discount_offer_limited_time_badge</key>
+    <string>Oferta por tempo limitado</string>
+    <key>discount_offer_period_price</key>
+    <string>~%1$@~ %2$@ por %3$@</string>
+    <key>discount_offer_product_badge</key>
+    <string>%1$@ de desconto</string>
+    <key>discount_offer_upgrade_title</key>
+    <string>%1$@ de desconto no %2$@ por %3$@</string>
     <key>discover</key>
     <string>Explorar</string>
+    <key>discover_all_categories</key>
+    <string>Todas as categorias</string>
     <key>discover_all_episodes</key>
     <string>Todos os episódios</string>
     <key>discover_all_podcasts</key>
@@ -870,6 +902,8 @@ Você pode se desconectar a qualquer momento nas Configurações.</string>
     <string>Falha na pesquisa</string>
     <key>discover_search_failed_msg</key>
     <string>Verifique sua conexão com a Internet.</string>
+    <key>discover_select_a_category</key>
+    <string>Selecione uma categoria</string>
     <key>discover_select_region</key>
     <string>Selecionar região do conteúdo</string>
     <key>discover_show_all</key>
@@ -2125,6 +2159,14 @@ Isso que é compromisso!</string>
     <string>Mais podcasts, mais alegria</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>Em comparação com 2024, seu tempo de streaming disparou %1$@</string>
+    <key>playback_2026_banner_description</key>
+    <string>Confira suas estatísticas de reprodução, que tipo de ouvinte você é e muito mais.</string>
+    <key>playback_2026_banner_title</key>
+    <string>Chegou o %1$@!</string>
+    <key>playback_2026_sheet_button</key>
+    <string>Ver meu %1$@</string>
+    <key>playback_2026_sheet_description</key>
+    <string>O que você ouviu. Os podcasts que você amou. E o seu diferencial como ouvinte. Confira seu ano no Pocket Casts.</string>
     <key>playback_effect_all_podcasts</key>
     <string>Todos os podcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -2539,8 +2581,6 @@ Tente ajustá-las ou salve esta playlist para futuros episódios correspondentes
     <string>Pocket Casts Plus</string>
     <key>pocket_casts_plus_short</key>
     <string>Plus</string>
-    <key>pocket_casts_welcome_newsletter_title</key>
-    <string>Receba a newsletter</string>
     <key>podcast_access_ended</key>
     <string>O acesso terminou em: %1$@</string>
     <key>podcast_access_ends</key>
@@ -2563,6 +2603,8 @@ Tente ajustá-las ou salve esta playlist para futuros episódios correspondentes
     <string>%1$@ arquivados</string>
     <key>podcast_archived_msg</key>
     <string>Todos os %1$@ episódios deste podcast foram arquivados</string>
+    <key>podcast_archived_msg_singular</key>
+    <string>O único episódio deste podcast foi arquivado</string>
     <key>podcast_count_plural_format</key>
     <string>%1$@ podcasts</string>
     <key>podcast_count_singular</key>
@@ -2756,6 +2798,14 @@ Se você estiver buscando inspiração, experimente a guia Explorar.</string>
     <string>Nome</string>
     <key>podcasts_list</key>
     <string>Lista</string>
+    <key>podcasts_played_podcasts</key>
+    <string>Podcasts reproduzidos</string>
+    <key>podcasts_played_podcasts_description</key>
+    <string>Oculta podcasts sem mais nada para ouvir, onde todos os episódios foram reproduzidos ou arquivados. Eles reaparecem quando um novo episódio chega.</string>
+    <key>podcasts_played_podcasts_hide</key>
+    <string>Ocultar</string>
+    <key>podcasts_played_podcasts_show</key>
+    <string>Mostrar</string>
     <key>podcasts_plural</key>
     <string>Podcasts</string>
     <key>podcasts_share</key>
@@ -3269,8 +3319,8 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Abrir links no navegador</string>
     <key>settings_general_play_back_actions</key>
     <string>Mais ações de reprodução</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Adiciona a opção de classificar por estrelas à tela de bloqueio do seu celular.</string>
+    <key>settings_general_play_back_actions_subtitle_device</key>
+    <string>Adiciona a opção de classificar por estrelas à tela de bloqueio.</string>
     <key>settings_general_player_header</key>
     <string>REPRODUTOR</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3421,8 +3471,8 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Hosts comuns de podcast</string>
     <key>settings_status_host_description</key>
     <string>Os autores de podcasts hospedam os arquivos de episódios em diversos servidores de hospedagem que não são gerenciados pelo Pocket Casts.</string>
-    <key>settings_status_host_failure_message</key>
-    <string>A causa mais comum é ter um bloqueador de anúncios configurado no seu telefone ou na sua rede. Você precisa desbloquear este domínio para fazer download dos podcasts. O Pocket Casts não hospeda nem escolhe onde os podcasts são hospedados. Isso cabe ao autor do programa e está fora da nossa alçada.</string>
+    <key>settings_status_host_failure_message_device</key>
+    <string>A causa mais comum é ter um bloqueador de anúncios configurado no seu dispositivo ou na sua rede. Você precisa desbloquear este domínio para fazer download dos podcasts. O Pocket Casts não hospeda nem escolhe onde os podcasts são hospedados. Isso cabe ao autor do programa e está fora da nossa alçada.</string>
     <key>settings_status_internet</key>
     <string>Internet</string>
     <key>settings_status_internet_description</key>
@@ -3435,8 +3485,8 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>O serviço usado para encontrar novos episódios.</string>
     <key>settings_status_run</key>
     <string>Executar agora</string>
-    <key>settings_status_service_ad_blocker_help_singular</key>
-    <string>A causa mais comum é ter um bloqueador de anúncios configurado no seu telefone ou na sua rede. Você precisa desbloquear o domínio %1$@</string>
+    <key>settings_status_service_ad_blocker_help_singular_device</key>
+    <string>A causa mais comum é ter um bloqueador de anúncios configurado no seu dispositivo ou na sua rede. Você precisa desbloquear o domínio %1$@</string>
     <key>settings_storage</key>
     <string>Uso de dados e armazenamento</string>
     <key>settings_storage_data_warning</key>
@@ -3447,8 +3497,8 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>DADOS MÓVEIS</string>
     <key>settings_storage_usage</key>
     <string>USO</string>
-    <key>settings_storage_usage_footer</key>
-    <string>Pode ser diferente do armazenamento mostrado nos Ajustes do iPhone. O iOS gerencia dados armazenados em cache automaticamente e os libera quando necessário.</string>
+    <key>settings_storage_usage_footer_device</key>
+    <string>Isso pode ser diferente do armazenamento mostrado nos Ajustes do %1$@. Seu dispositivo gerencia dados armazenados em cache automaticamente e os libera quando necessário.</string>
     <key>settings_third_party_analytics</key>
     <string>Análises de terceiros</string>
     <key>settings_title</key>
@@ -3487,8 +3537,8 @@ Aqui está um passe de convidado de %1$@ para o Pocket Casts Plus, meu reproduto
     <string>Configurar conta</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>Balançar para reiniciar o temporizador</string>
-    <key>shake_to_restart_sleep_timer_description</key>
-    <string>Se ativado, o temporizador será reiniciado quando você balançar seu celular.</string>
+    <key>shake_to_restart_sleep_timer_description_device</key>
+    <string>Se ativado, o temporizador será reiniciado quando você balançar seu dispositivo.</string>
     <key>share</key>
     <string>Compartilhar</string>
     <key>share_clip</key>
@@ -4442,22 +4492,8 @@ As duas opções são boas. 🙂</string>
     <string>Nada na fila de Próximos</string>
     <key>week</key>
     <string>semana</string>
-    <key>welcome_discover_button</key>
-    <string>Encontrar meu próximo podcast</string>
-    <key>welcome_discover_description</key>
-    <string>Veja nossa curadoria de podcasts que estão em alta ou que passaram despercebidos na página Explorar.</string>
-    <key>welcome_discover_title</key>
-    <string>Descubra algo novo</string>
     <key>welcome_import_button</key>
     <string>Importar podcasts</string>
-    <key>welcome_import_description</key>
-    <string>Vindo de outro aplicativo? Leve seus podcasts com você.</string>
-    <key>welcome_import_title</key>
-    <string>Importe seus podcasts</string>
-    <key>welcome_new_account_title</key>
-    <string>Desejamos as boas-vindas, agora solta o som!</string>
-    <key>welcome_plus_title</key>
-    <string>Agradecemos, agora solta o som!</string>
     <key>whats_new</key>
     <string>Novidades</string>
     <key>whats_new_blog_more_link_text</key>

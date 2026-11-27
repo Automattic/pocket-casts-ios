@@ -696,9 +696,11 @@ class PodcastViewController: PCViewController, PodcastActionsDelegate, MultiSele
                 finalData[1] = ArraySection(model: "episodes", elements: [placeholder])
             } else if needsNoEpisodesMessage {
                 let archivedCount = self.archivedEpisodeCount()
-                let message = L10n.podcastArchivedMsg(archivedCount.localized())
-                let placeholder = AllArchivedPlaceholder(archived: archivedCount, message: message)
-                finalData[1] = ArraySection(model: "episodes", elements: [placeholder])
+                if archivedCount > 0 {
+                    let message = archivedCount == 1 ? L10n.podcastArchivedMsgSingular : L10n.podcastArchivedMsg(archivedCount.localized())
+                    let placeholder = AllArchivedPlaceholder(archived: archivedCount, message: message)
+                    finalData[1] = ArraySection(model: "episodes", elements: [placeholder])
+                }
             }
 
             if animated {

@@ -6,6 +6,33 @@ class EpisodeDataManager {
     enum Constants {
         enum Limits {
             static let maxPlaylistItems = 1000
+            /// How many episodes `insertMissing` saves in one write
+            static let insertMissingChunkSize = 100
+        }
+    }
+
+    private static let sequentialEpisodeIdsKey = "SequentialEpisodeIds"
+
+    /// `true` if the database was created by a version that gives new episodes sequential IDs and the flag is on
+    private let givesSequentialIds: Bool
+    private var largestEpisodeId: Int64 = 0
+
+    init(databaseWasCreated: Bool, userDefaults: UserDefaults) {
+        if databaseWasCreated {
+            userDefaults.set(true, forKey: Self.sequentialEpisodeIdsKey)
+        }
+        givesSequentialIds = userDefaults.bool(forKey: Self.sequentialEpisodeIdsKey) && FeatureFlag.sequentialEpisodeIds.enabled
+    }
+
+    func setup(dbQueue: GRDBQueue) {
+        guard givesSequentialIds else { return }
+
+        do {
+            try dbQueue.dbPool.writeWithoutTransaction { db in
+                try rememberLargestEpisodeId(in: db)
+            }
+        } catch {
+            FileLog.shared.addMessage("EpisodeDataManager.setup error: \(error)")
         }
     }
 
@@ -154,7 +181,12 @@ class EpisodeDataManager {
     }
 
     func unsyncedEpisodes(limit: Int, dbQueue: GRDBQueue) -> [Episode] {
-        loadMultiple(query: "SELECT * from \(DataManager.episodeTableName) WHERE playingStatusModified > 0 OR playedUpToModified > 0 OR durationModified > 0 OR keepEpisodeModified > 0 OR archivedModified > 0 ORDER BY publishedDate DESC, addedDate DESC LIMIT \(limit)", values: nil, dbQueue: dbQueue)
+        loadMultiple(query: Self.unsyncedEpisodesQuery(limit: limit), values: nil, dbQueue: dbQueue)
+    }
+
+    static func unsyncedEpisodesQuery(limit: Int) -> String {
+        let unsyncedIds = "SELECT id FROM \(DataManager.episodeTableName) WHERE playingStatusModified > 0 OR playedUpToModified > 0 OR durationModified > 0 OR keepEpisodeModified > 0 OR archivedModified > 0"
+        return "SELECT * FROM \(DataManager.episodeTableName) WHERE id IN (\(unsyncedIds)) ORDER BY publishedDate DESC, addedDate DESC LIMIT \(limit)"
     }
 
     func allEpisodes(forPodcastId id: Int64, dbQueue: GRDBQueue) -> [Episode] {
@@ -392,13 +424,9 @@ class EpisodeDataManager {
     }
 
     func save(episode: Episode, dbQueue: GRDBQueue) {
-        if episode.id == 0 {
-            episode.id = DBUtils.generateUniqueId()
-        }
-
         do {
             try dbQueue.dbPool.write { db in
-                try episode.save(db)
+                try insertOrSave(episode, in: db)
             }
         } catch {
             FileLog.shared.addMessage("EpisodeDataManager.save Episode error: \(error)")
@@ -409,15 +437,63 @@ class EpisodeDataManager {
         do {
             try dbQueue.dbPool.write { db in
                 for episode in episodes {
-                    if episode.id == 0 {
-                        episode.id = DBUtils.generateUniqueId()
-                    }
-                    try episode.save(db)
+                    try insertOrSave(episode, in: db)
                 }
             }
         } catch {
             FileLog.shared.addMessage("EpisodeDataManager.bulkSave error: \(error)")
         }
+    }
+
+    func insertMissing(episodes: [Episode], dbQueue: GRDBQueue) {
+        // One write per chunk, so other writes wait for one chunk at most instead of the whole list
+        for chunk in episodes.chunked(into: Constants.Limits.insertMissingChunkSize) {
+            do {
+                try dbQueue.dbPool.write { db in
+                    let exists = try db.cachedStatement(sql: "SELECT EXISTS(SELECT 1 FROM \(DataManager.episodeTableName) WHERE uuid = ?)")
+                    for episode in chunk {
+                        if try Bool.fetchOne(exists, arguments: [episode.uuid]) == true { continue }
+                        do {
+                            episode.id = try newEpisodeId(in: db)
+                            try episode.insert(db)
+                        } catch {
+                            episode.id = 0
+                            FileLog.shared.addMessage("EpisodeDataManager.insertMissing error for \(episode.uuid): \(error)")
+                        }
+                    }
+                }
+            } catch {
+                FileLog.shared.addMessage("EpisodeDataManager.insertMissing error: \(error)")
+            }
+        }
+    }
+
+    private func insertOrSave(_ episode: Episode, in db: Database) throws {
+        if episode.id == 0 {
+            episode.id = try newEpisodeId(in: db)
+            try episode.insert(db)
+        } else {
+            try episode.save(db)
+        }
+    }
+
+    private func newEpisodeId(in db: Database) throws -> Int64 {
+        guard givesSequentialIds else {
+            return DBUtils.generateUniqueId()
+        }
+
+        try rememberLargestEpisodeId(in: db)
+        guard largestEpisodeId < Int64.max else {
+            return DBUtils.generateUniqueId()
+        }
+
+        largestEpisodeId += 1
+        return largestEpisodeId
+    }
+
+    private func rememberLargestEpisodeId(in db: Database) throws {
+        let maxId = try Int64.fetchOne(db.cachedStatement(sql: "SELECT MAX(id) FROM \(DataManager.episodeTableName)")) ?? 0
+        largestEpisodeId = max(largestEpisodeId, maxId)
     }
 
     func bulkSetStarred(starred: Bool, episodes: [Episode], updateSyncFlag: Bool, dbQueue: GRDBQueue) {
@@ -610,7 +686,7 @@ class EpisodeDataManager {
     func markAllEpisodePlaybackHistorySynced(dbQueue: GRDBQueue) {
         dbQueue.write { db in
             do {
-                try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET lastPlaybackInteractionSyncStatus = ?", values: [SyncStatus.synced.rawValue])
+                try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET lastPlaybackInteractionSyncStatus = ? WHERE lastPlaybackInteractionSyncStatus IS NOT ?", values: [SyncStatus.synced.rawValue, SyncStatus.synced.rawValue])
             } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.markAllEpisodePlaybackHistorySynced error: \(error)")
             }
@@ -1014,7 +1090,7 @@ class EpisodeDataManager {
         var saved = false
         dbQueue.write { db in
             do {
-                try db.executeUpdate("UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ? AND \(modifiedFieldName) = 0", values: [value, episodeUuid])
+                try db.executeUpdate(Self.saveFieldIfNotModifiedQuery(fieldName: fieldName, modifiedFieldName: modifiedFieldName), values: [value, episodeUuid])
                 saved = (db.changes > 0)
             } catch {
                 FileLog.shared.addMessage("EpisodeDataManager.saveFieldIfNotModified error: \(error)")
@@ -1022,6 +1098,10 @@ class EpisodeDataManager {
         }
 
         return saved
+    }
+
+    static func saveFieldIfNotModifiedQuery(fieldName: String, modifiedFieldName: String) -> String {
+        "UPDATE \(DataManager.episodeTableName) SET \(fieldName) = ? WHERE uuid = ? AND +\(modifiedFieldName) = 0"
     }
 
     private func saveFieldIfNotModified(fieldName: String, modifiedFieldName: String, value: Any, remoteModified: Int64, episodeUuid: String, dbQueue: GRDBQueue) -> Bool {

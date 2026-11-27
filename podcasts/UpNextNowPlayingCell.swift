@@ -55,6 +55,28 @@ class UpNextNowPlayingCell: ThemeableCell {
 
     @IBOutlet var progressViewWidthConstraint: NSLayoutConstraint!
 
+    @IBOutlet private var dateLeadingToArtworkConstraint: NSLayoutConstraint!
+    @IBOutlet private var dateTopToBackgroundConstraint: NSLayoutConstraint!
+    @IBOutlet private var artworkCenterYConstraint: NSLayoutConstraint!
+    @IBOutlet private var animationLeadingToTitleConstraint: NSLayoutConstraint!
+    @IBOutlet private var disclosureCenterYConstraint: NSLayoutConstraint!
+
+    private lazy var stackedConstraints: [NSLayoutConstraint] = [
+        dateLabel.leadingAnchor.constraint(equalTo: roundedBackgroundView.leadingAnchor, constant: 12),
+        dateLabel.trailingAnchor.constraint(equalTo: roundedBackgroundView.trailingAnchor, constant: -12),
+        dateLabel.topAnchor.constraint(equalTo: podcastImage.bottomAnchor, constant: 8),
+        podcastImage.topAnchor.constraint(equalTo: roundedBackgroundView.topAnchor, constant: 10),
+        disclosureImageView.centerYAnchor.constraint(equalTo: podcastImage.centerYAnchor)
+    ]
+
+    private lazy var sideBySideConstraints: [NSLayoutConstraint] = [
+        dateLeadingToArtworkConstraint,
+        dateTopToBackgroundConstraint,
+        artworkCenterYConstraint,
+        animationLeadingToTitleConstraint,
+        disclosureCenterYConstraint
+    ]
+
     private var episode: BaseEpisode? = nil
 
     override func awakeFromNib() {
@@ -259,5 +281,20 @@ class UpNextNowPlayingCell: ThemeableCell {
 
         episodeTitle.updateNumberOfLines(regular: 1, accessibility: 3)
         dateLabel.updateNumberOfLines(regular: 1, accessibility: 2)
+
+        updateLayout()
+    }
+
+    private func updateLayout() {
+        let stacked = traitCollection.preferredContentSizeCategory.isAccessibilityCategory
+        guard stackedConstraints.first?.isActive != stacked else { return }
+
+        if stacked {
+            NSLayoutConstraint.deactivate(sideBySideConstraints)
+            NSLayoutConstraint.activate(stackedConstraints)
+        } else {
+            NSLayoutConstraint.deactivate(stackedConstraints)
+            NSLayoutConstraint.activate(sideBySideConstraints)
+        }
     }
 }

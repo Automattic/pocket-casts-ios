@@ -143,6 +143,11 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="dateLeadingToArtworkConstraint" destination="iPt-2Y-afY" id="oiPt-2Y-a"/>
+                <outlet property="dateTopToBackgroundConstraint" destination="JoR-VQ-h4V" id="oJoR-VQ-h"/>
+                <outlet property="artworkCenterYConstraint" destination="O7c-cP-oFm" id="oO7c-cP-o"/>
+                <outlet property="animationLeadingToTitleConstraint" destination="ByM-Wf-AWh" id="oByM-Wf-A"/>
+                <outlet property="disclosureCenterYConstraint" destination="46v-jA-mFv" id="o46v-jA-m"/>
                 <outlet property="dateLabel" destination="uFH-le-6i7" id="THY-mb-uFm"/>
                 <outlet property="disclosureImageView" destination="t5J-xk-yXq" id="3BZ-kJ-olr"/>
                 <outlet property="downloadedIndicator" destination="KAb-iK-X7U" id="PaI-LY-qhK"/>

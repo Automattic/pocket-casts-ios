@@ -64,3 +64,23 @@ class ShiftyLoadingAlert {
         alertController!.dismiss(animated: animated, completion: completion)
     }
 }
+
+extension ShiftyLoadingAlert {
+    @MainActor
+    func show(on presentingController: UIViewController, hasProgress: Bool) async {
+        await withCheckedContinuation { continuation in
+            showAlert(presentingController, hasProgress: hasProgress) {
+                continuation.resume()
+            }
+        }
+    }
+
+    @MainActor
+    func hide(animated: Bool) async {
+        await withCheckedContinuation { continuation in
+            hideAlert(animated) {
+                continuation.resume()
+            }
+        }
+    }
+}

@@ -91,6 +91,7 @@ struct SearchHistoryCell: View {
                         .frame(width: 56, height: 56)
                     }
                     .buttonStyle(SecondaryButtonStyle())
+                    .accessibilityLabel(L10n.accessibilityRemoveRecentSearch(entry.podcast?.title ?? entry.episode?.title ?? entry.searchTerm ?? ""))
                 }
                 ThemedDivider()
                     .frame(height: 1)

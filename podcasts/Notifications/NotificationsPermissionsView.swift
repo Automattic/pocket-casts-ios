@@ -1,25 +1,61 @@
+import Combine
 import SwiftUI
 import PocketCastsUtils
 import PocketCastsServer
 
 class NotificationsPermissionsViewModel: ObservableObject {
-    @Published var newsletterOptIn: Bool = true
+    @Published private(set) var newsletterOptIn: Bool
     @Published var notificationsOptIn: Bool = true
 
     /// Only ask to subscribe when there's an account to attach the newsletter to.
     let showNewsletterOptIn = SyncManager.isUserLoggedIn()
+
+    /// A new account is offered the newsletter ticked. An account that already existed has its
+    /// own setting, so the screen shows that and leaves it alone unless the user changes it here.
+    private let isNewAccount: Bool
+    private var didChangeNewsletterOptIn = false
+    private var syncObserver: AnyCancellable?
+
+    init(isNewAccount: Bool = false) {
+        self.isNewAccount = isNewAccount
+        newsletterOptIn = isNewAccount || ServerSettings.marketingOptIn()
+
+        guard !isNewAccount else { return }
+
+        // The account's setting arrives with the first sync, which can finish after this screen is shown.
+        syncObserver = NotificationCenter.default.publisher(for: ServerNotifications.syncCompleted)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.showSyncedNewsletterOptIn()
+            }
+    }
 
     func setupPermissions() async {
         let coordinator = NotificationsCoordinator.shared
         await coordinator.requestAndSetupInitialPermissions()
     }
 
-    func saveNewsletterOptIn() {
-        ServerSettings.setMarketingOptIn(newsletterOptIn)
+    func toggleNewsletterOptIn() {
+        newsletterOptIn.toggle()
+        didChangeNewsletterOptIn = true
     }
 
-    func trackNewsletterOptIn() {
+    /// Whether Save Preferences has a newsletter choice to store.
+    var shouldSaveNewsletterOptIn: Bool {
+        isNewAccount || didChangeNewsletterOptIn
+    }
+
+    func saveNewsletterOptIn() {
+        guard shouldSaveNewsletterOptIn else { return }
+
+        ServerSettings.setMarketingOptIn(newsletterOptIn)
         Analytics.track(.newsletterOptInChanged, properties: ["enabled": newsletterOptIn, "source": "notifications_permissions"])
+    }
+
+    func showSyncedNewsletterOptIn() {
+        guard !isNewAccount, !didChangeNewsletterOptIn else { return }
+
+        newsletterOptIn = ServerSettings.marketingOptIn()
     }
 
     enum NotificationOption: CaseIterable {
@@ -56,15 +92,15 @@ class NotificationsPermissionsViewModel: ObservableObject {
         func toggle(_ viewModel: NotificationsPermissionsViewModel) {
             switch self {
             case .newsletter:
-                viewModel.newsletterOptIn.toggle()
+                viewModel.toggleNewsletterOptIn()
             case .notifications:
                 viewModel.notificationsOptIn.toggle()
             }
         }
     }
 
-    static func makeController() -> UIViewController {
-        let viewModel = NotificationsPermissionsViewModel()
+    static func makeController(isNewAccount: Bool) -> UIViewController {
+        let viewModel = NotificationsPermissionsViewModel(isNewAccount: isNewAccount)
 
         let view = NotificationsPermissionsView(viewModel: viewModel)
         let controller = UIHostingController(rootView: view.setupDefaultEnvironment())
@@ -156,7 +192,6 @@ struct NotificationsPermissionsView: View {
                     Analytics.track(.notificationsPermissionsAllowTapped)
                     if viewModel.showNewsletterOptIn {
                         viewModel.saveNewsletterOptIn()
-                        viewModel.trackNewsletterOptIn()
                     }
                     Task {
                         if viewModel.notificationsOptIn {

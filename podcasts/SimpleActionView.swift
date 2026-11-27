@@ -75,6 +75,7 @@ class SimpleActionView: UIView {
 
         if let image {
             let imageView = UIImageView(image: image)
+            imageView.contentMode = .scaleAspectFit
             imageView.translatesAutoresizingMaskIntoConstraints = false
             addSubview(imageView)
 
@@ -204,7 +205,7 @@ class SimpleActionView: UIView {
 
     private func updateSize() {
         let metric = UIFontMetrics(forTextStyle: .largeTitle)
-        let imageSize = max(24, metric.scaledValue(for: 24))
+        let imageSize = max(24, metric.scaledValue(for: 24, compatibleWith: traitCollection))
 
         if let imageView {
             imageView.updateSizeConstraints(to: imageSize)

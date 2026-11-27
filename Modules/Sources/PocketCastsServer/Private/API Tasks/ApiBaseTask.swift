@@ -8,6 +8,9 @@ class ApiBaseTask: Operation, @unchecked Sendable {
 
     let dataManager: DataManager
 
+    /// Logs how long the task took when it runs on a queue.
+    var logsDuration = false
+
     private let urlConnection: URLConnection
     private let tokenHelper: TokenHelper
 
@@ -20,7 +23,11 @@ class ApiBaseTask: Operation, @unchecked Sendable {
 
     override func main() {
         autoreleasepool {
+            let startDate = Date()
             runTaskSynchronously()
+            if logsDuration {
+                FileLog.shared.addMessage("\(type(of: self)) finished in \(startDate.elapsedTimeDescription)")
+            }
         }
     }
 

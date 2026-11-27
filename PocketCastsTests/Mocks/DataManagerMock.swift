@@ -11,7 +11,7 @@ class DataManagerMock: DataManager {
         return episodesToReturn
     }
 
-    override func allPodcasts(includeUnsubscribed: Bool, reloadFromDatabase: Bool = false) -> [Podcast] {
+    override func allPodcasts(includeUnsubscribed: Bool) -> [Podcast] {
         return podcastsToReturn
     }
 

@@ -107,6 +107,8 @@ private extension LiveAnalyticsStreamer {
         // Immediately flush, then wait 500ms before next flush
         flush()
 
+        guard isFlushScheduled else { return }
+
         Task { [weak self] in
             try? await Task.sleep(nanoseconds: Config.flushDelayMs * NSEC_PER_MSEC)
             await self?.flushOrStop()

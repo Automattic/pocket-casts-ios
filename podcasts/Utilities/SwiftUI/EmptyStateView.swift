@@ -69,13 +69,12 @@ struct EmptyStateView<Title: View, Style: EmptyStateViewStyle>: View {
             content
             ScrollView {
                 content
-            }
+            }.scrollBounceBehavior(.basedOnSize)
         }
     }
 
     private var content: some View {
         VStack(spacing: EmptyConstants.spacing) {
-
             if let icon {
                 icon()
                     .resizable()

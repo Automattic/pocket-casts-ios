@@ -37,7 +37,6 @@ struct SharingView: View {
     }
 
     private enum Constants {
-        static let descriptionMaxWidth: CGFloat = 200
         static let tabViewPadding: CGFloat = 80 // A value which represents extra padding for UIPageControl of the TabView
     }
 
@@ -47,6 +46,8 @@ struct SharingView: View {
     @State private var shareable: Shareable
     @State private var isExporting: Bool = false
     @State private var episodeArtworkUrl: URL?
+
+    @ScaledMetric(relativeTo: .subheadline) private var descriptionMaxWidth: CGFloat = 200
 
     @ObservedObject var clipTime: ClipTime
 
@@ -74,10 +75,21 @@ struct SharingView: View {
     }
 
     var body: some View {
-        VStack {
-            title
-            tabView
-            SharingFooterView(clipTime: clipTime, option: $shareable.option, isExporting: $isExporting, destinations: destinations, style: shareable.style, clipUUID: clipUUID, source: source)
+        GeometryReader { proxy in
+            ScrollView {
+                VStack {
+                    title
+                        .padding(.horizontal)
+                        .fixedSize(horizontal: false, vertical: true)
+                    tabView
+                        .frame(minHeight: 220)
+                    SharingFooterView(clipTime: clipTime, option: $shareable.option, isExporting: $isExporting, destinations: destinations, style: shareable.style, clipUUID: clipUUID, source: source)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .padding(.bottom, proxy.safeAreaInsets.bottom > 0 ? 0 : 20)
+                .frame(minHeight: proxy.size.height)
+            }
+            .scrollBounceBehavior(.basedOnSize)
         }
         .onAppear {
             var properties: [String: Sendable] = [:]
@@ -140,7 +152,7 @@ struct SharingView: View {
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
-                .frame(maxWidth: Constants.descriptionMaxWidth)
+                .frame(maxWidth: descriptionMaxWidth)
                 .accessibilityHidden(shareable.style.shareDescription(option: shareable.option) == nil)
         }
     }

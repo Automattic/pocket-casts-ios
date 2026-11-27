@@ -1,5 +1,5 @@
 {
-  "originHash" : "a6f61e86ce416d837c660669c06da508eda33c8ac695aa4ffd722843053fdca0",
+  "originHash" : "371d379f260a6c772d8e629f8001339eaeb4f33ccc8e2d4bda32c55fb4c2f318",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -215,6 +215,15 @@
       "state" : {
         "revision" : "b7e1104502eca3a213b46303391ca4d3bc8ddec1",
         "version" : "2.30910.0"
+      }
+    },
+    {
+      "identity" : "pocket-casts-client-dependencies",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Automattic/pocket-casts-client-dependencies",
+      "state" : {
+        "revision" : "08483e6cb80852b84e1330dfd5374e8898be2b30",
+        "version" : "0.4.5"
       }
     },
     {

@@ -59,7 +59,7 @@ class SigningInViewModel: SigningInViewModelProtocol {
 
     private func fetchPodcasts() {
         Task {
-            let podcasts = dataManager.allPodcasts(includeUnsubscribed: false, reloadFromDatabase: true)
+            let podcasts = dataManager.allPodcasts(includeUnsubscribed: false)
             await MainActor.run {
                 self.podcasts = podcasts
             }

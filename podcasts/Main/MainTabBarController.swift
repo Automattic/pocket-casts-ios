@@ -144,6 +144,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         observeWhatsNewFeed()
 
         observersForEndOfYearStats()
+        observersForPlayback2026()
         addBookmarkCreatedToastHandler()
         addBookmarkEnrichmentHandler()
         if FeatureFlag.displayErrorsOnPlayer.enabled {
@@ -632,7 +633,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             navController.dismiss(animated: false)
         }
 
-        navController.popViewController(animated: false)
+        navController.popToRootViewController(animated: false)
         let settingViewController = SettingsViewController()
         navController.pushViewController(settingViewController, animated: row == nil)
 
@@ -1104,6 +1105,7 @@ private extension MainTabBarController {
         if isFirstAppearance {
             showWhatsNewIfNeeded()
             showEndOfYearPromptIfNeeded()
+            showPlayback2026SheetIfNeeded()
         }
 
         showInitialOnboardingIfNeeded()
@@ -1120,6 +1122,26 @@ private extension MainTabBarController {
         endOfYear.showPromptBasedOnState(in: self)
     }
 
+    func showPlayback2026SheetIfNeeded() {
+        Task {
+            guard await Playback2026.checkEligibility(), !isShowingWhatsNew, AnnouncementFlow.current == .none, !isInitialOnboardingPending else { return }
+
+            Playback2026.showSheetIfNeeded(in: self)
+        }
+    }
+
+    private var isInitialOnboardingPending: Bool {
+        let hasCompletedInitialOnboarding = Settings.shouldShowInitialOnboardingFlow == false && Settings.hasSeenInitialOnboardingBefore
+        return !SyncManager.isUserLoggedIn() && !hasCompletedInitialOnboarding
+    }
+
+    func observersForPlayback2026() {
+        NotificationCenter.default.addObserver(forName: .onboardingFlowDidDismiss, object: nil, queue: .main) { [weak self] _ in
+            guard let self, !Playback2026.startAfterSignInIfNeeded(from: self) else { return }
+            self.showPlayback2026SheetIfNeeded()
+        }
+    }
+
     func showWhatsNewIfNeeded() {
         guard let controller = view.window?.rootViewController else { return }
 
@@ -1134,11 +1156,11 @@ private extension MainTabBarController {
 
 extension MainTabBarController {
 
-    func showNotificationsPermissions() {
+    func showNotificationsPermissions(isNewAccount: Bool) {
         // Present inline so it beats the `.onboardingFlowDidDismiss` EOY prompt; skip only when
         // another flow is already presenting, since we can't stack on it.
         guard presentedViewController == nil else { return }
-        present(NotificationsPermissionsViewModel.makeController(), animated: true)
+        present(NotificationsPermissionsViewModel.makeController(isNewAccount: isNewAccount), animated: true)
     }
 }
 

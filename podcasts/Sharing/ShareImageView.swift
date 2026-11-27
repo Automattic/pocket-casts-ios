@@ -110,6 +110,7 @@ struct ShareImageView: View {
                 Image("music")
             }
         }
+        .dynamicTypeSize(.large)
     }
 
     @ViewBuilder func background() -> some View {

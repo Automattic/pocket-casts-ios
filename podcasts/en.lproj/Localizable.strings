@@ -19,6 +19,9 @@
 /* Accessibility label for the button on a podcast the user already follows, used in lists where several podcasts each have this button. '%1$@' is a placeholder for the podcast title. */
 "accessibility_unfollow_podcast" = "Unfollow %1$@";
 
+/* Accessibility label for the button that removes an item from the Recent searches list. '%1$@' is a placeholder for the search term, or the podcast or episode title. */
+"accessibility_remove_recent_search" = "Remove %1$@ from recent searches";
+
 /* An accessibility label to direct the user tap to get access to filter details. */
 "accessibility_hide_filter_details" = "Tap to hide filter details";
 
@@ -1944,6 +1947,9 @@
 /* Informational message informing the user that no episodes are being displayed because they're all archived. '%1$@' is a placeholder for the number of episodes. */
 "podcast_archived_msg" = "All %1$@ episodes of this podcast have been archived";
 
+/* Informational message informing the user that no episodes are being displayed because the podcast's only episode is archived. This is the singular version of an accompanying plural format. */
+"podcast_archived_msg_singular" = "The only episode of this podcast has been archived";
+
 /* A common string used throughout the app. Displays the count of selected podcasts. '%1$@' is a placeholder for the number of podcasts, the value will be more than one. */
 "podcast_count_plural_format" = "%1$@ podcasts";
 
@@ -2126,6 +2132,18 @@
 
 /* Title for the options to configure badge display options. */
 "podcasts_badges" = "Badges";
+
+/* Title for the option to show or hide podcasts the user has fully listened to on the Podcasts tab. */
+"podcasts_played_podcasts" = "Played Podcasts";
+
+/* Explains the Played Podcasts option, shown below its title. */
+"podcasts_played_podcasts_description" = "Hides podcasts with nothing left to listen to, where every episode is played or archived. They reappear when a new episode arrives.";
+
+/* Option to show podcasts the user has fully listened to on the Podcasts tab. */
+"podcasts_played_podcasts_show" = "Show";
+
+/* Option to hide podcasts the user has fully listened to on the Podcasts tab. */
+"podcasts_played_podcasts_hide" = "Hide";
 
 /* Prompt to enter the mode for reordering the podcasts grid. */
 "podcasts_edit" = "Edit Podcasts";
@@ -2699,7 +2717,7 @@
 "settings_general_play_back_actions" = "Extra Playback Actions";
 
 /* Subtitle explaining the toggle to modify what controls are available on the lock screen. */
-"settings_general_play_back_actions_subtitle" = "Adds a star option to your phone lock screen.";
+"settings_general_play_back_actions_subtitle_device" = "Adds a star option to your lock screen.";
 
 /* Section header for the general settings that are more player related. */
 "settings_general_player_header" = "PLAYER";
@@ -2911,8 +2929,8 @@
 /* Section header for information about storage space used. */
 "settings_storage_usage" = "USAGE";
 
-/* Footer note on the Storage & Data Use screen explaining why iOS may report higher storage than the app does. */
-"settings_storage_usage_footer" = "This may differ from the storage shown in your iPhone Settings. iOS manages cached data automatically and frees it up when needed.";
+/* Footer note on the Storage & Data Use screen explaining why the system may report higher storage than the app does. '%1$@' is a placeholder for the device model name, e.g. 'iPhone' or 'iPad'. */
+"settings_storage_usage_footer_device" = "This may differ from the storage shown in your %1$@ Settings. Your device manages cached data automatically and frees it up when needed.";
 
 /* Title for the settings screen */
 "settings_title" = "Podcast Settings";
@@ -3014,7 +3032,7 @@
 "settings_status_refresh_service_description" = "The service used to find new episodes.";
 
 /* Failure message for a service check. */
-"settings_status_service_ad_blocker_help_singular" = "The most common cause is that you have an ad-blocker configured on your phone or network. You’ll need to unblock the domain %1$@";
+"settings_status_service_ad_blocker_help_singular_device" = "The most common cause is that you have an ad-blocker configured on your device or network. You’ll need to unblock the domain %1$@";
 
 /* Title for the service being checked, in this case, the Pocket Cast's Account Service. */
 "settings_status_account_service" = "Account Service";
@@ -3035,7 +3053,7 @@
 "settings_status_host_description" = "Podcast authors host episode files in various hosting providers not managed by Pocket Casts.";
 
 /* Failure message for the podcast host check. */
-"settings_status_host_failure_message" = "The most common cause is that you have an ad-blocker configured on your phone or network. You’ll need to unblock this domain to download podcasts. Please note Pocket Casts doesn’t host or choose where podcasts are hosted, that’s up to the author of the show and is out of our control.";
+"settings_status_host_failure_message_device" = "The most common cause is that you have an ad-blocker configured on your device or network. You’ll need to unblock this domain to download podcasts. Please note Pocket Casts doesn’t host or choose where podcasts are hosted, that’s up to the author of the show and is out of our control.";
 
 /* Title of the Troubleshooting screen, reachable from the Help & Feedback "more" menu. */
 "troubleshooting_title" = "Troubleshooting";
@@ -3983,6 +4001,24 @@
 /* Pricing terms explaining that the user will have a discount in the first period then will pay full price, %1$@ is the full price, %2$@ the discount duration, %3$@ the date the user will pay full price */
 "pricing_terms_after_discount" = "Recurring payments at %1$@ after %2$@ (%3$@)";
 
+/* Title for a button that lets the user purchase a subscription with a discount offer, %1$@ is the localized discount percentage (50%) */
+"discount_offer_claim_button" = "Claim %1$@ off";
+
+/* Badge shown on the upgrade screen header when a limited time discount offer is available */
+"discount_offer_limited_time_badge" = "Limited time offer";
+
+/* Title of the upgrade screen when a discount offer is available, %1$@ is the localized discount percentage (50%), %2$@ is the subscription plan name (Plus or Patron), %3$@ is the localized offer duration with the number spelled out (one year) */
+"discount_offer_upgrade_title" = "%1$@ off %2$@ for %3$@";
+
+/* Badge shown on a subscription product with a discount offer, %1$@ is the localized discount percentage (50%) */
+"discount_offer_product_badge" = "%1$@ off";
+
+/* Discounted product price. The text between ~ characters is shown with a strikethrough and the ~ characters must be kept. %1$@ is the full price ($39.99), %2$@ is the discounted price ($19.99), %3$@ is the localized offer duration (1 year) */
+"discount_offer_period_price" = "~%1$@~ %2$@ for %3$@";
+
+/* Description of a discount offer on a subscription, %1$@ is the localized discount percentage (50%), %2$@ is the localized offer duration (1 year) */
+"discount_offer_description" = "%1$@ off for %2$@";
+
 /* Subscription pricing format, %1$@ is the price, %2$@ is the subscription period */
 "subscription_frequency_pricing_format" = "%1$@ per %2$@";
 
@@ -4811,7 +4847,7 @@
 "auto_restart_sleep_timer_description" = "If on, the sleep timer will restart automatically if you play an episode within 5 minutes after the last pause.";
 
 /* Description of the option to shake to restart sleep timer */
-"shake_to_restart_sleep_timer_description" = "If on, the sleep timer will restart when you shake your phone.";
+"shake_to_restart_sleep_timer_description_device" = "If on, the sleep timer will restart when you shake your device.";
 
 /* Title of a screen that display Folders history */
 "folders_history" = "Folders History";
@@ -6061,6 +6097,18 @@
 
 /// Label of the Playback 2025 call to action buton
 "playback_2025_view_year" = "View My Playback 2025";
+
+/* Title of the Playback 2026 banner in the Profile tab. %1$@ is the feature name, Playback 2026, which stays in English in every language. */
+"playback_2026_banner_title" = "%1$@ is here!";
+
+/// Description of the Playback 2026 banner in the Profile tab
+"playback_2026_banner_description" = "Discover your listening stats, which kind of listener you are, and more.";
+
+/// Description in the Playback 2026 announcement sheet
+"playback_2026_sheet_description" = "What you listened to. The podcasts you loved. And what sets you apart as a listener. Your year in Pocket Casts is here.";
+
+/* Label of the call to action button in the Playback 2026 announcement sheet. %1$@ is the feature name, Playback 2026, which stays in English in every language. */
+"playback_2026_sheet_button" = "View My %1$@";
 
 /// Label of the Playback 2025 call to action buton
 "playback_2025_intro_message" = "Your year in podcasts, wrapped and ready to relive";

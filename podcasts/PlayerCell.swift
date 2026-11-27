@@ -121,6 +121,8 @@ class PlayerCell: ThemeableSwipeCell {
             return
         }
 
+        view.isExclusiveTouch = true
+
         let gesture = UILongPressGestureRecognizer(target: self, action: #selector(didTouchHandle))
         gesture.minimumPressDuration = 0.1
         gesture.cancelsTouchesInView = false

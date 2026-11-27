@@ -109,6 +109,7 @@ class NewPlaylistCell: ThemeableCell {
         if FeatureFlag.playlistCacheInvalidation.enabled {
             cancellables.removeAll()
         }
+        let playlistID = self.playlistID
         Task {
             await playlistMetadataLoader.cancelLoadCount(for: playlistID)
             await playlistMetadataLoader.cancelLoadImages(for: playlistID)

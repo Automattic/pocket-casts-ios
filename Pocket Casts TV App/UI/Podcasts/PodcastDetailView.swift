@@ -6,7 +6,7 @@ struct PodcastDetailView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(MainTabViewModel.self) var tabRouter: MainTabViewModel
     @Environment(\.requireAccount) private var requireAccount
-    @State var model: PodcastDetailViewModel
+    @State private var model: PodcastDetailViewModel
 
     @FocusState private var focusedSection: FocusSection?
     @FocusState private var rowFocus: EpisodeRowFocus?

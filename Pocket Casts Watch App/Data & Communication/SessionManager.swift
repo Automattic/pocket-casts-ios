@@ -94,8 +94,14 @@ class SessionManager: NSObject, WCSessionDelegate {
     }
 
     func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
-        guard FeatureFlag.watchTransferUserInfoApi.enabled else { return }
         guard let messageType = message[WatchConstants.Messages.messageType] as? String else { return }
+
+        if WatchConstants.Messages.LogFileRequest.type == messageType {
+            sendLogFileViaTransfer()
+            return
+        }
+
+        guard FeatureFlag.watchTransferUserInfoApi.enabled else { return }
 
         if WatchConstants.Messages.StateUpdate.type == messageType {
             handleStateUpdate(message)

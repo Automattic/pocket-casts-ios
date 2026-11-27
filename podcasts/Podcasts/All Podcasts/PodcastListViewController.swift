@@ -41,6 +41,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
     var gridLayout: LibraryType = Settings.libraryType
 
     var isEditingOrder = false
+    var hasReorderedItems = false
     var savedRightBarButtonItem: UIBarButtonItem?
 
     private var lastWillLayoutWidth: CGFloat = 0
@@ -104,6 +105,7 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         setupSearchBar()
         setupRefreshControl()
 
+        podcastsCollectionView.prefetchDataSource = self
         podcastsCollectionView.dragDelegate = self
         podcastsCollectionView.dropDelegate = self
         podcastsCollectionView.dragInteractionEnabled = false
@@ -132,7 +134,8 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
             "badge_type": Settings.podcastBadgeType,
             "layout": Settings.libraryType,
             "number_of_podcasts": homeGridDataHelper.numberOfPodcasts,
-            "number_of_folders": homeGridDataHelper.numberOfFolders
+            "number_of_folders": homeGridDataHelper.numberOfFolders,
+            "hide_played_podcasts": FeatureFlag.hidePlayedPodcasts.enabled && Settings.hidePlayedPodcasts
         ])
 
         showRecentlyPlayedSortingTipIfNeeded()
@@ -384,9 +387,10 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
             guard let strongSelf = self else { return }
 
             let oldData = strongSelf.gridItems
-            var newData = HomeGridDataHelper.gridListItems(orderedBy: Settings.homeFolderSortOrder, badgeType: Settings.podcastBadgeType)
+            let hiddenPodcastUuids = Settings.hiddenPodcastUuids()
+            var newData = HomeGridDataHelper.gridListItems(orderedBy: Settings.homeFolderSortOrder, badgeType: Settings.podcastBadgeType, hiddenPodcastUuids: hiddenPodcastUuids)
 
-            if newData.isEmpty {
+            if newData.isEmpty, hiddenPodcastUuids.isEmpty {
                 newData = [HomeGridListItem.empty]
             }
 
@@ -455,20 +459,35 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         badgesAction.submenu = { [weak self] in self?.makeBadgeOptionsPicker() }
         optionsPicker.addAction(action: badgesAction)
 
-        let shareAction = OptionAction(label: L10n.podcastsShare, icon: "podcast-share") {
-            let shareController = SharePodcastsViewController()
-            shareController.delegate = self
-            let navController = SJUIUtils.navController(for: shareController)
-            self.present(navController, animated: true, completion: nil)
-            Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "share"])
+        if FeatureFlag.hidePlayedPodcasts.enabled {
+            let playedPodcastsAction = OptionAction(label: L10n.podcastsPlayedPodcasts, secondaryLabel: playedPodcastsLabel(hide: Settings.hidePlayedPodcasts), icon: "eye") {
+                Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "played_podcasts"])
+            }
+            playedPodcastsAction.submenu = { [weak self] in self?.makePlayedPodcastsOptionsPicker() }
+            optionsPicker.addAction(action: playedPodcastsAction)
         }
-        optionsPicker.addAction(action: shareAction)
 
-        let editAction = OptionAction(label: L10n.podcastsEdit, icon: "filter_manual_episode_order") { [weak self] in
-            self?.setEditingOrder(true)
-            Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "edit"])
+        // Share Podcasts lists every followed podcast, including the ones Played Podcasts hides,
+        // so it depends on the library and not on what the grid shows.
+        if DataManager.shared.podcastCount() > 0 {
+            let shareAction = OptionAction(label: L10n.podcastsShare, icon: "podcast-share") {
+                let shareController = SharePodcastsViewController()
+                shareController.delegate = self
+                let navController = SJUIUtils.navController(for: shareController)
+                self.present(navController, animated: true, completion: nil)
+                Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "share"])
+            }
+            optionsPicker.addAction(action: shareAction)
         }
-        optionsPicker.addAction(action: editAction)
+
+        // Edit Podcasts reorders the grid, so it needs something on it.
+        if gridItems.contains(where: { !$0.isEmpty }) {
+            let editAction = OptionAction(label: L10n.podcastsEdit, icon: "filter_manual_episode_order") { [weak self] in
+                self?.setEditingOrder(true)
+                Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "edit"])
+            }
+            optionsPicker.addAction(action: editAction)
+        }
 
         optionsPicker.present(from: self)
 
@@ -527,6 +546,25 @@ class PodcastListViewController: PCViewController, ShareListDelegate {
         options.addAction(action: unplayedCountAction)
 
         return options
+    }
+
+    private func makePlayedPodcastsOptionsPicker() -> OptionsPicker {
+        let options = OptionsPicker(title: L10n.podcastsPlayedPodcasts.localizedUppercase, description: L10n.podcastsPlayedPodcastsDescription)
+
+        for hide in [false, true] {
+            let action = OptionAction(label: playedPodcastsLabel(hide: hide), selected: Settings.hidePlayedPodcasts == hide) { [weak self] in
+                Settings.hidePlayedPodcasts = hide
+                self?.refreshGridItems()
+                Analytics.track(.podcastsListPlayedPodcastsChanged, properties: ["hide": hide])
+            }
+            options.addAction(action: action)
+        }
+
+        return options
+    }
+
+    private func playedPodcastsLabel(hide: Bool) -> String {
+        hide ? L10n.podcastsPlayedPodcastsHide : L10n.podcastsPlayedPodcastsShow
     }
 
     override func handleThemeChanged() {

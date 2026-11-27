@@ -2460,6 +2460,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             recordPlaybackPosition(sendToServerImmediately: false, fireNotifications: true)
 
             if !needsToReloadPlayingEpisode(refreshedEpisode) {
+                queue.nowPlayingEpisodeChanged()
                 return
             }
 

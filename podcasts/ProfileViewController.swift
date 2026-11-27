@@ -86,7 +86,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
     private let settingsCellId = "SettingsCell"
     private let endOfYearPromptCell = "EndOfYearPromptCell"
 
-    enum TableRow { case informationalBanner, kidsProfile, referralsClaim, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks }
+    enum TableRow { case informationalBanner, kidsProfile, referralsClaim, allStats, downloaded, starred, listeningHistory, help, uploadedFiles, endOfYearPrompt, bookmarks, playback2026Banner }
 
     private lazy var informationalBannerCoordinator: InformationalBannerViewCoordinator = {
         let viewModel = InformationalBannerViewModel(bannerType: .profile)
@@ -97,6 +97,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         didSet {
             profileTable.register(UINib(nibName: "TopLevelSettingsCell", bundle: nil), forCellReuseIdentifier: settingsCellId)
             profileTable.register(EndOfYearPromptCell.self, forCellReuseIdentifier: endOfYearPromptCell)
+            profileTable.register(Playback2026BannerCell.self, forCellReuseIdentifier: Playback2026BannerCell.identifier)
             profileTable.register(KidsProfileBannerTableCell.self, forCellReuseIdentifier: KidsProfileBannerTableCell.identifier)
             profileTable.register(ReferralsClaimBannerTableCell.self, forCellReuseIdentifier: ReferralsClaimBannerTableCell.identifier)
             profileTable.register(InformationalProfileBannerCell.self, forCellReuseIdentifier: InformationalProfileBannerCell.identifier)
@@ -168,6 +169,7 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         updateDisplayedData()
         updateWhatsNewButton()
+        checkPlayback2026Eligibility()
 
         Analytics.track(.profileShown)
     }
@@ -263,6 +265,16 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
             self.isRefreshAnimating = false
             self.updateLastRefreshDetails()
+            self.checkPlayback2026Eligibility()
+        }
+    }
+
+    private func checkPlayback2026Eligibility() {
+        guard Playback2026.isAvailable, !Playback2026.isEligible else { return }
+        Task {
+            if await Playback2026.checkEligibility() {
+                updateDisplayedData()
+            }
         }
     }
 
@@ -328,6 +340,10 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
             return tableView.dequeueReusableCell(withIdentifier: endOfYearPromptCell, for: indexPath) as! EndOfYearPromptCell
         }
 
+        guard row != .playback2026Banner else {
+            return tableView.dequeueReusableCell(withIdentifier: Playback2026BannerCell.identifier, for: indexPath) as! Playback2026BannerCell
+        }
+
         if row == .informationalBanner {
             let cell = tableView.dequeueReusableCell(withIdentifier: InformationalProfileBannerCell.identifier, for: indexPath) as! InformationalProfileBannerCell
             cell.onCloseBannerTap = { [weak self] cell in
@@ -369,6 +385,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         switch row {
         case .informationalBanner:
             return InformationalProfileBannerCell()
+        case .playback2026Banner:
+            return Playback2026BannerCell()
         case .kidsProfile:
             return KidsProfileBannerTableCell()
         case .referralsClaim:
@@ -417,6 +435,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         if row == .endOfYearPrompt {
             Analytics.track(.endOfYearProfileCardShown, properties: ["current_year": EndOfYear.currentYear.literalValue])
         }
+        if row == .playback2026Banner {
+            Playback2026Analytics.track(.endOfYearProfileCardShown)
+        }
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -437,6 +458,9 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         tableView.deselectRow(at: indexPath, animated: true)
 
         let row = tableData[indexPath.section][indexPath.row]
+        if row == .playback2026Banner {
+            Playback2026Analytics.track(.endOfYearProfileCardTapped)
+        }
         navigateToRow(row)
     }
 
@@ -481,6 +505,8 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
         case .bookmarks:
             let bookmarksController = BookmarksProfileListController()
             navigationController?.pushViewController(bookmarksController, animated: true)
+        case .playback2026Banner:
+            Playback2026.start(from: self, source: .profile)
         }
     }
 
@@ -516,6 +542,10 @@ class ProfileViewController: PCViewController, UITableViewDataSource, UITableVie
 
         if informationalBannerCoordinator.shouldShowBanner() {
             data[0].insert(.informationalBanner, at: 0)
+        }
+
+        if Playback2026.isAvailable, Playback2026.isEligible {
+            data[0].insert(.playback2026Banner, at: 0)
         }
 
         tableData = data

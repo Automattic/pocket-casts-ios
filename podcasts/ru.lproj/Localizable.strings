@@ -29,14 +29,20 @@
     <string>Отменить множественный выбор</string>
     <key>accessibility_close_dialog</key>
     <string>Закрыть окно</string>
+    <key>accessibility_close_player</key>
+    <string>Закрыть плеер</string>
     <key>accessibility_deselect_episode</key>
     <string>Отменить выбор выпуска</string>
     <key>accessibility_disabled</key>
     <string>Отключено</string>
     <key>accessibility_dismiss</key>
     <string>Закрыть</string>
+    <key>accessibility_episode_actions</key>
+    <string>Действия в выпуске</string>
     <key>accessibility_episode_playback</key>
     <string>Воспроизведение выпуска</string>
+    <key>accessibility_follow_podcast</key>
+    <string>Подписаться на %1$@</string>
     <key>accessibility_hide_filter_details</key>
     <string>Нажмите, чтобы скрыть сведения о фильтре</string>
     <key>accessibility_hint_player_navigate_to_podcast_label</key>
@@ -45,6 +51,10 @@
     <string>Дважды нажмите, чтобы включить выпуск в избранное</string>
     <key>accessibility_hint_unstar</key>
     <string>Дважды нажмите, чтобы исключить выпуск из избранного</string>
+    <key>accessibility_mini_player</key>
+    <string>Плеер</string>
+    <key>accessibility_mini_player_hint</key>
+    <string>Нажмите, чтобы открыть плеер в полном размере</string>
     <key>accessibility_more_actions</key>
     <string>Другие действия</string>
     <key>accessibility_patron_only</key>
@@ -63,8 +73,12 @@
     <string>Изображение плейлиста</string>
     <key>accessibility_plus_only</key>
     <string>Заблокировано, функция Plus</string>
+    <key>accessibility_podcast_artwork</key>
+    <string>Тема подкаста</string>
     <key>accessibility_profile_settings</key>
     <string>Настройки Pocket Casts</string>
+    <key>accessibility_remove_recent_search</key>
+    <string>Удалить %1$@ из недавних поисковых запросов</string>
     <key>accessibility_select_episode</key>
     <string>Выбрать выпуск</string>
     <key>accessibility_show_filter_details</key>
@@ -73,6 +87,10 @@
     <string>Нажмите для просмотра или настройки учетной записи</string>
     <key>accessibility_sort_and_options</key>
     <string>Сортировка и опции</string>
+    <key>accessibility_unfollow_podcast</key>
+    <string>Отписаться от %1$@</string>
+    <key>accessibility_up_next_list</key>
+    <string>Список «В очереди»</string>
     <key>account</key>
     <string>Учётная запись</string>
     <key>account_change_email</key>
@@ -337,8 +355,12 @@
     <string>Закладка</string>
     <key>bookmark_delete_warning_body</key>
     <string>Точно удалить эти закладки? Это действие нельзя отменить.</string>
+    <key>bookmark_delete_warning_body_singular</key>
+    <string>Вы уверены, что хотите удалить эту закладку? Это действие нельзя отменить.</string>
     <key>bookmark_delete_warning_title</key>
     <string>Удалить закладки?</string>
+    <key>bookmark_delete_warning_title_singular</key>
+    <string>Удалить закладку?</string>
     <key>bookmark_details_title</key>
     <string>Закладка</string>
     <key>bookmark_edit_transcript_subtitle</key>
@@ -688,8 +710,22 @@ Pocket Casts Plus</string>
     <string>Подключиться к Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>Таймер сна перезагружен из-за встряхивания устройства</string>
+    <key>discount_offer_claim_button</key>
+    <string>Получить скидку %1$@</string>
+    <key>discount_offer_description</key>
+    <string>Скидка %1$@ на %2$@</string>
+    <key>discount_offer_limited_time_badge</key>
+    <string>Ограниченное предложение</string>
+    <key>discount_offer_period_price</key>
+    <string>~%1$@~ %2$@ на %3$@</string>
+    <key>discount_offer_product_badge</key>
+    <string>Скидка %1$@</string>
+    <key>discount_offer_upgrade_title</key>
+    <string>%2$@ со скидкой %1$@ на %3$@</string>
     <key>discover</key>
     <string>Найти</string>
+    <key>discover_all_categories</key>
+    <string>Все рубрики</string>
     <key>discover_all_episodes</key>
     <string>Все выпуски</string>
     <key>discover_all_podcasts</key>
@@ -754,6 +790,8 @@ Pocket Casts Plus</string>
     <string>ТВ и фильмы</string>
     <key>discover_change_region</key>
     <string>Измените регион, сейчас %1$@</string>
+    <key>discover_clear_category</key>
+    <string>Очистить рубрику</string>
     <key>discover_episode_fail_to_load</key>
     <string>Не удалось загрузить выпуск</string>
     <key>discover_featured</key>
@@ -864,6 +902,8 @@ Pocket Casts Plus</string>
     <string>Не удалось выполнить поиск</string>
     <key>discover_search_failed_msg</key>
     <string>Проверьте подключение к Интернету.</string>
+    <key>discover_select_a_category</key>
+    <string>Выбрать рубрику</string>
     <key>discover_select_region</key>
     <string>Выберите страну/регион</string>
     <key>discover_show_all</key>
@@ -1343,6 +1383,8 @@ Pocket Casts на полную мощность.</string>
     <string>Создать папку</string>
     <key>folder_create_new</key>
     <string>Создать новую папку</string>
+    <key>folder_create_skip</key>
+    <string>Пропустить</string>
     <key>folder_delete</key>
     <string>Удалить папку</string>
     <key>folder_delete_prompt_msg</key>
@@ -1962,6 +2004,10 @@ Pocket Casts на полную мощность.</string>
     <string>При помощи Pocket Casts Plus можно воспроизводить выпуски в случайном порядке и делать ещё много интересного</string>
     <key>paywall_dynamic_headline_watch</key>
     <string>Прослушивайте подкасты через наручные часы при помощи Pocket Casts Plus и многое другое</string>
+    <key>pcasts_import_message</key>
+    <string>Ваши подкасты и настройки будут заменены содержимым этого файла, а Pocket Casts закроется.</string>
+    <key>pcasts_import_title</key>
+    <string>Импорт подкастов и настроек</string>
     <key>phone</key>
     <string>Телефон</string>
     <key>play</key>
@@ -2113,6 +2159,14 @@ Pocket Casts на полную мощность.</string>
     <string>Больше подкастов, больше радости</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>По сравнению с 2024 годом вы посвятили прослушиванию на %1$@ больше времени!</string>
+    <key>playback_2026_banner_description</key>
+    <string>Просмотрите свою статистику прослушивания, узнайте, что отличает вас как слушателя, и многое другое.</string>
+    <key>playback_2026_banner_title</key>
+    <string>%1$@ уже здесь!</string>
+    <key>playback_2026_sheet_button</key>
+    <string>Просмотреть мой %1$@</string>
+    <key>playback_2026_sheet_description</key>
+    <string>Что вы слушали. Подкасты, которые вам понравились. И то, что отличает вас как слушателя. Вы провели с Pocket Casts целый год.</string>
     <key>playback_effect_all_podcasts</key>
     <string>Все подкасты</string>
     <key>playback_effect_this_podcast</key>
@@ -2261,6 +2315,10 @@ Pocket Casts на полную мощность.</string>
     <string>Просмотр подкастов</string>
     <key>playlist_manual_create_error_message</key>
     <string>Что-то пошло не так при создании плейлиста.</string>
+    <key>playlist_manual_empty_state_subtitle</key>
+    <string>Выберите выпуски из подкастов, на которые вы подписаны. Или проведите влево по любому выпуску, чтобы добавить его по ходу.</string>
+    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
+    <string>Найдите подкаст по своему вкусу и проведите влево по любому выпуску, чтобы добавить его.</string>
     <key>playlist_manual_empty_state_title</key>
     <string>Начните создавать плей-лист</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
@@ -2285,6 +2343,8 @@ Pocket Casts на полную мощность.</string>
     <string>Заменить текущий список «Следующие»?</string>
     <key>playlist_play_all_sheet_button_title</key>
     <string>Заменить и воспроизвести</string>
+    <key>playlist_play_all_sheet_description</key>
+    <string>Воспроизведение заменит текущий список «В очереди». Сохраните его как плейлист, чтобы не потерять.</string>
     <key>playlist_play_all_sheet_title</key>
     <string>Заменить список «Следующие»?</string>
     <key>playlist_play_all_sheet_toggle</key>
@@ -2521,8 +2581,6 @@ Pocket Casts на полную мощность.</string>
     <string>Pocket Casts Plus</string>
     <key>pocket_casts_plus_short</key>
     <string>Plus</string>
-    <key>pocket_casts_welcome_newsletter_title</key>
-    <string>Подпишитесь на рассылку</string>
     <key>podcast_access_ended</key>
     <string>Доступ прекращен: %1$@</string>
     <key>podcast_access_ends</key>
@@ -2545,6 +2603,8 @@ Pocket Casts на полную мощность.</string>
     <string>Архивировано выпусков: %1$@</string>
     <key>podcast_archived_msg</key>
     <string>Все выпуски (%1$@) этого подкаста архивированы</string>
+    <key>podcast_archived_msg_singular</key>
+    <string>Единственный выпуск этого подкаста архивирован</string>
     <key>podcast_count_plural_format</key>
     <string>Подкастов: %1$@</string>
     <key>podcast_count_singular</key>
@@ -2738,6 +2798,14 @@ Pocket Casts на полную мощность.</string>
     <string>Имя</string>
     <key>podcasts_list</key>
     <string>Список</string>
+    <key>podcasts_played_podcasts</key>
+    <string>Прослушанные подкасты</string>
+    <key>podcasts_played_podcasts_description</key>
+    <string>Скрывает подкасты, в которых все выпуски уже прослушаны или архивированы. Они появляются снова при выходе нового выпуска.</string>
+    <key>podcasts_played_podcasts_hide</key>
+    <string>Скрыть</string>
+    <key>podcasts_played_podcasts_show</key>
+    <string>Показать</string>
     <key>podcasts_plural</key>
     <string>Подкасты</string>
     <key>podcasts_share</key>
@@ -3251,8 +3319,8 @@ Pocket Casts на полную мощность.</string>
     <string>Открыть ссылки в браузере</string>
     <key>settings_general_play_back_actions</key>
     <string>Дополнительные действия при воспроизведении</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Добавляет на экран блокировки телефона возможность оценки (в звездах).</string>
+    <key>settings_general_play_back_actions_subtitle_device</key>
+    <string>Добавляет на экран блокировки возможность оценки (в звёздах).</string>
     <key>settings_general_player_header</key>
     <string>ПЛЕЕР</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3403,8 +3471,8 @@ Pocket Casts на полную мощность.</string>
     <string>Распространённые хостинги подкастов</string>
     <key>settings_status_host_description</key>
     <string>Авторы подкастов размещают файлы выпусков у различных хостинг-провайдеров, которые не контролируются Pocket Casts.</string>
-    <key>settings_status_host_failure_message</key>
-    <string>Чаще всего это связано с тем, что на вашем телефоне или в сети настроен блокировщик рекламы. Для скачивания подкастов вам потребуется разблокировать этот домен. Обратите внимание, что Pocket Casts не размещает подкасты на своих серверах и не выбирает место их размещения. Этим занимаются авторы программ, и мы не можем это контролировать.</string>
+    <key>settings_status_host_failure_message_device</key>
+    <string>Чаще всего это связано с тем, что на вашем устройстве или в сети настроен блокировщик рекламы. Для скачивания подкастов вам потребуется разблокировать этот домен. Обратите внимание, что Pocket Casts не размещает подкасты на своих серверах и не выбирает место их размещения. Этим занимаются авторы программ, и мы не можем это контролировать.</string>
     <key>settings_status_internet</key>
     <string>Интернет</string>
     <key>settings_status_internet_description</key>
@@ -3417,8 +3485,8 @@ Pocket Casts на полную мощность.</string>
     <string>Этот сервис используется для поиска новых выпусков.</string>
     <key>settings_status_run</key>
     <string>Запустить сейчас</string>
-    <key>settings_status_service_ad_blocker_help_singular</key>
-    <string>Чаще всего это связано с тем, что на вашем телефоне или в сети настроен блокировщик рекламы. Вам потребуется разблокировать домен %1$@</string>
+    <key>settings_status_service_ad_blocker_help_singular_device</key>
+    <string>Чаще всего это связано с тем, что на вашем устройстве или в сети настроен блокировщик рекламы. Вам потребуется разблокировать домен %1$@</string>
     <key>settings_storage</key>
     <string>Использование хранилища и данных</string>
     <key>settings_storage_data_warning</key>
@@ -3429,8 +3497,8 @@ Pocket Casts на полную мощность.</string>
     <string>МОБИЛЬНЫЕ ДАННЫЕ</string>
     <key>settings_storage_usage</key>
     <string>ИСПОЛЬЗОВАНИЕ ПАМЯТИ</string>
-    <key>settings_storage_usage_footer</key>
-    <string>Это может отличаться от хранилища в настройках iPhone. iOS автоматически управляет кешированными данными и освобождает их при необходимости.</string>
+    <key>settings_storage_usage_footer_device</key>
+    <string>Могут быть отличия от хранилища, отображаемого в настройках %1$@. Ваше устройство автоматически управляет кешированными данными и освобождает место при необходимости.</string>
     <key>settings_third_party_analytics</key>
     <string>Сторонняя аналитика</string>
     <key>settings_title</key>
@@ -3469,8 +3537,8 @@ Pocket Casts на полную мощность.</string>
     <string>Создать учетную запись</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>Встряхнуть телефон, чтобы перезапустить таймер сна</string>
-    <key>shake_to_restart_sleep_timer_description</key>
-    <string>В режиме «Включено» таймер сна будет перезапущен, если телефон станет двигаться.</string>
+    <key>shake_to_restart_sleep_timer_description_device</key>
+    <string>В режиме «Включено» таймер сна будет перезапущен, если устройство будет двигаться.</string>
     <key>share</key>
     <string>Поделиться</string>
     <key>share_clip</key>
@@ -4270,6 +4338,8 @@ Pocket Casts на полную мощность.</string>
     <string>Воспроизводите любой выпуск, не меняя очередности в списке.</string>
     <key>up_next_shuffle_announcement_title</key>
     <string>Представляем режим случайного воспроизведения</string>
+    <key>up_next_shuffle_button</key>
+    <string>В случайном порядке</string>
     <key>up_next_shuffle_toast_message</key>
     <string>Режим «В случайном порядке» включён. Выпуски будут воспроизводиться в случайном порядке.</string>
     <key>up_next_sort_duration_tooltip_body</key>
@@ -4422,22 +4492,8 @@ Pocket Casts на полную мощность.</string>
     <string>Очередь пуста</string>
     <key>week</key>
     <string>неделя</string>
-    <key>welcome_discover_button</key>
-    <string>Найти следующий подкаст</string>
-    <key>welcome_discover_description</key>
-    <string>На странице поиска мы собрали для вас набирающие обороты и уже популярные подкасты.</string>
-    <key>welcome_discover_title</key>
-    <string>Найдите для себя что-то новое</string>
     <key>welcome_import_button</key>
     <string>Импортировать подкасты</string>
-    <key>welcome_import_description</key>
-    <string>Заходите из другого приложения? Возьмите подкасты с собой.</string>
-    <key>welcome_import_title</key>
-    <string>Импортируйте подкасты</string>
-    <key>welcome_new_account_title</key>
-    <string>Добро пожаловать. Давайте что-нибудь послушаем!</string>
-    <key>welcome_plus_title</key>
-    <string>Спасибо. А теперь давайте что-нибудь послушаем!</string>
     <key>whats_new</key>
     <string>Что нового</string>
     <key>whats_new_blog_more_link_text</key>

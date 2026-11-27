@@ -263,6 +263,35 @@ public enum FeatureFlag: String, CaseIterable {
     /// Show the synced transcript timing debug overlay at the bottom of the transcript (debug builds only)
     case transcriptDebugOverlay
 
+    /// Enable Playback 2026 (the yearly listening recap). Also the remote kill switch: turning it off in
+    /// Remote Config (`playback_2026`) hides every entry point and exits a running flow
+    case playback2026
+
+    /// Show the Played Podcasts option in the Podcasts tab, which hides podcasts with nothing left to listen to
+    case hidePlayedPodcasts
+
+    /// Give a new episode the ID after the largest one in the table instead of a random ID
+    case sequentialEpisodeIds
+
+    /// During the first full sync, request each podcast's episode state at the same time as the podcast, instead of
+    /// after adding it on the queue that adds podcasts one at a time
+    case fullSyncEpisodeStateInParallel
+
+    /// In a full sync, save a playlist the server sent no episodes for (every smart playlist, and any empty manual one) without querying its local episodes
+    case skipEmptyPlaylistQueriesInFullSync
+
+    /// Count smart playlists and pick their artwork without walking the episode table in index order, and load the Playlists tab's counts and artwork three queries at a time
+    case efficientPlaylistQueries
+
+    /// When a podcast is followed, send a HEAD request for its newest episode to update the episode's file type and size
+    case newPodcastMetadataRequest
+
+    /// Round the introductory offer discount percentage shown on the upgrade screens to the nearest multiple of 5%
+    case roundDiscountPercent
+
+    /// Round the introductory offer discount percentage between 40 and 60 percent to be 50
+    case roundDiscountToFifty
+
     public var enabled: Bool {
         if let overriddenValue = FeatureFlagOverrideStore().overriddenValue(for: self) {
             return overriddenValue
@@ -447,6 +476,24 @@ public enum FeatureFlag: String, CaseIterable {
             true
         case .transcriptDebugOverlay:
             false
+        case .playback2026:
+            BuildEnvironment.current == .debug
+        case .hidePlayedPodcasts:
+            true
+        case .sequentialEpisodeIds:
+            true
+        case .fullSyncEpisodeStateInParallel:
+            true
+        case .skipEmptyPlaylistQueriesInFullSync:
+            true
+        case .efficientPlaylistQueries:
+            true
+        case .newPodcastMetadataRequest:
+            false
+        case .roundDiscountPercent:
+            true
+        case .roundDiscountToFifty:
+            true
         }
     }
 
@@ -460,6 +507,8 @@ public enum FeatureFlag: String, CaseIterable {
             "end_of_year_2025"
         case .encourageAccountCreation:
             "encourage_account_creation_recurring"
+        case .playback2026:
+            "playback_2026"
         default:
             rawValue.lowerSnakeCased()
         }

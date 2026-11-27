@@ -3,7 +3,7 @@ import PocketCastsDataModel
 
 struct FolderDetailView: View {
 
-    @State var model: FolderDetailViewModel
+    @State private var model: FolderDetailViewModel
 
     @Environment(\.dismiss) var dismiss
 
@@ -44,9 +44,14 @@ struct FolderDetailView: View {
         let firstID = model.podcasts.first?.id
         ScrollView {
             VStack(alignment: .leading, spacing: 40) {
-                Text(model.folder.name)
-                    .font(.title2)
-                    .foregroundStyle(Color.pcTextPrimary)
+                HStack(alignment: .center, spacing: 8) {
+                    Text(model.folder.name)
+                        .font(.title2)
+                        .foregroundStyle(Color.pcTextPrimary)
+                    Spacer()
+                    sortMenu
+                }
+                .focusSection()
                 LazyVGrid(columns: Self.gridColumns, spacing: 48) {
                     ForEach(model.podcasts) { podcast in
                         NavigationLink(value: podcast) {
@@ -58,12 +63,32 @@ struct FolderDetailView: View {
                         .prefersDefaultFocus(podcast.id == firstID, in: podcastGridNamespace)
                     }
                 }
+                .focusSection()
                 .focusScope(podcastGridNamespace)
             }
         }
-        .navigationDestination(for: Podcast.self) { podcast in
-            PodcastDetailView(model: PodcastDetailViewModel(podcast: podcast))
+    }
+
+    private var sortMenu: some View {
+        Menu {
+            Section(L10n.sortBy) {
+                ForEach(LibrarySort.podcastsListOptions, id: \.self) { order in
+                    Button {
+                        model.setSortOrder(order)
+                    } label: {
+                        if model.sortOrder == order {
+                            Label(order.description, systemImage: "checkmark")
+                        } else {
+                            Text(order.description)
+                        }
+                    }
+                }
+            }
+        } label: {
+            Image(systemName: "arrow.up.arrow.down")
+                .accessibilityLabel(L10n.sortBy)
         }
+        .buttonStyle(CircleButtonStyle())
     }
 
     var emptyView: some View {

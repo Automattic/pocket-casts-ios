@@ -29,12 +29,16 @@
     <string>Avbryt flerval</string>
     <key>accessibility_close_dialog</key>
     <string>Stäng dialogruta</string>
+    <key>accessibility_close_player</key>
+    <string>Stäng spelare</string>
     <key>accessibility_deselect_episode</key>
     <string>Avmarkera avsnitt</string>
     <key>accessibility_disabled</key>
     <string>Inaktiverad</string>
     <key>accessibility_dismiss</key>
     <string>Avfärda</string>
+    <key>accessibility_episode_actions</key>
+    <string>Avsnittsåtgärder</string>
     <key>accessibility_episode_playback</key>
     <string>Uppspelning av avsnitt</string>
     <key>accessibility_follow_podcast</key>
@@ -47,6 +51,10 @@
     <string>Dubbeltryck för att stjärnmärka avsnitt</string>
     <key>accessibility_hint_unstar</key>
     <string>Dubbeltryck för att ta bort stjärnmärkning från avsnitt</string>
+    <key>accessibility_mini_player</key>
+    <string>Spelare</string>
+    <key>accessibility_mini_player_hint</key>
+    <string>Tryck för att öppna spelare i full storlek</string>
     <key>accessibility_more_actions</key>
     <string>Fler åtgärder</string>
     <key>accessibility_patron_only</key>
@@ -65,8 +73,12 @@
     <string>Spellistebild</string>
     <key>accessibility_plus_only</key>
     <string>Låst Plus-funktion</string>
+    <key>accessibility_podcast_artwork</key>
+    <string>Podcastomslag</string>
     <key>accessibility_profile_settings</key>
     <string>Pocket Casts-inställningar</string>
+    <key>accessibility_remove_recent_search</key>
+    <string>Ta bort %1$@ från senaste sökningar</string>
     <key>accessibility_select_episode</key>
     <string>Välj avsnitt</string>
     <key>accessibility_show_filter_details</key>
@@ -77,6 +89,8 @@
     <string>Sortering och Alternativ</string>
     <key>accessibility_unfollow_podcast</key>
     <string>Sluta följa %1$@</string>
+    <key>accessibility_up_next_list</key>
+    <string>Nästa-lista</string>
     <key>account</key>
     <string>Konto</string>
     <key>account_change_email</key>
@@ -341,8 +355,12 @@ Ladda ner appen för att få den fullständiga upplevelsen.</string>
     <string>Bokmärk</string>
     <key>bookmark_delete_warning_body</key>
     <string>Är du säker på att du vill ta bort dessa bokmärken? Det finns inget sätt att ångra det!</string>
+    <key>bookmark_delete_warning_body_singular</key>
+    <string>Är du säker på att du vill ta bort det här bokmärket? Det går inte att ångra åtgärden.</string>
     <key>bookmark_delete_warning_title</key>
     <string>Ta bort bokmärken?</string>
+    <key>bookmark_delete_warning_title_singular</key>
+    <string>Ta bort bokmärke?</string>
     <key>bookmark_details_title</key>
     <string>Bokmärk</string>
     <key>bookmark_edit_transcript_subtitle</key>
@@ -692,8 +710,22 @@ Du kan när som helst koppla från Inställningar.</string>
     <string>Anslut till Apple TV</string>
     <key>device_shake_sleep_timer</key>
     <string>Vilolägestimern återstartades när enheten skakades</string>
+    <key>discount_offer_claim_button</key>
+    <string>Få %1$@ rabatt</string>
+    <key>discount_offer_description</key>
+    <string>%1$@ rabatt i %2$@</string>
+    <key>discount_offer_limited_time_badge</key>
+    <string>Tidsbegränsat erbjudande</string>
+    <key>discount_offer_period_price</key>
+    <string>~%1$@~ %2$@ i %3$@</string>
+    <key>discount_offer_product_badge</key>
+    <string>%1$@ rabatt</string>
+    <key>discount_offer_upgrade_title</key>
+    <string>%1$@ rabatt på %2$@ i %3$@</string>
     <key>discover</key>
     <string>Upptäck</string>
+    <key>discover_all_categories</key>
+    <string>Alla kategorier</string>
     <key>discover_all_episodes</key>
     <string>Alla avsnitt</string>
     <key>discover_all_podcasts</key>
@@ -870,6 +902,8 @@ Du kan när som helst koppla från Inställningar.</string>
     <string>Sökningen misslyckades</string>
     <key>discover_search_failed_msg</key>
     <string>Kontrollera din internetanslutning.</string>
+    <key>discover_select_a_category</key>
+    <string>Välj en kategori</string>
     <key>discover_select_region</key>
     <string>Välj innehållsregion</string>
     <key>discover_show_all</key>
@@ -1970,6 +2004,10 @@ UPPDATERINGAR</string>
     <string>Spela upp dina avsnitt slumpvis och mer därtill med Pocket Cast Plus</string>
     <key>paywall_dynamic_headline_watch</key>
     <string>Lyssna via din klocka och mer därtill med Pocket Casts Plus</string>
+    <key>pcasts_import_message</key>
+    <string>Detta kommer att ersätta dina podcasts och inställningar med innehållet i den här filen och Pocket Casts kommer att stängas.</string>
+    <key>pcasts_import_title</key>
+    <string>Importera podcasts och inställningar</string>
     <key>phone</key>
     <string>Telefon</string>
     <key>play</key>
@@ -2121,6 +2159,14 @@ Det är engagemang!</string>
     <string>Fler podcasts, mer glädje</string>
     <key>playback_2025_year_over_year_comparison_up_title</key>
     <string>Jämfört med 2024 har din lyssningstid skjutit i höjden med %1$@</string>
+    <key>playback_2026_banner_description</key>
+    <string>Upptäck din lyssningsstatistik, vilken typ av lyssnare du är och mycket annat.</string>
+    <key>playback_2026_banner_title</key>
+    <string>%1$@ är här!</string>
+    <key>playback_2026_sheet_button</key>
+    <string>Visa min %1$@</string>
+    <key>playback_2026_sheet_description</key>
+    <string>Vad du lyssnade på. Podcasts du älskade. Och det som utmärker dig som lyssnare. Ditt år med Pocket Casts är här.</string>
     <key>playback_effect_all_podcasts</key>
     <string>Alla podcasts</string>
     <key>playback_effect_this_podcast</key>
@@ -2269,6 +2315,10 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Bläddra bland podcasts</string>
     <key>playlist_manual_create_error_message</key>
     <string>Något gick fel när din spellista skapades.</string>
+    <key>playlist_manual_empty_state_subtitle</key>
+    <string>Välj avsnitt från de podcasts du följer. Eller svep åt vänster på valfritt avsnitt för att lägga till avsnitt allteftersom.</string>
+    <key>playlist_manual_empty_state_subtitle_no_podcasts</key>
+    <string>Hitta en podcast som du gillar och svep sedan åt vänster på valfritt avsnitt för att lägga till det.</string>
     <key>playlist_manual_empty_state_title</key>
     <string>Börja bygga din spellista</string>
     <key>playlist_manual_empty_state_title_no_podcasts</key>
@@ -2293,6 +2343,8 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Ersätt nuvarande Nästa?</string>
     <key>playlist_play_all_sheet_button_title</key>
     <string>Byt ut och spela upp</string>
+    <key>playlist_play_all_sheet_description</key>
+    <string>Om du spelar upp detta ersätts din nuvarande Nästa. Spara det som en spellista för att behålla det.</string>
     <key>playlist_play_all_sheet_title</key>
     <string>Byt ut din Nästa?</string>
     <key>playlist_play_all_sheet_toggle</key>
@@ -2529,8 +2581,6 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>Pocket Casts Plus</string>
     <key>pocket_casts_plus_short</key>
     <string>Plus</string>
-    <key>pocket_casts_welcome_newsletter_title</key>
-    <string>Registrera dig för nyhetsbrevet</string>
     <key>podcast_access_ended</key>
     <string>Åtkomst upphörde: %1$@</string>
     <key>podcast_access_ends</key>
@@ -2553,6 +2603,8 @@ Prova att justera reglerna, eller spara denna spellista för framtida avsnitt so
     <string>%1$@ arkiverat</string>
     <key>podcast_archived_msg</key>
     <string>Alla %1$@ avsnitt av den här podcasten har arkiverats</string>
+    <key>podcast_archived_msg_singular</key>
+    <string>Det enda avsnittet av den här podcasten har arkiverats</string>
     <key>podcast_count_plural_format</key>
     <string>%1$@ podcasts</string>
     <key>podcast_count_singular</key>
@@ -2746,6 +2798,14 @@ Om du behöver inspiration så kan du Upptäcka nya podcasts nedan.</string>
     <string>Namn</string>
     <key>podcasts_list</key>
     <string>Lista</string>
+    <key>podcasts_played_podcasts</key>
+    <string>Uppspelade podcasts</string>
+    <key>podcasts_played_podcasts_description</key>
+    <string>Döljer podcasts utan något kvar att lyssna på, där varje avsnitt har spelats upp eller arkiverats. De dyker upp igen när ett nytt avsnitt kommer.</string>
+    <key>podcasts_played_podcasts_hide</key>
+    <string>Dölj</string>
+    <key>podcasts_played_podcasts_show</key>
+    <string>Visa</string>
     <key>podcasts_plural</key>
     <string>Podcasts</string>
     <key>podcasts_share</key>
@@ -3259,8 +3319,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Öppna länkar i webbläsare</string>
     <key>settings_general_play_back_actions</key>
     <string>Flera uppspelningsåtgärder</string>
-    <key>settings_general_play_back_actions_subtitle</key>
-    <string>Lägger till alternativet Stjärnmärk på din telefons låsskärm.</string>
+    <key>settings_general_play_back_actions_subtitle_device</key>
+    <string>Lägger till alternativet Stjärnmärkt på din låsskärm.</string>
     <key>settings_general_player_header</key>
     <string>SPELARE</string>
     <key>settings_general_publish_chapter_titles</key>
@@ -3411,8 +3471,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Vanliga podcastvärdar</string>
     <key>settings_status_host_description</key>
     <string>Podcastskapare använder olika värdtjänster för sina avsnittsfiler. Dessa hanteras inte av Pocket Casts.</string>
-    <key>settings_status_host_failure_message</key>
-    <string>Den vanligaste orsaken är att du har en annonsblockerare konfigurerad på din telefon eller i ditt nätverk. Du måste avblockera den här domänen för att ladda ner podcasts. Observera att Pocket Casts inte är värd för dina podcasts eller väljer vilken värdtjänst som används för dem. Det är upp till showens skapare och ligger utanför vår kontroll.</string>
+    <key>settings_status_host_failure_message_device</key>
+    <string>Den vanligaste orsaken är att du har en annonsblockerare konfigurerad på din enhet eller i ditt nätverk. Du måste avblockera den här domänen för att ladda ner podcasts. Observera att Pocket Casts inte är värd för dina podcasts eller väljer vilken värdtjänst som används för dem. Det är upp till showens skapare och ligger utanför vår kontroll.</string>
     <key>settings_status_internet</key>
     <string>Internet</string>
     <key>settings_status_internet_description</key>
@@ -3425,8 +3485,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Tjänsten som används för att hitta nya avsnitt.</string>
     <key>settings_status_run</key>
     <string>Kör nu</string>
-    <key>settings_status_service_ad_blocker_help_singular</key>
-    <string>Den vanligaste orsaken är att du har en annonsblockerare konfigurerad på din telefon eller i ditt nätverk. Du måste avblockera domänen %1$@</string>
+    <key>settings_status_service_ad_blocker_help_singular_device</key>
+    <string>Den vanligaste orsaken är att du har en annonsblockerare konfigurerad på din enhet eller i ditt nätverk. Du måste avblockera domänen %1$@</string>
     <key>settings_storage</key>
     <string>Lagrings- och dataanvändning</string>
     <key>settings_storage_data_warning</key>
@@ -3437,8 +3497,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>MOBILDATA</string>
     <key>settings_storage_usage</key>
     <string>ANVÄNDNING</string>
-    <key>settings_storage_usage_footer</key>
-    <string>Detta kan skilja sig från det lagringsutrymme som visas i dina iPhone-inställningar. iOS hanterar cachelagrade data automatiskt och frigör dem vid behov.</string>
+    <key>settings_storage_usage_footer_device</key>
+    <string>Detta kan skilja sig från det lagringsutrymme som visas i dina %1$@-inställningar. Din enhet hanterar cachelagrade data automatiskt och frigör utrymme när det behövs.</string>
     <key>settings_third_party_analytics</key>
     <string>Analyser från tredje part</string>
     <key>settings_title</key>
@@ -3477,8 +3537,8 @@ Här är ett %1$@ gästpass för Pocket Casts Plus – min favoritpodcastspelare
     <string>Konfigurera konto</string>
     <key>shake_to_restart_sleep_timer</key>
     <string>Skaka för att starta om sömntimern</string>
-    <key>shake_to_restart_sleep_timer_description</key>
-    <string>Om det här alternativet är aktiverat kommer sömntimern att starta om när du skakar din telefon.</string>
+    <key>shake_to_restart_sleep_timer_description_device</key>
+    <string>Om det här alternativet är aktiverat kommer sömntimern att starta om när du skakar din enhet.</string>
     <key>share</key>
     <string>Dela</string>
     <key>share_clip</key>
@@ -4432,22 +4492,8 @@ Båda alternativen är ärligt talat riktigt bra. 🙂</string>
     <string>Inget i Nästa</string>
     <key>week</key>
     <string>vecka</string>
-    <key>welcome_discover_button</key>
-    <string>Hitta min nästa podcast</string>
-    <key>welcome_discover_description</key>
-    <string>Du kan hitta både mindre kända och trendande podcasts på vår kurerade Upptäck-sida.</string>
-    <key>welcome_discover_title</key>
-    <string>Upptäck något nytt</string>
     <key>welcome_import_button</key>
     <string>Importera podcasts</string>
-    <key>welcome_import_description</key>
-    <string>Kommer du från en annan app? Ta dina podcasts med dig.</string>
-    <key>welcome_import_title</key>
-    <string>Importera dina podcasts</string>
-    <key>welcome_new_account_title</key>
-    <string>Välkommen, nu kan du börja lyssna.</string>
-    <key>welcome_plus_title</key>
-    <string>Tack, nu kan du börja lyssna.</string>
     <key>whats_new</key>
     <string>Nyheter</string>
     <key>whats_new_blog_more_link_text</key>

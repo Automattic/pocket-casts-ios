@@ -239,7 +239,7 @@ private extension TimeInterval {
     /// - Returns: A string to be read by voice over, a spelled out version of the interval with full units.
     func accessibilityValue() -> String {
         let origDate = Date()
-        let date = Date(timeInterval: self, since: origDate)
+        let date = Date(timeInterval: isFinite ? Swift.max(self, 0) : 0, since: origDate)
 
         let dateRange = origDate..<date
 
