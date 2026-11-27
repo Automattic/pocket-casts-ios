@@ -267,21 +267,21 @@ final class WatchSyncManagerTests: XCTestCase {
     // MARK: - Login Details Tests
 
     func testLoginDetails_LoggedInWithSameAccount_RechecksSubscription() {
-        XCTAssertEqual(WatchSyncDecision.loginDetailsAction(isLoggedIn: true, watchUsername: "user@example.com", phoneUsername: "user@example.com"), .recheckSubscription)
-        XCTAssertEqual(WatchSyncDecision.loginDetailsAction(isLoggedIn: true, watchUsername: "User@Example.com", phoneUsername: "user@example.com"), .recheckSubscription)
+        XCTAssertEqual(LoginDetailsAction.makeAction(isLoggedIn: true, watchUsername: "user@example.com", phoneUsername: "user@example.com"), .recheckSubscription)
+        XCTAssertEqual(LoginDetailsAction.makeAction(isLoggedIn: true, watchUsername: "User@Example.com", phoneUsername: "user@example.com"), .recheckSubscription)
     }
 
     func testLoginDetails_LoggedInWithDifferentAccount_SwitchesAccount() {
-        XCTAssertEqual(WatchSyncDecision.loginDetailsAction(isLoggedIn: true, watchUsername: "plus@example.com", phoneUsername: "free@example.com"), .switchAccount)
-        XCTAssertEqual(WatchSyncDecision.loginDetailsAction(isLoggedIn: true, watchUsername: "", phoneUsername: "user@example.com"), .switchAccount)
+        XCTAssertEqual(LoginDetailsAction.makeAction(isLoggedIn: true, watchUsername: "plus@example.com", phoneUsername: "free@example.com"), .switchAccount)
+        XCTAssertEqual(LoginDetailsAction.makeAction(isLoggedIn: true, watchUsername: "", phoneUsername: "user@example.com"), .switchAccount)
     }
 
     func testLoginDetails_LoggedInAndPhoneSignedOut_SignsOut() {
-        XCTAssertEqual(WatchSyncDecision.loginDetailsAction(isLoggedIn: true, watchUsername: "user@example.com", phoneUsername: ""), .signOut)
+        XCTAssertEqual(LoginDetailsAction.makeAction(isLoggedIn: true, watchUsername: "user@example.com", phoneUsername: ""), .signOut)
     }
 
     func testLoginDetails_LoggedOut_LogsIn() {
-        XCTAssertEqual(WatchSyncDecision.loginDetailsAction(isLoggedIn: false, watchUsername: "", phoneUsername: "user@example.com"), .logIn)
-        XCTAssertEqual(WatchSyncDecision.loginDetailsAction(isLoggedIn: false, watchUsername: "", phoneUsername: ""), .logIn)
+        XCTAssertEqual(LoginDetailsAction.makeAction(isLoggedIn: false, watchUsername: "", phoneUsername: "user@example.com"), .logIn)
+        XCTAssertEqual(LoginDetailsAction.makeAction(isLoggedIn: false, watchUsername: "", phoneUsername: ""), .logIn)
     }
 }
