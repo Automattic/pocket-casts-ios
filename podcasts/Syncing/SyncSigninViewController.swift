@@ -297,7 +297,6 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
                     self.handleSuccessfulSignIn(username, password: password, userId: userId)
                     RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
                     Settings.promotionFinishedAcknowledged = true
-                    Settings.setLoginDetailsUpdated()
 
                     NotificationCenter.postOnMainThread(notification: .userSignedIn)
                 })
@@ -339,6 +338,8 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         ServerSettings.clearLastSyncTime()
         ServerSettings.setSyncingEmail(email: username)
 
+        // Set before posting so the state WatchManager sends on login change tells the watch to fetch the new login details
+        Settings.setLoginDetailsUpdated()
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
 
         Analytics.track(.userSignedIn, properties: ["source": "password"])

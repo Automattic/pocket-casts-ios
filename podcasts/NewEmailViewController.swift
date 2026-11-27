@@ -191,8 +191,6 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
                 SyncManager.syncReason = .accountCreated
                 RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
 
-                Settings.setLoginDetailsUpdated()
-
                 // Let a delegate decide what to do next
                 if let delegate = self.delegate {
                     delegate.handleAccountCreated()
@@ -231,6 +229,8 @@ class NewEmailViewController: PCViewController, UITextFieldDelegate {
         ServerSettings.clearLastSyncTime()
         ServerSettings.setSyncingEmail(email: username)
 
+        // Set before posting so the state WatchManager sends on login change tells the watch to fetch the new login details
+        Settings.setLoginDetailsUpdated()
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
         NotificationCenter.postOnMainThread(notification: .userSignedIn)
     }
