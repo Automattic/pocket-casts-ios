@@ -6,6 +6,7 @@
 - Stop pre-selecting Subscribe to our Newsletter after logging in to an account that has it turned off [#5674](https://github.com/Automattic/pocket-casts-ios/pull/5674)
 - Fix the mini player showing up empty on iPhone Duo after folding or unfolding with the full-screen player open [#5669](https://github.com/Automattic/pocket-casts-ios/pull/5669)
 - Leave podcast artwork out of iCloud and device backups, since it can be downloaded again. For large libraries this makes the app's backup hundreds of MB smaller [#5631](https://github.com/Automattic/pocket-casts-ios/pull/5631)
+- Fix the Apple Watch staying locked as Plus only after buying Plus on the iPhone, or keeping the previous account's Plus after switching accounts [#5516](https://github.com/Automattic/pocket-casts-ios/pull/5516)
 
 8.26
 -----
@@ -99,8 +100,6 @@
 - Fix the full player showing a black background while opening it on iOS 18 and earlier [#5519](https://github.com/Automattic/pocket-casts-ios/pull/5519)
 - Fix German capitalization, singular and plural wording, number formatting and untranslated texts in smart playlist rules, playlists, bookmarks, folders, Auto Download, the player, Discover categories and Import [#5511](https://github.com/Automattic/pocket-casts-ios/pull/5511)
 - Fix text breaking mid-word, truncating or not scaling in the Profile, Stats, Create Folder, empty states, episode card, player Details, playlists, paywall and other screens at the largest text sizes [#5512](https://github.com/Automattic/pocket-casts-ios/pull/5512)
-- Fix the Apple Watch staying locked as Plus only after buying Plus on the iPhone, or keeping the previous account's Plus after switching accounts [#5516](https://github.com/Automattic/pocket-casts-ios/pull/5516)
-
 - Fix Settings copy saying "phone" or "iPhone" on iPad [#5462](https://github.com/Automattic/pocket-casts-ios/pull/5462)
 
 8.23
