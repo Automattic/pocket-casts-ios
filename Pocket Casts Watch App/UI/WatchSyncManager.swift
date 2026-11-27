@@ -201,9 +201,9 @@ class WatchSyncManager {
         let password = response[WatchConstants.Messages.LoginDetailsResponse.password] as? String ?? ""
         let refreshToken = response[WatchConstants.Messages.LoginDetailsResponse.refreshToken] as? String
 
-        let action = WatchSyncDecision.loginDetailsAction(isLoggedIn: SyncManager.isUserLoggedIn(),
-                                                          watchUsername: ServerSettings.syncingEmail() ?? "",
-                                                          phoneUsername: username)
+        let action = LoginDetailsAction.makeAction(isLoggedIn: SyncManager.isUserLoggedIn(),
+                                                   watchUsername: ServerSettings.syncingEmail() ?? "",
+                                                   phoneUsername: username)
         if action == .switchAccount {
             // Before saving the new credentials, signout clears them along with the previous account's token
             clearPreviousAccount()
