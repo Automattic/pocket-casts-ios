@@ -1456,7 +1456,7 @@ final class EpisodeDataManagerTests: DataManagerTestCase {
             }
 
             var statements = [String]()
-            try dataManager.dbQueue.dbPool.writeWithoutTransaction { db in
+            dataManager.dbQueue.dbPool.writeWithoutTransaction { db in
                 db.trace { event in
                     if case let .statement(statement) = event {
                         statements.append(statement.sql)
