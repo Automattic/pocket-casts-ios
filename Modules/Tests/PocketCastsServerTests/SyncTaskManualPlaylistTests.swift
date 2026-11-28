@@ -197,6 +197,108 @@ final class SyncTaskManualPlaylistTests: XCTestCase {
 
         XCTAssertGreaterThanOrEqual(FailingURLProtocol.requestCount, 1)
     }
+
+    func testProcessServerDataImportsMultipleEpisodesFromUnloadedPodcast() throws {
+        let podcastUuid = "unloaded-pod-\(UUID().uuidString)"
+        let ep1Uuid = "ep-1-\(UUID().uuidString)"
+        let ep2Uuid = "ep-2-\(UUID().uuidString)"
+        let missingEpUuid = "ep-missing-\(UUID().uuidString)"
+
+        MockFindByEpisodeURLProtocol.handler = { request in
+            guard let url = request.url?.absoluteString else { return nil }
+            if url.contains("/\(podcastUuid)/\(ep1Uuid)") {
+                return [
+                    "podcast": [
+                        "uuid": podcastUuid,
+                        "title": "Unloaded Podcast",
+                        "episodes": [
+                            [
+                                "uuid": ep1Uuid,
+                                "title": "Server Episode 1",
+                                "url": "https://example.com/1.mp3",
+                                "file_type": "audio/mp3",
+                                "file_size": 1000,
+                                "duration": 300.0,
+                                "published": "2026-01-01T00:00:00Z"
+                            ]
+                        ]
+                    ]
+                ]
+            } else if url.contains("/\(podcastUuid)/\(ep2Uuid)") {
+                return [
+                    "podcast": [
+                        "uuid": podcastUuid,
+                        "title": "Unloaded Podcast",
+                        "episodes": [
+                            [
+                                "uuid": ep2Uuid,
+                                "title": "Server Episode 2",
+                                "url": "https://example.com/2.mp3",
+                                "file_type": "audio/mp3",
+                                "file_size": 2000,
+                                "duration": 600.0,
+                                "published": "2026-01-02T00:00:00Z"
+                            ]
+                        ]
+                    ]
+                ]
+            }
+            return nil
+        }
+        URLProtocol.registerClass(MockFindByEpisodeURLProtocol.self)
+        defer {
+            URLProtocol.unregisterClass(MockFindByEpisodeURLProtocol.self)
+            MockFindByEpisodeURLProtocol.handler = nil
+        }
+
+        var playlist = Api_SyncUserPlaylist()
+        playlist.originalUuid = "manual-pl-\(UUID().uuidString)"
+        playlist.uuid = playlist.originalUuid
+        playlist.title.value = "Web Manual Playlist"
+        playlist.manual = true
+        playlist.episodeOrder = [ep1Uuid, ep2Uuid, missingEpUuid]
+        playlist.episodes = [ep1Uuid, ep2Uuid, missingEpUuid].enumerated().map { index, epUuid in
+            var p = Api_SyncPlaylistEpisode()
+            p.episode = epUuid
+            p.podcast = podcastUuid
+            p.title.value = "Placeholder \(index + 1)"
+            p.url.value = "https://example.com/placeholder-\(index + 1).mp3"
+            p.added = Google_Protobuf_Int64Value(Int64(100_000 + index))
+            return p
+        }
+
+        var record = Api_Record()
+        record.playlist = playlist
+
+        var response = Api_SyncUpdateResponse()
+        response.records = [record]
+
+        syncTask.processServerData(response: response)
+
+        let podcast = try XCTUnwrap(dataManager.findPodcast(uuid: podcastUuid, includeUnsubscribed: true))
+
+        // Both available episodes should be recovered with no duplicate rows
+        for (uuid, expectedTitle, expectedDuration) in [(ep1Uuid, "Server Episode 1", 300.0), (ep2Uuid, "Server Episode 2", 600.0)] {
+            let rows = dataManager.findEpisodesWhere(customWhere: "uuid = ?", arguments: [uuid])
+            XCTAssertEqual(rows.count, 1, "Expected single SJEpisode row for \(uuid)")
+            let episode = try XCTUnwrap(rows.first)
+            XCTAssertFalse(episode.wasDeleted, "Episode \(uuid) should not remain wasDeleted")
+            XCTAssertEqual(episode.podcast_id, podcast.id)
+            XCTAssertEqual(episode.episodeStatus, DownloadStatus.notDownloaded.rawValue)
+            XCTAssertEqual(episode.playingStatus, PlayingStatus.notPlayed.rawValue)
+            XCTAssertEqual(episode.title, expectedTitle)
+            XCTAssertEqual(episode.duration, expectedDuration)
+            XCTAssertEqual(episode.fileType, "audio/mp3")
+        }
+
+        // Both available episodes appear in the podcast's episode list; genuinely unavailable one does not
+        let podcastEpisodes = dataManager.allEpisodes(forPodcastId: podcast.id)
+        XCTAssertEqual(Set(podcastEpisodes.map(\.uuid)), Set([ep1Uuid, ep2Uuid]))
+
+        // Genuinely missing episode stays unavailable
+        let missingEpisode = try XCTUnwrap(dataManager.findEpisode(uuid: missingEpUuid))
+        XCTAssertTrue(missingEpisode.wasDeleted)
+    }
 }
 
 private final class FailingURLProtocol: URLProtocol {
@@ -213,6 +315,34 @@ private final class FailingURLProtocol: URLProtocol {
     override func startLoading() {
         FailingURLProtocol.requestCount += 1
         client?.urlProtocol(self, didFailWithError: URLError(.notConnectedToInternet))
+    }
+
+    override func stopLoading() {}
+}
+
+private final class MockFindByEpisodeURLProtocol: URLProtocol {
+    static var handler: ((URLRequest) -> [String: Any]?)?
+
+    override class func canInit(with request: URLRequest) -> Bool {
+        true
+    }
+
+    override class func canonicalRequest(for request: URLRequest) -> URLRequest {
+        request
+    }
+
+    override func startLoading() {
+        guard let url = request.url,
+              let json = Self.handler?(request),
+              let data = try? JSONSerialization.data(withJSONObject: json),
+              let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: ["Content-Type": "application/json"]) else {
+            client?.urlProtocol(self, didFailWithError: URLError(.fileDoesNotExist))
+            return
+        }
+
+        client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+        client?.urlProtocol(self, didLoad: data)
+        client?.urlProtocolDidFinishLoading(self)
     }
 
     override func stopLoading() {}

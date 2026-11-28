@@ -103,7 +103,7 @@ extension ServerPodcastManager {
 
             // for existing episodes, update the fields we want to pick up when they change
             let newEpisode = newEpisodes[uuid]
-            if let existingEpisode = newEpisode ?? DataManager.shared.findEpisode(uuid: uuid) {
+            if let existingEpisode = newEpisode ?? findEpisodeDroppingDuplicatePlaceholders(uuid: uuid) {
                 var episodeChanged = false
                 if let title = episodeJson["title"] as? String, existingEpisode.title != title {
                     existingEpisode.title = title
@@ -138,6 +138,23 @@ extension ServerPodcastManager {
                 let hlsUrl = Episode.hlsUrl(fromEpisodeJson: episodeJson)
                 if existingEpisode.hlsUrl != hlsUrl {
                     existingEpisode.hlsUrl = hlsUrl
+                    episodeChanged = true
+                }
+
+                // A placeholder was saved without these, and a refresh doesn't otherwise touch them.
+                if existingEpisode.wasDeleted {
+                    if (existingEpisode.fileType ?? "").isEmpty, let fileType = episodeJson["file_type"] as? String {
+                        existingEpisode.fileType = fileType
+                    }
+                    if existingEpisode.sizeInBytes == 0, let fileSize = episodeJson["file_size"] as? Int64 {
+                        existingEpisode.sizeInBytes = fileSize
+                    }
+                    if existingEpisode.duration == 0, let duration = episodeJson["duration"] as? Double {
+                        existingEpisode.duration = duration
+                    }
+                }
+
+                if repairPlaceholderState(of: existingEpisode, podcastId: podcast.id) {
                     episodeChanged = true
                 }
 

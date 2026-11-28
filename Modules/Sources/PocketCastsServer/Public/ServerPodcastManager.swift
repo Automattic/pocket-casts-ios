@@ -240,10 +240,34 @@ public class ServerPodcastManager: NSObject {
         // save the podcast so that it gets and ID
         DataManager.shared.save(podcast: podcast)
 
-        for episode in episodes {
-            episode.podcast_id = podcast.id
+        // Reuse rows already saved for this podcast's episodes (playlist placeholders, or episodes
+        // the user kept after the podcast was deleted) instead of inserting a second row per uuid.
+        let existingEpisodes = DataManager.shared.findEpisodesWhere(customWhere: "podcastUuid = ?", arguments: [podcast.uuid])
+        var existingByUuid = [String: Episode]()
+        var duplicateIds = [Int64]()
+        for (uuid, rows) in Dictionary(grouping: existingEpisodes, by: \.uuid) {
+            if let resolved = resolveDuplicatePlaceholders(rows) {
+                existingByUuid[uuid] = resolved.survivor
+                duplicateIds += resolved.duplicateIds
+            } else {
+                existingByUuid[uuid] = rows.first { !$0.wasDeleted } ?? rows.first
+            }
         }
-        DataManager.shared.bulkSave(episodes: episodes)
+        DataManager.shared.deleteOrphanedEpisodes(ids: duplicateIds)
+
+        let episodesToSave = episodes.map { episode -> Episode in
+            guard let existing = existingByUuid[episode.uuid] else {
+                episode.podcast_id = podcast.id
+                return episode
+            }
+
+            // The podcast row was just created, so any podcast_id the existing row has is either 0
+            // or points at a podcast that has since been deleted.
+            existing.podcast_id = podcast.id
+            updateServerFields(of: existing, from: episode, podcastId: podcast.id)
+            return existing
+        }
+        DataManager.shared.bulkSave(episodes: episodesToSave)
 
         updateLatestEpisodeInfo(podcast: podcast, setDefaults: subscribe, autoDownloadLimit: autoDownloads)
 
@@ -260,35 +284,10 @@ public class ServerPodcastManager: NSObject {
               let firstEpisode = episodesJson.first,
               let uuid = firstEpisode["uuid"] as? String else { return nil }
 
-        if let episode = DataManager.shared.findEpisode(uuid: uuid) {
-            if shouldUpdate {
+        if let episode = findEpisodeDroppingDuplicatePlaceholders(uuid: uuid) {
+            if shouldUpdate || episode.wasDeleted {
                 let updatedEpisode = Episode.from(episodeJson: firstEpisode, podcastId: podcast.id, podcastUuid: podcast.uuid)
-
-                // Refresh server-driven fields while preserving user state (playback, downloads, etc.)
-                episode.title = updatedEpisode.title
-                episode.downloadUrl = updatedEpisode.downloadUrl
-                episode.fileType = updatedEpisode.fileType
-                episode.sizeInBytes = updatedEpisode.sizeInBytes
-                episode.duration = updatedEpisode.duration
-                episode.publishedDate = updatedEpisode.publishedDate
-                episode.episodeNumber = updatedEpisode.episodeNumber
-                episode.seasonNumber = updatedEpisode.seasonNumber
-                episode.episodeType = updatedEpisode.episodeType
-                episode.hasGeneratedTranscript = updatedEpisode.hasGeneratedTranscript
-                // Only overwrite when the response actually carries an HLS url — the server can omit
-                // alternate enclosures on an update, and we don't want to clear one a feed refresh set.
-                if let hlsUrl = updatedEpisode.hlsUrl, !hlsUrl.isEmpty {
-                    episode.hlsUrl = hlsUrl
-                }
-
-                if episode.addedDate == nil {
-                    episode.addedDate = updatedEpisode.addedDate
-                }
-
-                if episode.podcast_id == 0 {
-                    episode.podcast_id = podcast.id
-                }
-
+                updateServerFields(of: episode, from: updatedEpisode, podcastId: podcast.id)
                 DataManager.shared.save(episode: episode)
             }
             return episode
@@ -299,6 +298,97 @@ public class ServerPodcastManager: NSObject {
         DataManager.shared.save(episode: episode)
 
         return episode
+    }
+
+    private func updateServerFields(of episode: Episode, from updatedEpisode: Episode, podcastId: Int64) {
+        // Refresh server-driven fields while preserving user state (playback, downloads, etc.)
+        episode.title = updatedEpisode.title
+        episode.downloadUrl = updatedEpisode.downloadUrl
+        episode.fileType = updatedEpisode.fileType
+        episode.sizeInBytes = updatedEpisode.sizeInBytes
+        episode.duration = updatedEpisode.duration
+        episode.publishedDate = updatedEpisode.publishedDate
+        episode.episodeNumber = updatedEpisode.episodeNumber
+        episode.seasonNumber = updatedEpisode.seasonNumber
+        episode.episodeType = updatedEpisode.episodeType
+        episode.hasGeneratedTranscript = updatedEpisode.hasGeneratedTranscript
+        // Only overwrite when the response actually carries an HLS url — the server can omit
+        // alternate enclosures on an update, and we don't want to clear one a feed refresh set.
+        if let hlsUrl = updatedEpisode.hlsUrl, !hlsUrl.isEmpty {
+            episode.hlsUrl = hlsUrl
+        }
+
+        if episode.addedDate == nil {
+            episode.addedDate = updatedEpisode.addedDate
+        }
+
+        repairPlaceholderState(of: episode, podcastId: podcastId)
+    }
+
+    /// Playlist sync saves episodes this device hasn't loaded yet as hidden placeholders, with no podcast_id
+    /// and zeroed statuses. Once the server returns the episode, this turns the row into a normal, visible episode.
+    /// Returns whether anything changed.
+    @discardableResult
+    func repairPlaceholderState(of episode: Episode, podcastId: Int64) -> Bool {
+        var changed = false
+
+        if episode.wasDeleted {
+            episode.wasDeleted = false
+            changed = true
+        }
+
+        if episode.podcast_id == 0 {
+            episode.podcast_id = podcastId
+            changed = true
+        }
+
+        if episode.episodeStatus == 0 {
+            episode.episodeStatus = DownloadStatus.notDownloaded.rawValue
+            changed = true
+        }
+
+        if episode.playingStatus == 0 {
+            episode.playingStatus = PlayingStatus.notPlayed.rawValue
+            changed = true
+        }
+
+        return changed
+    }
+
+    /// `findEpisode(uuid:)`, except that when it returns a hidden placeholder sitting beside a visible row for
+    /// the same uuid, it keeps one of the two and deletes the other, so reviving the placeholder can't list the
+    /// episode twice.
+    func findEpisodeDroppingDuplicatePlaceholders(uuid: String) -> Episode? {
+        guard let episode = DataManager.shared.findEpisode(uuid: uuid) else { return nil }
+        // Only a hidden row gets revived, so a visible one can be used as is.
+        guard episode.wasDeleted else { return episode }
+
+        let rows = DataManager.shared.findEpisodesWhere(customWhere: "uuid = ?", arguments: [uuid])
+        guard let resolved = resolveDuplicatePlaceholders(rows) else { return episode }
+
+        DataManager.shared.deleteOrphanedEpisodes(ids: resolved.duplicateIds)
+        return resolved.survivor
+    }
+
+    /// Before #5701 was fixed, importing a playlist saved a hidden placeholder and adding its podcast then inserted
+    /// a second, visible row with the same uuid. Given every row for one uuid, picks the row to keep: the visible
+    /// one, unless only a placeholder holds the user's state (synced progress, for example).
+    /// Returns nil for any other shape, which is left alone.
+    private func resolveDuplicatePlaceholders(_ rows: [Episode]) -> (survivor: Episode, duplicateIds: [Int64])? {
+        let placeholders = rows.filter(\.wasDeleted)
+        let visibleRows = rows.filter { !$0.wasDeleted }
+        guard !placeholders.isEmpty, visibleRows.count == 1, let visible = visibleRows.first else { return nil }
+
+        let survivor: Episode
+        if !visible.hasUserState, let placeholder = placeholders.first(where: \.hasUserState) {
+            // Attach the kept placeholder to the podcast the visible row belonged to.
+            placeholder.podcast_id = visible.podcast_id
+            survivor = placeholder
+        } else {
+            survivor = visible
+        }
+
+        return (survivor, rows.filter { $0.id != survivor.id }.map(\.id))
     }
 
     public func loadRecommendations(for podcastUUID: String, in region: String?) async throws -> PodcastCollection? {
@@ -423,5 +513,20 @@ public class ServerPodcastManager: NSObject {
         }
 
         return value
+    }
+}
+
+private extension Episode {
+    /// The part of the app's `userHasInteractedWithEpisode()` this module can check. A placeholder's playingStatus
+    /// is 0, so this tests for statuses past notPlayed rather than `!unplayed()`.
+    var hasUserState: Bool {
+        keepEpisode
+            || archived
+            || playingStatus > PlayingStatus.notPlayed.rawValue
+            || playedUpTo > 0
+            || lastPlaybackInteractionDate != nil
+            || episodeStatus == DownloadStatus.downloaded.rawValue
+            || queued()
+            || downloading()
     }
 }
